@@ -28,7 +28,7 @@ const Navbar = ({ hamActive, setHamActive }) => {
             </a>
           </div>
           <div>
-            <a href="/" className={styles.login}>
+            <a href="/login" className={styles.login}>
               Log in
             </a>
             <button className={styles.signup}>Sign Up</button>
