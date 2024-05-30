@@ -26,8 +26,8 @@ const HomePage = () => {
       <Features />
       <Growth />
       <Questions />
-      <Programs programs={programs_user} />
-      <Programs programs={programs_shopper} />
+      {/* <Programs programs={programs_user} />
+      <Programs programs={programs_shopper} /> */}
       <Footer />
     </div>
   );
