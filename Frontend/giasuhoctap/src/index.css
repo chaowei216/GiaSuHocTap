@@ -33,3 +33,6 @@ li {
   margin: 10px;
   color: #231f20;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

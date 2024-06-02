@@ -13,17 +13,40 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./login.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
+import { useEffect, useRef } from "react";
+import { SignIn } from "../../../api/AuthenApi";
+import useAuth from "../../../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
 export default function Login() {
-  const handleSubmit = (event) => {
+  const userRef = useRef();
+  const { login } = useAuth();
+  //const { auth, setAuth, isAuthenticated } = useAuth()
+  // const navigate = useNavigate()
+  // const location = useLocation()
+  // const from = location.state?.from?.pathname || "/";
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // const userInput = {
+    //   userName: data.get("email"),
+    //   password: data.get("password"),
+    // };
+    // const response = await SignIn(userInput);
+    // if (response.status == 200) {
+    //   const responseJson = await response.json();
+    //   const accessToken = responseJson?.result?.accessToken;
+    //   const user = responseJson?.result?.user
+    //   localStorage.setItem("accessToken", accessToken);
+    //   setAuth({ ...auth, user, accessToken, isInitialized: true, isAuthenticated: true, });
+    //   //navigate(from, { replace: true });
+    // }
+    await login(data.get("email"), data.get("password"));
   };
-
+  useEffect(() => {
+    userRef.current.focus();
+  }, [])
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="sm" className={styles.layout_container}>
@@ -37,7 +60,7 @@ export default function Login() {
           }}
         >
           <div className={styles.logoTutor} >
-            <img src={logoTutor}/>
+            <img src={logoTutor} />
           </div>
           <Typography component="h1" variant="h5">
             Login into account
@@ -51,6 +74,7 @@ export default function Login() {
             <TextField
               margin="normal"
               required
+              ref={userRef}
               fullWidth
               id="email"
               label="Email Address"
@@ -59,7 +83,7 @@ export default function Login() {
               autoFocus
               InputProps={{
                 startAdornment: (
-                    <MailOutlineIcon />
+                  <MailOutlineIcon />
                 ),
               }}
             />
@@ -72,7 +96,7 @@ export default function Login() {
               type="password"
               InputProps={{
                 startAdornment: (
-                    <LockOutlinedIcon />
+                  <LockOutlinedIcon />
                 ),
               }}
               id="password"
@@ -86,7 +110,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2}}
+              sx={{ mt: 3, mb: 2 }}
             >
               Login
             </Button>

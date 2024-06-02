@@ -3,13 +3,14 @@ import Error from "../pages/Public/Error";
 import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/AuthenPage/LoginPage";
 import RegisterPage from "../pages/AuthenPage/RegisterPage";
-
+import RequireAuth from "../components/partial/Authen/RequireAuth";
+import GuestAuth from "../components/partial/Authen/GuestAuth";
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
     errorElement: <Error />,
   },
-  { path: "login", element: <LoginPage /> },
-  { path: "register", element: <RegisterPage /> },
+  { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
+  { path: "register", element: <RequireAuth><RegisterPage /></RequireAuth> }
 ]);

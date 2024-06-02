@@ -23,7 +23,7 @@ const Navbar = ({ hamActive, setHamActive }) => {
             <a href="/" className={`${styles.nav} center`}>
               More ways to shop
             </a>
-            <a href="/" className={`${styles.nav} center`}>
+            <a href="/register" className={`${styles.nav} center`}>
               Help
             </a>
           </div>
