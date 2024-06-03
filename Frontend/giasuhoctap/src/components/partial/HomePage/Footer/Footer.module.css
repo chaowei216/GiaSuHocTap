@@ -1,47 +1,57 @@
-.navbarWrapper {
-  width: 100%;
-  margin: 50px 0 25px 0;
+/* src/Footer.module.css */
+.footer {
+  background-color: #4DA8DA;
+  color: white;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
 }
 
-.navbarColumn {
-  border-top: 1px solid rgba(52, 53, 56, 0.1);
-  flex-direction: column;
-  width: 1250px;
-  height: 100%;
+.footerContent {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.navbarInner {
-  justify-content: space-between;
-  margin-top: 30px;
-  width: 90%;
+.footerSection {
+  flex: 1;
+  margin: 10px;
+  min-width: 200px;
 }
 
-.navLeft {
-  font-weight: 500;
-  color: #231f20;
+.footerSection h3 {
+  border-bottom: 2px solid  #EFEFEF;
+  padding-bottom: 10px;
 }
 
-.navRight {
-  justify-content: space-between;
+.footerSection ul {
+  list-style: none;
+  padding: 0;
 }
 
-.navLink {
-  margin-left: 20px;
-  color: #231f20;
-  font-weight: 500;
+.footerSection ul li {
+  margin: 10px 0;
 }
 
-.footerText {
-  margin: 25px 0 0;
-  width: 90%;
-  height: 100%;
-  text-align: start;
-  color: lightslategrey;
-  font-size: 12px;
+.footerSection ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
-@media (max-width: 600px) {
-  .navbarInner {
-    flex-direction: column;
-  }
+.footerSection ul li a:hover {
+  color: #e67e22;
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid  #EFEFEF;
+  margin-top: 20px;
+}
+
+.brand{
+  width: 30%;
+  margin-top: 10px;
 }
