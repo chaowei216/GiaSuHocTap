@@ -7,10 +7,17 @@ import RequireAuth from "../components/partial/Authen/RequireAuth";
 import GuestAuth from "../components/partial/Authen/GuestAuth";
 export const router = createBrowserRouter([
   {
+    path: "login",
+    element: (
+      <GuestAuth>
+        <LoginPage />
+      </GuestAuth>
+    ),
+  },
+  { path: "register", element: <RegisterPage /> },
+  {
     path: "/",
     element: <HomePage />,
     errorElement: <Error />,
-  },
-  { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
-  { path: "register", element: <RequireAuth><RegisterPage /></RequireAuth> }
+  }
 ]);
