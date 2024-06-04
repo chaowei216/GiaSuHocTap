@@ -16,6 +16,7 @@ namespace DAO.Model
         public string? ResetPassToken { get; set; }
         [Required]
         public string Phonenumber { get; set; } = null!;
+        public string DateOfBirth { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string District { get; set; } = null!;
         public string City { get; set; } = null!;

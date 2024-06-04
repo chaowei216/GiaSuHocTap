@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAO.Data
+namespace DAO.DAO
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options): base(options) { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         #region Entities
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Class> Classes { get; set; }
-        public DbSet<Course> Courses { get; set; }  
+        public DbSet<Course> Courses { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Notification> Notifications { get; set; }
@@ -65,7 +65,7 @@ namespace DAO.Data
                 .HasForeignKey(uc => uc.UsertId);
 
             modelBuilder.Entity<UserCourse>()
-                .HasKey(uc => new {uc.UserId, uc.CourseId});
+                .HasKey(uc => new { uc.UserId, uc.CourseId });
             modelBuilder.Entity<UserCourse>()
                 .HasOne(uc => uc.Course)
                 .WithMany(uc => uc.UserCourses)
