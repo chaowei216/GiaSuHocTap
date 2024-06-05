@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import cityJson from "../../../data/cityJson.json"
 const defaultTheme = createTheme();
 
-export default function Register() {
+export default function RegisterTutor() {
   const [provinces, setProvinces] = useState([]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Register() {
       gender: "",
       city: "",
       address: "",
-      image: "",
+      image: [],
       district: ""
     },
     onSubmit: (values) => {
@@ -70,7 +70,7 @@ export default function Register() {
           }}
         >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
-            Parent Registration Form
+            Tutor Registration Form
           </Typography>
           <Box
             component="form"
@@ -194,7 +194,33 @@ export default function Register() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Image (optional)"} />
+                <TextField
+                  required
+                  fullWidth
+                  id="address"
+                  onChange={formik.handleChange}
+                  label="ID Card"
+                  name="address"
+                  autoComplete="address"
+                />
+              </Grid>
+              <Grid item xs={12} className="flex">
+                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}>
+                  Ảnh thẻ
+                </Typography>
+                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload ảnh thẻ"} size={3} />
+              </Grid>
+              <Grid item xs={12} className="flex">
+                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}>
+                  Ảnh bằng cấp
+                </Typography>
+                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Ảnh bằng cấp"} size={1} />
+              </Grid>
+              <Grid item xs={12} className="flex">
+                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%"}}>
+                  Ảnh CMND/CCCD
+                </Typography>
+                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Ảnh CMND/CCCD"} size={1} />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

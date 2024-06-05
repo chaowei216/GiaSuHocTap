@@ -53,7 +53,7 @@ export default function Login() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 6,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -110,7 +110,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, background: "red" }}
             >
               Login
             </Button>
@@ -121,8 +121,12 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Register"}
+                <Link href="/registerParents" variant="body2">
+                  {"Don't have an account? Register for parents"}
+                </Link>
+                <br/>
+                <Link href="/registerTutors" variant="body2">
+                  {"Don't have an account? Register for tutor"}
                 </Link>
               </Grid>
             </Grid>
