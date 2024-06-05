@@ -1,0 +1,25 @@
+.layout_container {
+    /* border: solid #e55940 2px;
+    border-top-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    padding-bottom: 6rem; */
+    /* background-color: #424242; */
+  }
+  .layout_container input {
+    padding-left: 8px;
+  }
+  .logoTutor {
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logoTutor img {
+    width: 40%;
+  }
+  .layout_login {
+    background: url('/img/imgRegister.webp') center no-repeat;
+    background-size: cover;
+    height: 79vh;
+  }
+  

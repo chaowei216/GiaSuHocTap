@@ -24,8 +24,6 @@ const RequireAuth = ({ children }) => {
 
     if (requestedLocation && pathname !== requestedLocation) {
         setRequestedLocation(null);
-        console.log(requestedLocation);
-        console.log(pathname);
         return <Navigate to={requestedLocation} />;
     }
 
