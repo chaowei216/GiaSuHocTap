@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAO.DAO
 {
@@ -13,6 +7,7 @@ namespace DAO.DAO
     {
         private readonly DataContext _context;
         private readonly DbSet<T> _dbSet;
+
         public GenericDAO(DataContext context)
         {
             _context = context;
@@ -21,15 +16,15 @@ namespace DAO.DAO
 
         public async Task<T> AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            var addedEntity = await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return addedEntity.Entity;
         }
 
         public async Task<bool> DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
-            return await _context.SaveChangesAsync() > 0 ? true : false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public IQueryable<T> GetAll()
@@ -37,7 +32,7 @@ namespace DAO.DAO
             return _dbSet.AsQueryable();
         }
 
-        public async Task<IList<T>> GetAllAsyncInclude(Expression<Func<T, object>> include = null)
+        public async Task<IList<T>> GetAllAsyncInclude(Expression<Func<T, object>>? include)
         {
             IQueryable<T> query = _dbSet;
 
@@ -54,16 +49,16 @@ namespace DAO.DAO
             return _dbSet.Where(condition).AsQueryable();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            _dbSet.Update(entity);
+            var updatedEntity = _dbSet.Update(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return updatedEntity.Entity;
         }
     }
 }

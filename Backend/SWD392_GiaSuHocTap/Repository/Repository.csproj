@@ -19,9 +19,4 @@
     <ProjectReference Include="..\DAO\DAO.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IRepository\" />
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
