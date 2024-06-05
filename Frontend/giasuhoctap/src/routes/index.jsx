@@ -11,8 +11,22 @@ export const router = createBrowserRouter([
     path: "/",
     element: <HomePage />,
     errorElement: <Error />,
-  }
-  { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
-  { path: "register", element: <RequireAuth><RegisterPage /></RequireAuth> },
-  { path: "test", element: <DashboardPage /> }
+  },
+  {
+    path: "login",
+    element: (
+      <GuestAuth>
+        <LoginPage />
+      </GuestAuth>
+    ),
+  },
+  {
+    path: "register",
+    element: (
+      <RequireAuth>
+        <RegisterPage />
+      </RequireAuth>
+    ),
+  },
+  { path: "test", element: <DashboardPage /> },
 ]);
