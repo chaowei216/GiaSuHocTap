@@ -144,7 +144,7 @@ export default function Sidebar() {
     },
   ];
   return (
-    <div className="flex">
+    <div className="flex h-screen mr-3">
       {/* <GlobalLoading isLoading={isLoading}/> */}
       <div className="bg-slate-200 ring-offset-blue-950''">
         <div
