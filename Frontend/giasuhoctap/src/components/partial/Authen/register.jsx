@@ -9,13 +9,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styles from "./register.module.css"
+import styles from "./register.module.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import DatePickerValue from "../../global/BasicDatePicker";
 import InputFileUpload from "../../global/UploadFile";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import cityJson from "../../../data/cityJson.json"
+import cityJson from "../../../data/cityJson.json";
+import { validationRegisterParent } from "./ValidationAuthen/ValidationRegisterParent";
 const defaultTheme = createTheme();
 
 export default function Register() {
@@ -36,10 +37,10 @@ export default function Register() {
       city: values.city,
       address: values.address,
       image: values.image,
-      district: values.district
-    }
+      district: values.district,
+    };
     console.log(user);
-  }
+  };
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -52,11 +53,12 @@ export default function Register() {
       city: "",
       address: "",
       image: "",
-      district: ""
+      district: "",
     },
     onSubmit: (values) => {
       submitForm(values);
     },
+    validationSchema: validationRegisterParent,
   });
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -139,8 +141,10 @@ export default function Register() {
                 <DatePickerValue setFieldValue={formik.setFieldValue} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "7px" }} >
-                  <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+                <FormControl style={{ width: "100%", marginTop: "7px" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Gender
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="gender"
@@ -155,8 +159,10 @@ export default function Register() {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "8px" }} >
-                  <InputLabel id="demo-simple-select-helper-label">City</InputLabel>
+                <FormControl style={{ width: "100%", marginTop: "8px" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    City
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="city"
@@ -165,9 +171,13 @@ export default function Register() {
                     label="City"
                     onChange={formik.handleChange}
                   >
-                    {provinces && provinces.data && provinces.data.map((province) => (
-                      <MenuItem key={province._id} value={province.name}>{province.name_with_type}</MenuItem>
-                    ))}
+                    {provinces &&
+                      provinces.data &&
+                      provinces.data.map((province) => (
+                        <MenuItem key={province._id} value={province.name}>
+                          {province.name_with_type}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -194,7 +204,10 @@ export default function Register() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Image (optional)"} />
+                <InputFileUpload
+                  setFieldValue={formik.setFieldValue}
+                  content={"Upload Image (optional)"}
+                />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
