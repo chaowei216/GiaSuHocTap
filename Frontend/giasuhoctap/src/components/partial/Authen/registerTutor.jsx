@@ -9,13 +9,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styles from "./register.module.css"
+import styles from "./register.module.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import DatePickerValue from "../../global/BasicDatePicker";
 import InputFileUpload from "../../global/UploadFile";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import cityJson from "../../../data/cityJson.json"
+import cityJson from "../../../data/cityJson.json";
+import { validationRegisterTutor } from "./ValidationAuthen/ValidationRegisterTutor";
 const defaultTheme = createTheme();
 
 export default function RegisterTutor() {
@@ -36,10 +37,10 @@ export default function RegisterTutor() {
       city: values.city,
       address: values.address,
       image: values.image,
-      district: values.district
-    }
+      district: values.district,
+    };
     console.log(user);
-  }
+  };
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -51,12 +52,15 @@ export default function RegisterTutor() {
       gender: "",
       city: "",
       address: "",
-      image: [],
-      district: ""
+      imageUser: "",
+      imageCertificate: [],
+      imageIdentity: [],
+      district: "",
     },
     onSubmit: (values) => {
       submitForm(values);
     },
+    validationSchema: validationRegisterTutor,
   });
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -88,6 +92,9 @@ export default function RegisterTutor() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.firstName && formik.errors.firstName}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -139,8 +146,10 @@ export default function RegisterTutor() {
                 <DatePickerValue setFieldValue={formik.setFieldValue} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "7px" }} >
-                  <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+                <FormControl style={{ width: "100%", marginTop: "7px" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Gender
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="gender"
@@ -155,8 +164,10 @@ export default function RegisterTutor() {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "8px" }} >
-                  <InputLabel id="demo-simple-select-helper-label">City</InputLabel>
+                <FormControl style={{ width: "100%", marginTop: "8px" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    City
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="city"
@@ -165,9 +176,13 @@ export default function RegisterTutor() {
                     label="City"
                     onChange={formik.handleChange}
                   >
-                    {provinces && provinces.data && provinces.data.map((province) => (
-                      <MenuItem key={province._id} value={province.name}>{province.name_with_type}</MenuItem>
-                    ))}
+                    {provinces &&
+                      provinces.data &&
+                      provinces.data.map((province) => (
+                        <MenuItem key={province._id} value={province.name}>
+                          {province.name_with_type}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -205,22 +220,46 @@ export default function RegisterTutor() {
                 />
               </Grid>
               <Grid item xs={12} className="flex">
-                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}>
+                <Typography
+                  component="h1"
+                  variant="h7"
+                  sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
+                >
                   Ảnh thẻ
                 </Typography>
-                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload ảnh thẻ"} size={3} />
+                <InputFileUpload
+                  setFieldValue={formik.setFieldValue}
+                  content={"Upload ảnh thẻ"}
+                  size={3}
+                />
               </Grid>
               <Grid item xs={12} className="flex">
-                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}>
+                <Typography
+                  component="h1"
+                  variant="h7"
+                  sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
+                >
                   Ảnh bằng cấp
                 </Typography>
-                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Ảnh bằng cấp"} size={1} />
+                <InputFileUpload
+                  setFieldValue={formik.setFieldValue}
+                  content={"Upload Ảnh bằng cấp"}
+                  size={1}
+                />
               </Grid>
               <Grid item xs={12} className="flex">
-                <Typography component="h1" variant="h7" sx={{ fontWeight: "bold", margin: "auto 0", width: "20%"}}>
+                <Typography
+                  component="h1"
+                  variant="h7"
+                  sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
+                >
                   Ảnh CMND/CCCD
                 </Typography>
-                <InputFileUpload setFieldValue={formik.setFieldValue} content={"Upload Ảnh CMND/CCCD"} size={1} />
+                <InputFileUpload
+                  setFieldValue={formik.setFieldValue}
+                  content={"Upload Ảnh CMND/CCCD"}
+                  size={1}
+                />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

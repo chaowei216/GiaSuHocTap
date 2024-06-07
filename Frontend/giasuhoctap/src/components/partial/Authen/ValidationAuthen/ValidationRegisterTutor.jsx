@@ -5,7 +5,7 @@ const dateFormat = "YYYY/MM/DD";
 function isValidDate(date, format) {
   return moment(date, format).isValid();
 }
-export const validationRegisterParent = yup.object().shape({
+export const validationRegisterTutor = yup.object().shape({
   firstName: yup
     .string()
     .required("Vui lòng nhập tên")
@@ -55,4 +55,31 @@ export const validationRegisterParent = yup.object().shape({
     .min(5, "Địa chỉ có ít nhất 5 ký tự")
     .max(70, "Địa chỉ nhiều nhất là 70 ký tự")
     .required("Vui lòng nhập địa chỉ"),
+  imageUser: yup
+    .mixed()
+    .test("fileType", "Định dạng file không đúng", (value) => {
+      if (!value) return false;
+      return ["image/png", "image/jpeg"].includes(value.type);
+    })
+    .required("Vui lòng chọn ảnh"),
+  imageCertificate: yup
+    .array()
+    .of(
+      yup.mixed().test("fileType", "Định dạng file không đúng", (value) => {
+        if (!value) return false;
+        return ["image/png", "image/jpeg"].includes(value.type);
+      })
+    )
+    .min(1, "Vui lòng chọn ít nhất 1 ảnh")
+    .required("Vui lòng chọn ảnh"),
+  imageIdentity: yup
+    .array()
+    .of(
+      yup.mixed().test("fileType", "Định dạng file không đúng", (value) => {
+        if (!value) return false;
+        return ["image/png", "image/jpeg"].includes(value.type);
+      })
+    )
+    .min(1, "Vui lòng chọn ít nhất 1 ảnh")
+    .required("Vui lòng chọn ảnh"),
 });

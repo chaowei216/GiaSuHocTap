@@ -90,6 +90,11 @@ export default function Register() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.firstName && formik.errors.firstName}
+                  helperText={
+                    formik.touched.firstName && formik.errors.firstName
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -101,6 +106,9 @@ export default function Register() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.lastName && formik.errors.lastName}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -112,6 +120,9 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.email && formik.errors.email}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -124,6 +135,9 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.password && formik.errors.password}
+                  helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -135,6 +149,13 @@ export default function Register() {
                   label="Phone Number"
                   name="phoneNumber"
                   autoComplete="phoneNumber"
+                  onblur={formik.handleBlur}
+                  error={
+                    formik.touched.phoneNumber && formik.errors.phoneNumber
+                  }
+                  helperText={
+                    formik.touched.phoneNumber && formik.errors.phoneNumber
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -152,6 +173,9 @@ export default function Register() {
                     value={formik.values.gender}
                     label="Gender"
                     onChange={formik.handleChange}
+                    onblur={formik.handleBlur}
+                    error={formik.touched.gender && formik.errors.gender}
+                    helperText={formik.touched.gender && formik.errors.gender}
                   >
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
@@ -170,6 +194,9 @@ export default function Register() {
                     name="city"
                     label="City"
                     onChange={formik.handleChange}
+                    onblur={formik.handleBlur}
+                    error={formik.touched.city && formik.errors.city}
+                    helperText={formik.touched.city && formik.errors.city}
                   >
                     {provinces &&
                       provinces.data &&
@@ -190,6 +217,9 @@ export default function Register() {
                   label="District"
                   name="district"
                   autoComplete="district"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.district && formik.errors.district}
+                  helperText={formik.touched.district && formik.errors.district}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -201,6 +231,9 @@ export default function Register() {
                   label="Address"
                   name="address"
                   autoComplete="address"
+                  onblur={formik.handleBlur}
+                  error={formik.touched.address && formik.errors.address}
+                  helperText={formik.touched.address && formik.errors.address}
                 />
               </Grid>
               <Grid item xs={12}>
