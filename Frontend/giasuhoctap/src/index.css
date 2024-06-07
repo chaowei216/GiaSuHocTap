@@ -34,3 +34,11 @@ li {
   margin: 10px;
   color: #231f20;
 }
+
+.slick-prev:before{
+  color: rgb(232, 28, 75);
+}
+
+.slick-next:before{
+  color: rgb(232, 28, 75);
+}

@@ -1,32 +1,47 @@
-import styles from "./Hero.module.css";
+import React from 'react';
+import { Carousel } from 'react-bootstrap';
+import styles from './Hero.module.css';
+import carousel1 from "../../../../../public/img/Carousel1.jpg";
+import carousel2 from "../../../../../public/img/Carousel2.jpg";
+import carousel3 from "../../../../../public/img/Carousel3.jpg";
 
 const Hero = () => {
+  const items = [
+    {
+      image: carousel1,
+      alt: "Image 1",
+      caption: "Caption 1",
+    },
+    {
+      image: carousel2,
+      alt: "Image 2",
+      caption: "Caption 2",
+    },
+    {
+      image: carousel3,
+      alt: "Image 3",
+      caption: "Caption 3",
+    },
+  ];
+
   return (
-    <div className={`${styles.heroWrapper} center`}>
-      <select className={styles.dropDown}>
-        <option value="US">US</option>
-        <option value="IN">IN</option>
-      </select>
-      <div className={`${styles.heroInner}`}>
-        <h2 className={styles.headerText}>
-          Order groceries for delivery or pickup today
-        </h2>
-        <div className={styles.slogan}>
-          <p>Whatever you want from local stores, brought right to your door</p>
-        </div>
-        <div className={styles.inputLocation}>
-          <i className="fas fa-map-marker-alt"> </i>
-          <input type="text" placeholder="Enter your address" />
-          <i className={`${styles.arrow} fas fa-arrow-right`}></i>
-        </div>
-      </div>
-      <div className={styles.heroImage}>
-        <img
-          src="https://d2d8wwwkmhfcva.cloudfront.net/x856/d2guulkeunn7d8.cloudfront.net/assets/homepage/homepage_background_full_m3_cropped-8d2d286263821da7decd7c61fb1db1eb0e3dec13e0c356277d6d3cb7484c024a.jpg"
-          alt=""
-        />
-      </div>
+    <div className={styles.heroWrapper}>
+      <Carousel>
+        {items.map((item, index) => (
+          <Carousel.Item key={index}>
+            <img
+              className={`d-block w-100 ${styles.carouselImage}`}
+              src={item.image}
+              alt={item.alt}
+            />
+            {/* <Carousel.Caption className={styles.carouselCaption}>
+              <h3>{item.caption}</h3>
+            </Carousel.Caption> */}
+          </Carousel.Item>
+        ))}
+      </Carousel>
     </div>
   );
 };
+
 export default Hero;

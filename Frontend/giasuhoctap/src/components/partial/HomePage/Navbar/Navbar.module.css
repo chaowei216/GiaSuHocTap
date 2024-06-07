@@ -28,7 +28,7 @@
 
 .navLinksWrapper {
   display: flex;
-  width: 400px;
+  width: 600px;
 }
 
 .nav {
@@ -222,4 +222,8 @@
   .navbarInner {
     overflow: hidden;
   }
+}
+
+.nav{
+   text-decoration: none;
 }
