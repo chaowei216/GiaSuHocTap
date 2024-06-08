@@ -23,6 +23,11 @@ namespace Service.Service
             return _userRepository.GetAllUsers();
         }
 
+        public User? GetUserByEmail(string email)
+        {
+            return _userRepository.GetUserByEmail(email);
+        }
+
         public async Task<User?> GetUserById(int id)
         {
             return await _userRepository.GetUserById(id);

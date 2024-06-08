@@ -21,6 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// auto mapper
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 // Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -86,6 +89,7 @@ builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Db context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

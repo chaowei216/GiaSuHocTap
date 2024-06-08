@@ -44,5 +44,12 @@ namespace Repository.IRepository
         /// <param name="tutorDetail"></param>
         /// <returns></returns>
         Task<TutorDetail> UpdateTutorDetail(TutorDetail tutorDetail);
+
+        /// <summary>
+        /// Get user by email address
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User? GetUserByEmail(string email);
     }
 }

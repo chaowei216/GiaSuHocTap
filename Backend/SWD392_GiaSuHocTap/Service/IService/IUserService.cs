@@ -37,5 +37,12 @@ namespace Service.IService
         /// <param name="tutorDetail"></param>
         /// <returns></returns>
         Task<TutorDetail> UpdateTutorDetail(TutorDetail tutorDetail);
+
+        /// <summary>
+        /// Get user by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User? GetUserByEmail(string email);
     }
 }

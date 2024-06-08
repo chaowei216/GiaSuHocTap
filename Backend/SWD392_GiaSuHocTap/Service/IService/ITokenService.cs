@@ -1,15 +1,15 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Auth;
+using DAO.Model;
 
 namespace Service.IService
 {
     public interface ITokenService
     {
         /// <summary>
-        /// Create JWT Token
+        /// Crete JWT Token
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="role"></param>
         /// <returns></returns>
-        string CreateJWTToken(User user, string role);
+        Task<TokenResponseDTO?> CreateJWTToken(User user);
     }
 }

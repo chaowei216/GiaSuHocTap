@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Auth;
+using Common.Enum;
+using DAO.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
@@ -11,19 +13,23 @@ namespace Service.Service
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
+        private readonly IRefreshTokenService _refreshTokenService;
 
-        public TokenService(IConfiguration configuration)
+        public TokenService(IConfiguration configuration, 
+                            IRefreshTokenService refreshTokenService)
         {
             _configuration = configuration;
+            _refreshTokenService = refreshTokenService;
         }
 
-        public string CreateJWTToken(User user, string role)
+        public async Task<TokenResponseDTO?> CreateJWTToken(User user)
         {
             // Create claims
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim(ClaimTypes.Email, user.Email));
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, Enum.ToObject(typeof(RoleEnum), user.RoleId).ToString()!)
+            };
 
             // key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
@@ -39,7 +45,33 @@ namespace Service.Service
                             expires: DateTime.Now.AddMinutes(15),
                             signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // write jwt token
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            // create refresh token
+            var refreshToken = await _refreshTokenService.AddRefreshToken(new RefreshToken()
+            {
+                JwtId = token.Id,
+                IsRevoked = false,
+                UserId = user.UserId,
+                DateAdded = DateTime.Now,
+                DateExpired = DateTime.Now.AddMonths(6),
+                Token = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString()
+            });
+
+            if(refreshToken != null)
+            {
+                var response = new TokenResponseDTO()
+                {
+                    AccessToken = jwtToken,
+                    RefreshToken = refreshToken.Token,
+                    ExpiresAt = token.ValidTo                  
+                };
+
+                return response;
+            }
+
+            return null;
         }
     }
 }
