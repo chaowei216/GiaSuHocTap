@@ -9,6 +9,7 @@ using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;
 using Service.Service;
+using Service.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,18 +53,39 @@ builder.Services.AddScoped<IGenericDAO<TimeTable>, GenericDAO<TimeTable>>();
 builder.Services.AddScoped<IGenericDAO<Transaction>, GenericDAO<Transaction>>();
 builder.Services.AddScoped<IGenericDAO<User>, GenericDAO<User>>();
 builder.Services.AddScoped<IGenericDAO<TutorDetail>, GenericDAO<TutorDetail>>();
+builder.Services.AddScoped<IGenericDAO<Class>, GenericDAO<Class>>();
+builder.Services.AddScoped<IGenericDAO<Course>, GenericDAO<Course>>();
+builder.Services.AddScoped<IGenericDAO<Feedback>, GenericDAO<Feedback>>();
+builder.Services.AddScoped<IGenericDAO<News>, GenericDAO<News>>();
+builder.Services.AddScoped<IGenericDAO<Notification>, GenericDAO<Notification>>();
+builder.Services.AddScoped<IGenericDAO<Report>, GenericDAO<Report>>();
+builder.Services.AddScoped<IGenericDAO<RefreshToken>, GenericDAO<RefreshToken>>();
 
 // Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITimeTableRepository, TimeTableRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Service
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITimeTableService, TimeTableService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<INewsService, NewsService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 // Db context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

@@ -18,7 +18,7 @@ namespace Repository.Repository
             return await _newsDAO.AddAsync(news);
         }
 
-        public IEnumerable<News> GetAllNewss()
+        public IEnumerable<News> GetAllNews()
         {
             return _newsDAO.GetAll().AsEnumerable();
         }
