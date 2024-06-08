@@ -1,5 +1,4 @@
 ﻿using Common.DTO.Auth;
-using DAO.Model;
 
 namespace Service.IService
 {
@@ -10,6 +9,6 @@ namespace Service.IService
         /// </summary>
         /// <param name="loginRequest"></param>
         /// <returns></returns>
-        Task<User> Login(LoginRequestDTO loginRequest);
+        Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest);
     }
 }

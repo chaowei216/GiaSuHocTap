@@ -6,7 +6,7 @@ namespace Common.DTO.Auth
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Username { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         [Required]
         [DataType(DataType.Password)]

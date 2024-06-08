@@ -31,6 +31,11 @@ namespace Repository.Repository
             return _userDAO.GetAll().AsEnumerable();
         }
 
+        public User? GetUserByEmail(string email)
+        {
+            return _userDAO.GetByCondition(u => u.Email == email).FirstOrDefault();
+        }
+
         public async Task<User?> GetUserById(int id)
         {
             return await _userDAO.GetByIdAsync(id);

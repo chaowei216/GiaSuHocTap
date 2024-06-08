@@ -1,6 +1,6 @@
 ﻿namespace Common.Enum
 {
-    public enum StatusCode
+    public enum StatusCodeEnum
     {
         OK = 200,
         Created = 201,
