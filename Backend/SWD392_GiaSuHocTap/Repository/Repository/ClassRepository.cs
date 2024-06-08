@@ -18,7 +18,7 @@ namespace Repository.Repository
             return await _classDAO.AddAsync(entity);
         }
 
-        public IEnumerable<Class> GetAllClass()
+        public IEnumerable<Class> GetAllClasses()
         {
             return _classDAO.GetAll().AsEnumerable();
         }

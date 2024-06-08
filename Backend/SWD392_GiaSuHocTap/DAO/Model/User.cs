@@ -8,6 +8,7 @@ namespace DAO.Model
         [Key]
         public int UserId { get; set; }
         [Required]
+        [Range(1, 30)]
         public string Fullname { get; set; } = null!;
         [Required]
         public string Email { get; set; } = null!;
@@ -15,17 +16,27 @@ namespace DAO.Model
         public byte[] PasswordSalt { get; set; } = new byte[32];
         public string? ResetPassToken { get; set; }
         [Required]
+        [Range(10, 10)]
         public string Phonenumber { get; set; } = null!;
+        [Required]
         public string DateOfBirth { get; set; } = null!;
+        [Required]
         public string Address { get; set; } = null!;
+        [Required]
         public string District { get; set; } = null!;
+        [Required]
         public string City { get; set; } = null!;
+        [Required]
         public string Gender { get; set; } = null!;
         public int CoinBalance { get; set; }
+        [Required]
+        [Range(12, 12)]
         public string IdentityNumber { get; set; } = null!;
-        public string IdentityImage { get; set; } = null!;
+        [Required]
+        public string[] IdentityImage { get; set; } = null!;
         public string UserImage { get; set; } = null!;
         public int NumberOfReport {  get; set; }
+        [Required]
         public bool Status { get; set; }
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
@@ -36,6 +47,7 @@ namespace DAO.Model
         public ICollection<RequestTime> RequestTimes { get; set; } = null!;
         public ICollection<Transaction> Transactions { get; set; } = null!;
         public ICollection<News> News { get; set; } = null!;
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
         public TutorDetail TutorDetail { get; set; } = null!;
     }
 }

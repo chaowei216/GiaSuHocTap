@@ -8,7 +8,7 @@ namespace Repository.IRepository
         /// Get all time tables
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Class> GetAllClass();
+        IEnumerable<Class> GetAllClasses();
 
         /// <summary>
         /// Get time table by id

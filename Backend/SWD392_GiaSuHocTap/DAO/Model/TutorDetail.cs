@@ -14,7 +14,7 @@ namespace DAO.Model
         [Required]
         public string Qualification { get; set; } = null!;
         [Required]
-        public string CertificateImage { get; set; } = null!;
+        public string[] CertificateImage { get; set; } = null!;
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; } = null!;

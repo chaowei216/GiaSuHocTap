@@ -149,6 +149,41 @@ namespace DAO.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("DAO.Model.RefreshToken", b =>
+                {
+                    b.Property<int>("RefreshId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RefreshId"));
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateExpired")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RefreshId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshToken");
+                });
+
             modelBuilder.Entity("DAO.Model.Report", b =>
                 {
                     b.Property<int>("ReportId")
@@ -534,6 +569,17 @@ namespace DAO.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DAO.Model.RefreshToken", b =>
+                {
+                    b.HasOne("DAO.Model.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DAO.Model.Report", b =>
                 {
                     b.HasOne("DAO.Model.User", "From")
@@ -741,6 +787,8 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.User", b =>
                 {
                     b.Navigation("News");
+
+                    b.Navigation("RefreshTokens");
 
                     b.Navigation("RequestTimes");
 
