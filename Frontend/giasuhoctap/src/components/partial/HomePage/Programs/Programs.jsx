@@ -1,40 +1,41 @@
+import React from 'react';
 import styles from "./Programs.module.css";
-import ProgramsRight from "./ProgramsRight";
-import ProgramsRightResponsive from "./ProgramsRightResponsive";
 
-const iosLogo =
-  "https://d2guulkeunn7d8.cloudfront.net/assets/footer/iOS-9e2130394aab134afa35db75591ebc77b932b77950bae0c2f5407dc0ca0553bd.svg";
-const playstoreLogo =
-  "https://d2guulkeunn7d8.cloudfront.net/assets/footer/play-store-7c8b5dbea57e5d80b812b1ef33eb4beeaf94f01cd3bbe30e74523b4df74fcee1.svg";
+const Programs = () => {
+  const prices = [
+    { group: 'Lớp 1 - 2 - 3 - 4', data: [{ grade: 1, price: '100.000 ~ 120.000' }, { grade: 2, price: '110.000 ~ 130.000' }, { grade: 3, price: '120.000 ~ 150.000' }, { grade: 4, price: '120.000 ~ 160.000' }] },
+    { group: 'Lớp 5 - 6 - 7 - 8', data: [{ grade: 5, price: '150.000 ~ 170.000' }, { grade: 6, price: '150.000 ~ 180.000' }, { grade: 7, price: '170.000 ~ 190.000' }, { grade: 8, price: '190.000 ~ 220.000' }] },
+    { group: 'Lớp 9 - 10 - 11 - 12', data: [{ grade: 9, price: '200.000 ~ 240.000' }, { grade: 10, price: '210.000 ~ 250.000' }, { grade: 11, price: '220.000 ~ 280.000' }, { grade: 12, price: '220.000 ~ 300.000' }] },
+  ];
 
-const Programs = ({ programs }) => {
   return (
-    <div className={`${styles.programsWrapper} center`}>
-      <div className={`${styles.programsWrapperInner} center`}>
-        <div className={`${styles.programsLeft} center`}>
-          <div className={`${styles.programsLeftInner} center`}>
-            <div>
-              <img src={programs.logo} alt="logo" />
-            </div>
-            <div className={styles.slogan}>{programs.slogan}</div>
-          </div>
-          <div className={`${styles.programsLeftInner} center`}>
-            <div>
-              <img src={iosLogo} alt="iosLogo" />
-            </div>
-            <div className={styles.os}>IOS</div>
-            <div>
-              <img src={playstoreLogo} alt="playstoreLogo" />
-            </div>
-            <div className={styles.os}>Android</div>
-          </div>
-        </div>
-        <ProgramsRight programs={programs} />
-
-        <div className={styles.programRightRes}>
-          <ProgramsRightResponsive programs={programs} />
-        </div>
-      </div>
+    <div className={styles.programsWrapper}>
+      <div className={styles.programsTable}>
+      <h1 className={styles.title}>Bảng giá tham khảo thuê gia sư</h1>
+      <table className={styles.pricingTable}>
+        <thead>
+          <tr>
+            <th>Khối lớp</th>
+            <th>Giá tham khảo (VND/giờ)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {prices.map((group, index) => (
+            <React.Fragment key={index}>
+              <tr className={styles.groupHeader}>
+                <td colSpan="2">{group.group}</td>
+              </tr>
+              {group.data.map((item, subIndex) => (
+                <tr key={subIndex}>
+                  <td>Lớp {item.grade}</td>
+                  <td>{item.price.toLocaleString()}</td>
+                </tr>
+              ))}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 };

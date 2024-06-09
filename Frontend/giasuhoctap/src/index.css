@@ -37,3 +37,11 @@ li {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slick-prev:before{
+  color: rgb(232, 28, 75);
+}
+
+.slick-next:before{
+  color: rgb(232, 28, 75);
+}

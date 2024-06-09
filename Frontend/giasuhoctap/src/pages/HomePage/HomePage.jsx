@@ -22,11 +22,11 @@ const HomePage = () => {
       <Navbar hamActive={hamActive} setHamActive={setHamActive} />
       <NavbarResponsive hamActive={hamActive} />
       <Hero />
-      <Features />
       <Growth />
+      <Programs/>
+      <Features />
       <Questions />
-      {/* <Programs programs={programs_user} />
-      <Programs programs={programs_shopper} /> */}
+      {/* <Programs programs={programs_user} /> */}
       <Footer />
     </div>
   );
