@@ -2,12 +2,12 @@ import { useContext } from "react";
 import { createContext } from "react";
 // import { useLocation, useNavigate } from 'react-router-dom';
 import logoControl from "/img/control.png";
-import { NavLink } from "react-bootstrap";
 import { useState } from "react";
 import home from "/img/icons-home.svg?url";
 import icon_reqeust from "/img/icon-request.svg?url";
 import icon_tutor from "/img/icon-tutor.svg?url";
 import closeIcon from "/img/arrow-left.svg?url";
+import { Link, NavLink } from "react-router-dom";
 export const MyGlobalContext = createContext({
   isSidebarOpen: true,
   setIsSidebarOpen: () => {},
@@ -52,7 +52,7 @@ export default function Sidebar() {
   const Menus = [
     {
       title: "Home",
-      path: "/",
+      path: "/test",
       icon: home,
       id: 0,
       src: "/",
@@ -65,13 +65,13 @@ export default function Sidebar() {
       iconOpened: closeIcon,
       subnav: [
         {
-          title: "Student list",
-          src: "/system-view",
+          title: "List Requests",
+          src: "/list-request",
         },
-        {
-          title: "Reserve list",
-          src: "/reservation-management",
-        },
+        // {
+        //   title: "Deny list",
+        //   src: "/reservation-management",
+        // },
       ],
     },
     {
@@ -82,63 +82,25 @@ export default function Sidebar() {
       iconOpened: closeIcon,
       subnav: [
         {
-          title: "View Syllabus",
-          src: "/syllabus",
+          title: "View Tutor",
+          src: "/tutor",
         },
         {
-          title: "Create Syllabus",
-          src: "/syllabus/create",
-        },
-      ],
-    },
-    {
-      title: "Training Program",
-      path: "",
-      //icon: biotech,
-      id: 3,
-      iconOpened: closeIcon,
-      subnav: [
-        {
-          title: "View Program",
-          src: "/trainingprogram",
-        },
-        {
-          title: "Create Program",
-          src: "/trainingprogram/create",
-        },
-      ],
-    },
-    {
-      title: "Class",
-      path: "",
-      //icon: school,
-      id: 4,
-      iconOpened: closeIcon,
-      subnav: [
-        {
-          title: "View Class",
-          src: "/classList",
-        },
-        {
-          title: "Create Class",
-          src: "/createclass",
+          title: "Create Tutor",
+          src: "/create-tutor",
         },
       ],
     },
     {
       title: "User Management",
       path: "",
-      //icon: role,
-      id: 6,
+      icon: icon_tutor,
+      id: 3,
       iconOpened: closeIcon,
       subnav: [
         {
           title: "User List",
           src: "/user-management",
-        },
-        {
-          title: "User Permissions",
-          src: "/user-permission",
         },
       ],
     },
@@ -227,7 +189,6 @@ export default function Sidebar() {
                             alt=""
                             className="icon"
                           />
-
                           <NavLink
                             to={subItem.src}
                             className="block p-2 hover:bg-blue-200 text-sm transition-colors duration-100 ease-in-out"

@@ -9,8 +9,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styles from "./register.module.css";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import styles from "./registerTutor.module.css";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
 import DatePickerValue from "../../global/BasicDatePicker";
 import InputFileUpload from "../../global/UploadFile";
 import { useFormik } from "formik";
@@ -36,7 +36,9 @@ export default function RegisterTutor() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      image: values.image,
+      imageUser: values.imageUser,
+      imageCertificate: values.imageCertificate,
+      imageIdentity: values.imageIdentity,
       district: values.district,
     };
     console.log(user);
@@ -52,16 +54,18 @@ export default function RegisterTutor() {
       gender: "",
       city: "",
       address: "",
-      imageUser: "",
+      imageUser: [],
       imageCertificate: [],
       imageIdentity: [],
       district: "",
+      idCart: ""
     },
     onSubmit: (values) => {
       submitForm(values);
     },
     validationSchema: validationRegisterTutor,
   });
+  console.log(formik);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" className={styles.layout_container}>
@@ -74,7 +78,7 @@ export default function RegisterTutor() {
           }}
         >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
-            Tutor Registration Form
+            Gia sư đăng ký
           </Typography>
           <Box
             component="form"
@@ -88,12 +92,15 @@ export default function RegisterTutor() {
                   autoComplete="given-name"
                   name="firstName"
                   onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Tên"
                   onblur={formik.handleBlur}
-                  error={formik.touched.firstName && formik.errors.firstName}
+                  error={formik.touched.firstName && !!formik.errors.firstName}
                   helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
@@ -103,9 +110,14 @@ export default function RegisterTutor() {
                   fullWidth
                   id="lastName"
                   onChange={formik.handleChange}
-                  label="Last Name"
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Họ"
                   name="lastName"
                   autoComplete="family-name"
+                  error={formik.touched.lastName && !!formik.errors.lastName}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,10 +125,15 @@ export default function RegisterTutor() {
                   required
                   fullWidth
                   onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
                   id="email"
-                  label="Email Address"
+                  label="Địa chỉ email"
                   name="email"
                   autoComplete="email"
+                  error={formik.touched.email && !!formik.errors.email}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -125,10 +142,15 @@ export default function RegisterTutor() {
                   fullWidth
                   name="password"
                   onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={formik.touched.password && !!formik.errors.password}
+                  helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,13 +159,18 @@ export default function RegisterTutor() {
                   fullWidth
                   id="phoneNumber"
                   onChange={formik.handleChange}
-                  label="Phone Number"
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Số điện thoại"
                   name="phoneNumber"
                   autoComplete="phoneNumber"
+                  error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
+                  helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <DatePickerValue setFieldValue={formik.setFieldValue} />
+                <DatePickerValue setFieldValue={formik.setFieldValue} formik={formik} />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }}>
@@ -155,12 +182,17 @@ export default function RegisterTutor() {
                     id="gender"
                     name="gender"
                     value={formik.values.gender}
-                    label="Gender"
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                    }}
+                    label="Giới tính"
+                    error={(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender}
                     onChange={formik.handleChange}
                   >
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
                   </Select>
+                  {(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender && <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.gender}</FormHelperText>}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -172,8 +204,12 @@ export default function RegisterTutor() {
                     labelId="demo-simple-select-helper-label"
                     id="city"
                     value={formik.values.city}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                    }}
                     name="city"
-                    label="City"
+                    error={(formik.touched.city !== undefined && formik.touched.city == true) && !!formik.errors.city}
+                    label="Thành phố"
                     onChange={formik.handleChange}
                   >
                     {provinces &&
@@ -184,6 +220,9 @@ export default function RegisterTutor() {
                         </MenuItem>
                       ))}
                   </Select>
+                  {(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender && (
+                    <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.city}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6} mt={1}>
@@ -192,9 +231,14 @@ export default function RegisterTutor() {
                   fullWidth
                   id="district"
                   onChange={formik.handleChange}
-                  label="District"
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Quận"
                   name="district"
                   autoComplete="district"
+                  error={formik.touched.district && !!formik.errors.district}
+                  helperText={formik.touched.district && formik.errors.district}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -203,20 +247,30 @@ export default function RegisterTutor() {
                   fullWidth
                   id="address"
                   onChange={formik.handleChange}
-                  label="Address"
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Địa chỉ"
                   name="address"
                   autoComplete="address"
+                  error={formik.touched.address && !!formik.errors.address}
+                  helperText={formik.touched.address && formik.errors.address}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="address"
+                  id="idCart"
                   onChange={formik.handleChange}
-                  label="ID Card"
-                  name="address"
-                  autoComplete="address"
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Chứng minh nhân dân"
+                  name="idCart"
+                  autoComplete="idCart"
+                  error={formik.touched.idCart && !!formik.errors.idCart}
+                  helperText={formik.touched.idCart && formik.errors.idCart}
                 />
               </Grid>
               <Grid item xs={12} className="flex">
@@ -229,10 +283,13 @@ export default function RegisterTutor() {
                 </Typography>
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
+                  formik={formik}
                   content={"Upload ảnh thẻ"}
-                  size={3}
+                  fieldName="imageUser"
+                  size={1}
                 />
               </Grid>
+              {(formik.touched.imageUser && formik.errors.imageUser) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageUser}</span>}
               <Grid item xs={12} className="flex">
                 <Typography
                   component="h1"
@@ -243,10 +300,13 @@ export default function RegisterTutor() {
                 </Typography>
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
+                  formik={formik}
                   content={"Upload Ảnh bằng cấp"}
-                  size={1}
+                  fieldName="imageCertificate"
+                  size={4}
                 />
               </Grid>
+              {(formik.touched.imageCertificate && formik.errors.imageCertificate) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageCertificate}</span>}
               <Grid item xs={12} className="flex">
                 <Typography
                   component="h1"
@@ -257,10 +317,13 @@ export default function RegisterTutor() {
                 </Typography>
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
+                  formik={formik}
                   content={"Upload Ảnh CMND/CCCD"}
-                  size={1}
+                  fieldName="imageIdentity"
+                  size={2}
                 />
               </Grid>
+              {(formik.touched.imageIdentity && formik.errors.imageIdentity) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageIdentity}</span>}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -276,12 +339,12 @@ export default function RegisterTutor() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Register
+              Đăng ký
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                  Có tài khoản rồi ? Quay về đăng nhập
                 </Link>
               </Grid>
             </Grid>

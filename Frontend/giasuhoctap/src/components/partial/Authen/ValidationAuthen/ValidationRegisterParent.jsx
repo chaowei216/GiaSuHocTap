@@ -5,6 +5,10 @@ const dateFormat = "YYYY/MM/DD";
 function isValidDate(date, format) {
   return moment(date, format).isValid();
 }
+const currentDate = new Date();
+const nextDay = new Date(currentDate);
+nextDay.setDate(currentDate.getDate() + 1);
+
 export const validationRegisterParent = yup.object().shape({
   firstName: yup
     .string()
@@ -22,10 +26,10 @@ export const validationRegisterParent = yup.object().shape({
     .required("Vui lòng nhập email"),
   password: yup
     .string()
-    .required("Vui lòng nhập tên")
+    .required("Vui lòng nhập mật khẩu")
     .min(8, "Mật khẩu ít nhất là 8 ký tự")
-    .max(20, "Không được quá 20 ký tự"),
-  phone: yup
+    .max(20, "Mật khẩu không được quá 20 ký tự"),
+  phoneNumber: yup
     .string()
     .required("Vui lòng nhập số điện thoại")
     .min(10, "Số điện thoại ít nhất 10 số")
@@ -41,15 +45,13 @@ export const validationRegisterParent = yup.object().shape({
       name: "start-date-valid",
       message: "Ngày sinh phải trước ngày hiện tại",
       test: function (value) {
-        const currentDate = new Date();
         const selectedDate = new Date(value);
-
-        return selectedDate <= currentDate;
+        return selectedDate < nextDay;
       },
     }),
   gender: yup.string().required("Vui lòng chọn giới tính"),
   city: yup.string().required("Vui lòng chọn thành phố"),
-  district: yup.string().required("Vui lòng chọn quận"),
+  district: yup.string().required("Vui lòng điền quận"),
   address: yup
     .string()
     .min(5, "Địa chỉ có ít nhất 5 ký tự")

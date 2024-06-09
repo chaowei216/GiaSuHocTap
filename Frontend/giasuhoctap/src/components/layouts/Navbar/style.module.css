@@ -1,98 +1,67 @@
 .main {
-    background-color: #111e2e;
-    color: #fff;
+  background-color: #111e2e;
+  color: #fff;
+  display: flex;
+  padding: 8px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  > img {
+    padding-left: 16px;
+  }
+
+  > div {
+    margin-right: 35px;
+    gap: 25px;
     display: flex;
-    padding: 8px;
-    width: 100%; 
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-  
-    > img {
-      padding-left: 16px;
-    }
-  
-    > div {
-      width: 296px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-  
-      div:nth-child(1) {
-        width: 107px;
-        height: 30px;
-        background-color: #0b2136;
+
+    div:nth-child(2) {
+      > img {
+        border-radius: 50%;
+        border: 1px white solid;
+        width: 44px;
+        height: 44px;
+      }
+
+      > div {
         display: flex;
-        align-items: center;
-        border-radius: 30%;
+        flex-direction: column;
         justify-content: space-around;
-  
-        > img {
-          width: 28px;
-          height: 20px;
-        }
-      }
-  
-      div:nth-child(2) {
-        width: 149px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-  
-        > img {
-          border-radius: 50%;
-          border: 1px white solid;
-          width: 44px;
-          height: 44px;
-        }
-  
-        > div {
-          display: flex;
-          flex-direction: column;
-          width: 98px;
-          height: 48px;
-          justify-content: space-around;
-          text-align: left;
-          align-items: flex-start;
-          margin-left: 4px;
-  
-          span {
-            font-size: 16px;
-          }
-  
-          button {
-            padding: 0;
-            background-color: #111e2e;
-            border: 0px;
-            color: #fff;
-            cursor: pointer;
-          }
+        text-align: left;
+        align-items: flex-start;
+        span {
+          font-size: 16px;
         }
       }
     }
   }
-  
-  .userContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  
-  .userInfo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-  }
-  
-  .fullName {
-    cursor: pointer;
-    font-weight: bold;
-    white-space: nowrap; 
-    width: 120px; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-  }
-  
-  .logoutButton {
-    font-size: 1rem;
-  }
+}
+
+.userContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.fullName {
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logoutButton {
+  font-size: 1rem;
+}

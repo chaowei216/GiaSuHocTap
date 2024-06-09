@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function InputFileUpload({ setFieldValue, content, size = 1 }) {
+export default function InputFileUpload({ setFieldValue, formik, content, fieldName, size = 1 }) {
   const [selectedFile, setSelectedFile] = React.useState([]);
   // const handleFileInputChange = (event) => {
   //   const file = event.target.files[0];
@@ -32,36 +32,48 @@ export default function InputFileUpload({ setFieldValue, content, size = 1 }) {
     const files = event.target.files;
     const promises = [];
     const maxSize = size; // Số lượng file tối đa được chọn 
-    for (let i = 0; i < files.length; i++) {
-      const fileName = files[i].name;
-      // Kiểm tra xem tên file đã tồn tại trong mảng fileNamesRef.current chưa
-      if (!fileNamesRef.current.includes(fileName)) {
-        fileNamesRef.current.push(fileName);
-      }
-    }
-    setFieldValue('image', fileNamesRef.current)
-    for (let i = 0; i < files.length && i < maxSize; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      const promise = new Promise((resolve, reject) => {
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-      });
-      reader.readAsDataURL(file);
-      promises.push(promise);
-      console.log(promise);
-    }
+    // Kiểm tra số lượng tệp đã chọn, nếu vượt quá số lượng tối đa cho phép thì thông báo lỗi
     if (selectedFile.length + 1 > size) {
-      alert("Pleasee stop")
+      alert("Please stop");
       return;
     }
-    Promise.all(promises)
-      .then((results) => {
-        setSelectedFile((prevSelectedFiles) => [...prevSelectedFiles, ...results]);
-      })
-      .catch((error) => {
-        console.error("Error reading files:", error);
-      });
+    // Thực hiện xử lý tệp và tạo các hứa (promises)
+    // Sau đó cập nhật giá trị của các trường tương ứng trong formik bằng hàm setFieldValue
+
+    // Kiểm tra và thực hiện cập nhật giá trị cho trường imageUser, imageCertificate, hoặc imageIdentity
+    if (fieldName === "imageUser" || fieldName === "imageCertificate" || fieldName === "imageIdentity") {
+      const fileNames = [];
+      for (let i = 0; i < files.length; i++) {
+        const fileName = files[i].name;
+        // Kiểm tra xem tên file đã tồn tại trong mảng fileNamesRef.current chưa
+        if (!fileNamesRef.current.includes(fileName)) {
+          fileNamesRef.current.push(fileName);
+        }
+      }
+      // Cập nhật giá trị của trường tương ứng trong formik
+      setFieldValue(fieldName, fileNamesRef.current);
+
+      // Tiến hành đọc và xử lý các tệp được chọn
+      for (let i = 0; i < files.length && i < maxSize; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        const promise = new Promise((resolve, reject) => {
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+        });
+        reader.readAsDataURL(file);
+        promises.push(promise);
+      }
+
+      // Xử lý hứa (promises) và cập nhật giá trị của các tệp được chọn
+      Promise.all(promises)
+        .then((results) => {
+          setSelectedFile((prevSelectedFiles) => [...prevSelectedFiles, ...results]);
+        })
+        .catch((error) => {
+          console.error("Error reading files:", error);
+        });
+    }
   };
   const handleDeleteImage = (index) => {
     setSelectedFile((prevSelectedFiles) => {
@@ -70,7 +82,7 @@ export default function InputFileUpload({ setFieldValue, content, size = 1 }) {
       return updatedFiles;
     });
     fileNamesRef.current = fileNamesRef.current.filter(f => f != fileNamesRef.current[index]);
-    setFieldValue('image', fileNamesRef.current)
+    setFieldValue(fieldName, fileNamesRef.current);
   }
   return (
     <div>
@@ -82,7 +94,9 @@ export default function InputFileUpload({ setFieldValue, content, size = 1 }) {
         startIcon={<CloudUploadIcon />}
       >
         {content}
-        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple />
+        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple onBlur={(e) => {
+          formik.handleBlur(e);
+        }} />
       </Button>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: "10px" }}>
         {selectedFile && selectedFile.map((file, index) => (

@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styles from "./login.module.css"
+import styles from "./forgotPassword.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
 import { useEffect, useRef } from "react";
@@ -18,7 +18,7 @@ import { SignIn } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
-export default function Login() {
+export default function ForgotPassword() {
   const userRef = useRef();
   const { login } = useAuth();
   //const { auth, setAuth, isAuthenticated } = useAuth()
@@ -62,8 +62,11 @@ export default function Login() {
           <div className={styles.logoTutor} >
             <img src={logoTutor} />
           </div>
-          <Typography component="h1" variant="h5">
-            Login into account
+          <Typography component="h1" variant="h4">
+            Quên mật khẩu
+          </Typography>
+          <Typography component="h1" variant="h6" sx={{mt: 3}}>
+            Điền email của bạn và chúng tôi sẽ gửi mã code đến mail bạn
           </Typography>
           <Box
             component="form"
@@ -87,49 +90,19 @@ export default function Login() {
                 ),
               }}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              InputProps={{
-                startAdornment: (
-                  <LockOutlinedIcon />
-                ),
-              }}
-              id="password"
-              autoComplete="current-password"
-            />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2}}
             >
-              Đăng nhập
+              Submit
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="/forgot-password" variant="body2">
-                  Quên mật khẩu
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/registerParents" variant="body2">
-                  {"Không có tài khoản ? Đăng ký"}
-                </Link>
-                <br/>
-                <Link href="/registerTutors" variant="body2">
-                  {"Don't have an account? Register for tutor"}
-                </Link>
-              </Grid>
-            </Grid>
+            <div style={{display: 'flex', justifyContent: "center"}}>
+            <Link href="/login" variant="body2">
+                  Trở về trang đăng nhập
+            </Link>
+            </div>
           </Box>
         </Box>
       </Container>

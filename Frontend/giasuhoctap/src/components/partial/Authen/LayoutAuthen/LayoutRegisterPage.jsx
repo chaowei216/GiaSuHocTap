@@ -1,4 +1,4 @@
-import styles from "../register.module.css"
+import styles from "../registerTutor.module.css"
 function LayoutRegisterPage({styleSizeBg}) {
     return (
         <div className={styles.layout_login} style={{height: styleSizeBg}}>

@@ -7,6 +7,8 @@ import RegisterTutorPage from "../pages/AuthenPage/RegisterTutorPage"
 import RequireAuth from "../components/partial/Authen/RequireAuth";
 import GuestAuth from "../components/partial/Authen/GuestAuth";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
+import TutorPage from "../pages/TutorPage/TutorPage";
+import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -16,5 +18,7 @@ export const router = createBrowserRouter([
   { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
   { path: "registerParents", element: <RegisterPage /> },//<RequireAuth></RequireAuth> },
   { path: "registerTutors", element: <RegisterTutorPage /> },
-  { path: "test", element: <DashboardPage /> }
+  { path: "test", element: <DashboardPage /> },
+  { path: "tutor", element: <TutorPage /> },
+  { path: "forgot-password", element: <ForgotPasswordPage /> }
 ]);

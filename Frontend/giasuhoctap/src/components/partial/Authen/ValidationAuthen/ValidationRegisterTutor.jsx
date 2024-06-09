@@ -25,7 +25,7 @@ export const validationRegisterTutor = yup.object().shape({
     .required("Vui lòng nhập tên")
     .min(8, "Mật khẩu ít nhất là 8 ký tự")
     .max(20, "Không được quá 20 ký tự"),
-  phone: yup
+  phoneNumber: yup
     .string()
     .required("Vui lòng nhập số điện thoại")
     .min(10, "Số điện thoại ít nhất 10 số")
@@ -55,31 +55,18 @@ export const validationRegisterTutor = yup.object().shape({
     .min(5, "Địa chỉ có ít nhất 5 ký tự")
     .max(70, "Địa chỉ nhiều nhất là 70 ký tự")
     .required("Vui lòng nhập địa chỉ"),
-  imageUser: yup
-    .mixed()
-    .test("fileType", "Định dạng file không đúng", (value) => {
-      if (!value) return false;
-      return ["image/png", "image/jpeg"].includes(value.type);
-    })
-    .required("Vui lòng chọn ảnh"),
-  imageCertificate: yup
-    .array()
-    .of(
-      yup.mixed().test("fileType", "Định dạng file không đúng", (value) => {
-        if (!value) return false;
-        return ["image/png", "image/jpeg"].includes(value.type);
-      })
+  imageUser: yup.array()
+    .min(1, 'Vui lòng chọn ít nhất một hình ảnh cho chứng chỉ.'),
+  imageCertificate: yup.array()
+    .min(1, 'Vui lòng chọn ít nhất một hình ảnh cho chứng chỉ.'),
+  imageIdentity: yup.array()
+    .min(1, 'Vui lòng chọn ít nhất một hình ảnh cho chứng minh thư.'),
+  idCart: yup.string()
+    .required("Vui lòng nhập số chứng minh nhân dân")
+    .min(10, "Số chứng minh phải có 12 số ")
+    .max(12, "Số chứng minh phải có 12 số")
+    .matches(
+      /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.0-9]*$/,
+      "Vui lòng nhập số không nhập ký tự"
     )
-    .min(1, "Vui lòng chọn ít nhất 1 ảnh")
-    .required("Vui lòng chọn ảnh"),
-  imageIdentity: yup
-    .array()
-    .of(
-      yup.mixed().test("fileType", "Định dạng file không đúng", (value) => {
-        if (!value) return false;
-        return ["image/png", "image/jpeg"].includes(value.type);
-      })
-    )
-    .min(1, "Vui lòng chọn ít nhất 1 ảnh")
-    .required("Vui lòng chọn ảnh"),
 });
