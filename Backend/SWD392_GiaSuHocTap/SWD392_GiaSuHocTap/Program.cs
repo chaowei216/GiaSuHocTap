@@ -10,6 +10,7 @@ using Repository.Repository;
 using Service.IService;
 using Service.Service;
 using Service.Services;
+using SWD392_GiaSuHocTap.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -105,6 +106,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -34,7 +34,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             var response = await _authService.Login(loginRequestDTO);
 
-            if(response != null)
+            if (response != null)
             {
                 return Ok(new ResponseDTO()
                 {
