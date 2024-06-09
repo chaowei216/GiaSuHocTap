@@ -46,7 +46,7 @@ namespace Service.Service
                 if (user != null && VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
                 {
                     // write token
-                    var response = await _tokenService.CreateJWTToken(user);
+                    var response = await _tokenService.CreateJWTToken(user, "");
 
                     if (response != null)
                     {

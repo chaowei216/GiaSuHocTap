@@ -38,6 +38,11 @@ namespace Repository.Repository
             return await _refreshTokenDAO.GetByIdAsync(id);
         }
 
+        public RefreshToken? GetRefreshTokenByToken(string token)
+        {
+            return _refreshTokenDAO.GetByCondition(p => p.Token == token).FirstOrDefault();
+        }
+
         public Task<RefreshToken> UpdateRefreshToken(RefreshToken refreshToken)
         {
             return _refreshTokenDAO.UpdateAsync(refreshToken);

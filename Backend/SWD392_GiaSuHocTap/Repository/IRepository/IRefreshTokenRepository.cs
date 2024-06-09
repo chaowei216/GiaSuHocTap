@@ -42,5 +42,12 @@ namespace Repository.IRepository
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<bool> DeleteRefreshToken(RefreshToken refreshToken);
+
+        /// <summary>
+        /// Get refresh token by token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        RefreshToken? GetRefreshTokenByToken(string token);
     }
 }
