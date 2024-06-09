@@ -33,6 +33,11 @@ namespace Service.Service
             return await _refreshTokenRepository.GetRefreshTokenById(id);
         }
 
+        public RefreshToken? GetRefreshTokenByToken(string token)
+        {
+            return _refreshTokenRepository.GetRefreshTokenByToken(token);
+        }
+
         public async Task<RefreshToken> UpdateRefreshToken(RefreshToken refreshToken)
         {
             return await _refreshTokenRepository.UpdateRefreshToken(refreshToken);

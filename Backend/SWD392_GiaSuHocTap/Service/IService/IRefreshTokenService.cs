@@ -42,5 +42,12 @@ namespace Service.IService
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<bool> DeleteRefreshToken(RefreshToken refreshToken);
+
+        /// <summary>
+        /// Get Refresh Token By Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        RefreshToken? GetRefreshTokenByToken(string token);
     }
 }
