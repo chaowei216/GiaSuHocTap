@@ -1,0 +1,6 @@
+@SWD392_GiaSuHocTap_HostAddress = http://localhost:5149
+
+GET {{SWD392_GiaSuHocTap_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
