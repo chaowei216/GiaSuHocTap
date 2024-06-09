@@ -1,4 +1,6 @@
 ﻿using Common.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace SWD392_GiaSuHocTap.Middleware
@@ -25,17 +27,59 @@ namespace SWD392_GiaSuHocTap.Middleware
 
         private static async Task HandleError(HttpContext context, Exception ex)
         {
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            context.Response.ContentType = "application/json";
+            var responseDTO = new ResponseDTO();
 
-            var response = new ResponseDTO()
+            if (ex is HttpRequestException httpRequestException)
             {
-                StatusCode = (int)HttpStatusCode.InternalServerError,
-                Message = ex.Message,
-                Data = null
-            };
+                // HttpRequestException
+                switch (httpRequestException.StatusCode)
+                {
+                    case HttpStatusCode.BadRequest:
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        responseDTO.StatusCode = (int)HttpStatusCode.BadRequest;
+                        responseDTO.Message = ex.Message;
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        responseDTO.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        responseDTO.Message = ex.Message;
+                        break;
+                    case HttpStatusCode.Forbidden:
+                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        responseDTO.StatusCode = (int)HttpStatusCode.Forbidden;
+                        responseDTO.Message = ex.Message;
+                        break;
+                    default:
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        responseDTO.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        responseDTO.Message = ex.Message;
+                        break;
+                }
+            }
+            else if (ex is ArgumentException argumentException)
+            {
+                // ArgumentException
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                responseDTO.StatusCode = (int)HttpStatusCode.BadRequest;
+                responseDTO.Message = argumentException.Message;
+            }
+            else if (ex is ValidationException validationException)
+            {
+                // ValidationException
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                responseDTO.StatusCode = (int)HttpStatusCode.BadRequest;
+                responseDTO.Message = validationException.Message;
+            }
+            else
+            {
+                // other exceptions
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                responseDTO.StatusCode = (int)HttpStatusCode.InternalServerError;
+                responseDTO.Message = ex.Message;
+            }
 
-            await context.Response.WriteAsJsonAsync(response);
+            responseDTO.Data = null;
+            await context.Response.WriteAsJsonAsync(responseDTO);
         }
     }
 }
