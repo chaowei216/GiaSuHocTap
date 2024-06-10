@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/AuthenPage/LoginPage";
 import Register from "../components/partial/Authen/register";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Profile from "../components/partial/HomePage/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -13,4 +14,5 @@ export const router = createBrowserRouter([
   },
   { path: "login", element: <LoginPage /> },
   { path: "Register", element: <Register /> },
+  { path: "Profile", element: <Profile /> }
 ]);
