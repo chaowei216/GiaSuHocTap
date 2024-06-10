@@ -5,6 +5,7 @@ import carousel1 from "../../../../../public/img/Carousel1.jpg";
 import carousel2 from "../../../../../public/img/Carousel2.jpg";
 import carousel3 from "../../../../../public/img/Carousel3.jpg";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Hero = () => {
   const items = [
     {
@@ -34,9 +35,7 @@ const Hero = () => {
               src={item.image}
               alt={item.alt}
             />
-            {/* <Carousel.Caption className={styles.carouselCaption}>
-              <h3>{item.caption}</h3>
-            </Carousel.Caption> */}
+            
           </Carousel.Item>
         ))}
       </Carousel>
