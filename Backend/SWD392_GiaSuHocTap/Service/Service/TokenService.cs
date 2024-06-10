@@ -84,7 +84,34 @@ namespace Service.Service
 
         public async Task<RefreshTokenResponseDTO> GenerateNewToken(string accessToken, string refreshToken)
         {
-            string message = string.Empty;
+            // check if token is invalid
+            var isValidatedToken = CheckValidToken(accessToken, refreshToken);
+
+            if (!isValidatedToken.IsValidated)
+            {
+                return new RefreshTokenResponseDTO()
+                {
+                    Token = null,
+                    Message = isValidatedToken.Message!
+                };
+            } else
+            {
+                // Generate new token (with existing refresh token)
+                var dbRefreshToken = _refreshTokenService.GetRefreshTokenByToken(refreshToken!);
+                var user = await _userService.GetUserById(dbRefreshToken!.UserId);
+
+                var newTokenResponse = await CreateJWTToken(user!, refreshToken!);
+
+                return new RefreshTokenResponseDTO()
+                {
+                    Token = newTokenResponse,
+                    Message = TokenMessage.SuccessfullyCreated
+                };
+            }
+        }
+
+        public ValidatedTokenDTO CheckValidToken(string accessToken, string refreshToken)
+        {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
             // Check 1 - Check JWT token format
@@ -98,9 +125,8 @@ namespace Service.Service
                 var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                     StringComparison.InvariantCultureIgnoreCase);
 
-                if (!result) return new RefreshTokenResponseDTO()
+                if (!result) return new ValidatedTokenDTO()
                 {
-                    Token = null,
                     Message = TokenMessage.InvalidToken
                 };
             }
@@ -111,50 +137,47 @@ namespace Service.Service
             var expiryDate = UnixTimeStampToDateTimeInUTC(utcExpiryDate);
 
             if (expiryDate > DateTime.UtcNow)
-                return new RefreshTokenResponseDTO()
+                return new ValidatedTokenDTO()
                 {
-                    Token = null,
                     Message = TokenMessage.UnExpiredToken
                 };
 
             // Check 4 - Refresh token exists in the DB
             var dbRefreshToken = _refreshTokenService.GetRefreshTokenByToken(refreshToken!);
 
-            if (dbRefreshToken == null) throw new Exception(TokenMessage.NoExist);
+            if (dbRefreshToken == null)
+                return new ValidatedTokenDTO()
+                {
+                    Message = TokenMessage.NoExist
+                };
             else
             {
                 // Check 5 - Validate id
                 var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)!.Value;
 
-                if (dbRefreshToken.JwtId != jti) return new RefreshTokenResponseDTO()
-                {
-                    Token = null,
-                    Message = TokenMessage.NotMatched
-                }; ;
+                if (dbRefreshToken.JwtId != jti)
+                    return new ValidatedTokenDTO()
+                    {
+                        Message = TokenMessage.NotMatched
+                    }; ;
 
-                if (dbRefreshToken.DateExpired <= DateTime.UtcNow) return new RefreshTokenResponseDTO()
-                {
-                    Token = null,
-                    Message = TokenMessage.ExpiredRefreshToken
-                };
+                if (dbRefreshToken.DateExpired <= DateTime.UtcNow)
+                    return new ValidatedTokenDTO()
+                    {
+                        Message = TokenMessage.ExpiredRefreshToken
+                    };
 
-                if (dbRefreshToken.IsRevoked) return new RefreshTokenResponseDTO()
-                {
-                    Token = null,
-                    Message = TokenMessage.IsRevoked
-                };
-
-                // Generate new token (with existing refresh token
-                var user = await _userService.GetUserById(dbRefreshToken.UserId);
-
-                var newTokenResponse = await CreateJWTToken(user!, refreshToken!);              
-
-                return new RefreshTokenResponseDTO()
-                {
-                    Token = newTokenResponse,
-                    Message = TokenMessage.SuccessfullyCreated
-                };
+                if (dbRefreshToken.IsRevoked)
+                    return new ValidatedTokenDTO()
+                    {
+                        Message = TokenMessage.IsRevoked
+                    };
             }
+
+            return new ValidatedTokenDTO()
+            {
+                IsValidated = true,
+            };
         }
 
         private DateTime UnixTimeStampToDateTimeInUTC(long unixTimeStamp)

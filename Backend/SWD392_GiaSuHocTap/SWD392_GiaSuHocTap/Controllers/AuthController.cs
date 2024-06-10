@@ -2,6 +2,7 @@
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -84,6 +85,39 @@ namespace SWD392_GiaSuHocTap.Controllers
             {
                 StatusCode = (int)StatusCodeEnum.BadRequest,
                 Message = response!.Message,
+                Data = null
+            });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LogOutRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _authService.LogOut(request.AccessToken, request.RefreshToken);
+
+            if (response.isSuccess)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = response.Message,
+                    Data = null
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = response.Message,
                 Data = null
             });
         }
