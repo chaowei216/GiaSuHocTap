@@ -2,9 +2,11 @@
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
+using Service.Service;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -87,5 +89,47 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LogOutRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _authService.LogOut(request.AccessToken, request.RefreshToken);
+
+            if (response.isSuccess)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = response.Message,
+                    Data = null
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = response.Message,
+                Data = null
+            });
+        }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(string email)
+        {
+            var result = _authService.ForgotPassword(email);
+            return Ok(result);
+        }
+
+        
     }
 }

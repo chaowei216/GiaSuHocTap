@@ -39,16 +39,6 @@ namespace SWD392_GiaSuHocTap.Middleware
                         responseDTO.StatusCode = (int)HttpStatusCode.BadRequest;
                         responseDTO.Message = ex.Message;
                         break;
-                    case HttpStatusCode.Unauthorized:
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        responseDTO.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        responseDTO.Message = ex.Message;
-                        break;
-                    case HttpStatusCode.Forbidden:
-                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                        responseDTO.StatusCode = (int)HttpStatusCode.Forbidden;
-                        responseDTO.Message = ex.Message;
-                        break;
                     default:
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         responseDTO.StatusCode = (int)HttpStatusCode.InternalServerError;
