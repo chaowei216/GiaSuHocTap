@@ -33,7 +33,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 
                 var createTutor = await _userService.AddNewTutor(tutor);
 
-                if(!createTutor.IsSuccess)
+                if(createTutor.IsSuccess)
                 {
                     var response = new ResponseDTO()
                     {
@@ -46,7 +46,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 {
                     var response = new ResponseDTO()
                     {
-                        Message = CreateUserMessage.CreateSuccess,
+                        Message = CreateUserMessage.CreateFail,
                         StatusCode = (int)StatusCodeEnum.BadRequest,
                     };
                     return BadRequest(response);
@@ -76,7 +76,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 
                 var createTutor = await _userService.AddNewParent(parent);
 
-                if (!createTutor.IsSuccess)
+                if (createTutor.IsSuccess)
                 {
                     var response = new ResponseDTO()
                     {
@@ -90,7 +90,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 {
                     var response = new ResponseDTO()
                     {
-                        Message = CreateUserMessage.CreateSuccess,
+                        Message = CreateUserMessage.CreateFail,
                         StatusCode = (int)StatusCodeEnum.BadRequest,
                     };
                     return BadRequest(response);

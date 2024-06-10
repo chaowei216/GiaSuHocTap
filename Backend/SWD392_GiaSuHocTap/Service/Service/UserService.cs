@@ -310,7 +310,14 @@ namespace Service.Service
 
         public User? GetUserByEmail(string email)
         {
-            return _userRepository.GetUserByEmail(email);
+            var result = _userRepository.GetUserByEmail(email);
+            if(result != null)
+            {
+                return result;
+            } else
+            {
+                return null;
+            }
         }
 
         public async Task<User?> GetUserById(int id)
