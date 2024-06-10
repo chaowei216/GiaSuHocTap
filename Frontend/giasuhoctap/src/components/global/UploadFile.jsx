@@ -94,9 +94,7 @@ export default function InputFileUpload({ setFieldValue, formik, content, fieldN
         startIcon={<CloudUploadIcon />}
       >
         {content}
-        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple onBlur={(e) => {
-          formik.handleBlur(e);
-        }} />
+        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple  />
       </Button>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: "10px" }}>
         {selectedFile && selectedFile.map((file, index) => (
