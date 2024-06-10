@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
+using Service.Service;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -121,5 +122,14 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(string email)
+        {
+            var result = _authService.ForgotPassword(email);
+            return Ok(result);
+        }
+
+        
     }
 }

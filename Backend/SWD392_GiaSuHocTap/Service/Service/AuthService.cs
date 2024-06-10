@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Common.Constant.Message;
+using Common.DTO;
 using Common.DTO.Auth;
+using Common.DTO.Email;
 using Common.Enum;
 using DAO.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 using System.Security.Cryptography;
 
@@ -16,18 +19,21 @@ namespace Service.Service
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IRefreshTokenService _refreshTokenService;
+        private readonly IEmailService _emailService;
 
         public AuthService(IUserService userService,
                             ITokenService tokenService,
                             IConfiguration configuration,
                             IMapper mapper,
-                            IRefreshTokenService refreshTokenService)
+                            IRefreshTokenService refreshTokenService,
+                            IEmailService emailService)
         {
             _userService = userService;
             _tokenService = tokenService;
             _mapper = mapper;
             _configuration = configuration;
             _refreshTokenService = refreshTokenService;
+            _emailService = emailService;
         } 
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
@@ -145,5 +151,77 @@ namespace Service.Service
             return null;
         }
 
+        public ResponseDTO CheckValidationForgotPassword(ForgotPasswordDTO model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model)
+        {
+            if (model.Email.IsNullOrEmpty())
+            {
+                var response = new ForgotPasswordResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = CreateUserMessage.NullEmail
+                };
+                return response;
+            }
+
+            var user = _userService.GetAllUsers().FirstOrDefault(c => c.Email == model.Email);
+            if (user == null)
+            {
+                return  new ForgotPasswordResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = (int) StatusCodeEnum.BadRequest,
+                    Message = CreateUserMessage.NullEmail
+                }; 
+            }
+            return new ForgotPasswordResponseDTO()
+            {
+                IsSuccess = false,
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = CreateUserMessage.NullEmail
+            };
+
+        }
+
+        public ResponseDTO ForgotPassword(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = AuthMessage.UserNotFound,
+                    StatusCode =(int) StatusCodeEnum.NotFound
+                };
+            }
+
+            if (!user.IsVerified)
+            {
+                return new ResponseDTO() { 
+                    Message = AuthMessage.UserIsNotVerified,
+                    StatusCode = (int) StatusCodeEnum.NotFound
+                };
+            }
+
+            var otp = _emailService.GenerateOTP();
+            user.Otp = otp.OTPCode;
+
+            user.Otp = otp.OTPCode;
+            user.OtpExpiredTime = otp.ExpiredTime;
+
+            _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.ResetPassEmailSubject);
+
+            return new ResponseDTO()
+            {
+                Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
+                StatusCode = (int) StatusCodeEnum.Created,
+                Data = otp
+            };
+        }
     }
 }

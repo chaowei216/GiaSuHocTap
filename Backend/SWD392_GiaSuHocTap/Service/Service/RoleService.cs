@@ -23,6 +23,11 @@ namespace Service.Service
             return await _roleRepository.GetRoleById(id);
         }
 
+        public Role? GetRoleByName(string name)
+        {
+            return _roleRepository.GetRoleByName(name);
+        }
+
         public IEnumerable<Role> GetRoles()
         {
             return _roleRepository.GetAllRoles();

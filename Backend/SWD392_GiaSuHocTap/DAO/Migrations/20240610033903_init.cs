@@ -71,7 +71,7 @@ namespace DAO.Migrations
                 {
                     RoleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RoleName = table.Column<int>(type: "int", nullable: false)
+                    RoleName = table.Column<string>(type: "nvarchar(24)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,15 +105,19 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CoinBalance = table.Column<int>(type: "int", nullable: false),
-                    IdentityNumber = table.Column<string>(type: "longtext", nullable: false)
+                    Otp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdentityImage = table.Column<string>(type: "longtext", nullable: false)
+                    OtpExpiredTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsVerified = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CoinBalance = table.Column<int>(type: "int", nullable: false),
+                    IdentityNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IdentityImage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserImage = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NumberOfReport = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(24)", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -350,8 +354,6 @@ namespace DAO.Migrations
                     Job = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Major = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Qualification = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CertificateImage = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

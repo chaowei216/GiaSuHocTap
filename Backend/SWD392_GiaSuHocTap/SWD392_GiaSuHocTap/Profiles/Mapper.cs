@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.DTO.Auth;
+using Common.DTO.User;
 using DAO.Model;
 
 namespace SWD392_GiaSuHocTap.Profiles
@@ -10,6 +11,9 @@ namespace SWD392_GiaSuHocTap.Profiles
         {
             #region map entity
             CreateMap<UserDTO, User>().ReverseMap();
+            CreateMap<TutorCreateRequestDTO, User>().ReverseMap();
+            CreateMap<TutorCreateRequestDTO, TutorDetail>().ReverseMap();
+            CreateMap<ParentCreateRequestDTO, User>().ReverseMap();
             #endregion
         }
     }
