@@ -1,44 +1,53 @@
-import React from "react";
-import styles from "./Navbar.module.css";
-import logo from "../../../../../public/img/Logo2.jpg";
+import React from 'react';
+import styles from './Navbar.module.css';
+import logo from '../../../../../public/img/logoGiasu.png';
 
-const Navbar = ({ hamActive, setHamActive }) => {
-  const handleClick = () => {
-    setHamActive(!hamActive);
-  };
-
+const Navbar = () => {
   return (
-    <div className={`${styles.navbarWrapper}`}>
-      <div className={`${styles.navbarInner}`}>
-        <div className={`${styles.navLeft}`}>
+    <div className={styles.navbarWrapper}>
+      <div className={styles.navbarInner}>
+        <div className={styles.navLeft}>
           <img src={logo} alt="logo" className={styles.brand} />
         </div>
-        <div className={`${styles.navRight}`}>
+        <div className={styles.navRight}>
           <div className={styles.navLinksWrapper}>
-            <div className={styles.verticalLine}> </div>
-            <a href="/" className={`${styles.nav} center`}>
-              TRANG CHỦ
-            </a>
-            <a href="/" className={`${styles.nav} center`}>
-              PHỤ HUYNH
-            </a>
-            <a href="/" className={`${styles.nav} center`}>
-              GIA SƯ
-            </a>
-            <a href="/" className={`${styles.nav} center`}>
-              LỚP MỚI
-            </a>
-            <a href="/" className={`${styles.nav} center`}>
-              TUYỂN DỤNG
-            </a>
-            <a href="/" className={`${styles.nav} center`}>
-              LIÊN HỆ
-            </a>
+            <div className={styles.teal}>
+              <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+                TRANG CHỦ
+              </a>
+              <div className={`${styles.dropdown} ${styles.dropdownWrapper}`}>
+                <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+                  PHỤ HUYNH
+                </a>
+                <div className={styles.dropdownMenu}>
+                  <a href="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</a>
+                  <a href="/" className={styles.dropdownItem}>Dịch vụ gia sư</a>
+                  <a href="/" className={styles.dropdownItem}>Gia sư tiêu biểu</a>
+                </div>
+              </div>
+              <div className={`${styles.dropdown} ${styles.dropdownMenuWrapper}`}>
+                <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+                  GIA SƯ
+                </a>
+                <div className={styles.dropdownMenu}>
+                  <a href="/" className={styles.dropdownItem}>Đăng ký làm gia sư</a>
+                  <a href="/" className={styles.dropdownItem}>Hướng dẫn nhận lớp</a>
+                  <a href="/" className={styles.dropdownItem}>Tuyển dụng</a>
+                </div>
+              </div>
+              <a href="/" className={`${styles.nav} ${styles.center}`}>
+                LỚP MỚI
+              </a>
+              <a href="/" className={`${styles.nav} ${styles.center}`}>
+                TUYỂN DỤNG
+              </a>
+              <a href="/" className={`${styles.nav} ${styles.center}`}>
+                LIÊN HỆ
+              </a>
+            </div>
           </div>
           <div>
-            <a href="/login" className={styles.login}>
-              Log in
-            </a>
+            <button href="/login" className={styles.login}>Log in</button>
             <button className={styles.signup}>Sign Up</button>
           </div>
         </div>
@@ -46,4 +55,5 @@ const Navbar = ({ hamActive, setHamActive }) => {
     </div>
   );
 };
+
 export default Navbar;

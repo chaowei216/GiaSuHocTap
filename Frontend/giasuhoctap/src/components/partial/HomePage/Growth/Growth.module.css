@@ -102,9 +102,10 @@
 
 .listReview h1{
   margin-left: 155px;
-        font-size: 30px;
-        font-weight: 700;
-        color: #EC1C24;
+  font-size: 30px;
+  font-weight: 700;
+  color: #EC1C24;
+  margin-bottom: 15px;
 }
 
 .reasonChoose .icon{
@@ -119,7 +120,9 @@
   margin-left: 150px;
   color: #016BF8;
   font-size: 25px;
-  max-width: 660px;
+  max-width: 610px;
+  margin-bottom: 15px;
+  text-align: justify;
 }
 
 .reasonTitle{
@@ -144,12 +147,12 @@
   position: absolute;
   left: 45%;
   top: 3rem;
-  bottom: -8.5rem;
+  bottom: -7.4rem;
   border-left: 2px dashed #00A96C;
 }
 
 .reasonTitle + .reasonTitle .boderIcon::before {
-  bottom: -10.4rem;
+  bottom: -9.2rem;
 }
 
 .reasonTitle:last-child .boderIcon:before {
@@ -165,8 +168,9 @@
 
 .reasonContent{
   border: 1px solid;
-    border-radius: 10px;
-    margin-bottom: 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -177,12 +181,15 @@
 
 .reasonContent h3{
   margin: 10px 15px 10px 15px;
+  font-size: 25px;
 }
 
 .reasonContent p{
   font-size: 20px;
   color: #5C6C75;
   padding: 0 10px;
+  text-align: justify;
+  
 }
 
 .img1{

@@ -13,9 +13,9 @@ const Growth = () => {
         <hr className="divider my-4 mx-auto bg-warning border-warning" style={{opacity: '1', width: '90%'}} />
         <div className={styles.growthImgContainer} style={{ display: "flex" }}>
           <div style={{ width: "45%" }}>
-            <img src={background} alt="Book" className={styles.img1} style={{width:'75%', height:'90%', marginLeft: '180px'}} />
+            <img src={background} alt="Book" className={styles.img1} style={{width:'75%', height:'80%', marginLeft: '180px', marginTop: '35px'}} />
           </div>
-          <div className={styles.listReview} style={{ width: "50%" }}>
+          <div className={styles.listReview} style={{ width: "50%", marginTop: '35px' }}>
             <h1>TẠI SAO CHỌN GIA SƯ HỌC TẬP?</h1>
             <div className="reasonDescription container">
               <div className={styles.reasonChoose} style={{ display: 'flex' }}>

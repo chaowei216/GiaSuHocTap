@@ -19,8 +19,7 @@ const HomePage = () => {
   const [hamActive, setHamActive] = useState(false);
   return (
     <div className="App">
-      <Navbar hamActive={hamActive} setHamActive={setHamActive} />
-      <NavbarResponsive hamActive={hamActive} />
+      <Navbar  />
       <Hero />
       <Growth />
       <Programs/>
