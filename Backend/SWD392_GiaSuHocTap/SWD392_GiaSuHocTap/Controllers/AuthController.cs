@@ -103,7 +103,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var response = await _authService.LogOut(request.AccessToken, request.RefreshToken);
+            var response = await _authService.LogOut(request.RefreshToken);
 
             if (response.isSuccess)
             {
