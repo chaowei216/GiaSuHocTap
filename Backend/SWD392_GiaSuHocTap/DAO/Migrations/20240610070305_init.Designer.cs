@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240608064234_init")]
+    [Migration("20240610070305_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -305,8 +305,9 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RoleId"));
 
-                    b.Property<int>("RoleName")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("RoleId");
 
@@ -400,10 +401,6 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Qualification")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -455,15 +452,22 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("NumberOfReport")
                         .HasColumnType("int");
+
+                    b.Property<string>("Otp")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("OtpExpiredTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -483,8 +487,9 @@ namespace DAO.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
                         .IsRequired()
