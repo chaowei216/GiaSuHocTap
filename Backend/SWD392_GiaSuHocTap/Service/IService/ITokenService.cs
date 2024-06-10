@@ -19,5 +19,13 @@ namespace Service.IService
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<RefreshTokenResponseDTO> GenerateNewToken(string accessToken, string refreshToken);
+
+        /// <summary>
+        /// Verify token
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        ValidatedTokenDTO CheckValidToken(string accessToken, string refreshToken);
     }
 }

@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using Common.Constant.Message;
+using Common.DTO;
 using Common.DTO.Auth;
+using Common.DTO.Email;
 using Common.Enum;
 using DAO.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 using System.Security.Cryptography;
 
@@ -14,17 +18,23 @@ namespace Service.Service
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IRefreshTokenService _refreshTokenService;
+        private readonly IEmailService _emailService;
 
         public AuthService(IUserService userService,
                             ITokenService tokenService,
                             IConfiguration configuration,
-                            IMapper mapper)
+                            IMapper mapper,
+                            IRefreshTokenService refreshTokenService,
+                            IEmailService emailService)
         {
             _userService = userService;
             _tokenService = tokenService;
             _mapper = mapper;
             _configuration = configuration;
-        } 
+            _refreshTokenService = refreshTokenService;
+            _emailService = emailService;
+        }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
         {
@@ -37,7 +47,8 @@ namespace Service.Service
                     User = _mapper.Map<UserDTO>(user),
                     Token = null
                 };
-            } else
+            }
+            else
             {
                 // get user by email
                 user = _userService.GetUserByEmail(loginRequest.Email);
@@ -60,6 +71,33 @@ namespace Service.Service
             }
 
             return null;
+        }
+
+        public async Task<LogoutResponseDTO> LogOut(string refreshToken)
+        {
+            // update refresh token in db (revoke token)
+            var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
+
+            if (refreshTokenDb != null)
+            {
+                refreshTokenDb!.IsRevoked = true;
+
+                var updatedRefreshToken = await _refreshTokenService.UpdateRefreshToken(refreshTokenDb);
+
+                if (updatedRefreshToken != null)
+                {
+                    return new LogoutResponseDTO()
+                    {
+                        isSuccess = true,
+                        Message = AuthMessage.LogoutSuccess
+                    };
+                }
+            }
+
+            return new LogoutResponseDTO()
+            {
+                Message = AuthMessage.LogoutFail
+            };
         }
 
         // verify password hash
@@ -92,7 +130,7 @@ namespace Service.Service
 
             if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
             {
-                if(adminEmail == username && adminPassword == password)
+                if (adminEmail == username && adminPassword == password)
                 {
                     return new User
                     {
@@ -105,5 +143,115 @@ namespace Service.Service
             return null;
         }
 
+        public ResponseDTO CheckValidationForgotPassword(ForgotPasswordDTO model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model)
+        {
+            if (model.Email.IsNullOrEmpty())
+            {
+                var response = new ForgotPasswordResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = CreateUserMessage.NullEmail
+                };
+                return response;
+            }
+
+            var user = _userService.GetAllUsers().FirstOrDefault(c => c.Email == model.Email);
+            if (user == null)
+            {
+                return new ForgotPasswordResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = CreateUserMessage.NullEmail
+                };
+            }
+            return new ForgotPasswordResponseDTO()
+            {
+                IsSuccess = false,
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = CreateUserMessage.NullEmail
+            };
+
+        }
+
+        public ResponseDTO ForgotPassword(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = AuthMessage.UserNotFound,
+                    StatusCode = (int)StatusCodeEnum.NotFound
+                };
+            }
+
+            if (!user.IsVerified)
+            {
+                return new ResponseDTO()
+                {
+                    Message = AuthMessage.UserIsNotVerified,
+                    StatusCode = (int)StatusCodeEnum.NotFound
+                };
+            }
+
+            var otp = _emailService.GenerateOTP();
+            user.Otp = otp.OTPCode;
+
+            user.Otp = otp.OTPCode;
+            user.OtpExpiredTime = otp.ExpiredTime;
+
+            _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.ResetPassEmailSubject);
+
+            return new ResponseDTO()
+            {
+                Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
+                StatusCode = (int)StatusCodeEnum.Created,
+                Data = otp
+            };
+        }
+
+        public bool CheckUserVerifiedStatus(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            while(user != null)
+            {
+                if(user.IsVerified)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CheckOTPExpired(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetOtp(OtpCodeDTO otpDto, string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+
+            if (user != null)
+            {
+                user.Otp = otpDto.OTPCode;
+                user.OtpExpiredTime = otpDto.ExpiredTime;
+                _userService.UpdateUser(user);
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckOTP(string email, string otpCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

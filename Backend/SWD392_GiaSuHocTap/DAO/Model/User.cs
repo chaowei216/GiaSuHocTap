@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DAO.Model
 {
@@ -28,16 +30,20 @@ namespace DAO.Model
         public string City { get; set; } = null!;
         [Required]
         public string Gender { get; set; } = null!;
+        public string? Otp { get; set; }
+        public DateTime? OtpExpiredTime { get; set; }
+        [Required]
+        public bool IsVerified { get; set; }
         public int CoinBalance { get; set; }
-        [Required]
-        [Range(12, 12)]
-        public string IdentityNumber { get; set; } = null!;
-        [Required]
-        public string[] IdentityImage { get; set; } = null!;
+        [Range(12,12)]
+        public string? IdentityNumber { get; set; }
+        public string[]? IdentityImage { get; set; }
         public string UserImage { get; set; } = null!;
         public int NumberOfReport {  get; set; }
         [Required]
-        public bool Status { get; set; }
+        [Column(TypeName = "nvarchar(24)")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public UserStatusEnum Status { get; set; }
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; } = null!;

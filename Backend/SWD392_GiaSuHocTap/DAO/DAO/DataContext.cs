@@ -30,6 +30,16 @@ namespace DAO.DAO
         {
             base.OnModelCreating(modelBuilder);
 
+            #region entities
+            modelBuilder.Entity<Role>()
+                .Property(x => x.RoleName)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<User>()
+                .Property(x => x.Status)
+                .HasConversion<string>();
+            #endregion
+
             #region 1_1 relationship
             modelBuilder.Entity<User>()
                 .HasOne(t => t.TutorDetail)

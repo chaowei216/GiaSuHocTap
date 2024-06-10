@@ -97,6 +97,8 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IValidateHandleService, ValidateHandleService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Db context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

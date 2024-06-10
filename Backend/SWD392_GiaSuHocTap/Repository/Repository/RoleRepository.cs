@@ -27,5 +27,10 @@ namespace Repository.Repository
         {
             return await _roleDAO.GetByIdAsync(id);
         }
+
+        public Role? GetRoleByName(string name)
+        {
+            return _roleDAO.GetByCondition(x => x.RoleName.ToString() == name).FirstOrDefault();
+        }
     }
 }
