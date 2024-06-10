@@ -5,6 +5,7 @@ using DAO.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -35,7 +36,10 @@ namespace Service.Service
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, Enum.ToObject(typeof(RoleEnum), user.RoleId).ToString()!)
+                new Claim(ClaimTypes.Role, Enum.ToObject(typeof(RoleEnum), user.RoleId).ToString()!),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             // key
@@ -89,12 +93,27 @@ namespace Service.Service
 
             if (!isValidatedToken.IsValidated)
             {
+                if (isValidatedToken.Message == TokenMessage.UnExpiredToken)
+                {
+                    return new RefreshTokenResponseDTO()
+                    {
+                        Token = new TokenResponseDTO ()
+                        {
+                            AccessToken = accessToken,
+                            RefreshToken = refreshToken,
+                            ExpiresAt = DateTime.Now,
+                        },
+                        Message = isValidatedToken.Message!
+                    };
+                }
+
                 return new RefreshTokenResponseDTO()
                 {
                     Token = null,
                     Message = isValidatedToken.Message!
                 };
-            } else
+            }
+            else
             {
                 // Generate new token (with existing refresh token)
                 var dbRefreshToken = _refreshTokenService.GetRefreshTokenByToken(refreshToken!);

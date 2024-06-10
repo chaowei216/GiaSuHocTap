@@ -34,7 +34,7 @@ namespace Service.Service
             _configuration = configuration;
             _refreshTokenService = refreshTokenService;
             _emailService = emailService;
-        } 
+        }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
         {
@@ -47,7 +47,8 @@ namespace Service.Service
                     User = _mapper.Map<UserDTO>(user),
                     Token = null
                 };
-            } else
+            }
+            else
             {
                 // get user by email
                 user = _userService.GetUserByEmail(loginRequest.Email);
@@ -72,22 +73,13 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<LogoutResponseDTO> LogOut(string accessToken, string refreshToken)
+        public async Task<LogoutResponseDTO> LogOut(string refreshToken)
         {
-            // check if it is a valid token
-            var isValidToken = _tokenService.CheckValidToken(accessToken, refreshToken);
+            // update refresh token in db (revoke token)
+            var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
 
-            if (!isValidToken.IsValidated)
+            if (refreshTokenDb != null)
             {
-                return new LogoutResponseDTO()
-                {
-                    Message = isValidToken.Message!
-                };
-            } else
-            {
-                // update refresh token in db (revoke token)
-                var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
-
                 refreshTokenDb!.IsRevoked = true;
 
                 var updatedRefreshToken = await _refreshTokenService.UpdateRefreshToken(refreshTokenDb);
@@ -100,12 +92,12 @@ namespace Service.Service
                         Message = AuthMessage.LogoutSuccess
                     };
                 }
-
-                return new LogoutResponseDTO()
-                {
-                    Message = AuthMessage.LogoutFail
-                };
             }
+
+            return new LogoutResponseDTO()
+            {
+                Message = AuthMessage.LogoutFail
+            };
         }
 
         // verify password hash
@@ -138,7 +130,7 @@ namespace Service.Service
 
             if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
             {
-                if(adminEmail == username && adminPassword == password)
+                if (adminEmail == username && adminPassword == password)
                 {
                     return new User
                     {
@@ -172,12 +164,12 @@ namespace Service.Service
             var user = _userService.GetAllUsers().FirstOrDefault(c => c.Email == model.Email);
             if (user == null)
             {
-                return  new ForgotPasswordResponseDTO()
+                return new ForgotPasswordResponseDTO()
                 {
                     IsSuccess = false,
-                    StatusCode = (int) StatusCodeEnum.BadRequest,
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
                     Message = CreateUserMessage.NullEmail
-                }; 
+                };
             }
             return new ForgotPasswordResponseDTO()
             {
@@ -196,15 +188,16 @@ namespace Service.Service
                 return new ResponseDTO()
                 {
                     Message = AuthMessage.UserNotFound,
-                    StatusCode =(int) StatusCodeEnum.NotFound
+                    StatusCode = (int)StatusCodeEnum.NotFound
                 };
             }
 
             if (!user.IsVerified)
             {
-                return new ResponseDTO() { 
+                return new ResponseDTO()
+                {
                     Message = AuthMessage.UserIsNotVerified,
-                    StatusCode = (int) StatusCodeEnum.NotFound
+                    StatusCode = (int)StatusCodeEnum.NotFound
                 };
             }
 
@@ -219,7 +212,7 @@ namespace Service.Service
             return new ResponseDTO()
             {
                 Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
-                StatusCode = (int) StatusCodeEnum.Created,
+                StatusCode = (int)StatusCodeEnum.Created,
                 Data = otp
             };
         }

@@ -19,7 +19,7 @@ namespace Service.IService
         /// <param name="accessToken"></param>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        Task<LogoutResponseDTO> LogOut(string accessToken, string refreshToken);
+        Task<LogoutResponseDTO> LogOut(string refreshToken);
 
         /// <summary>
         /// Check validate input forgot password
