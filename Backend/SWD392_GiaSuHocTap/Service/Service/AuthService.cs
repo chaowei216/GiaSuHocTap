@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Constant.Message;
 using Common.DTO.Auth;
 using Common.Enum;
 using DAO.Model;
@@ -14,16 +15,19 @@ namespace Service.Service
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IRefreshTokenService _refreshTokenService;
 
         public AuthService(IUserService userService,
                             ITokenService tokenService,
                             IConfiguration configuration,
-                            IMapper mapper)
+                            IMapper mapper,
+                            IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
             _tokenService = tokenService;
             _mapper = mapper;
             _configuration = configuration;
+            _refreshTokenService = refreshTokenService;
         } 
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
@@ -60,6 +64,42 @@ namespace Service.Service
             }
 
             return null;
+        }
+
+        public async Task<LogoutResponseDTO> LogOut(string accessToken, string refreshToken)
+        {
+            // check if it is a valid token
+            var isValidToken = _tokenService.CheckValidToken(accessToken, refreshToken);
+
+            if (!isValidToken.IsValidated)
+            {
+                return new LogoutResponseDTO()
+                {
+                    Message = isValidToken.Message!
+                };
+            } else
+            {
+                // update refresh token in db (revoke token)
+                var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
+
+                refreshTokenDb!.IsRevoked = true;
+
+                var updatedRefreshToken = await _refreshTokenService.UpdateRefreshToken(refreshTokenDb);
+
+                if (updatedRefreshToken != null)
+                {
+                    return new LogoutResponseDTO()
+                    {
+                        isSuccess = true,
+                        Message = AuthMessage.LogoutSuccess
+                    };
+                }
+
+                return new LogoutResponseDTO()
+                {
+                    Message = AuthMessage.LogoutFail
+                };
+            }
         }
 
         // verify password hash
