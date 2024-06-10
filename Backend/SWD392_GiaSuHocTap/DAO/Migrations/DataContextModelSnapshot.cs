@@ -302,8 +302,9 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RoleId"));
 
-                    b.Property<int>("RoleName")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("RoleId");
 
@@ -397,10 +398,6 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Qualification")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -452,12 +449,13 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("NumberOfReport")
                         .HasColumnType("int");
@@ -480,8 +478,9 @@ namespace DAO.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
                         .IsRequired()
