@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./Navbar.module.css";
+import logo from "../../../../../public/img/Logo2.jpg";
 
 const Navbar = ({ hamActive, setHamActive }) => {
-  const logo =
-    "https://d2guulkeunn7d8.cloudfront.net/assets/beetstrap/brand/instacart-logo-color-4db9d81ca0b7638befdc4bd331f64a2633df790c0b55ef627c99b1ba77af72b7.svg";
   const handleClick = () => {
     setHamActive(!hamActive);
   };
@@ -18,13 +17,22 @@ const Navbar = ({ hamActive, setHamActive }) => {
           <div className={styles.navLinksWrapper}>
             <div className={styles.verticalLine}> </div>
             <a href="/" className={`${styles.nav} center`}>
-              Departments
+              TRANG CHỦ
             </a>
             <a href="/" className={`${styles.nav} center`}>
-              More ways to shop
+              PHỤ HUYNH
             </a>
             <a href="/" className={`${styles.nav} center`}>
-              Help
+              GIA SƯ
+            </a>
+            <a href="/" className={`${styles.nav} center`}>
+              LỚP MỚI
+            </a>
+            <a href="/" className={`${styles.nav} center`}>
+              TUYỂN DỤNG
+            </a>
+            <a href="/" className={`${styles.nav} center`}>
+              LIÊN HỆ
             </a>
           </div>
           <div>

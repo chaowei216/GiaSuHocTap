@@ -3,13 +3,13 @@ using DAO.DAO;
 using DAO.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;
 using Service.Service;
 using Service.Services;
+using SWD392_GiaSuHocTap.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,20 +26,27 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+var tokenValidationParameters =  new TokenValidationParameters
+{
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = jwtSettings!.Issuer,
+    ValidAudience = jwtSettings!.Audience,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.Key)),
+    ClockSkew = TimeSpan.Zero
+};
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings!.Issuer,
-                ValidAudience = jwtSettings!.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.Key))
-            };
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = tokenValidationParameters;
         });
+
+builder.Services.AddSingleton(tokenValidationParameters);
 
 // CORS
 builder.Services.AddCors(options =>
@@ -106,6 +113,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -5,19 +5,19 @@
   padding-bottom: 6rem;
 }
 .layout_container input {
-    padding-left: 8px;
+  padding-left: 8px;
 }
-.logoTutor{
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.logoTutor {
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.logoTutor img{
-    width: 40%;
+.logoTutor img {
+  width: 40%;
 }
-.layout_login{
-    background: url("/img/bg.png") center no-repeat;
-    background-size: cover;
-    height: 100vh;
+.layout_login {
+  background: url('/img/bg.png') center no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
