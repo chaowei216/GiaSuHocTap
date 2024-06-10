@@ -3,6 +3,7 @@
   height: min(10vh, 100px);
   z-index: 10000;
   position: relative;
+  background-color: #FFFFFF;
 }
 
 .navbarInner {
@@ -27,7 +28,7 @@
 
 .navLinksWrapper {
   display: flex;
-  width: 400px;
+  width: 600px;
 }
 
 .nav {
@@ -35,9 +36,10 @@
   font-weight: 600;
   margin: 0 10px;
   cursor: pointer;
+  transition: 0.5s;
 }
 .nav:hover {
-  color: #343538;
+  color: #4dccda;
 }
 
 .verticalLine {
@@ -47,7 +49,7 @@
 }
 
 .brand {
-  width: 80%;
+  width: 70%;
   cursor: pointer;
 }
 
@@ -63,7 +65,7 @@
 .signup {
   padding: 0.7rem 1.1rem;
   border-radius: 50px;
-  background: #0aad0a;
+  background: #4DA8DA;
   color: white;
   font-weight: bold;
   font-size: 18px;
@@ -71,6 +73,10 @@
   cursor: pointer;
   outline-style: none;
   border-style: none;
+  transition: 0.5s;
+}
+.signup:hover{
+  background-color: #4dccda;
 }
 
 /* HAMBURGER */
@@ -216,4 +222,8 @@
   .navbarInner {
     overflow: hidden;
   }
+}
+
+.nav{
+   text-decoration: none;
 }

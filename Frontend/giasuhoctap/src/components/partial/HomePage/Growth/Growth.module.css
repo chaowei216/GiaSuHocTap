@@ -52,6 +52,7 @@
   padding: 10px 32.5px 10px 10px;
 }
 
+
 @media (max-width: 1200px) {
   .growthHeading {
     width: 50%;
@@ -86,17 +87,6 @@
   }
 }
 
-@media (max-width: 750px) {
-  .img1 {
-    display: none;
-  }
-  .img2 {
-    display: flex;
-  }
-  .growthImg img {
-    height: 100%;
-  }
-}
 
 @media (max-width: 500px) {
   .growthHeading {
@@ -107,3 +97,101 @@
     font-size: 1.5rem;
   }
 }
+
+/*new css */
+
+.listReview h1{
+  margin-left: 155px;
+        font-size: 30px;
+        font-weight: 700;
+        color: #EC1C24;
+}
+
+.reasonChoose .icon{
+  font-size: 23px;
+    color: #FFC83D;
+    filter: drop-shadow(0px 0px 1px black);
+    margin-right: 10px;
+
+}
+
+.reasonChoose p{
+  margin-left: 150px;
+  color: #016BF8;
+  font-size: 25px;
+  max-width: 660px;
+}
+
+.reasonTitle{
+  display: flex;
+  margin-left: 130px;
+  
+}
+
+.boderIcon{
+  border: 1px solid #00A96C;
+  width: 50px;
+  height: 50px;
+  padding-top: 10px;
+  border-radius: 50px;
+  margin-right: 20px;
+  margin-left: 10px;
+  position:relative;
+}
+
+.boderIcon::before{
+  content: "";
+  position: absolute;
+  left: 45%;
+  top: 3rem;
+  bottom: -8.5rem;
+  border-left: 2px dashed #00A96C;
+}
+
+.reasonTitle + .reasonTitle .boderIcon::before {
+  bottom: -10.4rem;
+}
+
+.reasonTitle:last-child .boderIcon:before {
+  border-left: none
+}
+
+.reasonTitle .icon{
+  margin-left: 10px;
+  margin-right: 20px;
+  font-size: 25px;
+  color: #00A96C;
+}
+
+.reasonContent{
+  border: 1px solid;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+
+.reasonContent {
+  max-width: 500px;
+  margin-left: 25px;
+}
+
+.reasonContent h3{
+  margin: 10px 15px 10px 15px;
+}
+
+.reasonContent p{
+  font-size: 20px;
+  color: #5C6C75;
+  padding: 0 10px;
+}
+
+.img1{
+  width: 90%;
+  height: 65%;
+  margin-left: 95%;
+}
+
+
+
+
+

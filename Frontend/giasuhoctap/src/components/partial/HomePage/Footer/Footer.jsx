@@ -1,58 +1,38 @@
-import React from "react";
-import styles from "./Footer.module.css";
+// src/Footer.js
+import React from 'react';
+import styles from './Footer.module.css';
+import logo from "../../../../../public/img/Logo2.jpg";
 
 const Footer = () => {
   return (
-    <nav className={`${styles.navbarWrapper} center`}>
-      <div className={`${styles.navbarColumn} center`}>
-        <div className={`${styles.navbarInner} center`}>
-          <div className={`${styles.navLeft}`}>Legal</div>
-          <div className="center">
-            <a href="/" className={`${styles.navLink}`}>
-              Terms of use
-            </a>
-            <a href="/" className={`${styles.navLink}`}>
-              Privacy policy
-            </a>
-          </div>
-          <div>
-            <span>
-              <a href="#facebook" className="fab fa-facebook-square">
-                {" "}
-              </a>
-            </span>
-            <span>
-              <a href="#linkedin" className="fab fa-twitter">
-                {" "}
-              </a>
-            </span>
-            <span>
-              <a
-                href="#instagram"
-                className="fab fa-instagram"
-                style={{ color: "black" }}
-              >
-                {" "}
-              </a>
-            </span>
-            <span>
-              <a href="#pinterest" className="fab fa-pinterest">
-                {" "}
-              </a>
-            </span>
-          </div>
-          {/* </div> */}
+    <footer className={styles.footer}>
+      <div className={styles.footerContent}>
+        <div className={styles.footerSection}>
+          <h3>Về Chúng Tôi</h3>
+          {/* <p>Công ty Gia Sư...</p> */}
+          <img src={logo} alt="logo" className={styles.brand} />
         </div>
-        <div className={`${styles.footerText} center`}>
-          <p>
-            Apple and the Apple logo are trademarks of Apple Inc., registered in
-            the U.S. and other countries. App Store is a service mark of Apple
-            Inc. Android, Google Play and the Google Play logo are trademarks of
-            Google LLC.
-          </p>
+        <div className={styles.footerSection}>
+          <h3>Liên Kết Nhanh</h3>
+          <ul>
+            <li><a href="/">Trang Chủ</a></li>
+            <li><a href="/services">Dịch Vụ</a></li>
+            <li><a href="/contact">Liên Hệ</a></li>
+            <li><a href="/about">Về Chúng Tôi</a></li>
+          </ul>
+        </div>
+        <div className={styles.footerSection}>
+          <h3>Liên Hệ</h3>
+          <p>Địa chỉ: 123 Đường ABC, TP HCM</p>
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: contact@giasuhoctap.com</p>
         </div>
       </div>
-    </nav>
+      <div className={styles.footerBottom}>
+        &copy; {new Date().getFullYear()} Gia Sư Học Tâp. All rights reserved.
+      </div>
+    </footer>
   );
 };
+
 export default Footer;
