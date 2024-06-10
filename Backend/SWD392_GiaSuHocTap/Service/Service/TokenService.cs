@@ -53,7 +53,7 @@ namespace Service.Service
                             _configuration["Jwt:Issuer"]!,
                             _configuration["Jwt:Audience"],
                             claims,
-                            expires: DateTime.Now.AddMinutes(15),
+                            expires: DateTime.Now.AddHours(7).AddMinutes(15),
                             signingCredentials: credentials);
 
             // write jwt token
@@ -155,7 +155,7 @@ namespace Service.Service
 
             var expiryDate = UnixTimeStampToDateTimeInUTC(utcExpiryDate);
 
-            if (expiryDate > DateTime.UtcNow)
+            if (expiryDate > DateTime.Now)
                 return new ValidatedTokenDTO()
                 {
                     Message = TokenMessage.UnExpiredToken
@@ -180,7 +180,7 @@ namespace Service.Service
                         Message = TokenMessage.NotMatched
                     }; ;
 
-                if (dbRefreshToken.DateExpired <= DateTime.UtcNow)
+                if (dbRefreshToken.DateExpired <= DateTime.Now)
                     return new ValidatedTokenDTO()
                     {
                         Message = TokenMessage.ExpiredRefreshToken
