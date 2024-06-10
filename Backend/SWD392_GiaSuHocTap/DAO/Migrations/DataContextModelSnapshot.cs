@@ -460,6 +460,12 @@ namespace DAO.Migrations
                     b.Property<int>("NumberOfReport")
                         .HasColumnType("int");
 
+                    b.Property<string>("Otp")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("OtpExpiredTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("longblob");

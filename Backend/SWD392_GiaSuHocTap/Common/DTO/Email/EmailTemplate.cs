@@ -9,7 +9,7 @@ namespace Common.DTO.Email
     public static class EmailTemplate
     {
         public const string logoUrl = "https://th.bing.com/th/id/OIP.kIhqHrBdGP_opgoX-u7_jQHaFP?rs=1&pid=ImgDetMain";
-        public static string OTPEmailTemplate(string userName, string otpCode, string subject)
+        public static string OTPEmailTemplate(string userEmail, string otpCode, string subject)
         {
             string htmlTemplate = @"<head>    
         <meta content=""text/html; charset=utf-8"" http-equiv=""Content-Type"">
@@ -82,14 +82,14 @@ namespace Common.DTO.Email
 </html>
 ";
             htmlTemplate = htmlTemplate.Replace("{OTP_CODE}", otpCode)
-                .Replace("{USER_NAME}", userName)
+                .Replace("{USER_NAME}", userEmail)
                 .Replace("{LOGO_URL}", logoUrl)
                 .Replace("{TITLE}", subject);
 
             return htmlTemplate;
         }
 
-        public static string WelcomeEmailTemplate(string userName, string subject)
+        public static string WelcomeEmailTemplate(string userEmail, string subject)
         {
             string htmlTemplate = @"<head>
     <meta content=""text/html; charset=utf-8"" http-equiv=""Content-Type"">
@@ -189,7 +189,7 @@ namespace Common.DTO.Email
 
 </html>";
             htmlTemplate = htmlTemplate
-                .Replace("{USER_NAME}", userName)
+                .Replace("{USER_NAME}", userEmail)
                 .Replace("{LOGO_URL}", logoUrl)
                 .Replace("{TITLE}", subject);
 

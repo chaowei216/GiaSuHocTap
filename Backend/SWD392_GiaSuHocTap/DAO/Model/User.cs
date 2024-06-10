@@ -30,6 +30,8 @@ namespace DAO.Model
         public string City { get; set; } = null!;
         [Required]
         public string Gender { get; set; } = null!;
+        public string? Otp { get; set; }
+        public DateTime? OtpExpiredTime { get; set; }
         [Required]
         public bool IsVerified { get; set; }
         public int CoinBalance { get; set; }

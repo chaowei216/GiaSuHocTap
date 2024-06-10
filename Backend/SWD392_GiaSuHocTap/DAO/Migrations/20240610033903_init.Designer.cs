@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240610023122_init")]
+    [Migration("20240610033903_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -462,6 +462,12 @@ namespace DAO.Migrations
 
                     b.Property<int>("NumberOfReport")
                         .HasColumnType("int");
+
+                    b.Property<string>("Otp")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("OtpExpiredTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()

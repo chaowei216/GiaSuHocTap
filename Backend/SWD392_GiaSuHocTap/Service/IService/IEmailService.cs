@@ -12,7 +12,7 @@ namespace Service.IService
         /// <param name="userEmail"></param>
         /// <param name="userName"></param>
         /// <param name="otpCode"></param>
-        void SendOTPEmail(string userEmail, string userName, string otpCode, string subject);
+        void SendOTPEmail(string userEmail, string otpCode, string subject);
 
         /// <summary>
         /// Send welcome email
@@ -21,6 +21,6 @@ namespace Service.IService
         /// <param name="userName"></param>
         /// <param name="otpCode"></param>
         /// <param name="subject"></param>
-        void SendWelcomeEmail(string userEmail, string userName, string subject);
+        void SendWelcomeEmail(string userEmail, string subject);
     }
 }

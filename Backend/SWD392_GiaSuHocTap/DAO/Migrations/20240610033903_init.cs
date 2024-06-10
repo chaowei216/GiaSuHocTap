@@ -105,6 +105,9 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Otp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OtpExpiredTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsVerified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CoinBalance = table.Column<int>(type: "int", nullable: false),
                     IdentityNumber = table.Column<string>(type: "longtext", nullable: true)

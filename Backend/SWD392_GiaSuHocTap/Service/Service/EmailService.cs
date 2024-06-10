@@ -26,11 +26,11 @@ namespace Service.Service
             return otpDto;
         }
 
-        public void SendOTPEmail(string userEmail, string userName, string otpCode, string subject)
+        public void SendOTPEmail(string userEmail, string otpCode, string subject)
         {
             var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];
             var toEmail = userEmail;
-            var htmlBody = EmailTemplate.OTPEmailTemplate(userName, otpCode, subject);
+            var htmlBody = EmailTemplate.OTPEmailTemplate(userEmail, otpCode, subject);
             MailMessage mailMessage = new MailMessage(sendEmail, toEmail, subject, htmlBody);
             mailMessage.IsBodyHtml = true;
 
@@ -47,11 +47,11 @@ namespace Service.Service
             client.Send(mailMessage);
         }
 
-        public void SendWelcomeEmail(string userEmail, string userName, string subject)
+        public void SendWelcomeEmail(string userEmail, string subject)
         {
             var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];
             var toEmail = userEmail;
-            var htmlBody = EmailTemplate.WelcomeEmailTemplate(userName, subject);
+            var htmlBody = EmailTemplate.WelcomeEmailTemplate(userEmail, subject);
             MailMessage mailMessage = new MailMessage(sendEmail, toEmail, subject, htmlBody);
             mailMessage.IsBodyHtml = true;
 

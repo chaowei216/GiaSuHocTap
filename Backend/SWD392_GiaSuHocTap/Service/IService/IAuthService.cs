@@ -1,4 +1,5 @@
-﻿using Common.DTO.Auth;
+﻿using Common.DTO;
+using Common.DTO.Auth;
 
 namespace Service.IService
 {
@@ -18,5 +19,27 @@ namespace Service.IService
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<LogoutResponseDTO> LogOut(string accessToken, string refreshToken);
+
+        /// <summary>
+        /// Check validate input forgot password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ResponseDTO CheckValidationForgotPassword(ForgotPasswordDTO model);
+
+
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model);
+
+        /// <summary>
+        /// Send code to reset password
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        ResponseDTO ForgotPassword(string email);
     }
 }
