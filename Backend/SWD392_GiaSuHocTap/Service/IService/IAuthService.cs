@@ -1,5 +1,6 @@
 ﻿using Common.DTO;
 using Common.DTO.Auth;
+using Common.DTO.Email;
 
 namespace Service.IService
 {
@@ -41,5 +42,9 @@ namespace Service.IService
         /// <param name="email"></param>
         /// <returns></returns>
         ResponseDTO ForgotPassword(string email);
+        bool CheckUserVerifiedStatus(string email);
+        bool CheckOTPExpired(string email);
+        bool SetOtp(OtpCodeDTO otpDto, string email);
+        bool CheckOTP(string email, string otpCode);
     }
 }

@@ -9,6 +9,7 @@ namespace Common.Constant.Message
     public static class CreateUserMessage
     {
         public const string CreateSuccess = "Create success";
+        public const string CreateFail = "Create fail";
 
         public const string NullUserName = "Please input username";
 

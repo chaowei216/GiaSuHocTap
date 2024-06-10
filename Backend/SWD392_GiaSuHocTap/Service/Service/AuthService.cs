@@ -216,5 +216,42 @@ namespace Service.Service
                 Data = otp
             };
         }
+
+        public bool CheckUserVerifiedStatus(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            while(user != null)
+            {
+                if(user.IsVerified)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CheckOTPExpired(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetOtp(OtpCodeDTO otpDto, string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+
+            if (user != null)
+            {
+                user.Otp = otpDto.OTPCode;
+                user.OtpExpiredTime = otpDto.ExpiredTime;
+                _userService.UpdateUser(user);
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckOTP(string email, string otpCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

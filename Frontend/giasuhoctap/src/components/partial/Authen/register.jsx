@@ -36,7 +36,7 @@ export default function Register() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      image: values.image,
+      image: values.imageUser,
       district: values.district,
     };
     console.log(user);
@@ -52,7 +52,7 @@ export default function Register() {
       gender: "",
       city: "",
       address: "",
-      image: [],
+      imageUser: [],
       district: "",
     },
     onSubmit: (values) => {
@@ -254,7 +254,10 @@ export default function Register() {
               <Grid item xs={12}>
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
-                  content={"Upload hình (tùy chọn)"}
+                  formik={formik}
+                  content={"Upload ảnh thẻ (tùy chọn)"}
+                  fieldName="imageUser"
+                  size={1}
                 />
               </Grid>
               <Grid item xs={12}>

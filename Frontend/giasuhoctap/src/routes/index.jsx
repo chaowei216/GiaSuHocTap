@@ -9,6 +9,7 @@ import GuestAuth from "../components/partial/Authen/GuestAuth";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import TutorPage from "../pages/TutorPage/TutorPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
+import Profile from "../components/partial/HomePage/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -21,5 +22,6 @@ export const router = createBrowserRouter([
   { path: "registerTutors", element: <RegisterTutorPage /> },
   { path: "test", element: <DashboardPage /> },
   { path: "tutor", element: <TutorPage /> },
-  { path: "forgot-password", element: <ForgotPasswordPage /> }
+  { path: "forgot-password", element: <ForgotPasswordPage /> },
+  { path: "Profile", element: <Profile /> }
 ]);
