@@ -28,20 +28,20 @@ const handlers = {
       user,
     };
   },
-//   LOGOUT: (state) => ({
-//     ...state,
-//     isAuthenticated: false,
-//     user: null,
-//   }),
-//   REGISTER: (state, action) => {
-//     const { user } = action.payload;
+  //   LOGOUT: (state) => ({
+  //     ...state,
+  //     isAuthenticated: false,
+  //     user: null,
+  //   }),
+  //   REGISTER: (state, action) => {
+  //     const { user } = action.payload;
 
-//     return {
-//       ...state,
-//       isAuthenticated: true,
-//       user,
-//     };
-//   },
+  //     return {
+  //       ...state,
+  //       isAuthenticated: true,
+  //       user,
+  //     };
+  //   },
 };
 
 const reducer = (state, action) =>
@@ -64,7 +64,7 @@ function AuthProvider1({ children }) {
     const initialize = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-
+        const refreshToken = localStorage.getItem("refreshToken");
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
@@ -79,6 +79,10 @@ function AuthProvider1({ children }) {
               user: user,
             },
           });
+          //gio lay 1 api lay coi cai refresh token con han k
+          //neu con han thi se goi cai setSession de lay cai' acceessToken moi
+        } else if (accessToken && !isValidToken(accessToken) && isValidToken(refreshToken)) {
+          console.log("zz");
         } else {
           setSession(null);
           dispatch({
@@ -104,16 +108,18 @@ function AuthProvider1({ children }) {
     initialize();
   }, []);
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     const userInput = {
-        username: username,
-        password: password
+      email: email,
+      password: password
     }
-    const response = await SignIn(userInput) 
+    const response = await SignIn(userInput)
     const responseJson = await response.json();
-    const { accessToken, user } = responseJson.result;
+    console.log(responseJson);
+    const { token, user } = responseJson.data;
     //localStorage.setItem("accessToken", accessToken);
-    setSession(accessToken);
+    console.log(token.accessToken);
+    setSession(token.accessToken, token.refreshToken);
     dispatch({
       type: "LOGIN",
       payload: {
@@ -122,37 +128,37 @@ function AuthProvider1({ children }) {
     });
   };
 
-//   const register = async (
-//     email,
-//     password,
-//     firstName,
-//     lastName,
-//     displayName
-//   ) => {
-//     const object = {
-//         email: email,
-//     }
+  //   const register = async (
+  //     email,
+  //     password,
+  //     firstName,
+  //     lastName,
+  //     displayName
+  //   ) => {
+  //     const object = {
+  //         email: email,
+  //     }
 
-//     const response = await axios.post("/users/register", formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-//     const { accessToken, user } = response.data.data;
+  //     const response = await axios.post("/users/register", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     const { accessToken, user } = response.data.data;
 
-//     window.localStorage.setItem("accessToken", accessToken);
-//     dispatch({
-//       type: "REGISTER",
-//       payload: {
-//         user,
-//       },
-//     });
-//   };
+  //     window.localStorage.setItem("accessToken", accessToken);
+  //     dispatch({
+  //       type: "REGISTER",
+  //       payload: {
+  //         user,
+  //       },
+  //     });
+  //   };
 
-//   const logout = async () => {
-//     setSession(null);
-//     dispatch({ type: "LOGOUT" });
-//   };
+  //   const logout = async () => {
+  //     setSession(null);
+  //     dispatch({ type: "LOGOUT" });
+  //   };
 
   return (
     <AuthContext1.Provider
