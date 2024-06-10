@@ -30,6 +30,7 @@ const handleTokenExpired = (exp, refreshToken) => {
     console.log("expired");
     // You can do what ever you want here, like show a notification
     // cái này thì chắc là cho cái handleTokenExpired nhận thêm parameter là (accessToken, refreshToken)
+    // roi cai nay cung v tra ve response xong 400 thi remove con 200 thi set access va refresh moi xong.
     alert("het han");
   }, timeLeft);
 };

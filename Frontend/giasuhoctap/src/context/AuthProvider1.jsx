@@ -66,7 +66,7 @@ function AuthProvider1({ children }) {
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
         if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
+          setSession(accessToken, refreshToken);
 
           const response = await GetUserByAccessToken(accessToken)
           const responseJson = await response.json();
@@ -79,10 +79,8 @@ function AuthProvider1({ children }) {
               user: user,
             },
           });
-          //gio lay 1 api lay coi cai refresh token con han k
-          //neu con han thi se goi cai setSession de lay cai' acceessToken moi
-        } else if (accessToken && !isValidToken(accessToken) && isValidToken(refreshToken)) {
-          console.log("zz");
+      // ne gio sau cai else la se dung` api refresh token neu no tra ve status code 400 thi minh chay cai set 
+      // session(null) con ra true 200 thi set session la 2 cai responseJson la access va refresh          
         } else {
           setSession(null);
           dispatch({
