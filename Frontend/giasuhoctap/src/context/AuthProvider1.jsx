@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import { GetUserByAccessToken, SignIn } from "../api/AuthenApi";
-
+import { isValidToken, setSession } from "../utils/jwtValid"
 //---------------
 
 const initialState = {
@@ -65,8 +65,8 @@ function AuthProvider1({ children }) {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        if (accessToken) {
-            localStorage.setItem("accessToken", accessToken);
+        if (accessToken && isValidToken(accessToken)) {
+          setSession(accessToken);
 
           const response = await GetUserByAccessToken(accessToken)
           const responseJson = await response.json();
@@ -80,6 +80,7 @@ function AuthProvider1({ children }) {
             },
           });
         } else {
+          setSession(null);
           dispatch({
             type: "INITIALIZE",
             payload: {
@@ -111,7 +112,8 @@ function AuthProvider1({ children }) {
     const response = await SignIn(userInput) 
     const responseJson = await response.json();
     const { accessToken, user } = responseJson.result;
-    localStorage.setItem("accessToken", accessToken);
+    //localStorage.setItem("accessToken", accessToken);
+    setSession(accessToken);
     dispatch({
       type: "LOGIN",
       payload: {
