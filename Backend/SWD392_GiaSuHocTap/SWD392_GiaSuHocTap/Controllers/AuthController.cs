@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 using Service.Service;
+using System.ComponentModel.DataAnnotations;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -130,6 +132,38 @@ namespace SWD392_GiaSuHocTap.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user-by-token")]
+        public async Task<IActionResult> GetUserByToken([Required] string refreshToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _tokenService.GetUserByToken(refreshToken);
+
+            if (response != null && response.User != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = response.Message!,
+                    Data = response.User
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = response!.Message!,
+                Data = null
+            });
+        }
         
     }
 }
