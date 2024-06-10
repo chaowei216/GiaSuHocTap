@@ -34,6 +34,9 @@ li {
   margin: 10px;
   color: #231f20;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .slick-prev:before{
   color: rgb(232, 28, 75);

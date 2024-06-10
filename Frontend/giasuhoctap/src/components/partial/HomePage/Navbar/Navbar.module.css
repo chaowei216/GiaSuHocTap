@@ -3,7 +3,7 @@
   height: min(10vh, 100px);
   z-index: 10000;
   position: relative;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .navbarInner {
@@ -28,7 +28,6 @@
 
 .navLinksWrapper {
   display: flex;
-  width: 600px;
 }
 
 .nav {
@@ -65,7 +64,7 @@
 .signup {
   padding: 0.7rem 1.1rem;
   border-radius: 50px;
-  background: #4DA8DA;
+  background: #4da8da;
   color: white;
   font-weight: bold;
   font-size: 18px;
@@ -75,7 +74,7 @@
   border-style: none;
   transition: 0.5s;
 }
-.signup:hover{
+.signup:hover {
   background-color: #4dccda;
 }
 
@@ -224,6 +223,6 @@
   }
 }
 
-.nav{
-   text-decoration: none;
+.nav {
+  text-decoration: none;
 }

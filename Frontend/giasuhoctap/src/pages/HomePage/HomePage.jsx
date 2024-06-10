@@ -17,7 +17,6 @@ import { programs_shopper } from "../../data/programs_shopper";
 
 const HomePage = () => {
   const [hamActive, setHamActive] = useState(false);
-
   return (
     <div className="App">
       <Navbar hamActive={hamActive} setHamActive={setHamActive} />

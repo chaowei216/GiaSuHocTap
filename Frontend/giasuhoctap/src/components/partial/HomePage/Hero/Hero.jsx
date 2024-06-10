@@ -4,7 +4,7 @@ import styles from './Hero.module.css';
 import carousel1 from "../../../../../public/img/Carousel1.jpg";
 import carousel2 from "../../../../../public/img/Carousel2.jpg";
 import carousel3 from "../../../../../public/img/Carousel3.jpg";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const Hero = () => {
   const items = [
     {
