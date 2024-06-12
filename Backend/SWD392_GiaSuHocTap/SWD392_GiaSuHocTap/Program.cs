@@ -110,7 +110,6 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 //seed data
-builder.Services.AddTransient<DataSeed>();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);
