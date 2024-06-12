@@ -9,5 +9,7 @@
         public const string ExpiredRefreshToken = "Your refresh token has expired, please re-authenticate";
         public const string IsRevoked = "Refresh token is revoked";
         public const string SuccessfullyCreated = "Create token successfully";
+        public const string GetUserSuccess = "Get User by token successfully";
+        public const string GetUserFail = "User is not existed";
     }
 }
