@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Navbar.module.css';
-import logo from '../../../../../public/img/logoGiasu.png';
+import logo from '../../../../../public/img/logoGiasu2.png';
 
 const Navbar = () => {
   return (
