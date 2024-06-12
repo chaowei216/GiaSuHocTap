@@ -19,6 +19,44 @@ export const SignIn = async (value) => {
     }
 };
 
+export const RegisterParent = async (formData) => {
+    try {
+        const response = await fetch(`${baseUrl}/api/Auth/register-parent`, {
+          method: "POST",
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+          body: formData,
+        });
+        if (!response.ok) {
+        console.error('There was a problem with API')
+        }
+        return response;
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+      }
+};
+
+export const RegisterTutor = async (formData) => {
+    try {
+        const response = await fetch(`${baseUrl}/api/Auth/register-tutor`, {
+          method: "POST",
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+          body: formData,
+        });
+        if (!response.ok) {
+        console.error('There was a problem with API')
+        }
+        return response;
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
+      }
+};
+
 export const RefreshToken = (accessToken, refreshToken) => {
     const url = `${baseUrl}/api/Auth/refresh-token`;
     const request = {

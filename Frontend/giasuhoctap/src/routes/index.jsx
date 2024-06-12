@@ -10,6 +10,7 @@ import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import TutorPage from "../pages/TutorPage/TutorPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 import Profile from "../components/partial/HomePage/Profile/Profile";
+import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,10 +19,11 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
   },
   { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
-  { path: "registerParents", element: <RegisterPage /> },//<RequireAuth></RequireAuth> },
+  { path: "registerParents", element: <RegisterPage />},//<RequireAuth></RequireAuth> },
   { path: "registerTutors", element: <RegisterTutorPage /> },
   { path: "test", element: <DashboardPage /> },
   { path: "tutor", element: <TutorPage /> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
-  { path: "Profile", element: <Profile /> }
+  { path: "Profile", element: <Profile /> },
+  { path: "send-otp/:email", element: <SendOtpPage /> }
 ]);
