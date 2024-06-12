@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240612030648_init")]
+    [Migration("20240612040607_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -334,7 +334,6 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Period")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("StartTime")
@@ -504,7 +503,6 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("YoutubeLink")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("UserId");

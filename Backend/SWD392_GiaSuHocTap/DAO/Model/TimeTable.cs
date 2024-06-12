@@ -15,7 +15,7 @@ namespace DAO.Model
         [AllowNull]
         public DateTime? EndTime { get; set; }
         [AllowNull]
-        public string Period { get; set; } = null!;
+        public string? Period { get; set; } = null!;
         public string Status { get; set; } = null!;
         public string LearningType { get; set; } = null!;
         public int UserId { get; set; }
