@@ -331,7 +331,6 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Period")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("StartTime")
@@ -501,7 +500,6 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("YoutubeLink")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("UserId");
