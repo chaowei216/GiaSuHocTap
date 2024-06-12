@@ -27,5 +27,13 @@ namespace Service.IService
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         ValidatedTokenDTO CheckValidToken(string accessToken, string refreshToken);
+
+        /// <summary>
+        /// Get user by current token
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        Task<UserByTokenDTO> GetUserByToken(string refreshToken);
     }
 }

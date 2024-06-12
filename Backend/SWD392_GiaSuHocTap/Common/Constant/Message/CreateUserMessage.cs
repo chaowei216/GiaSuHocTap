@@ -9,6 +9,7 @@ namespace Common.Constant.Message
     public static class CreateUserMessage
     {
         public const string CreateSuccess = "Create success";
+
         public const string CreateFail = "Create fail";
 
         public const string NullUserName = "Please input username";
@@ -58,5 +59,7 @@ namespace Common.Constant.Message
         public const string NullCity = "Please select city";
 
         public const string CheckSuccess = "Check validate success";
+
+        public const string InValidFile = "Invalid file";
     }
 }

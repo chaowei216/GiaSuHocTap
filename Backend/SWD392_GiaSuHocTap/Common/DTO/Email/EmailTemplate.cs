@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.DTO.Email
+﻿namespace Common.DTO.Email
 {
     public static class EmailTemplate
     {
-        public const string logoUrl = "https://th.bing.com/th/id/OIP.kIhqHrBdGP_opgoX-u7_jQHaFP?rs=1&pid=ImgDetMain";
+        public const string logoUrl = "https://giasusuphamdangkhoa.com/mediaroot/media/userfiles/useruploads/311/image/side/21327083555_f6b61e2e5c_o.png";
         public static string OTPEmailTemplate(string userEmail, string otpCode, string subject)
         {
             string htmlTemplate = @"<head>    
@@ -65,13 +59,13 @@ namespace Common.DTO.Email
             </div>
             <div class=""title"">
                 <p>Hello {USER_NAME}</p>
-                <p>OTP code of your InnerCode E-Commerce account is </p>
+                <p>OTP code of your GiaSuHocTap account is </p>
             </div>
             <div class=""OTPCode"">
                 <h1>{OTP_CODE}</h1>
             </div>
             <div class=""notice"">
-                <p>Expires in 15 minutes. <span class=""do-not""> DO NOT share this code with others, including InnerCode E-Commerce employees.</span>
+                <p>Expires in 15 minutes. <span class=""do-not""> DO NOT share this code with others, including GiaSuHocTap employees.</span>
                 </p>
             </div>
             <div class=""footer"">
@@ -155,8 +149,8 @@ namespace Common.DTO.Email
     <div class=""content"">
         <div class=""welcome-text"">
             <p>Hello {USER_NAME}</p>
-            <p>We are delighted to welcome you to InnerShop! We appreciate your interest and trust in our service.</p>
-            <p>InnerShop is more than just a shopping platform; it's a vibrant community where you can discover the
+            <p>We are delighted to welcome you to GiaSuHocTap! We appreciate your interest and trust in our service.</p>
+            <p>GiaSuHocTap is more than just a shopping platform; it's a vibrant community where you can discover the
                 latest
                 products, access exciting offers, and enjoy exceptional customer service.</p>
         </div>
@@ -175,10 +169,10 @@ namespace Common.DTO.Email
         <div class=""end-text"">
             <p>Feel free to explore our app and reach out if you have any questions or concerns. We're here to help you have
                 the best shopping experience possible.</p>
-            <p>Once again, welcome to InnerShop! We hope you have exciting and satisfying experiences here.</p>
+            <p>Once again, welcome to GiaSuHocTap! We hope you have exciting and satisfying experiences here.</p>
         </div>
         <p>Best regards,</p>
-        <p>The InnerShop Team</p>
+        <p>The GiaSuHocTap Team</p>
         </p>
     </div>
     <div class=""footer"">

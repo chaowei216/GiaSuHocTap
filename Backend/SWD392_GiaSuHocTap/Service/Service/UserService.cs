@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Common.Constant.Firebase;
 using Common.Constant.Message;
-using Common.DTO;
+using Common.DTO.Email;
 using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Http;
 using Repository.IRepository;
 using Service.IService;
 using System.Security.Cryptography;
@@ -14,28 +18,58 @@ namespace Service.Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IValidateHandleService _validateHandleService;
-        private readonly IRoleService _roleService;
+        private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IValidateHandleService validateHandleService,
-                           IRoleService roleService)
+        public UserService(IUserRepository userRepository, IMapper mapper, IValidateHandleService validateHandleService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _validateHandleService = validateHandleService;
-            _roleService = roleService;
+
+            string pathToJsonFile = "firebase.json";
+
+            try
+            {
+                // Create GoogleCredential from the JSON file
+                GoogleCredential credential = GoogleCredential.FromFile(pathToJsonFile)
+                    .CreateScoped(FirebaseLink.LinkFirebase);
+
+                // Create StorageClient with the provided credential
+                _storageClient = StorageClient.Create(credential);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions related to credential creation
+                throw new Exception(FirebaseLink.FailToCreatCer + ex.Message);
+            }
         }
 
-        public async Task<ParentCreateResponseDTO> AddNewParent(ParentCreateRequestDTO parent)
+        public async Task<ParentCreateResponseDTO> AddNewParent(ParentCreateRequestDTO parent, IFormFile userImageUrl)
         {
             var userMap = _mapper.Map<User>(parent);
+            string image = string.Empty;
+
+            // Generate a unique name for each image file
+            var imageName = Guid.NewGuid().ToString() + Path.GetExtension(userImageUrl.FileName);
+            image = imageName;
+            // Upload each image to Firebase Storage
+            using (var stream = userImageUrl.OpenReadStream())
+            {
+                await _storageClient.UploadObjectAsync(
+                    bucket: "giasuhoctap-91d48.appspot.com",
+                    objectName: imageName,
+                    contentType: userImageUrl.ContentType,
+                    source: stream);
+            }
 
             CreatePasswordHash(parent.Password, out byte[] passwordHash, out byte[] passwordSalt);
             userMap.PasswordHash = passwordHash;
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
-            userMap.RoleId = (int)RoleEnum.Parent + 1;
+            userMap.RoleId = (int)RoleEnum.Parents + 1;
             userMap.Status = UserStatusEnum.Active;
+            userMap.UserImage = image;
 
             userMap = await _userRepository.AddNewParent(userMap);
 
@@ -58,27 +92,93 @@ namespace Service.Service
             }
         }
 
-        public async Task<TutorCreateResponseDTO> AddNewTutor(TutorCreateRequestDTO tutor)
+        public async Task<TutorCreateResponseDTO> AddNewTutor(TutorCreateRequestDTO tutor, IFormFile imageFile, List<IFormFile> idenFiles,
+                                                                List<IFormFile> cerFiles)
         {
+            List<string> identityFiles = new List<string>();
+            List<string> certiFiles = new List<string>();
+            string image = string.Empty;
             var userMap = _mapper.Map<User>(tutor);
             var tutorMap = _mapper.Map<TutorDetail>(tutor);
 
             CreatePasswordHash(tutor.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            foreach (var file in idenFiles)
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return new TutorCreateResponseDTO()
+                    {
+                        IsSuccess = false,
+                    };
+                }
+
+                // Generate a unique name for each image file
+                var idenName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                identityFiles.Add(idenName);
+                // Upload each image to Firebase Storage
+                using (var stream = file.OpenReadStream())
+                {
+                    await _storageClient.UploadObjectAsync(
+                        bucket: "giasuhoctap-91d48.appspot.com",
+                        objectName: idenName,
+                        contentType: file.ContentType,
+                        source: stream);
+                }
+            }
+
+            foreach (var file in cerFiles)
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return new TutorCreateResponseDTO()
+                    {
+                        IsSuccess = false,
+                    };
+                }
+
+                // Generate a unique name for each image file
+                var cerName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                certiFiles.Add(cerName);
+                // Upload each image to Firebase Storage
+                using (var stream = file.OpenReadStream())
+                {
+                    await _storageClient.UploadObjectAsync(
+                        bucket: "giasuhoctap-91d48.appspot.com",
+                        objectName: cerName,
+                        contentType: file.ContentType,
+                        source: stream);
+                }
+            }
+
+            var imageName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            image = imageName;
+            // Upload each image to Firebase Storage
+            using (var stream = imageFile.OpenReadStream())
+            {
+                await _storageClient.UploadObjectAsync(
+                    bucket: "giasuhoctap-91d48.appspot.com",
+                    objectName: imageName,
+                    contentType: imageFile.ContentType,
+                    source: stream);
+            }
+
             userMap.PasswordHash = passwordHash;
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
             userMap.RoleId = (int)RoleEnum.Tutor + 1;
             userMap.Status = UserStatusEnum.Pending;
+            userMap.UserImage = image;
+            userMap.IdentityImage = identityFiles;
 
             tutorMap.Major = tutor.Major;
-            tutorMap.CertificateImage = tutor.CertificateImage;
+            tutorMap.CertificateImage = certiFiles;
             tutorMap.Job = tutor.Job;
             tutorMap.User = userMap;
-
             userMap = await _userRepository.AddNewTutor(userMap);
             tutorMap = await _userRepository.AddNewTutorDetail(tutorMap);
 
-            if(userMap != null && tutorMap != null) {
+            if (userMap != null && tutorMap != null) {
                 var result = new TutorCreateResponseDTO()
                 {
                     Request = tutor,
@@ -330,7 +430,7 @@ namespace Service.Service
             return await _userRepository.UpdateTutorDetail(tutorDetail);
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUserOtp(User user)
         {
             return await _userRepository.UpdateUser(user);
         }
