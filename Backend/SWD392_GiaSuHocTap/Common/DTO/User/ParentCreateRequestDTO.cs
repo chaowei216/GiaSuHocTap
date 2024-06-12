@@ -17,6 +17,5 @@ namespace Common.DTO.User
         public string District { get; set; } = null!;
         public string City { get; set; } = null!;
         public string Gender { get; set; } = null!;
-        public string UserImage { get; set; } = null!;
     }
 }

@@ -1,12 +1,4 @@
-﻿using Common.Enum;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.DTO.User
+﻿namespace Common.DTO.User
 {
     public class TutorCreateRequestDTO
     {
@@ -20,10 +12,7 @@ namespace Common.DTO.User
         public string City { get; set; } = null!;
         public string Gender { get; set; } = null!;
         public string? IdentityNumber { get; set; }
-        public string[]? IdentityImage { get; set; }
-        public string UserImage { get; set; } = null!;
         public string Job { get; set; } = null!;
         public string Major { get; set; } = null!;
-        public string[] CertificateImage { get; set; } = null!;
     }
 }

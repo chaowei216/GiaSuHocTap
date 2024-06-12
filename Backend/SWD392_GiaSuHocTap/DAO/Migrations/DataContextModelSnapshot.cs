@@ -323,10 +323,18 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<string>("LearningType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Status")
@@ -489,6 +497,10 @@ namespace DAO.Migrations
                         .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("YoutubeLink")
                         .IsRequired()
                         .HasColumnType("longtext");
 

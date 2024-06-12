@@ -18,7 +18,7 @@ namespace Common.DTO.Auth
         public bool IsVerified { get; set; }
         public int CoinBalance { get; set; }
         public string? IdentityNumber { get; set; }
-        public string[]? IdentityImage { get; set; }
+        public List<string>? IdentityImage { get; set; }
         public string UserImage { get; set; } = null!;
         public int NumberOfReport { get; set; }
         public int RoleId { get; set; }
