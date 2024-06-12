@@ -11,6 +11,6 @@ namespace Common.Enum
         Admin,
         Moderator,
         Tutor,
-        Parent,
+        Parents,
     }
 }

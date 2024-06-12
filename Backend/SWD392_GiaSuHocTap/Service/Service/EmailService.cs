@@ -28,23 +28,30 @@ namespace Service.Service
 
         public void SendOTPEmail(string userEmail, string otpCode, string subject)
         {
-            var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];
-            var toEmail = userEmail;
-            var htmlBody = EmailTemplate.OTPEmailTemplate(userEmail, otpCode, subject);
-            MailMessage mailMessage = new MailMessage(sendEmail, toEmail, subject, htmlBody);
-            mailMessage.IsBodyHtml = true;
+            try
+            {
+                var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];
+                var toEmail = userEmail;
+                var htmlBody = EmailTemplate.OTPEmailTemplate(userEmail, otpCode, subject);
+                MailMessage mailMessage = new MailMessage(sendEmail, toEmail, subject, htmlBody);
+                mailMessage.IsBodyHtml = true;
 
-            var smtpServer = _configuration.GetSection("SendEmailAccount")["SmtpServer"];
-            int.TryParse(_configuration.GetSection("SendEmailAccount")["Port"], out int port);
-            var userNameEmail = _configuration.GetSection("SendEmailAccount")["UserName"];
-            var password = _configuration.GetSection("SendEmailAccount")["Password"];
+                var smtpServer = _configuration.GetSection("SendEmailAccount")["SmtpServer"];
+                int.TryParse(_configuration.GetSection("SendEmailAccount")["Port"], out int port);
+                var userNameEmail = _configuration.GetSection("SendEmailAccount")["UserName"];
+                var password = _configuration.GetSection("SendEmailAccount")["Password"];
 
-            SmtpClient client = new SmtpClient(smtpServer, port);
-            client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(userNameEmail, password);
-            client.EnableSsl = true; // Enable SSL/TLS encryption
+                SmtpClient client = new SmtpClient(smtpServer, port);
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(userNameEmail, password);
+                client.EnableSsl = true; // Enable SSL/TLS encryption
 
-            client.Send(mailMessage);
+                client.Send(mailMessage);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            
         }
 
         public void SendWelcomeEmail(string userEmail, string subject)

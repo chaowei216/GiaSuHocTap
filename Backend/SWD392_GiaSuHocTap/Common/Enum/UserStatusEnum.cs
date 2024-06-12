@@ -10,6 +10,7 @@ namespace Common.Enum
     {
         Active,
         InActive,
-        Pending
+        Pending,
+        Checking
     }
 }

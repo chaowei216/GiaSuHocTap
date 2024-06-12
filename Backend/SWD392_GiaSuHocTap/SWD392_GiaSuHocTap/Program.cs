@@ -1,5 +1,6 @@
 using Common.DTO;
 using DAO.DAO;
+using DAO.Data;
 using DAO.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -100,6 +101,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IValidateHandleService, ValidateHandleService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+builder.Services.AddTransient<DataSeed>();
 // Db context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -107,7 +109,22 @@ builder.Services.AddDbContext<DataContext>(options => options.UseMySql(connectio
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+//seed data
+builder.Services.AddTransient<DataSeed>();
 
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+    SeedData(app);
+
+void SeedData(IHost app)
+{
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<DataSeed>();
+        service.TrySeedAsync();
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

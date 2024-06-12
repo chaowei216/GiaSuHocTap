@@ -37,8 +37,9 @@ namespace DAO.Model
         public int CoinBalance { get; set; }
         [Range(12,12)]
         public string? IdentityNumber { get; set; }
-        public string[]? IdentityImage { get; set; }
+        public List<string>? IdentityImage { get; set; }
         public string UserImage { get; set; } = null!;
+        public string YoutubeLink { get; set; } = null!;
         public int NumberOfReport {  get; set; }
         [Required]
         [Column(TypeName = "nvarchar(24)")]

@@ -220,9 +220,9 @@ namespace Service.Service
         public bool CheckUserVerifiedStatus(string email)
         {
             var user = _userService.GetUserByEmail(email);
-            while(user != null)
+            while (user != null)
             {
-                if(user.IsVerified)
+                if (user.IsVerified)
                 {
                     return true;
                 }
@@ -232,7 +232,13 @@ namespace Service.Service
 
         public bool CheckOTPExpired(string email)
         {
-            throw new NotImplementedException();
+            var user = _userService.GetUserByEmail(email);
+            if (user != null && user.OtpExpiredTime > DateTime.Now)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool SetOtp(OtpCodeDTO otpDto, string email)
@@ -243,7 +249,7 @@ namespace Service.Service
             {
                 user.Otp = otpDto.OTPCode;
                 user.OtpExpiredTime = otpDto.ExpiredTime;
-                _userService.UpdateUser(user);
+                _userService.UpdateUserOtp(user);
                 return true;
             }
             return false;
@@ -251,7 +257,51 @@ namespace Service.Service
 
         public bool CheckOTP(string email, string otpCode)
         {
-            throw new NotImplementedException();
+            var user = _userService.GetUserByEmail(email);
+            if (user?.Otp == otpCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool VerifyEmail(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user != null)
+            {
+                user.Otp = null;
+                user.OtpExpiredTime = null;
+                user.IsVerified = true;
+                _userService.UpdateUserOtp(user);
+
+                return true;
+            }
+            return false;
+        }
+
+        public void SendEmailVerify(string email)
+        {
+            var otp = _emailService.GenerateOTP();
+            var user = _userService.GetUserByEmail(email);
+            if (user?.IsVerified == false)
+            {
+                SetOtp(otp, email);
+                _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.VerifyEmailSubject);
+            }
+        }
+
+        public bool AcceptUser(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user != null)
+            {
+                user.Status = UserStatusEnum.Active;
+                _userService.UpdateUserOtp(user);
+                return true;
+            }
+            return false;
         }
     }
 }
