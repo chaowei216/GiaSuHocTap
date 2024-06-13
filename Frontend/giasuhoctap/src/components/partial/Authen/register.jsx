@@ -17,11 +17,14 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import cityJson from "../../../data/cityJson.json";
 import { validationRegisterParent } from "./ValidationAuthen/ValidationRegisterParent";
+import useAuth from "../../../hooks/useAuth";
 const defaultTheme = createTheme();
 
 export default function Register() {
   const [provinces, setProvinces] = useState([]);
-  
+
+  const { register } = useAuth();
+
   useEffect(() => {
     setProvinces(cityJson.data);
   }, []);
@@ -36,10 +39,10 @@ export default function Register() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      image: values.imageUser,
+      image: values.imageUser.toString(),
       district: values.district,
     };
-    console.log(user);
+    await register(user)
   };
   const formik = useFormik({
     initialValues: {

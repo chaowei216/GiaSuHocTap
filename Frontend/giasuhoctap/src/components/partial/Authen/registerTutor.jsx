@@ -17,10 +17,13 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import cityJson from "../../../data/cityJson.json";
 import { validationRegisterTutor } from "./ValidationAuthen/ValidationRegisterTutor";
+import useAuth from "../../../hooks/useAuth";
 const defaultTheme = createTheme();
 
 export default function RegisterTutor() {
   const [provinces, setProvinces] = useState([]);
+
+  const { register_tutor } = useAuth();
 
   useEffect(() => {
     setProvinces(cityJson.data);
@@ -36,12 +39,16 @@ export default function RegisterTutor() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      imageUser: values.imageUser,
+      imageUser: values.imageUser.toString(),
       imageCertificate: values.imageCertificate,
       imageIdentity: values.imageIdentity,
       district: values.district,
+      job: values.job,
+      major: values.major,
+      idCart: values.idCart,
     };
     console.log(user);
+    await register_tutor(user)
   };
   const formik = useFormik({
     initialValues: {
@@ -58,14 +65,15 @@ export default function RegisterTutor() {
       imageCertificate: [],
       imageIdentity: [],
       district: "",
-      idCart: ""
+      idCart: "",
+      job: "",
+      major: "",
     },
     onSubmit: (values) => {
       submitForm(values);
     },
     validationSchema: validationRegisterTutor,
   });
-  console.log(formik);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" className={styles.layout_container}>
@@ -120,7 +128,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -136,7 +144,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -153,7 +161,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -168,6 +176,35 @@ export default function RegisterTutor() {
                   error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
                   helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+              <FormControl style={{ width: "100%"}}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Hiện là
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="job"
+                    name="job"
+                    value={formik.values.job}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                    }}
+                    label="Hiện là"
+                    // error={(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender}
+                    onChange={formik.handleChange}
+                  >
+                    <MenuItem value="Giáo viên">Giáo viên</MenuItem>
+                    <MenuItem value="Sinh viên">Sinh viên</MenuItem>
+                    <MenuItem value="Sinh viên sư phạm">Sinh viên sư phạm</MenuItem>
+                    <MenuItem value="Cử nhân">Cử nhân</MenuItem>
+                    <MenuItem value="Kỹ sư">Kỹ sư</MenuItem>
+                    <MenuItem value="Thạc sỹ">Thạc sỹ</MenuItem>
+                    <MenuItem value="Tiến sỹ">Tiến sỹ</MenuItem>
+                    <MenuItem value="Giảng viên">Giảng viên</MenuItem>
+                    <MenuItem value="Bằng cấp khác">Bằng cấp khác</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <DatePickerValue setFieldValue={formik.setFieldValue} formik={formik} />
@@ -257,7 +294,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.address && formik.errors.address}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -273,10 +310,26 @@ export default function RegisterTutor() {
                   helperText={formik.touched.idCart && formik.errors.idCart}
                 />
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="major"
+                  onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Ngành học"
+                  name="major"
+                  autoComplete="major"
+                  // error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
+                  // helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                />
+              </Grid>
               <Grid item xs={12} className="flex">
                 <Typography
                   component="h1"
-                  variant="h7"
+                  variant="button"
                   sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
                 >
                   Ảnh thẻ
@@ -289,11 +342,11 @@ export default function RegisterTutor() {
                   size={1}
                 />
               </Grid>
-              {(formik.touched.imageUser && formik.errors.imageUser) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageUser}</span>}
+              {(formik.touched.imageUser && formik.errors.imageUser) && <span style={{ marginLeft: "15px", color: "#d32f2f" }}>{formik.errors.imageUser}</span>}
               <Grid item xs={12} className="flex">
                 <Typography
                   component="h1"
-                  variant="h7"
+                  variant="button"
                   sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
                 >
                   Ảnh bằng cấp
@@ -306,11 +359,11 @@ export default function RegisterTutor() {
                   size={4}
                 />
               </Grid>
-              {(formik.touched.imageCertificate && formik.errors.imageCertificate) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageCertificate}</span>}
+              {(formik.touched.imageCertificate && formik.errors.imageCertificate) && <span style={{ marginLeft: "15px", color: "#d32f2f" }}>{formik.errors.imageCertificate}</span>}
               <Grid item xs={12} className="flex">
                 <Typography
                   component="h1"
-                  variant="h7"
+                  variant="button"
                   sx={{ fontWeight: "bold", margin: "auto 0", width: "20%" }}
                 >
                   Ảnh CMND/CCCD
@@ -323,15 +376,7 @@ export default function RegisterTutor() {
                   size={2}
                 />
               </Grid>
-              {(formik.touched.imageIdentity && formik.errors.imageIdentity) && <span style={{marginLeft: "15px", color: "#d32f2f"}}>{formik.errors.imageIdentity}</span>}
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration and updates via email."
-                />
-              </Grid>
+              {(formik.touched.imageIdentity && formik.errors.imageIdentity) && <span style={{ marginLeft: "15px", color: "#d32f2f" }}>{formik.errors.imageIdentity}</span>}
             </Grid>
             <Button
               type="submit"
