@@ -85,6 +85,11 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters); 
+
+        /// <summary>
+        /// Get all pending users
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<UserDTO> GetAllPendingUser();
 
     }
