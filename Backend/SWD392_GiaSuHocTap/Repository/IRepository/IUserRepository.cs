@@ -65,5 +65,12 @@ namespace Repository.IRepository
         /// <param name="phone"></param>
         /// <returns></returns>
         User? GetUserByPhone(string phone);
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        IEnumerable<User>? GetUserByStatus();
     }
 }

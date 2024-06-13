@@ -496,7 +496,6 @@ namespace DAO.Migrations
                         .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("YoutubeLink")

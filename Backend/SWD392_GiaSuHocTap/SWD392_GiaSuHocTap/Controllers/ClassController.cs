@@ -1,6 +1,5 @@
 ﻿using Common.Constant.Message;
 using Common.DTO;
-using Common.DTO.User;
 using Common.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,26 +10,25 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ClassController : ControllerBase
     {
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly IClassService _classService;
+        public ClassController(IClassService classService)
         {
-            _userService = userService;
+            _classService = classService;
         }
 
-        [HttpGet("get-pending-tutor")]
-        public IActionResult GetPendingTutor()
+        [HttpGet("get-all-classes")]
+        public IActionResult GetAllClasses()
         {
             try
             {
-                var user = _userService.GetAllPendingUser();
+                var classes = _classService.GetAllClasses();
                 var response = new ResponseDTO()
                 {
                     Message = GeneralMessage.Success,
                     StatusCode = (int)StatusCodeEnum.NoContent,
-                    Data = user
+                    Data = classes
                 };
                 return Ok(response);
 

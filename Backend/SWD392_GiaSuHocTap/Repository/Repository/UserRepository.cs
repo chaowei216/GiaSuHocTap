@@ -1,4 +1,5 @@
-﻿using DAO.DAO;
+﻿using Common.Enum;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -59,6 +60,11 @@ namespace Repository.Repository
         public async Task<User> UpdateUser(User user)
         {
             return await _userDAO.UpdateAsync(user);
+        }
+
+        public IEnumerable<User>? GetUserByStatus()
+        {
+            return _userDAO.GetByCondition(u => u.Status == UserStatusEnum.Pending);
         }
     }
 }

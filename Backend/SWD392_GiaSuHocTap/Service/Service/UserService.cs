@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Common.Constant.Firebase;
 using Common.Constant.Message;
-using Common.DTO.Email;
+using Common.DTO.Auth;
 using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
@@ -626,6 +626,14 @@ namespace Service.Service
                 IsSuccess = true
             };
             return successfulResponse;
+        }
+
+        public IEnumerable<UserDTO> GetAllPendingUser()
+        {
+            var tutor = _userRepository.GetUserByStatus();
+            var tutorMap = _mapper.Map<List<UserDTO>>(tutor);
+
+            return tutorMap;
         }
     }
 }

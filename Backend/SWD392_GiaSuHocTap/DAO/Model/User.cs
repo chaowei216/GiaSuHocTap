@@ -39,7 +39,8 @@ namespace DAO.Model
         [Range(12,12)]
         public string? IdentityNumber { get; set; }
         public List<string>? IdentityImage { get; set; }
-        public string UserImage { get; set; } = null!;
+        [AllowNull]
+        public string? UserImage { get; set; } = null!;
         [AllowNull]
         public string? YoutubeLink { get; set; }
         public int NumberOfReport {  get; set; }

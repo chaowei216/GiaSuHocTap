@@ -1,5 +1,5 @@
-﻿using Common.DTO;
-using Common.DTO.User;
+﻿using Common.DTO.User;
+using Common.DTO.Auth;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
 
@@ -78,10 +78,10 @@ namespace Service.IService
         CheckValidateResponseDTO CheckCreateParent(ParentCreateRequestDTO parent);
 
         /// <summary>
-        /// Check validate create tutor
+        /// Get all users where status is pending
         /// </summary>
-        /// <param name="tutor"></param>
         /// <returns></returns>
-        
+        IEnumerable<UserDTO> GetAllPendingUser();
+
     }
 }
