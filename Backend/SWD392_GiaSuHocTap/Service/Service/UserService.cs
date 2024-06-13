@@ -3,7 +3,6 @@ using Common.Constant.Firebase;
 using Common.Constant.Message;
 using Common.DTO;
 using Common.DTO.Auth;
-using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
@@ -639,6 +638,14 @@ namespace Service.Service
             mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
 
             return mappedResponse;
+        }
+
+        public IEnumerable<UserDTO> GetAllPendingUser()
+        {
+            var tutor = _userRepository.GetUserByStatus();
+            var tutorMap = _mapper.Map<List<UserDTO>>(tutor);
+
+            return tutorMap;
         }
     }
 }

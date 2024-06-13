@@ -20,6 +20,10 @@
 
         public const string OtpNotMatch = "Your otp does not match!";
 
-        public const string VerifySuccess = "Successfully!";
+        public const string VerifySuccess = "Verify successfully!";
+
+        public const string Accepted = "Accept success";
+
+        public const string Rejected = "Reject tutor";
     }
 }

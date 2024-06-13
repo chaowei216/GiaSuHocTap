@@ -87,10 +87,17 @@ namespace Service.IService
         void SendEmailVerify(string email);
 
         /// <summary>
-        /// Send verify email
+        /// Accept tutor
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
         bool AcceptUser(string email);
+
+        /// <summary>
+        /// Accept tutor
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        bool RejectTutor(string email, string reason);
     }
 }

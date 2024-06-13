@@ -10,17 +10,22 @@ namespace Service.IService
         /// Send otp code
         /// </summary>
         /// <param name="userEmail"></param>
-        /// <param name="userName"></param>
         /// <param name="otpCode"></param>
+        /// <param name="subject"></param>
         void SendOTPEmail(string userEmail, string otpCode, string subject);
 
         /// <summary>
         /// Send welcome email
         /// </summary>
         /// <param name="userEmail"></param>
-        /// <param name="userName"></param>
-        /// <param name="otpCode"></param>
         /// <param name="subject"></param>
         void SendWelcomeEmail(string userEmail, string subject);
+
+        /// <summary>
+        /// Send welcome email
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="subject"></param>
+        void SendRejectEmail(string userEmail, string subject, string reason);
     }
 }

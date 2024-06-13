@@ -1,24 +1,25 @@
 ﻿using DAO.Model;
+using Common.DTO.Course;
 
 namespace Service.IService
 {
     public interface ICourseService
     {
         /// <summary>
-        /// Get all time tables
+        /// Get all course
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Course> GetAllCourses();
+        IEnumerable<CourseDTO> GetAllCourses();
 
         /// <summary>
-        /// Get time table by id
+        /// Get course by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Course?> GetCourseById(int id);
 
         /// <summary>
-        /// Add new role
+        /// Add new course
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>

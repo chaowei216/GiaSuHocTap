@@ -74,5 +74,12 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<User> GetPagedUserList(UserParameters parameters);
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        IEnumerable<User>? GetUserByStatus();
     }
 }

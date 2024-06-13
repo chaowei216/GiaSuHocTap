@@ -303,5 +303,17 @@ namespace Service.Service
             }
             return false;
         }
+
+        public bool RejectTutor(string email, string reason)
+        {
+            var user = _userService?.GetUserByEmail(email);
+            if(user != null)
+            {
+                _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
+                return true;
+
+            }
+            return false;
+        }
     }
 }

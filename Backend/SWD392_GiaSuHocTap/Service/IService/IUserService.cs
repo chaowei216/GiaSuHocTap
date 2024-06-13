@@ -1,7 +1,7 @@
-﻿using Common.DTO;
+﻿using Common.DTO.User;
 using Common.DTO.Auth;
+using Common.DTO;
 using Common.DTO.Query;
-using Common.DTO.User;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
 
@@ -81,9 +81,11 @@ namespace Service.IService
         
         /// <summary>
         /// Get user list with pagination
+        /// Get all users where status is pending
         /// </summary>
-        /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters); 
+        IEnumerable<UserDTO> GetAllPendingUser();
+
     }
 }

@@ -285,35 +285,92 @@ namespace SWD392_GiaSuHocTap.Controllers
         [HttpPost("verify-email")]
         public IActionResult VerifyEmail(string otpCode, string email)
         {
-            var checkOtpExpired = _authService.CheckOTPExpired(email);
-            if(!checkOtpExpired)
+            try
             {
-                var responseExpired = new ResponseDTO()
+                var checkOtpExpired = _authService.CheckOTPExpired(email);
+                if (!checkOtpExpired)
                 {
-                    Message = AuthMessage.OtpIsExpired,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    var responseExpired = new ResponseDTO()
+                    {
+                        Message = AuthMessage.OtpIsExpired,
+                        StatusCode = (int)StatusCodeEnum.BadRequest,
+                    };
+                    return BadRequest(responseExpired);
+                }
+
+                var checkOtp = _authService.CheckOTP(email, otpCode);
+                if (!checkOtp)
+                {
+                    var responseWrong = new ResponseDTO()
+                    {
+                        Message = AuthMessage.OtpNotMatch,
+                        StatusCode = (int)StatusCodeEnum.BadRequest,
+                    };
+                    return BadRequest(responseWrong);
+                }
+
+                var verify = _authService.VerifyEmail(email);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.VerifySuccess,
+                    StatusCode = (int)StatusCodeEnum.NoContent,
                 };
-                return BadRequest(responseExpired);
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
             }
             
-            var checkOtp = _authService.CheckOTP(email, otpCode);
-            if(!checkOtp)
-            {
-                var responseWrong = new ResponseDTO()
-                {
-                    Message = AuthMessage.OtpNotMatch,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
-                };
-                return BadRequest(responseWrong);
-            }
+        }
 
-            var verify = _authService.VerifyEmail(email);
-            var response = new ResponseDTO()
+        [HttpPost("accept-tutor")]
+        public IActionResult AcceptTutor(string email)
+        {
+            try
             {
-                Message = AuthMessage.VerifySuccess,
-                StatusCode = (int)StatusCodeEnum.NoContent,
-            };
-            return Ok(response);
+                _authService.AcceptUser(email);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.Accepted,
+                    StatusCode = (int)StatusCodeEnum.NoContent,
+                };
+                return Ok(response);
+            } catch(Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            }
+            
+        }
+
+        [HttpPost("reject-tutor")]
+        public IActionResult RejectTutor(string email, string reason)
+        {
+            try
+            {
+                _authService.RejectTutor(email, reason);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.Rejected,
+                    StatusCode = (int)StatusCodeEnum.NoContent,
+                };
+                return Ok(response);
+
+            } catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            } 
         }
     }
 }
