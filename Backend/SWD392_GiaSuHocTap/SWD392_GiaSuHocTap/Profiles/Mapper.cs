@@ -4,6 +4,8 @@ using Common.DTO.Auth;
 using Common.DTO.Class;
 using Common.DTO.Course;
 using Common.DTO.User;
+using Common.Enum;
+using Common.Helpers;
 using DAO.Model;
 
 namespace SWD392_GiaSuHocTap.Profiles
@@ -13,7 +15,7 @@ namespace SWD392_GiaSuHocTap.Profiles
         public Mapper()
         {
             #region map entity
-            CreateMap<UserDTO, User>().ReverseMap();
+            CreateMap<User, UserDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<TutorCreateRequestDTO, User>().ReverseMap();
             CreateMap<TutorCreateRequestDTO, TutorDetail>().ReverseMap();
             CreateMap<ParentCreateRequestDTO, User>().ReverseMap();
