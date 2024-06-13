@@ -1,10 +1,12 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
 namespace Repository.Repository
 {
-    public class CourseRepository: ICourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly IGenericDAO<Course> _courseDAO;
 
@@ -26,6 +28,11 @@ namespace Repository.Repository
         public async Task<Course?> GetCourseById(int id)
         {
             return await _courseDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<Course> GetPagedCourseList(CourseParameters parameters)
+        {
+            return PagedList<Course>.ToPagedList(_courseDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

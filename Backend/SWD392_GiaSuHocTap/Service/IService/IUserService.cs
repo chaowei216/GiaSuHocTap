@@ -1,4 +1,6 @@
 ﻿using Common.DTO;
+using Common.DTO.Auth;
+using Common.DTO.Query;
 using Common.DTO.User;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
@@ -76,12 +78,12 @@ namespace Service.IService
         /// <param name="parent"></param>
         /// <returns></returns>
         CheckValidateResponseDTO CheckCreateParent(ParentCreateRequestDTO parent);
-
-        /// <summary>
-        /// Check validate create tutor
-        /// </summary>
-        /// <param name="tutor"></param>
-        /// <returns></returns>
         
+        /// <summary>
+        /// Get user list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters); 
     }
 }

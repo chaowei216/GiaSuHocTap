@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -65,5 +67,12 @@ namespace Repository.IRepository
         /// <param name="phone"></param>
         /// <returns></returns>
         User? GetUserByPhone(string phone);
+
+        /// <summary>
+        /// Get user list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<User> GetPagedUserList(UserParameters parameters);
     }
 }

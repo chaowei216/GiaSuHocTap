@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -26,6 +28,11 @@ namespace Repository.Repository
         public async Task<Notification?> GetNotificationById(int id)
         {
             return await _notificationDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<Notification> GetPagedNotificationList(NotificationParameters parameters)
+        {
+            return PagedList<Notification>.ToPagedList(_notificationDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Notification> UpdateNotification(Notification notification)

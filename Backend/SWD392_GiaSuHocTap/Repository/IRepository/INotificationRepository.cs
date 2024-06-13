@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Query;
+using Common.DTO;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -30,5 +32,12 @@ namespace Repository.IRepository
         /// <param name="notification"></param>
         /// <returns></returns>
         Task<Notification> UpdateNotification(Notification notification);
+
+        /// <summary>
+        /// Get notification list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Notification> GetPagedNotificationList(NotificationParameters parameters);
     }
 }
