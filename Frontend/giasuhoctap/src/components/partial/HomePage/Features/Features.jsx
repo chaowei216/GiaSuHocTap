@@ -9,38 +9,33 @@ const Features = () => {
   const features = [
     {
       name: "Hà Thanh Tùng 1",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",
       subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
     {
       name: "Hà Thanh Tùng 2",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
-      subject: 'Toán, Lý, Hóa',
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
     {
       name: "Hà Thanh Tùng 3",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
-      subject: 'Toán, Lý, Hóa',
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
     {
       name: "Hà Thanh Tùng 4",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
-      subject: 'Toán, Lý, Hóa',
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
     {
       name: "Hà Thanh Tùng 5",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
-      subject: 'Toán, Lý, Hóa',
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
     {
       name: "Hà Thanh Tùng 6",
-      description: "Thiết kế bài học phù hợp với trình độ của học sinh, theo dõi và đánh giá tiến bộ của học sinh, cung cấp phản hồi và đề xuất cải thiện.",
-      subject: 'Toán, Lý, Hóa',
+      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
       image: imgTutor,
     },
   ];
@@ -49,7 +44,7 @@ const Features = () => {
 
   const settings = {
     infinite: true,
-    speed: 1000,
+    speed: 1500,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
@@ -80,19 +75,30 @@ const Features = () => {
   return (
     <div className={`${styles.featuresWrapper} center`}>
       <div className={styles.featuresHeading}>
-        <h1 style={{fontFamily: 'cursive', color: '#E81C4B'}}>CÁC GIA SƯ TIÊU BIỂU ĐƯỢC ĐƯỢC PHỤ HUYNH TIN TƯỞNG</h1>
+        <h1 style={{ fontFamily: 'cursive', color: '#E81C4B' }}>CÁC GIA SƯ TIÊU BIỂU ĐƯỢC ĐƯỢC PHỤ HUYNH TIN TƯỞNG</h1>
       </div>
       <div className={`${styles.featuresListWrapper}`}>
         <Slider {...settings} className={`${styles.featuresList}`} ref={sliderRef}>
           {features.map((feature, index) => (
-            <div key={index} className="card" style={{ width: '18rem', marginRight:'10px', marginLeft: '-10px', maxHeight:'500px' }}>
-              <img className="card-img-top" style={{width:'70%', marginLeft: '60px'}} src={feature.image} />
-              <div className="card-body">
-                <h5 className="card-title">{feature.name}</h5>
-                <p className="card-text">{feature.subject}</p>
-                <p className="card-text" style={{maxHeight: '70px'}}>{feature.description}</p>
+              <div key={index} className={`container ${styles.swiper}`}>
+                <div className={`swiper-wrapper ${styles.content}`}>
+                  <div className={`swiper-slide ${styles.card}`}>
+                    <div className={styles.cardContent}>
+                      <div className={styles.image}>
+                        <img src={feature.image} alt="Profile" />
+                      </div>
+                      <div className={styles.cardBody}>
+                        <h5 className="card-title" style={{textAlign: 'center', fontSize: '18px', fontWeight: '600'}}>{feature.name}</h5>
+                        <div style={{display: 'flex', marginTop: '10px'}}>
+                          <p>Môn dạy:</p>
+                          <p className="card-text" style={{color: '#0000FF', marginLeft: '5px', marginTop: '5px', fontWeight: 'bold'}}>{feature.subject}</p>
+                        </div>
+                        <p className="card-text" style={{ fontWeight: '600', marginTop: '15px'}}>{feature.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
           ))}
         </Slider>
       </div>
@@ -101,3 +107,11 @@ const Features = () => {
 };
 
 export default Features;
+
+
+
+
+
+
+
+

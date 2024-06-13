@@ -19,13 +19,13 @@ const Profile = () => {
     ];
 
     const DayOfWeek = [
-        'Sáng Thứ 2',
-        'Sáng Thứ 3',
-        'Sáng Thứ 4',
-        'Sáng Thứ 5',
-        'Sáng Thứ 6',
-        'Sáng Thứ 7',
-        'Sáng Chủ Nhật',
+        'Sáng Thứ 2', 'Chiều Thứ 2', 'Tối Thứ 2',
+        'Sáng Thứ 3', 'Chiều Thứ 3', 'Tối Thứ 3',
+        'Sáng Thứ 4', 'Chiều Thứ 4', 'Tối Thứ 4',
+        'Sáng Thứ 5', 'Chiều Thứ 5', 'Tối Thứ 5',
+        'Sáng Thứ 6', 'Chiều Thứ 6', 'Tối Thứ 6',
+        'Sáng Thứ 7', 'Chiều Thứ 7', 'Tối Thứ 7',
+        'Sáng Chủ Nhật', 'Chiều Chủ Nhật', 'Tối Chủ Nhật',
     ];
 
     const Time = [
