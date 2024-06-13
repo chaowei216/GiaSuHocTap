@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Query;
+using Common.DTO;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -23,5 +25,12 @@ namespace Repository.IRepository
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Transaction?> GetTransaction(int id);
+
+        /// <summary>
+        /// Get transaction list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Transaction> GetPagedTransactionList(TransactionParameters parameters);
     }
 }

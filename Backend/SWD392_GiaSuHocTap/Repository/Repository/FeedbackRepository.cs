@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -26,6 +28,11 @@ namespace Repository.Repository
         public async Task<Feedback?> GetFeedbackById(int id)
         {
             return await _feedbackDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<Feedback> GetPagedFeedbackList(FeedbackParameters parameters)
+        {
+            return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Feedback> UpdateFeedback(Feedback feedback)

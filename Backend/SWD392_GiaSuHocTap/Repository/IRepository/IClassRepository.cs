@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Query;
+using Common.DTO;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -23,5 +25,12 @@ namespace Repository.IRepository
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<Class> AddClass(Class entity);
+
+        /// <summary>
+        /// Get class list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Class> GetPagedClassList(ClassParameters parameters);
     }
 }
