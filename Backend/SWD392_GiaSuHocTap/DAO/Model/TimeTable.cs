@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DAO.Model
 {
@@ -9,11 +10,14 @@ namespace DAO.Model
         public int TimeTableId { get; set; }
         [Required]
         public string DayOfWeek { get; set; } = null!;
-        [Required]
-        public DateTime StartTime { get; set; }
-        [Required]
-        public DateTime EndTime { get; set; }
+        [AllowNull]
+        public DateTime? StartTime { get; set; }
+        [AllowNull]
+        public DateTime? EndTime { get; set; }
+        [AllowNull]
+        public string? Period { get; set; } = null!;
         public string Status { get; set; } = null!;
+        public string LearningType { get; set; } = null!;
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; } = null!;

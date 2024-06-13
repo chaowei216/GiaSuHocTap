@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -18,7 +20,7 @@ namespace Repository.Repository
             return await _classDAO.AddAsync(entity);
         }
 
-        public IEnumerable<Class> GetAllClass()
+        public IEnumerable<Class> GetAllClasses()
         {
             return _classDAO.GetAll().AsEnumerable();
         }
@@ -26,6 +28,11 @@ namespace Repository.Repository
         public async Task<Class?> GetClassById(int id)
         {
             return await _classDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<Class> GetPagedClassList(ClassParameters parameters)
+        {
+            return PagedList<Class>.ToPagedList(_classDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

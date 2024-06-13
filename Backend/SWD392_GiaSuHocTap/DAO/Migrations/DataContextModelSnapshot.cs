@@ -149,6 +149,41 @@ namespace DAO.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("DAO.Model.RefreshToken", b =>
+                {
+                    b.Property<int>("RefreshId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RefreshId"));
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateExpired")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RefreshId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshToken");
+                });
+
             modelBuilder.Entity("DAO.Model.Report", b =>
                 {
                     b.Property<int>("ReportId")
@@ -267,8 +302,9 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("RoleId"));
 
-                    b.Property<int>("RoleName")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("RoleId");
 
@@ -287,10 +323,17 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<string>("LearningType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Period")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Status")
@@ -362,10 +405,6 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Qualification")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -417,15 +456,22 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("NumberOfReport")
                         .HasColumnType("int");
+
+                    b.Property<string>("Otp")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("OtpExpiredTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -445,11 +491,15 @@ namespace DAO.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("YoutubeLink")
                         .HasColumnType("longtext");
 
                     b.HasKey("UserId");
@@ -527,6 +577,17 @@ namespace DAO.Migrations
                 {
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("News")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DAO.Model.RefreshToken", b =>
+                {
+                    b.HasOne("DAO.Model.User", "User")
+                        .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -741,6 +802,8 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.User", b =>
                 {
                     b.Navigation("News");
+
+                    b.Navigation("RefreshTokens");
 
                     b.Navigation("RequestTimes");
 

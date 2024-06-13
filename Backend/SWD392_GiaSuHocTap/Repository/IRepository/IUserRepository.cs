@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -18,11 +20,18 @@ namespace Repository.IRepository
         Task<User?> GetUserById(int id);
 
         /// <summary>
-        /// Add new user
+        /// Add new parent
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="parent"></param>
         /// <returns></returns>
-        Task<User> AddNewUser(User user);
+        Task<User> AddNewParent(User parent);
+
+        /// <summary>
+        /// Add new tutor
+        /// </summary>
+        /// <param name="tutor"></param>
+        /// <returns></returns>
+        Task<User> AddNewTutor(User tutor);
 
         /// <summary>
         /// Update user
@@ -44,5 +53,26 @@ namespace Repository.IRepository
         /// <param name="tutorDetail"></param>
         /// <returns></returns>
         Task<TutorDetail> UpdateTutorDetail(TutorDetail tutorDetail);
+
+        /// <summary>
+        /// Get user by email address
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User? GetUserByEmail(string email);
+
+        /// <summary>
+        /// Get user by email address
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        User? GetUserByPhone(string phone);
+
+        /// <summary>
+        /// Get user list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<User> GetPagedUserList(UserParameters parameters);
     }
 }

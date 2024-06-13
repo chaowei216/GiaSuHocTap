@@ -18,9 +18,9 @@ namespace Service.Service
             return await _newsRepository.AddNewNews(news);
         }
 
-        public IEnumerable<News> GetAllNewss()
+        public IEnumerable<News> GetAllNews()
         {
-            return _newsRepository.GetAllNewss().AsEnumerable();
+            return _newsRepository.GetAllNews().AsEnumerable();
         }
 
         public async Task<News?> GetNewsById(int id)

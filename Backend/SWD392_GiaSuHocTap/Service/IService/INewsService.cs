@@ -8,7 +8,7 @@ namespace Service.IService
         /// Get all Newss
         /// </summary>
         /// <returns></returns>
-        IEnumerable<News> GetAllNewss();
+        IEnumerable<News> GetAllNews();
 
         /// <summary>
         /// Get News by id

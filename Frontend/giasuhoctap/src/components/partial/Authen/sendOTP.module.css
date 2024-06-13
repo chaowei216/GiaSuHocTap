@@ -1,0 +1,23 @@
+.layout_container {
+    border-top-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    padding-bottom: 6rem;
+  }
+  .layout_container input {
+    padding-left: 8px;
+  }
+  .logoTutor {
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logoTutor img {
+    width: 40%;
+  }
+  .layout_sendOtp {
+    background: url('/img/OTP.jpg') center no-repeat;
+    background-size: cover;
+    height: 85vh;
+  }
+  

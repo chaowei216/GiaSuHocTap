@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Query;
+using Common.DTO;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -8,7 +10,7 @@ namespace Repository.IRepository
         /// Get all Newss
         /// </summary>
         /// <returns></returns>
-        IEnumerable<News> GetAllNewss();
+        IEnumerable<News> GetAllNews();
 
         /// <summary>
         /// Get News by id
@@ -30,5 +32,12 @@ namespace Repository.IRepository
         /// <param name="news"></param>
         /// <returns></returns>
         Task<News> UpdateNews(News news);
+
+        /// <summary>
+        /// Get news list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<News> GetPagedNewsList(NewsParameters parameters);
     }
 }

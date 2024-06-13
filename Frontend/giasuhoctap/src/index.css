@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 body {
@@ -32,4 +33,15 @@ li {
 .fab {
   margin: 10px;
   color: #231f20;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slick-prev:before{
+  color: rgb(232, 28, 75);
+}
+
+.slick-next:before{
+  color: rgb(232, 28, 75);
 }

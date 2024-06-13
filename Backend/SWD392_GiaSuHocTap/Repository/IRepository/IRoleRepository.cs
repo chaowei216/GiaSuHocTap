@@ -19,6 +19,13 @@ namespace Repository.IRepository
         Task<Role?> GetRoleById(int id);
 
         /// <summary>
+        /// Get role by id
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Role? GetRoleByName(string name);
+
+        /// <summary>
         /// Add new role
         /// </summary>
         /// <param name="role"></param>

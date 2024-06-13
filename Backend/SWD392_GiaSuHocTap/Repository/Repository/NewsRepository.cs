@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -18,7 +20,7 @@ namespace Repository.Repository
             return await _newsDAO.AddAsync(news);
         }
 
-        public IEnumerable<News> GetAllNewss()
+        public IEnumerable<News> GetAllNews()
         {
             return _newsDAO.GetAll().AsEnumerable();
         }
@@ -26,6 +28,11 @@ namespace Repository.Repository
         public async Task<News?> GetNewsById(int id)
         {
             return await _newsDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<News> GetPagedNewsList(NewsParameters parameters)
+        {
+            return PagedList<News>.ToPagedList(_newsDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<News> UpdateNews(News news)

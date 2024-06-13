@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -21,14 +23,29 @@ namespace Repository.Repository
             return await _tutorDetailDAO.AddAsync(tutorDetail);
         }
 
-        public async Task<User> AddNewUser(User user)
+        public async Task<User> AddNewParent(User parent)
         {
-            return await _userDAO.AddAsync(user);
+            return await _userDAO.AddAsync(parent);
+        }
+
+        public async Task<User> AddNewTutor(User tutor)
+        {
+            return await _userDAO.AddAsync(tutor);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
             return _userDAO.GetAll().AsEnumerable();
+        }
+
+        public User? GetUserByEmail(string email)
+        {
+            return _userDAO.GetByCondition(u => u.Email == email).FirstOrDefault();
+        }
+
+        public User? GetUserByPhone(string phone)
+        {
+            return _userDAO.GetByCondition(u => u.Phonenumber == phone).FirstOrDefault();
         }
 
         public async Task<User?> GetUserById(int id)
@@ -44,6 +61,11 @@ namespace Repository.Repository
         public async Task<User> UpdateUser(User user)
         {
             return await _userDAO.UpdateAsync(user);
+        }
+
+        public PagedList<User> GetPagedUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

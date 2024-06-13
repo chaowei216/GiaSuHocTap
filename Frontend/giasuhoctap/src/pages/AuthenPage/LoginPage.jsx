@@ -1,5 +1,5 @@
 import Login from "../../components/partial/Authen/login";
-import LayoutLoginPage from "../../components/partial/Authen/leftLoginPage";
+import LayoutLoginPage from "../../components/partial/Authen/LayoutAuthen/LayoutLoginPage";
 
 const LoginPage = () => {
   return (

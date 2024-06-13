@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,8 @@ namespace Common.Enum
     public enum RoleEnum
     {
         Admin,
-        Parent,
+        Moderator,
         Tutor,
-        Moderator
+        Parents,
     }
 }

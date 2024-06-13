@@ -18,9 +18,9 @@ namespace Service.Service
             return await _classRepository.AddClass(entity);
         }
 
-        public IEnumerable<Class> GetAllClass()
+        public IEnumerable<Class> GetAllClasses()
         {
-            return _classRepository.GetAllClass().AsEnumerable();
+            return _classRepository.GetAllClasses().AsEnumerable();
         }
 
         public async Task<Class?> GetClassById(int id)

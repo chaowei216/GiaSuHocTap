@@ -17,17 +17,16 @@ import { programs_shopper } from "../../data/programs_shopper";
 
 const HomePage = () => {
   const [hamActive, setHamActive] = useState(false);
-
   return (
     <div className="App">
       <Navbar hamActive={hamActive} setHamActive={setHamActive} />
       <NavbarResponsive hamActive={hamActive} />
       <Hero />
-      <Features />
       <Growth />
+      <Programs/>
+      <Features />
       <Questions />
-      <Programs programs={programs_user} />
-      <Programs programs={programs_shopper} />
+      {/* <Programs programs={programs_user} /> */}
       <Footer />
     </div>
   );

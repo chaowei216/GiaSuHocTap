@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Query;
+using Common.DTO;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -30,5 +32,7 @@ namespace Repository.IRepository
         /// <param name="feedback"></param>
         /// <returns></returns>
         Task<Feedback> UpdateFeedback(Feedback feedback);
+
+        PagedList<Feedback> GetPagedFeedbackList(FeedbackParameters parameters);
     }
 }
