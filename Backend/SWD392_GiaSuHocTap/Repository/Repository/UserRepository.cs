@@ -1,4 +1,6 @@
-﻿using Common.Enum;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
@@ -60,6 +62,11 @@ namespace Repository.Repository
         public async Task<User> UpdateUser(User user)
         {
             return await _userDAO.UpdateAsync(user);
+        }
+
+        public PagedList<User> GetPagedUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
         public IEnumerable<User>? GetUserByStatus()

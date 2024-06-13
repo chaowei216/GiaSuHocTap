@@ -15,9 +15,9 @@
   .logoTutor img {
     width: 40%;
   }
-  .layout_forgot_password {
-    background: url('/img/hehe.PNG') center no-repeat;
+  .layout_sendOtp {
+    background: url('/img/OTP.jpg') center no-repeat;
     background-size: cover;
-    height: 97vh;
+    height: 85vh;
   }
   

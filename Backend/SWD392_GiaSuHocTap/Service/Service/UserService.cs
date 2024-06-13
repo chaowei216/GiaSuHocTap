@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Common.Constant.Firebase;
 using Common.Constant.Message;
+using Common.DTO;
 using Common.DTO.Auth;
+using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
@@ -626,6 +628,16 @@ namespace Service.Service
                 IsSuccess = true
             };
             return successfulResponse;
+        }
+
+        public PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedUserList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
+
+            return mappedResponse;
         }
 
         public IEnumerable<UserDTO> GetAllPendingUser()

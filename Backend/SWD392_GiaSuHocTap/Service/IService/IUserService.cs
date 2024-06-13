@@ -1,5 +1,7 @@
 ﻿using Common.DTO.User;
 using Common.DTO.Auth;
+using Common.DTO;
+using Common.DTO.Query;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
 
@@ -76,11 +78,13 @@ namespace Service.IService
         /// <param name="parent"></param>
         /// <returns></returns>
         CheckValidateResponseDTO CheckCreateParent(ParentCreateRequestDTO parent);
-
+        
         /// <summary>
+        /// Get user list with pagination
         /// Get all users where status is pending
         /// </summary>
         /// <returns></returns>
+        PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters); 
         IEnumerable<UserDTO> GetAllPendingUser();
 
     }
