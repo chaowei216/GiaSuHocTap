@@ -1,5 +1,7 @@
-﻿using Common.Constant.Message;
+﻿using AutoMapper;
+using Common.Constant.Message;
 using Common.DTO;
+using Common.DTO.Auth;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 using Service.Service;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -15,10 +18,13 @@ namespace SWD392_GiaSuHocTap.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+                              IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet()]
@@ -67,6 +73,39 @@ namespace SWD392_GiaSuHocTap.Controllers
                 };
                 return BadRequest(response);
             }
+        }
+
+        [HttpGet("get-by-email")]
+        public IActionResult GetUserByEmail([FromQuery] [Required] [EmailAddress] string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetUserByEmail(email);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = _mapper.Map<UserDTO>(response)
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
         }
     }
 }
