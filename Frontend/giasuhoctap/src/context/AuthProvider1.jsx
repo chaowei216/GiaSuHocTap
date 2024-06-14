@@ -203,18 +203,15 @@ function AuthProvider1({ children }) {
     formData.append("Job", tutor.job);
     formData.append("Major", tutor.major);
 
-    const imageBlob = await fetch(tutor.image).then(response => response.blob());
-    formData.append("imageFile", imageBlob);
-    // Thêm các hình ảnh danh tính vào FormData
-    for (const idenFile of tutor.imageIdentity) {
-      const idenBlob = await fetch(idenFile).then(response => response.blob());
-      formData.append("idenFiles", idenBlob, idenFile);
+    for (let i = 0; i < tutor.imageUser.length; i++) {
+      formData.append("imageFile", tutor.imageUser[i]);
+    }
+    for (let i = 0; i < tutor.imageIdentity.length; i++) {
+      formData.append("idenFiles", tutor.imageIdentity[i]);
     }
 
-    // Thêm các hình ảnh chứng chỉ vào FormData
-    for (const cerFile of tutor.imageCertificate) {
-      const cerBlob = await fetch(cerFile).then(response => response.blob());
-      formData.append("cerFiles", cerBlob, cerFile);
+    for (let i = 0; i < tutor.imageCertificate.length; i++) {
+      formData.append("cerFiles", tutor.imageCertificate[i]);
     }
 
     console.log(formData)
@@ -237,7 +234,7 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm gia sư thành công")
       const timeout = setTimeout(() => {
         window.location.href = "/login";
-      }, 4000);
+      }, 3000);
       return () => clearTimeout(timeout);
     }
   }

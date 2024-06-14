@@ -96,3 +96,46 @@ export const GetUserByAccessToken = async (accessToken) => {
         console.log(err);
     }
 }
+export const SendVerifyEmail = (email) => {
+    const url = `${baseUrl}/api/Auth/send-verify-email?email=${email}`;
+    const request = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    
+    return fetch(url, request)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed');
+            }
+            return response.json();
+        })
+        .catch(err => {
+            console.error(err);
+            throw err;
+        });
+};
+
+export const VerifyUser = (otp, email) => {
+    const url = `${baseUrl}/api/Auth/verify-email?otpCode=${otp}&email=${email}`;
+    const request = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    
+    return fetch(url, request)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed');
+            }
+            return response.json();
+        })
+        .catch(err => {
+            console.error(err);
+            throw err;
+        });
+};

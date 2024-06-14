@@ -39,7 +39,7 @@ export default function RegisterTutor() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      imageUser: values.imageUser.toString(),
+      imageUser: values.imageUser,
       imageCertificate: values.imageCertificate,
       imageIdentity: values.imageIdentity,
       district: values.district,
@@ -178,7 +178,7 @@ export default function RegisterTutor() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-              <FormControl style={{ width: "100%"}}>
+                <FormControl style={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Hiện là
                   </InputLabel>
@@ -322,8 +322,8 @@ export default function RegisterTutor() {
                   label="Ngành học"
                   name="major"
                   autoComplete="major"
-                  // error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
-                  // helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                // error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
+                // helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 />
               </Grid>
               <Grid item xs={12} className="flex">
