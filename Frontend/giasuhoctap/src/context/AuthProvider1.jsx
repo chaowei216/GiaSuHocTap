@@ -203,19 +203,30 @@ function AuthProvider1({ children }) {
     formData.append("Job", tutor.job);
     formData.append("Major", tutor.major);
 
-    const imageBlob = await fetch(tutor.image).then(response => response.blob());
-    formData.append("imageFile", imageBlob);
-    // Thêm các hình ảnh danh tính vào FormData
-    for (const idenFile of tutor.imageIdentity) {
-      const idenBlob = await fetch(idenFile).then(response => response.blob());
-      formData.append("idenFiles", idenBlob, idenFile);
+    // Upload ảnh profile
+    if (tutor.imageUser) {
+      const imageFile = await fetch(tutor.imageUser)
+        .then(response => response.blob())
+        .then(blob => new File([blob], `${tutor.imageUser}`, { type: 'image/jpeg' }));
+      formData.append("imageFile", imageFile);
     }
 
-    // Thêm các hình ảnh chứng chỉ vào FormData
-    for (const cerFile of tutor.imageCertificate) {
-      const cerBlob = await fetch(cerFile).then(response => response.blob());
-      formData.append("cerFiles", cerBlob, cerFile);
+    // Upload ảnh danh tính
+    for (const idenFileName of tutor.imageIdentity) {
+      const idenFile = await fetch(idenFileName)
+        .then(response => response.blob())
+        .then(blob => new File([blob], `${idenFileName}`, { type: 'image/jpeg' }));
+      formData.append("idenFiles", idenFile);
     }
+
+    // Upload ảnh chứng chỉ
+    for (const cerFileName of tutor.imageCertificate) {
+      const cerFile = await fetch(cerFileName)
+        .then(response => response.blob())
+        .then(blob => new File([blob], `${cerFileName}`, { type: 'image/jpeg' }));
+      formData.append("cerFiles", cerFile);
+    }
+
 
     console.log(formData)
     const response = await RegisterTutor(formData)
