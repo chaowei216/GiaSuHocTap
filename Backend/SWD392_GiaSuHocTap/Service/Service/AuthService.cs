@@ -41,7 +41,7 @@ namespace Service.Service
             // check if it is a admin account
             var user = CheckAdminAccount(loginRequest.Email, loginRequest.Password);
             if (user != null)
-            {
+            {                    
                 return new LoginResponseDTO()
                 {
                     User = _mapper.Map<UserDTO>(user),
