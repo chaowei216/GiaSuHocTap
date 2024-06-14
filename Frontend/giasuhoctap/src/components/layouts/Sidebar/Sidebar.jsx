@@ -112,7 +112,7 @@ export default function Sidebar() {
         <div
           className={`${
             open ? "w-72" : "w-20"
-          } p-5 pt-8 relative duration-300 bg-slate-200`}
+          } pt-8 relative duration-300 bg-slate-200`}
         >
           <img
             src={logoControl}
@@ -131,11 +131,12 @@ export default function Sidebar() {
               onClick={() => fetchUserInfo(token, username)}
             />
           </div> */}
-          <ul className="pt-6">
+          <ul className="pt-6 pr-3">
             {Menus.map((menu, index) => {
               return (
                 <li key={index} className="mb-6">
                   <NavLink
+                    style={{textDecoration: "none", color: "black"}}
                     to={menu.path}
                     className={({ isActive }) =>
                       isActive ? "active" : "inactive"

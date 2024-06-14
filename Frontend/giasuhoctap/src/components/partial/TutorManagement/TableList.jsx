@@ -1,12 +1,33 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from "@mui/material/Paper";
 import { Navigate } from 'react-router-dom';
 import FormatDate from "../../../utils/format-date"
 import { useEffect, useState } from 'react';
 import fakeDate from "../../../data/fakeData.json"
 import styles from "../../partial/TutorManagement/status.module.css";
+import { styled } from '@mui/material/styles';
 export default function TableList() {
     const [data, setData] = useState([]);
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+          fontSize: 14,
+        },
+      }));
+      
+      const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+          backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+          border: 0,
+        },
+      }));
     const styleHeader = {
         gap: "6px",
         display: "flex",
@@ -35,7 +56,7 @@ export default function TableList() {
         <div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="simple table" size="small">
-                    <TableHead style={{ backgroundColor: "#2d3748" }}>
+                    <TableHead style={{ backgroundColor: "#000000" }}>
                         <TableRow>
                             {TableHeader.map((row, index) => (
                                 <TableCell
@@ -50,10 +71,10 @@ export default function TableList() {
                     </TableHead>
                     <TableBody
                         sx={{
-                            "&:last-child td, &:last-child th": {
-                                borderBottom: 1,
-                                borderColor: "#2d3748",
-                            },
+                            // "&:last-child td, &:last-child th": {
+                            //     borderBottom: 1,
+                            //     borderColor: "#2d3748",
+                            // },
                         }}
                     >
                         {/* {!data && <NoDataPage />} */}
@@ -85,19 +106,19 @@ export default function TableList() {
                         {data &&
                             data.map((row, index) => {
                                 return (
-                                    <TableRow
-                                        style={{ textAlign: "center" }}
+                                    <StyledTableRow
+                                        style={{ textAlign: "center", height: "60px" }}
                                         key={index}
                                         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                     >
-                                        <TableCell
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "100px" }}
                                             component="th"
                                             scope="row"
                                         >
                                             {row.id}
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             sx={{ fontWeight: "600", width: "230px" }}
                                             component="th"
                                             align="left"
@@ -109,32 +130,32 @@ export default function TableList() {
                                             >
                                                 <span>{row.fullName}</span>
                                             </Button>
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "200px"  }}
                                             align="left"
                                         >
                                             {FormatDate(row.birthDate)}
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "200px" }}
                                             align="middle"
                                         >
                                             {row.identityNumber}
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "200px"  }}
                                             align="left"
                                         >
                                             {row.phone}
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "250px"  }}
                                             align="left"
                                         >
                                             {row.address}
-                                        </TableCell>
-                                        <TableCell
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             sx={{ width: "150px", paddingLeft: "0px", paddingRight: "20px" }}
                                             style={{ fontWeight: "600" }}
                                             align="left"
@@ -160,7 +181,7 @@ export default function TableList() {
                                                         );
                                                     }
                                                 })}
-                                        </TableCell>
+                                        </StyledTableCell>
                                         {/* <TableCell align="center">
                                             <Action
                                                 setOpen={setOpen}
@@ -170,7 +191,7 @@ export default function TableList() {
                                                 rerender={rerender}
                                             />
                                         </TableCell> */}
-                                    </TableRow>
+                                    </StyledTableRow>
                                 );
                             })}
                     </TableBody>
