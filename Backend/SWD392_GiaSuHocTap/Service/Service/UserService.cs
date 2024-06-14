@@ -169,7 +169,7 @@ namespace Service.Service
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
             userMap.RoleId = (int)RoleEnum.Tutor + 1;
-            userMap.Status = UserStatusEnum.Pending;
+            userMap.Status = UserStatusEnum.InActive;
             userMap.UserImage = image;
             userMap.IdentityImage = identityFiles;
 
