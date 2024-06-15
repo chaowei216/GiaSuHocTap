@@ -9,10 +9,10 @@
 }
 
 .slideContainer {
-  max-width: 900px;
+  max-width: 80%;
   width: 100%;
   padding: 40px 0;
-  margin-left: 25px;
+  margin-left: 150px;
 }
 
 .slideContent {
@@ -23,7 +23,7 @@
 
 .cardWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr)); /* Ensures 2 cards per row */
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Ensures 2 cards per row */
   gap: 1rem; /* Adjust the gap between cards as needed */
   padding: 1rem;
 }
@@ -167,9 +167,28 @@
   font-weight: bold;
 }
 
-.teachingForm, .dayOfWeek{
+.teachingForm, .dayOfWeek, .time{
   font-weight: bold;
   margin-left: 5px;
   margin-bottom: 5px;
+}
+
+.slideBgTu{
+  background: url(../../../../../public/img/ReTutor.png) no-repeat 0 0;
+  margin-top: 40px;
+  background-size: 1020px;
+  margin-bottom: 18px;
+  height: 70px;
+  margin-left: 405px;
+ 
+}
+
+.slideBgTu h1{
+  margin-left: 350px;
+  margin-top: 38px;
+  font-size: 23px;
+  font-weight: bold;
+  padding-top: 17px;
+ color: #043882;
 }
 

@@ -80,7 +80,7 @@
   .profileBgTu{
     background: url(../../../../../public/img/ReTutor.png) no-repeat 0 0;
     margin-top: 20px;
-    background-size: 975px;
+    background-size: 875px;
     margin-bottom: 18px;
    
   }
@@ -90,9 +90,9 @@
     line-height: 50px;
     color: #043882;
     font-weight: bold;
-    font-size: 25px;
-    margin-left: 350px;
-    padding-top: 5px;
+    font-size: 23px;
+    margin-left: 308px;
+    padding-top: 3px;
   }
 
   .profileContent p{
@@ -105,7 +105,7 @@
     font-size: 17px;
     font-weight: 600;
     color: #fff;
-    margin: 20px 20px 20px 390px;
+    margin: 20px 20px 20px 340px;
     height: 45px;
     text-align:center;
     border: none;

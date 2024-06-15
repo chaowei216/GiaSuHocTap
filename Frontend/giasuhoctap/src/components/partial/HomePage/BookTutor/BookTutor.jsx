@@ -9,6 +9,7 @@ const tutors = [
         wage: '100.000VND',
         teachingForm: 'Online',
         dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
         class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
     },
     {
@@ -19,6 +20,7 @@ const tutors = [
         wage: '100.000VND',
         teachingForm: 'Online',
         dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
         class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
     },
     {
@@ -29,6 +31,7 @@ const tutors = [
         wage: '100.000VND',
         teachingForm: 'Online',
         dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
         class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
     },
     {
@@ -39,6 +42,7 @@ const tutors = [
         wage: '100.000VND',
         teachingForm: 'Online',
         dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
         class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
     },
     {
@@ -49,14 +53,29 @@ const tutors = [
         wage: '100.000VND',
         teachingForm: 'Online',
         dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
+        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
+    },
+    {
+        name: "Michael Brown",
+        imgSrc: "../../../../../public/img/Carousel1.jpg",
+        description: "Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam.",
+        subject: 'Văn, Hóa, Toán, Văn',
+        wage: '100.000VND',
+        teachingForm: 'Online',
+        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
+        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
         class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
     }
 ];
 
 const BookTutor = () => {
     return (
-        <div className={styles.slideBox} style={{ width: '100%', height: '100%', backgroundColor: '#F0F9FC' }}>
-            <div className={styles.slideBody}>
+        <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
+            <div className={styles.slideReTutor}>
+                <div className={styles.slideBgTu}>
+                    <h1>DANH SÁCH GIA SƯ ONLINE</h1>
+                </div>
                 <div className={`slide-container ${styles.slideContainer}`}>
                     <div className={`slide-content ${styles.slideContent}`}>
                         <div className={`card-wrapper ${styles.cardWrapper}`}>
@@ -69,8 +88,8 @@ const BookTutor = () => {
                                         </div>
                                     </div>
                                     <div className={`card-content ${styles.cardContent}`}>
-                                    <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
-                                    <div className={styles.cardSubject}>
+                                        <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
+                                        <div className={styles.cardSubject}>
                                             <p className={styles.cardTitle}>Môn dạy: </p>
                                             <p className={`class ${styles.subject}`}>{tutor.subject}</p>
                                         </div>
@@ -87,10 +106,13 @@ const BookTutor = () => {
                                             <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
                                         </div>
                                         <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Thời gian: </p>
+                                            <p className={styles.cardTitle}>Ngày trong tuần: </p>
                                             <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
                                         </div>
-                                        
+                                        <div className={styles.cardSubject}>
+                                            <p className={styles.cardTitle}>Thời gian: </p>
+                                            <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
+                                        </div>
                                     </div>
                                     <button className={`button ${styles.button}`}>Đăng ký</button>
                                 </div>
