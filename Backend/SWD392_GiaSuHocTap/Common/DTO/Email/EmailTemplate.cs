@@ -189,7 +189,109 @@
 
             return htmlTemplate;
         }
+        public static string RejectEmailTemplate(string userEmail, string subject, string reason)
+        {
+            string htmlTemplate = @"<head>
+    <meta content=""text/html; charset=utf-8"" http-equiv=""Content-Type"">
+    <title>
+        {TITLE}
+    </title>
+    <style type=""text/css"">
+        html {
+            background-color: #FFF;
+        }
+
+        body {
+            font-size: 120%;
+            background-color: wheat;
+            border-radius: 5px;
+        }
+
+        .logo {
+            text-align: center;
+            padding: 2% 0;
+        }
+
+        .logo img {
+            width: 40%;
+            height: 35%;
+        }
+
+        .content {
+            padding: 2% 5%;
+            background-color: #FFF;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .welcome-text {
+            padding-bottom: 1%;
+        }
+
+        .features {
+            padding-bottom: 1%;
+        }
+
+        .feature-header {
+            font-weight: bold;
+        }
+        
+        .end-text {
+            padding-bottom: 1%;
+        }
+
+        .footer {
+            padding: 2% 5%;
+            text-align: center;
+            font-size: 80%;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class=""logo"">
+        <img src=""{LOGO_URL}"" />
+    </div>
+    <div class=""content"">
+        <div class=""welcome-text"">
+            <p>Hello {USER_NAME}</p>
+            <p>We are sorry that you have rejected from our website. {REASON}</p>
+            
+        </div>
+        <div class=""features"">
+            <p>Here are some key features you can explore:</p>
+            <p><span class=""feature-header"">Effortless Shopping:</span>Teaching and helping you the subject that you have problem in school.</p>
+            <p><span class=""feature-header"">Exclusive Deals:</span>Learning and teaching the subject that you have problem in school.</p>
+            <p><span class=""feature-header"">Fast Delivery:</span>Learning and teaching the subject that you have problem in school..</p>
+            <p><span class=""feature-header"">Customer Support:</span>We are always here to assist you through various
+                communication channels, from email to online chat.</p>
+        </div>
+
+        <div class=""end-text"">
+            <p>Please check your register again. Maybe some fields are incorrect.</p>
+            <p>Once again, we are sorry about that! We hope you have exciting and satisfying day.</p>
+        </div>
+        <p>Best regards,</p>
+        <p>The GiaSuHocTap Team</p>
+        </p>
+    </div>
+    <div class=""footer"">
+        <p>This is an automatic email. Please do not reply to this email.</p>
+        <p>17th Floor LandMark 81, 208 Nguyen Huu Canh Street, Binh Thanh District, Ho Chi Minh 700000, Vietnam</p>
+    </div>
+</body>
+
+</html>";
+            htmlTemplate = htmlTemplate
+                .Replace("{USER_NAME}", userEmail)
+                .Replace("{LOGO_URL}", logoUrl)
+                .Replace("{TITLE}", subject)
+                .Replace("{REASON}", reason);
+
+            return htmlTemplate;
+        }
 
     }
 }
+
 

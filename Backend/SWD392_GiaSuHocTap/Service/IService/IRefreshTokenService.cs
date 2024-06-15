@@ -10,34 +10,34 @@ namespace Service.IService
     public interface IRefreshTokenService
     {
         /// <summary>
-        /// Get all time tables
+        /// Get all refreshtoken
         /// </summary>
         /// <returns></returns>
         IEnumerable<RefreshToken> GetAllRefreshTokens();
 
         /// <summary>
-        /// Get time table by id
+        /// Get refreshtoken by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<RefreshToken?> GetRefreshTokenById(int id);
 
         /// <summary>
-        /// Add new time table
+        /// Add new refreshtoken
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<RefreshToken> AddRefreshToken(RefreshToken refreshToken);
 
         /// <summary>
-        /// Update time table
+        /// Update refreshtoken
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
         Task<RefreshToken> UpdateRefreshToken(RefreshToken refreshToken);
 
         /// <summary>
-        /// Delete time table
+        /// Delete refreshtoken
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>

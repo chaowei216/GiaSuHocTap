@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using AutoMapper;
+using DAO.Model;
+using Common.DTO.Class;
 using Repository.IRepository;
 using Service.IService;
 
@@ -7,10 +9,12 @@ namespace Service.Service
     public class ClassService : IClassService
     {
         private readonly IClassRepository _classRepository;
+        private readonly IMapper _mapper;
 
-        public ClassService(IClassRepository classRepository)
+        public ClassService(IClassRepository classRepository, IMapper mapper)
         {
             _classRepository = classRepository;
+            _mapper = mapper;
         }
 
         public async Task<Class> AddClass(Class entity)
@@ -18,9 +22,12 @@ namespace Service.Service
             return await _classRepository.AddClass(entity);
         }
 
-        public IEnumerable<Class> GetAllClasses()
+        public IEnumerable<ClassDTO> GetAllClasses()
         {
-            return _classRepository.GetAllClasses().AsEnumerable();
+            var classes =_classRepository.GetAllClasses().AsEnumerable();
+            var classesMap = _mapper.Map<List<ClassDTO>>(classes);
+
+            return classesMap;
         }
 
         public async Task<Class?> GetClassById(int id)

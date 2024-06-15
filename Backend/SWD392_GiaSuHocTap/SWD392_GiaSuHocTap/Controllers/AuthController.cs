@@ -130,11 +130,21 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public IActionResult ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
-            var result = _authService.ForgotPassword(email);
+            var result = await _authService.ForgotPassword(email);
             return Ok(result);
         }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ForgotPasswordDTO dto)
+        {
+            var result = await _authService.ResetPassword(dto);
+            return Ok(result);
+        }
+
+        /*[HttpPost("reset-password")]
+        public IActionResult */
 
         [HttpGet("user-by-token")]
         public async Task<IActionResult> GetUserByToken([Required] string refreshToken)
@@ -215,7 +225,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
-        [HttpPost("register-parent")]
+        [HttpPost("register-parents")]
         public async Task<IActionResult> CreateNewParent([FromForm] ParentCreateRequestDTO parent, IFormFile imageFile)
         {
             try
@@ -261,7 +271,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("send-verify-email")]
-        public IActionResult SendEmail(string email)
+        public IActionResult SendEmail([FromBody] [EmailAddress] string email)
         {
             try
             {
@@ -283,37 +293,94 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("verify-email")]
-        public IActionResult VerifyEmail(string otpCode, string email)
+        public IActionResult VerifyEmail([FromBody] VerifyEmailDTO dto)
         {
-            var checkOtpExpired = _authService.CheckOTPExpired(email);
-            if(!checkOtpExpired)
+            try
             {
-                var responseExpired = new ResponseDTO()
+                var checkOtpExpired = _authService.CheckOTPExpired(dto.Email);
+                if (!checkOtpExpired)
                 {
-                    Message = AuthMessage.OtpIsExpired,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    var responseExpired = new ResponseDTO()
+                    {
+                        Message = AuthMessage.OtpIsExpired,
+                        StatusCode = (int)StatusCodeEnum.BadRequest,
+                    };
+                    return BadRequest(responseExpired);
+                }
+
+                var checkOtp = _authService.CheckOTP(dto.Email, dto.OtpCode);
+                if (!checkOtp)
+                {
+                    var responseWrong = new ResponseDTO()
+                    {
+                        Message = AuthMessage.OtpNotMatch,
+                        StatusCode = (int)StatusCodeEnum.BadRequest,
+                    };
+                    return BadRequest(responseWrong);
+                }
+
+                var verify = _authService.VerifyEmail(dto.Email);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.VerifySuccess,
+                    StatusCode = (int)StatusCodeEnum.OK,
                 };
-                return BadRequest(responseExpired);
+                return Ok(response);
+            } catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
             }
             
-            var checkOtp = _authService.CheckOTP(email, otpCode);
-            if(!checkOtp)
-            {
-                var responseWrong = new ResponseDTO()
-                {
-                    Message = AuthMessage.OtpNotMatch,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
-                };
-                return BadRequest(responseWrong);
-            }
+        }
 
-            var verify = _authService.VerifyEmail(email);
-            var response = new ResponseDTO()
+        [HttpPost("accept-tutor")]
+        public IActionResult AcceptTutor([FromBody] [EmailAddress] string email)
+        {
+            try
             {
-                Message = AuthMessage.VerifySuccess,
-                StatusCode = (int)StatusCodeEnum.NoContent,
-            };
-            return Ok(response);
+                _authService.AcceptUser(email);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.Accepted,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                };
+                return Ok(response);
+            } catch(Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            }
+            
+        }
+
+        [HttpPost("reject-tutor")]
+        public IActionResult RejectTutor([FromBody] RejectTutorDTO dto)
+        {
+            try
+            {
+                _authService.RejectTutor(dto.Email, dto.Reason);
+                var response = new ResponseDTO()
+                {
+                    Message = AuthMessage.Rejected,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                };
+                return Ok(response);
+
+            } catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            } 
         }
     }
 }

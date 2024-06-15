@@ -1,5 +1,6 @@
 ﻿using Common.DTO;
 using Common.DTO.Query;
+using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
@@ -66,6 +67,21 @@ namespace Repository.Repository
         public PagedList<User> GetPagedUserList(UserParameters parameters)
         {
             return PagedList<User>.ToPagedList(_userDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IEnumerable<User>? GetUserByStatus()
+        {
+            return _userDAO.GetByCondition(u => u.Status == UserStatusEnum.Pending);
+        }
+
+        public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public PagedList<User> GetPagedActiveUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

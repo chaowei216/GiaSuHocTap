@@ -41,7 +41,7 @@ namespace Service.Service
             // check if it is a admin account
             var user = CheckAdminAccount(loginRequest.Email, loginRequest.Password);
             if (user != null)
-            {
+            {                    
                 return new LoginResponseDTO()
                 {
                     User = _mapper.Map<UserDTO>(user),
@@ -148,39 +148,44 @@ namespace Service.Service
             throw new NotImplementedException();
         }
 
-        public ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model)
+        public async Task<ResponseDTO> ResetPassword(ForgotPasswordDTO dto)
         {
-            if (model.Email.IsNullOrEmpty())
+            var user = _userService.GetUserByEmail(dto.Email);
+            
+            CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            if(user == null)
             {
-                var response = new ForgotPasswordResponseDTO()
+                return new ResponseDTO
                 {
-                    IsSuccess = false,
+                    Message = GeneralMessage.Fail,
                     StatusCode = (int)StatusCodeEnum.BadRequest,
-                    Message = CreateUserMessage.NullEmail
                 };
-                return response;
             }
 
-            var user = _userService.GetAllUsers().FirstOrDefault(c => c.Email == model.Email);
-            if (user == null)
+            if(dto.Password != dto.ConfirmPassword)
             {
-                return new ForgotPasswordResponseDTO()
+                return new ResponseDTO
                 {
-                    IsSuccess = false,
+                    Message = GeneralMessage.Fail,
                     StatusCode = (int)StatusCodeEnum.BadRequest,
-                    Message = CreateUserMessage.NullEmail
                 };
             }
-            return new ForgotPasswordResponseDTO()
+
+            user.Otp = null;
+            user.OtpExpiredTime = null;
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            await _userService.UpdateUserOtp(user);
+
+            return new ResponseDTO
             {
-                IsSuccess = false,
-                StatusCode = (int)StatusCodeEnum.BadRequest,
-                Message = CreateUserMessage.NullEmail
+                Message = GeneralMessage.Success,
+                StatusCode = (int)StatusCodeEnum.NoContent,
             };
-
         }
 
-        public ResponseDTO ForgotPassword(string email)
+        public async Task<ResponseDTO> ForgotPassword(string email)
         {
             var user = _userService.GetUserByEmail(email);
             if (user == null)
@@ -206,6 +211,7 @@ namespace Service.Service
 
             user.Otp = otp.OTPCode;
             user.OtpExpiredTime = otp.ExpiredTime;
+            await _userService.UpdateUserOtp(user);
 
             _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.ResetPassEmailSubject);
 
@@ -300,6 +306,18 @@ namespace Service.Service
                 user.Status = UserStatusEnum.Active;
                 _userService.UpdateUserOtp(user);
                 return true;
+            }
+            return false;
+        }
+
+        public bool RejectTutor(string email, string reason)
+        {
+            var user = _userService?.GetUserByEmail(email);
+            if(user != null)
+            {
+                _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
+                return true;
+
             }
             return false;
         }

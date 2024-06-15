@@ -3,7 +3,6 @@ using Common.Constant.Firebase;
 using Common.Constant.Message;
 using Common.DTO;
 using Common.DTO.Auth;
-using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
@@ -170,7 +169,7 @@ namespace Service.Service
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
             userMap.RoleId = (int)RoleEnum.Tutor + 1;
-            userMap.Status = UserStatusEnum.Pending;
+            userMap.Status = UserStatusEnum.InActive;
             userMap.UserImage = image;
             userMap.IdentityImage = identityFiles;
 
@@ -634,6 +633,26 @@ namespace Service.Service
         public PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedUserList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
+
+            return mappedResponse;
+        }
+
+        public PaginationResponseDTO<UserDTO> GetAllPendingUser(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedPendingUserList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
+
+            return mappedResponse;
+        }
+
+        public PaginationResponseDTO<UserDTO> GetAllActiveUser(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedActiveUserList(parameters);
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
             mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);

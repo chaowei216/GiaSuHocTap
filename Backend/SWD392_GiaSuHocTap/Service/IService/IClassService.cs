@@ -1,24 +1,25 @@
 ﻿using DAO.Model;
+using Common.DTO.Class;
 
 namespace Service.IService
 {
     public interface IClassService
     {
         /// <summary>
-        /// Get all time tables
+        /// Get all classes
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Class> GetAllClasses();
+        IEnumerable<ClassDTO> GetAllClasses();
 
         /// <summary>
-        /// Get time table by id
+        /// Get class by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Class?> GetClassById(int id);
 
         /// <summary>
-        /// Add new role
+        /// Add new class
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>

@@ -33,14 +33,14 @@ namespace Service.IService
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model);
+        Task<ResponseDTO> ResetPassword(ForgotPasswordDTO model);
 
         /// <summary>
         /// Send code to reset password
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        ResponseDTO ForgotPassword(string email);
+        Task<ResponseDTO> ForgotPassword(string email);
 
         /// <summary>
         /// Check user is verify?
@@ -87,10 +87,17 @@ namespace Service.IService
         void SendEmailVerify(string email);
 
         /// <summary>
-        /// Send verify email
+        /// Accept tutor
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
         bool AcceptUser(string email);
+
+        /// <summary>
+        /// Accept tutor
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        bool RejectTutor(string email, string reason);
     }
 }

@@ -54,6 +54,27 @@ namespace Service.Service
             
         }
 
+        public void SendRejectEmail(string userEmail, string subject, string reason)
+        {
+            var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];
+            var toEmail = userEmail;
+            var htmlBody = EmailTemplate.RejectEmailTemplate(userEmail, subject, reason);
+            MailMessage mailMessage = new MailMessage(sendEmail, toEmail, subject, htmlBody);
+            mailMessage.IsBodyHtml = true;
+
+            var smtpServer = _configuration.GetSection("SendEmailAccount")["SmtpServer"];
+            int.TryParse(_configuration.GetSection("SendEmailAccount")["Port"], out int port);
+            var userNameEmail = _configuration.GetSection("SendEmailAccount")["UserName"];
+            var password = _configuration.GetSection("SendEmailAccount")["Password"];
+
+            SmtpClient client = new SmtpClient(smtpServer, port);
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(userNameEmail, password);
+            client.EnableSsl = true; // Enable SSL/TLS encryption
+
+            client.Send(mailMessage);
+        }
+
         public void SendWelcomeEmail(string userEmail, string subject)
         {
             var sendEmail = _configuration.GetSection("SendEmailAccount")["Email"];

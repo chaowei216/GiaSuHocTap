@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240612040607_init")]
+    [Migration("20240613050355_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -499,7 +499,6 @@ namespace DAO.Migrations
                         .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("YoutubeLink")

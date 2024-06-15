@@ -110,7 +110,6 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 //seed data
-
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);
 
@@ -121,7 +120,7 @@ void SeedData(IHost app)
     using (var scope = scopeFactory.CreateScope())
     {
         var service = scope.ServiceProvider.GetService<DataSeed>();
-        service.TrySeedAsync();
+        service.TrySeed();
     }
 }
 // Configure the HTTP request pipeline.

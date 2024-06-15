@@ -114,7 +114,7 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdentityImage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserImage = table.Column<string>(type: "longtext", nullable: false)
+                    UserImage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     YoutubeLink = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
