@@ -202,7 +202,7 @@ namespace Service.Service
                 return new ResponseDTO()
                 {
                     Message = AuthMessage.UserIsNotVerified,
-                    StatusCode = (int)StatusCodeEnum.NotFound
+                    StatusCode = (int)StatusCodeEnum.BadRequest
                 };
             }
 
@@ -218,7 +218,7 @@ namespace Service.Service
             return new ResponseDTO()
             {
                 Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
-                StatusCode = (int)StatusCodeEnum.Created,
+                StatusCode = (int)StatusCodeEnum.OK,
                 Data = otp
             };
         }

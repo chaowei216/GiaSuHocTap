@@ -130,9 +130,19 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] EmailDTO email)
         {
-            var result = await _authService.ForgotPassword(email);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var result = await _authService.ForgotPassword(email.Email);
             return Ok(result);
         }
 
@@ -271,15 +281,15 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("send-verify-email")]
-        public IActionResult SendEmail([FromBody] [EmailAddress] string email)
+        public IActionResult SendEmail([FromBody] EmailDTO email)
         {
             try
             {
-                _authService.SendEmailVerify(email);
+                _authService.SendEmailVerify(email.Email);
                 var response = new ResponseDTO()
                 {
-                    Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
-                    StatusCode= (int)StatusCodeEnum.NoContent,
+                    Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email.Email,
+                    StatusCode= (int)StatusCodeEnum.OK,
                 };
                 return Ok(response);
             } catch(Exception ex)
@@ -338,11 +348,11 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("accept-tutor")]
-        public IActionResult AcceptTutor([FromBody] [EmailAddress] string email)
+        public IActionResult AcceptTutor([FromBody] EmailDTO email)
         {
             try
             {
-                _authService.AcceptUser(email);
+                _authService.AcceptUser(email.Email);
                 var response = new ResponseDTO()
                 {
                     Message = AuthMessage.Accepted,
