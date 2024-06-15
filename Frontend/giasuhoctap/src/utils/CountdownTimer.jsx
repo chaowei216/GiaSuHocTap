@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 export default function CountdownTimer() {
     let { email } = useParams();
-
+    const decodedEmail = atob(email);
     const [countdown, setCountdown] = useState(0);
     const countdownRef = useRef(null);
     const [canSendOTP, setCanSendOTP] = useState(true);
@@ -16,10 +16,10 @@ export default function CountdownTimer() {
         }
 
         // Gọi API để gửi mã OTP
-        SendVerifyEmail(email).then(response => {
-            if (response.statusCode === 204) {
-                toast.info(response.message);
-            } else if (response.statusCode !== 204) {
+        SendVerifyEmail(decodedEmail).then(response => {
+            if (response.statusCode === 200) {
+                toast.success("Send email success");
+            } else if (response.statusCode !== 200) {
                 toast.error("Send failed please try agian")
             }
         }).catch(error => {

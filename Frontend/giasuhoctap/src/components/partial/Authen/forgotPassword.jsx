@@ -13,14 +13,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./forgotPassword.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
-import { useEffect, useRef } from "react";
-import { SignIn } from "../../../api/AuthenApi";
+import { useEffect, useRef, useState } from "react";
+import { ForgotPasswordApi, SignIn } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 export default function ForgotPassword() {
-  const userRef = useRef();
-  const { login } = useAuth();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [email, setEmail] = useState("");
   //const { auth, setAuth, isAuthenticated } = useAuth()
   // const navigate = useNavigate()
   // const location = useLocation()
@@ -28,25 +29,23 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // const userInput = {
-    //   userName: data.get("email"),
-    //   password: data.get("password"),
-    // };
-    // const response = await SignIn(userInput);
-    // if (response.status == 200) {
-    //   const responseJson = await response.json();
-    //   const accessToken = responseJson?.result?.accessToken;
-    //   const user = responseJson?.result?.user
-    //   localStorage.setItem("accessToken", accessToken);
-    //   setAuth({ ...auth, user, accessToken, isInitialized: true, isAuthenticated: true, });
-    //   //navigate(from, { replace: true });
-    // }
-    await login(data.get("email"), data.get("password"));
+    if (email == null || email.trim().length == 0) {
+      toast.error("Email empty");
+      return;
+    }
+    const response = await ForgotPasswordApi(email)
+    if (!response.ok) {
+      toast.error("Error")
+      return;
+    }
+    const responseJson = await response.json();
+    if (responseJson.statusCode === 200) {
+      toast.success(responseJson.message)
+      setIsSuccess(true);
+    } else {
+      toast.error(responseJson.message)
+    }
   };
-  useEffect(() => {
-    userRef.current.focus();
-  }, [])
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="sm" className={styles.layout_container}>
@@ -65,7 +64,7 @@ export default function ForgotPassword() {
           <Typography component="h1" variant="h4">
             Quên mật khẩu
           </Typography>
-          <Typography component="h1" variant="h6" sx={{mt: 3}}>
+          <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
             Điền email của bạn và chúng tôi sẽ gửi mã code đến mail bạn
           </Typography>
           <Box
@@ -74,34 +73,104 @@ export default function ForgotPassword() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              ref={userRef}
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              InputProps={{
-                startAdornment: (
-                  <MailOutlineIcon />
-                ),
-              }}
-            />
+            {isSuccess == false && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                autoFocus
+                InputProps={{
+                  startAdornment: (
+                    <MailOutlineIcon />
+                  ),
+                }}
+              />
+            )}
+            {isSuccess == true && (
+              <>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="OTP"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Password"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Confirm Password"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+              </>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2}}
+              sx={{ mt: 3, mb: 2 }}
             >
               Submit
             </Button>
-            <div style={{display: 'flex', justifyContent: "center"}}>
-            <Link href="/login" variant="body2">
-                  Trở về trang đăng nhập
-            </Link>
+            <div style={{ display: 'flex', justifyContent: "center" }}>
+              <Link href="/login" variant="body2">
+                Trở về trang đăng nhập
+              </Link>
             </div>
           </Box>
         </Box>

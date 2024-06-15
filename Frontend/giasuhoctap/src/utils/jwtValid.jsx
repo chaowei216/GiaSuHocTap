@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { RefreshToken } from "../api/AuthenApi";
+import { toast } from "react-toastify";
 //
 
 // ----------------------------------------------------------------------
@@ -19,21 +20,45 @@ const isValidToken = (accessToken) => {
   return decoded.exp > currentTime;
 };
 
-const handleTokenExpired = (exp, refreshToken) => {
-  let expiredTimer;
-
-  window.clearTimeout(expiredTimer);
+const handleTokenExpired = (exp, refreshToken, accessToken) => {
   const currentTime = Date.now();
   const timeLeft = exp * 1000 - currentTime;
-  console.log(timeLeft);
-  expiredTimer = window.setTimeout(() => {
-    console.log("expired");
-    // You can do what ever you want here, like show a notification
-    // cái này thì chắc là cho cái handleTokenExpired nhận thêm parameter là (accessToken, refreshToken)
-    // roi cai nay cung v tra ve response xong 400 thi remove con 200 thi set access va refresh moi xong.
-    alert("het han");
-  }, timeLeft);
+  const refreshTimeLeft = timeLeft + 5000; // 5 second after expiration
+
+  // console.log("Token will refresh in:", timeLeft / 1000 , "seconds");
+
+  const refreshAndScheduleNext = () => {
+    if (timeLeft <= 0) {
+      console.log("Token expired, stopping refresh.");
+      return;
+    }
+
+    RefreshToken(accessToken, refreshToken)
+      .then(response => {
+        if (response.statusCode === 200) {
+          const { data } = response;
+          console.log(response);
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          console.log("Token refreshed successfully");
+          setTimeout(refreshAndScheduleNext, refreshTimeLeft);
+        } else {
+          console.log(response);
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          return;
+        }
+      })
+      .catch(error => {
+        console.error("Error during token refresh:", error.message);
+        return;
+      });
+  };
+
+  // Initial call to start the refresh cycle
+  setTimeout(refreshAndScheduleNext, refreshTimeLeft);
 };
+
 
 // ----------------------------------------------------------------------
 
@@ -44,9 +69,10 @@ const setSession = (accessToken, refreshToken) => {
     // This function below will handle when token is expired
     const { exp } = jwtDecode(accessToken);
     console.log(exp);
-    handleTokenExpired(exp, refreshToken);
+    handleTokenExpired(exp, refreshToken, accessToken);
   } else {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
 };
 

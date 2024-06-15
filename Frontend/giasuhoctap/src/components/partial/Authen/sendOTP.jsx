@@ -21,6 +21,7 @@ import CountdownTimer from "../../../utils/CountdownTimer";
 import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 export default function SendOTP() {
+    const { sendOtp } = useAuth();
     let { email } = useParams();
     const userRef = useRef();
     const [otp, setOTP] = useState("");
@@ -30,16 +31,8 @@ export default function SendOTP() {
             toast.error("Empty otp");
             return;
         }
-        VerifyUser(otp, email).then(response => {
-            if (response.statusCode === 204) {
-                toast.info(response.message);
-                window.location.href = "/"
-            } else {
-                toast.error("Verify failed please try agian")
-            }
-        }).catch(error => {
-            console.error("Error:", error.message);
-        });
+        const decodedEmail = atob(email);
+        sendOtp(otp, decodedEmail)
     };
     useEffect(() => {
         userRef.current.focus();

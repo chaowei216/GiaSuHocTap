@@ -25,5 +25,5 @@ export const router = createBrowserRouter([
   { path: "tutor", element: <TutorPage /> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
   { path: "Profile", element: <Profile /> },
-  { path: "send-otp/:email", element: <SendOtpPage /> }
+  { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> }
 ]);
