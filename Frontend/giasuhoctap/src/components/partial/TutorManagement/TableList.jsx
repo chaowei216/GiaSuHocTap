@@ -43,6 +43,7 @@ export default function TableList() {
         "Phone",
         "Address",
         "Status",
+        "Action"
     ];
     const StatusType = [
         "Active",
@@ -61,6 +62,11 @@ export default function TableList() {
                             {TableHeader.map((row, index) => (
                                 <TableCell
                                     style={{ color: "white", alignItems: "center", height: "50px" }}
+                                    sx={{
+                                        "&:last-child th": {
+                                            textAlign: "center"
+                                        }
+                                    }}
                                     align="left"
                                     key={index}
                                 >
@@ -181,6 +187,13 @@ export default function TableList() {
                                                         );
                                                     }
                                                 })}
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            style={{ fontWeight: "600", width: "200px"  }}
+                                            align="left"
+                                        >
+                                            <Button>Accept</Button>
+                                            <Button>Deny</Button>
                                         </StyledTableCell>
                                         {/* <TableCell align="center">
                                             <Action

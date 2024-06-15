@@ -214,6 +214,15 @@ function AuthProvider1({ children }) {
       formData.append("cerFiles", tutor.imageCertificate[i]);
     }
 
+    // Upload ảnh chứng chỉ
+    for (const cerFileName of tutor.imageCertificate) {
+      const cerFile = await fetch(cerFileName)
+        .then(response => response.blob())
+        .then(blob => new File([blob], `${cerFileName}`, { type: 'image/jpeg' }));
+      formData.append("cerFiles", cerFile);
+    }
+
+
     console.log(formData)
     const response = await RegisterTutor(formData)
     const responseJson = await response.json();

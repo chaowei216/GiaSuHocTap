@@ -45,21 +45,46 @@ namespace SWD392_GiaSuHocTap.Controllers
             return Ok(new ResponseDTO
             {
                 StatusCode = (int)StatusCodeEnum.OK,
-                Message = "Successfully",
+                Message = GeneralMessage.Success,
                 Data = response
             });
         }
 
         [HttpGet("get-pending-tutor")]
-        public IActionResult GetPendingTutor()
+        public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
             try
             {
-                var user = _userService.GetAllPendingUser();
+                var user = _userService.GetAllPendingUser(queries);
                 var response = new ResponseDTO()
                 {
                     Message = GeneralMessage.Success,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Data = user
+                };
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("get-active-tutor")]
+        public IActionResult GetActiveTutor([FromQuery] UserParameters queries)
+        {
+            try
+            {
+                var user = _userService.GetAllActiveUser(queries);
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Success,
+                    StatusCode = (int)StatusCodeEnum.OK,
                     Data = user
                 };
                 return Ok(response);
