@@ -130,11 +130,21 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public IActionResult ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
-            var result = _authService.ForgotPassword(email);
+            var result = await _authService.ForgotPassword(email);
             return Ok(result);
         }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ForgotPasswordDTO dto)
+        {
+            var result = await _authService.ResetPassword(dto);
+            return Ok(result);
+        }
+
+        /*[HttpPost("reset-password")]
+        public IActionResult */
 
         [HttpGet("user-by-token")]
         public async Task<IActionResult> GetUserByToken([Required] string refreshToken)
