@@ -150,7 +150,7 @@ namespace Service.Service
 
         public async Task<ResponseDTO> ResetPassword(ForgotPasswordDTO dto)
         {
-            var user = _userService.GetAllUsers().Where(u => u.Otp == dto.OTP).FirstOrDefault();
+            var user = _userService.GetUserByEmail(dto.Email);
             
             CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
