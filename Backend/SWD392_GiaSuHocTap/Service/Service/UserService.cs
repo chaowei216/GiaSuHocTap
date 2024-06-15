@@ -640,12 +640,24 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public IEnumerable<UserDTO> GetAllPendingUser()
+        public PaginationResponseDTO<UserDTO> GetAllPendingUser(UserParameters parameters)
         {
-            var tutor = _userRepository.GetUserByStatus();
-            var tutorMap = _mapper.Map<List<UserDTO>>(tutor);
+            var userList = _userRepository.GetPagedPendingUserList(parameters);
 
-            return tutorMap;
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
+
+            return mappedResponse;
+        }
+
+        public PaginationResponseDTO<UserDTO> GetAllActiveUser(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedActiveUserList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<UserDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<UserDTO>>(userList);
+
+            return mappedResponse;
         }
     }
 }

@@ -73,5 +73,15 @@ namespace Repository.Repository
         {
             return _userDAO.GetByCondition(u => u.Status == UserStatusEnum.Pending);
         }
+
+        public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public PagedList<User> GetPagedActiveUserList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

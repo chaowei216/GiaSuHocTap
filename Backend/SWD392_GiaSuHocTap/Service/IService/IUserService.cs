@@ -84,13 +84,19 @@ namespace Service.IService
         /// Get all users where status is pending
         /// </summary>
         /// <returns></returns>
-        PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters); 
+        PaginationResponseDTO<UserDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
         /// Get all pending users
         /// </summary>
         /// <returns></returns>
-        IEnumerable<UserDTO> GetAllPendingUser();
+        PaginationResponseDTO<UserDTO> GetAllPendingUser(UserParameters parameters);
+
+        /// <summary>
+        /// Get all active users
+        /// </summary>
+        /// <returns></returns>
+        PaginationResponseDTO<UserDTO> GetAllActiveUser(UserParameters parameters);
 
     }
 }
