@@ -130,14 +130,14 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
             var result = await _authService.ForgotPassword(email);
             return Ok(result);
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(ForgotPasswordDTO dto)
+        public async Task<IActionResult> ResetPassword([FromBody] ForgotPasswordDTO dto)
         {
             var result = await _authService.ResetPassword(dto);
             return Ok(result);
@@ -225,7 +225,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
-        [HttpPost("register-parent")]
+        [HttpPost("register-parents")]
         public async Task<IActionResult> CreateNewParent([FromForm] ParentCreateRequestDTO parent, IFormFile imageFile)
         {
             try
@@ -271,7 +271,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("send-verify-email")]
-        public IActionResult SendEmail(string email)
+        public IActionResult SendEmail([FromBody] [EmailAddress] string email)
         {
             try
             {
@@ -293,11 +293,11 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("verify-email")]
-        public IActionResult VerifyEmail(string otpCode, string email)
+        public IActionResult VerifyEmail([FromBody] VerifyEmailDTO dto)
         {
             try
             {
-                var checkOtpExpired = _authService.CheckOTPExpired(email);
+                var checkOtpExpired = _authService.CheckOTPExpired(dto.Email);
                 if (!checkOtpExpired)
                 {
                     var responseExpired = new ResponseDTO()
@@ -308,7 +308,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                     return BadRequest(responseExpired);
                 }
 
-                var checkOtp = _authService.CheckOTP(email, otpCode);
+                var checkOtp = _authService.CheckOTP(dto.Email, dto.OtpCode);
                 if (!checkOtp)
                 {
                     var responseWrong = new ResponseDTO()
@@ -319,11 +319,11 @@ namespace SWD392_GiaSuHocTap.Controllers
                     return BadRequest(responseWrong);
                 }
 
-                var verify = _authService.VerifyEmail(email);
+                var verify = _authService.VerifyEmail(dto.Email);
                 var response = new ResponseDTO()
                 {
                     Message = AuthMessage.VerifySuccess,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
                 };
                 return Ok(response);
             } catch (Exception ex)
@@ -338,7 +338,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("accept-tutor")]
-        public IActionResult AcceptTutor(string email)
+        public IActionResult AcceptTutor([FromBody] [EmailAddress] string email)
         {
             try
             {
@@ -346,7 +346,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 var response = new ResponseDTO()
                 {
                     Message = AuthMessage.Accepted,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
                 };
                 return Ok(response);
             } catch(Exception ex)
@@ -361,15 +361,15 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("reject-tutor")]
-        public IActionResult RejectTutor(string email, string reason)
+        public IActionResult RejectTutor([FromBody] RejectTutorDTO dto)
         {
             try
             {
-                _authService.RejectTutor(email, reason);
+                _authService.RejectTutor(dto.Email, dto.Reason);
                 var response = new ResponseDTO()
                 {
                     Message = AuthMessage.Rejected,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
                 };
                 return Ok(response);
 
