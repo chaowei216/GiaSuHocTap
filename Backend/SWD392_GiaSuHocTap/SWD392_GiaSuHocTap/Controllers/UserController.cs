@@ -59,7 +59,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 var response = new ResponseDTO()
                 {
                     Message = GeneralMessage.Success,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
                     Data = user
                 };
                 return Ok(response);
@@ -84,7 +84,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 var response = new ResponseDTO()
                 {
                     Message = GeneralMessage.Success,
-                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    StatusCode = (int)StatusCodeEnum.OK,
                     Data = user
                 };
                 return Ok(response);
