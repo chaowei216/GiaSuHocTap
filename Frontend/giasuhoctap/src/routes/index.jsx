@@ -11,6 +11,7 @@ import TutorPage from "../pages/TutorPage/TutorPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 import RegisterTutor from "../pages/RegisterTutor/RegisterTutor";
 import BookTutorPage from "../pages/BookTutorPage/BookTutorPage";
+import BookTutorOfflinePage from "../pages/BookTutorOfflinePage/BookTutorOfflinePage";
 
 
 export const router = createBrowserRouter([
@@ -26,5 +27,6 @@ export const router = createBrowserRouter([
   { path: "tutor", element: <TutorPage /> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
   { path: "RegisterTutor", element: <RegisterTutor /> },
-  { path: "BookTutor", element: <BookTutorPage /> },
+  { path: "BookTutorOnline", element: <BookTutorPage /> },
+  { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
 ]);

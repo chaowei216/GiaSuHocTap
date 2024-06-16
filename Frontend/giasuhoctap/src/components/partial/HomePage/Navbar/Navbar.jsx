@@ -30,10 +30,10 @@ const Navbar = () => {
                   GIA SƯ
                 </a>
                 <div className={styles.dropdownMenu}>
-                  <a href="/" className={styles.dropdownItem}>Đăng ký làm gia sư</a>
+                  <a href="RegisterTutor" className={styles.dropdownItem}>Đăng ký làm gia sư</a>
                   <a href="/" className={styles.dropdownItem}>Hướng dẫn nhận lớp</a>
-                  <a href="/" className={styles.dropdownItem}>Danh sách gia sư online</a>
-                  <a href="/" className={styles.dropdownItem}>Danh sách gia sư offline</a>
+                  <a href="BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</a>
+                  <a href="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</a>
                 </div>
               </div>
               <a href="/" className={`${styles.nav} ${styles.center}`}>
