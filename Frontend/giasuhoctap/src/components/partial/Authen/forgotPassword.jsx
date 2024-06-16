@@ -14,7 +14,7 @@ import styles from "./forgotPassword.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
 import { useEffect, useRef, useState } from "react";
-import { ForgotPasswordApi, SignIn } from "../../../api/AuthenApi";
+import { ForgotPasswordApi, ResetPassword, SignIn } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -22,28 +22,38 @@ const defaultTheme = createTheme();
 export default function ForgotPassword() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [email, setEmail] = useState("");
-  //const { auth, setAuth, isAuthenticated } = useAuth()
-  // const navigate = useNavigate()
-  // const location = useLocation()
-  // const from = location.state?.from?.pathname || "/";
-
+  const [otp, setOtp] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (email == null || email.trim().length == 0) {
-      toast.error("Email empty");
-      return;
-    }
-    const response = await ForgotPasswordApi(email)
-    if (!response.ok) {
-      toast.error("Error")
-      return;
-    }
-    const responseJson = await response.json();
-    if (responseJson.statusCode === 200) {
-      toast.success(responseJson.message)
-      setIsSuccess(true);
+    if (isSuccess == false) {
+      if (email == null || email.trim().length == 0) {
+        toast.error("Email empty");
+        return;
+      }
+      const response = await ForgotPasswordApi(email)
+      if (!response.ok) {
+        toast.error("Error")
+        return;
+      }
+      const responseJson = await response.json();
+      if (responseJson.statusCode === 200) {
+        toast.success(responseJson.message)
+        setIsSuccess(true);
+      } else {
+        toast.error(responseJson.message)
+      }
     } else {
-      toast.error(responseJson.message)
+      console.log(email, otp, password, confirmPassword);
+      const response = await ResetPassword(otp, password, confirmPassword, email)
+      const responseJson = await response.json();
+      if (responseJson.statusCode === 204) {
+        toast.success("Reset password successfully")
+        window.location.href = "/login"
+      } else {
+        toast.error("Reset password error")
+      }
     }
   };
   return (
@@ -97,27 +107,11 @@ export default function ForgotPassword() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoFocus
-                  InputProps={{
-                    startAdornment: (
-                      <MailOutlineIcon />
-                    ),
-                  }}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
+                  id="otp"
                   label="OTP"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="otp"
+                  autoComplete="otp"
+                  onChange={(e) => setOtp(e.target.value)}
                   autoFocus
                   InputProps={{
                     startAdornment: (
@@ -129,11 +123,11 @@ export default function ForgotPassword() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
+                  id="password"
                   label="Password"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="password"
+                  autoComplete="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   autoFocus
                   InputProps={{
                     startAdornment: (
@@ -145,11 +139,11 @@ export default function ForgotPassword() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
+                  id="confirmPassword"
                   label="Confirm Password"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="confirmPassword"
+                  autoComplete="confirmPassword"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   autoFocus
                   InputProps={{
                     startAdornment: (

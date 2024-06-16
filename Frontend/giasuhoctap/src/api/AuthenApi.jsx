@@ -183,3 +183,20 @@ export const GetUserByToken = (refreshToken) => {
             throw err;
         });
 };
+
+export const ResetPassword = async (otp, password, confirmPassword, email) => {
+    try {
+        const url = `${baseUrl}/api/Auth/forgot-password`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ otp, password, confirmPassword, email })
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
