@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Enum;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Common.DTO.Auth
 {
@@ -18,6 +20,8 @@ namespace Common.DTO.Auth
         public string? IdentityNumber { get; set; }
         public List<string>? IdentityImage { get; set; }
         public string? UserImage { get; set; } = null!;
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public UserStatusEnum Status { get; set; }
         public int NumberOfReport { get; set; }
         public string RoleName { get; set; } = null!;
     }
