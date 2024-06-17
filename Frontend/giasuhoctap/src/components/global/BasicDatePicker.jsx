@@ -16,7 +16,7 @@ export default function DatePickerValue({ setFieldValue, formik }) {
     setFieldValue('dateOfBirth', formattedDate); // Cập nhật giá trị dateOfBirth trong formik
     setTouched(true);
   };
-  console.log(formik);
+  
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
@@ -28,7 +28,7 @@ export default function DatePickerValue({ setFieldValue, formik }) {
           onChange={handleDateChange}
           slotProps={{
             textField: {
-              helperText: (touched && !!formik.errors.dateOfBirth) && `${formik.errors.dateOfBirth}`
+              helperText: (!!formik.errors.dateOfBirth) && `${formik.errors.dateOfBirth}`
             },
           }}
         />

@@ -14,43 +14,25 @@ import styles from "./sendOTP.module.css"
 import HttpsIcon from '@mui/icons-material/Https';
 import logoTutor from "/img/passHinh.png"
 import { useEffect, useRef, useState } from "react";
-import { SignIn } from "../../../api/AuthenApi";
+import { SignIn, VerifyUser } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CountdownTimer from "../../../utils/CountdownTimer";
+import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 export default function SendOTP() {
+    const { sendOtp } = useAuth();
     let { email } = useParams();
     const userRef = useRef();
-    const { login } = useAuth();
-    //const { auth, setAuth, isAuthenticated } = useAuth()
-    // const navigate = useNavigate()
-    // const location = useLocation()
-    // const from = location.state?.from?.pathname || "/";
     const [otp, setOTP] = useState("");
-    console.log(email);
-
-    // useEffect(() => {
-	// 	console.log(email);
-	// }, [email]);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // const userInput = {
-        //   userName: data.get("email"),
-        //   password: data.get("password"),
-        // };
-        // const response = await SignIn(userInput);
-        // if (response.status == 200) {
-        //   const responseJson = await response.json();
-        //   const accessToken = responseJson?.result?.accessToken;
-        //   const user = responseJson?.result?.user
-        //   localStorage.setItem("accessToken", accessToken);
-        //   setAuth({ ...auth, user, accessToken, isInitialized: true, isAuthenticated: true, });
-        //   //navigate(from, { replace: true });
-        // }
-        await login(data.get("email"), data.get("password"));
+        if (otp == "" || otp == null) {
+            toast.error("Empty otp");
+            return;
+        }
+        const decodedEmail = atob(email);
+        sendOtp(otp, decodedEmail)
     };
     useEffect(() => {
         userRef.current.focus();
@@ -75,7 +57,7 @@ export default function SendOTP() {
                     </Typography>
 
                     <CountdownTimer />
-                    
+
                     <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
                         Nhập mã OTP trong mail của bạn ở dưới đây
                     </Typography>

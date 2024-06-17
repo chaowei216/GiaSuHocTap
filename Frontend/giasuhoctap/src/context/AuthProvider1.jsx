@@ -1,13 +1,16 @@
-import { createContext, useEffect, useReducer } from "react";
-import { GetUserByAccessToken, RegisterParent, RegisterTutor, SignIn } from "../api/AuthenApi";
+import { createContext, useEffect, useReducer, useState } from "react";
+import { GetUserByEmail, GetUserByToken, RegisterParent, RegisterTutor, SignIn, VerifyUser } from "../api/AuthenApi";
 import { isValidToken, setSession } from "../utils/jwtValid"
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 //---------------
 
 const initialState = {
   isAuthenticated: false,
   isInitialized: false,
   user: null,
+  isVerify: false,
 };
 
 const handlers = {
@@ -52,6 +55,17 @@ const handlers = {
       isAuthenticated: true,
       user,
     };
+  },
+
+  SEND_OTP: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: false,
+      user,
+      isVerify: true
+    };
   }
 };
 
@@ -65,7 +79,8 @@ const AuthContext1 = createContext({
   login: () => Promise.resolve(),
   //logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
-  register_tutor: () => Promise.resolve()
+  register_tutor: () => Promise.resolve(),
+  sendOtp: () => Promise.resolve,
 });
 
 // ----------------------------------------------------------------------
@@ -79,29 +94,41 @@ function AuthProvider1({ children }) {
         const refreshToken = localStorage.getItem("refreshToken");
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken, refreshToken);
-
-          const response = await GetUserByAccessToken(accessToken)
+          const { email } = jwtDecode(accessToken);
+          const response = await GetUserByEmail(email)
           const responseJson = await response.json();
-          const { user } = responseJson.result;
-
-          dispatch({
-            type: "INITIALIZE",
-            payload: {
-              isAuthenticated: true,
-              user: user,
-            },
-          });
+          const user = responseJson.data
+          if (user.isVerified == false) {
+            console.log(user.isVerified);
+            dispatch({
+              type: "SEND_OTP",
+              payload: {
+                user: user,
+              },
+            });
+          } else {
+            dispatch({
+              type: "INITIALIZE",
+              payload: {
+                isAuthenticated: true,
+                user: user,
+              },
+            });
+          }
           // ne gio sau cai else la se dung` api refresh token neu no tra ve status code 400 thi minh chay cai set 
           // session(null) con ra true 200 thi set session la 2 cai responseJson la access va refresh          
         } else {
-          setSession(null);
-          dispatch({
-            type: "INITIALIZE",
-            payload: {
-              isAuthenticated: false,
-              user: null,
-            },
-          });
+          setSession(accessToken, refreshToken);
+          console.log(accessToken === undefined || refreshToken === null);
+          if (accessToken === null || refreshToken === null) {
+            dispatch({
+              type: "INITIALIZE",
+              payload: {
+                isAuthenticated: false,
+                user: null,
+              },
+            });
+          }
         }
       } catch (err) {
         console.error(err);
@@ -130,7 +157,16 @@ function AuthProvider1({ children }) {
     //localStorage.setItem("accessToken", accessToken);
     console.log(token.accessToken);
     if (user.isVerified == false) {
-      window.location.href = `/send-otp/${email}`;
+      dispatch({
+        type: "SEND_OTP",
+        payload: {
+          user,
+        },
+      })
+      localStorage.setItem("accessToken", token.accessToken);
+      localStorage.setItem("refreshToken", token.refreshToken);
+      const encodedEmail = btoa(email);
+      window.location.href = `/send-otp/${encodedEmail}`;
       return;
     }
     setSession(token.accessToken, token.refreshToken);
@@ -203,20 +239,15 @@ function AuthProvider1({ children }) {
     formData.append("Job", tutor.job);
     formData.append("Major", tutor.major);
 
-    // Upload ảnh profile
-    if (tutor.imageUser) {
-      const imageFile = await fetch(tutor.imageUser)
-        .then(response => response.blob())
-        .then(blob => new File([blob], `${tutor.imageUser}`, { type: 'image/jpeg' }));
-      formData.append("imageFile", imageFile);
+    for (let i = 0; i < tutor.imageUser.length; i++) {
+      formData.append("imageFile", tutor.imageUser[i]);
+    }
+    for (let i = 0; i < tutor.imageIdentity.length; i++) {
+      formData.append("idenFiles", tutor.imageIdentity[i]);
     }
 
-    // Upload ảnh danh tính
-    for (const idenFileName of tutor.imageIdentity) {
-      const idenFile = await fetch(idenFileName)
-        .then(response => response.blob())
-        .then(blob => new File([blob], `${idenFileName}`, { type: 'image/jpeg' }));
-      formData.append("idenFiles", idenFile);
+    for (let i = 0; i < tutor.imageCertificate.length; i++) {
+      formData.append("cerFiles", tutor.imageCertificate[i]);
     }
 
     // Upload ảnh chứng chỉ
@@ -248,10 +279,42 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm gia sư thành công")
       const timeout = setTimeout(() => {
         window.location.href = "/login";
-      }, 4000);
+      }, 3000);
       return () => clearTimeout(timeout);
     }
   }
+  const sendOtp = (otp, email) => {
+    VerifyUser(otp, email).then(response => {
+      if (response.statusCode === 200) {
+        toast.success(response.message);
+      } else {
+        toast.error("Verify failed please try agian")
+      }
+    }).catch(error => {
+      console.error("Error:", error.message);
+    }).finally(() => {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+      let user = null;
+      GetUserByToken(refreshToken).then(response => {
+        console.log();
+        if (response.statusCode === 200) {
+          user = response.data
+        }
+      }).catch(error => {
+        console.error("Error:", error.message);
+      }).finally(() => {
+        console.log(user);
+        setSession(accessToken, refreshToken);
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: user,
+          },
+        });
+      })
+    })
+  };
 
   return (
     <AuthContext1.Provider
@@ -261,7 +324,8 @@ function AuthProvider1({ children }) {
         login,
         //logout,
         register,
-        register_tutor
+        register_tutor,
+        sendOtp
       }}
     >
       {children}

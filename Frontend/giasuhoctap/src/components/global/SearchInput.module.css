@@ -2,14 +2,14 @@
   display: flex;
   margin-right: 10px;
   margin-bottom: 10px;
-  height: 26px;
+  height: 40px;
 }
 .formControl div {
   border-radius: 10px !important;
   width: 20rem;
 }
 .formControl input {
-  height: 0.4375em;
+  height: 100%;
   width: 100%;
   color: #000000;
   padding-left: 5px;

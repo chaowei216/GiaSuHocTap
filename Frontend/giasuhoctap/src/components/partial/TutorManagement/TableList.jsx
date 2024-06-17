@@ -1,12 +1,36 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from "@mui/material/Paper";
 import { Navigate } from 'react-router-dom';
 import FormatDate from "../../../utils/format-date"
 import { useEffect, useState } from 'react';
 import fakeDate from "../../../data/fakeData.json"
 import styles from "../../partial/TutorManagement/status.module.css";
-export default function TableList() {
-    const [data, setData] = useState([]);
+import { styled } from '@mui/material/styles';
+import NoDataPage from "../../global/NoDataPage"
+import GlobalLoading from "../../global/GlobalLoading"
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import ClearIcon from '@mui/icons-material/Clear';
+export default function TableList({ data, handleAccept, handleClickOpen, type }) {
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
     const styleHeader = {
         gap: "6px",
         display: "flex",
@@ -15,126 +39,109 @@ export default function TableList() {
         justifyContent: "center"
     };
     const TableHeader = [
-        "ID",
-        "Email",
+        "Picture",
+        "Full name",
         "Date Of Birth",
         "Identity Number",
         "Phone",
-        "Address",
+        "Gender",
         "Status",
     ];
     const StatusType = [
         "Active",
         "Pending"
     ]
-    useEffect(() => {
-        setData(fakeDate);
-    }, [])
-    console.log(data);
     return (
         <div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="simple table" size="small">
-                    <TableHead style={{ backgroundColor: "#2d3748" }}>
+                    <TableHead style={{ backgroundColor: "#000000" }}>
                         <TableRow>
                             {TableHeader.map((row, index) => (
                                 <TableCell
                                     style={{ color: "white", alignItems: "center", height: "50px" }}
+                                    sx={{
+                                        "&:last-child th": {
+                                            textAlign: "center"
+                                        }
+                                    }}
                                     align="left"
                                     key={index}
                                 >
                                     <span style={{ fontSize: "larger" }}>{row}</span>
                                 </TableCell>
                             ))}
+                            {type == "Pending" && (
+                                <TableCell
+                                    style={{ color: "white", alignItems: "center", height: "50px" }}
+                                    sx={{
+                                        "&:last-child th": {
+                                            textAlign: "center"
+                                        }
+                                    }}
+                                    align="left"
+                                >
+                                    <span style={{ fontSize: "larger" }}>Status</span>
+                                </TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
-                    <TableBody
-                        sx={{
-                            "&:last-child td, &:last-child th": {
-                                borderBottom: 1,
-                                borderColor: "#2d3748",
-                            },
-                        }}
-                    >
-                        {/* {!data && <NoDataPage />} */}
-                        {/* {isSearch && data && data.length === 0 && <NoDataPage />} */}
-                        {/* {!isSearch && data && data.length === 0 && ( */}
-                        {/* <TableRow
-                                style={{ textAlign: "center" }}
-                                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                            >
-                                <TableCell
-                                    style={{ fontWeight: "600" }}
-                                    component="th"
-                                    scope="row"
-                                    colSpan={8}
-                                >
-                                    <div
-                                        style={{
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <GlobalLoading isLoading={(!isSearch && !isFiltered && data && data.length === 0)} />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        )} */}
+                    <TableBody>
+                        {!data && <NoDataPage />}
+                        {data && data.length === 0 && <NoDataPage />}
                         {data &&
                             data.map((row, index) => {
                                 return (
-                                    <TableRow
-                                        style={{ textAlign: "center" }}
+                                    <StyledTableRow
+                                        style={{ textAlign: "center", height: "60px" }}
                                         key={index}
                                         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                     >
-                                        <TableCell
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "100px" }}
                                             component="th"
                                             scope="row"
                                         >
-                                            {row.id}
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{ fontWeight: "600", width: "230px" }}
+                                            Ảnh
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            sx={{ fontWeight: "600", width: "220px" }}
                                             component="th"
                                             align="left"
                                             scope="row"
                                         >
                                             <Button
-                                                sx={{ paddingLeft: "0px" }}
+                                                sx={{ paddingLeft: "0px", textTransform: "none" }}
                                             // onClick={() => Navigate(`/class-detail/${row.classId}`)}
                                             >
-                                                <span>{row.fullName}</span>
+                                                <span>{row.fullname}</span>
                                             </Button>
-                                        </TableCell>
-                                        <TableCell
-                                            style={{ fontWeight: "600", width: "200px"  }}
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            style={{ fontWeight: "600", width: "200px" }}
                                             align="left"
                                         >
-                                            {FormatDate(row.birthDate)}
-                                        </TableCell>
-                                        <TableCell
+                                            {FormatDate(row.dateOfBirth)}
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             style={{ fontWeight: "600", width: "200px" }}
                                             align="middle"
                                         >
                                             {row.identityNumber}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{ fontWeight: "600", width: "200px"  }}
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            style={{ fontWeight: "600", width: "170px" }}
                                             align="left"
                                         >
-                                            {row.phone}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{ fontWeight: "600", width: "250px"  }}
+                                            {row.phonenumber}
+                                        </StyledTableCell>
+                                        <StyledTableCell
+                                            style={{ fontWeight: "600", width: "140px" }}
                                             align="left"
                                         >
-                                            {row.address}
-                                        </TableCell>
-                                        <TableCell
+                                            {row.gender}
+                                        </StyledTableCell>
+                                        <StyledTableCell
                                             sx={{ width: "150px", paddingLeft: "0px", paddingRight: "20px" }}
                                             style={{ fontWeight: "600" }}
                                             align="left"
@@ -160,7 +167,24 @@ export default function TableList() {
                                                         );
                                                     }
                                                 })}
-                                        </TableCell>
+                                        </StyledTableCell>
+                                        {type == "Pending" && (
+                                            <StyledTableCell
+                                                style={{ fontWeight: "600", width: "270px", padding: "0px" }}
+                                                align="left"
+                                            >
+                                                <Button variant="contained" color="success" onClick={() => handleAccept(row.email)}
+                                                    sx={{ background: "#0b7234", color: "white", marginRight: "15px" }}>
+                                                    <DoneOutlineIcon /> Accept
+                                                </Button>
+                                                <Button variant="contained" color="error" onClick={() => handleClickOpen(row.email)}
+                                                    sx={{ background: "#de3a3b", color: "white" }}>
+                                                    <div>
+                                                        <ClearIcon /> Deny
+                                                    </div>
+                                                </Button>
+                                            </StyledTableCell>
+                                        )}
                                         {/* <TableCell align="center">
                                             <Action
                                                 setOpen={setOpen}
@@ -170,7 +194,7 @@ export default function TableList() {
                                                 rerender={rerender}
                                             />
                                         </TableCell> */}
-                                    </TableRow>
+                                    </StyledTableRow>
                                 );
                             })}
                     </TableBody>
