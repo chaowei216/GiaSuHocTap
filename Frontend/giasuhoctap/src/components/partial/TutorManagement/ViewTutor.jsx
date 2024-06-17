@@ -20,7 +20,7 @@ export default function ViewTutor() {
   const [type, setType] = React.useState("All");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [email ,setEmail] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const handleClickOpen = (email) => {
     setOpen(true);
     setEmail(email);
@@ -73,7 +73,7 @@ export default function ViewTutor() {
       }}
     >
       <Container>
-        <Title title="List of Tutors" />
+        <Title title="Danh sách gia sư" />
         <Header>
           <Search_Input />
         </Header>
@@ -100,7 +100,7 @@ export default function ViewTutor() {
           </div>
         )}
       </Container>
-      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate}/>
+      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
     </div>
   );
 }

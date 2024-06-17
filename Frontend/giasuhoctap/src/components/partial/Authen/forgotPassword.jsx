@@ -29,12 +29,12 @@ export default function ForgotPassword() {
     event.preventDefault();
     if (isSuccess == false) {
       if (email == null || email.trim().length == 0) {
-        toast.error("Email empty");
+        toast.error("Vui lòng nhập email");
         return;
       }
       const response = await ForgotPasswordApi(email)
       if (!response.ok) {
-        toast.error("Error")
+        toast.error("Lỗi")
         return;
       }
       const responseJson = await response.json();
@@ -49,10 +49,10 @@ export default function ForgotPassword() {
       const response = await ResetPassword(otp, password, confirmPassword, email)
       const responseJson = await response.json();
       if (responseJson.statusCode === 204) {
-        toast.success("Reset password successfully")
+        toast.success("Đổi mật khẩu thành công")
         window.location.href = "/login"
       } else {
-        toast.error("Reset password error")
+        toast.error("Đổi mật khẩu không thành công")
       }
     }
   };
@@ -75,7 +75,7 @@ export default function ForgotPassword() {
             Quên mật khẩu
           </Typography>
           <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
-            Điền email của bạn và chúng tôi sẽ gửi mã code đến mail bạn
+            Điền email của bạn và chúng tôi sẽ gửi mã otp đến mail bạn
           </Typography>
           <Box
             component="form"
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Địa chỉ email"
                 name="email"
                 autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -108,7 +108,7 @@ export default function ForgotPassword() {
                   required
                   fullWidth
                   id="otp"
-                  label="OTP"
+                  label="Mã OTP"
                   name="otp"
                   autoComplete="otp"
                   onChange={(e) => setOtp(e.target.value)}
@@ -124,7 +124,7 @@ export default function ForgotPassword() {
                   required
                   fullWidth
                   id="password"
-                  label="Password"
+                  label="Mật khẩu"
                   name="password"
                   autoComplete="password"
                   onChange={(e) => setPassword(e.target.value)}
@@ -140,7 +140,7 @@ export default function ForgotPassword() {
                   required
                   fullWidth
                   id="confirmPassword"
-                  label="Confirm Password"
+                  label="Xác nhận mật khẩu"
                   name="confirmPassword"
                   autoComplete="confirmPassword"
                   onChange={(e) => setConfirmPassword(e.target.value)}

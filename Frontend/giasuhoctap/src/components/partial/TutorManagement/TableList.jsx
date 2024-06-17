@@ -39,13 +39,13 @@ export default function TableList({ data, handleAccept, handleClickOpen, type })
         justifyContent: "center"
     };
     const TableHeader = [
-        "Picture",
-        "Full name",
-        "Date Of Birth",
-        "Identity Number",
-        "Phone",
-        "Gender",
-        "Status",
+        "Hình ảnh",
+        "Họ và tên",
+        "Ngày sinh",
+        "Chứng minh nhân dân",
+        "Điện thoại",
+        "Giới tính",
+        "Trạng thái",
     ];
     const StatusType = [
         "Active",
