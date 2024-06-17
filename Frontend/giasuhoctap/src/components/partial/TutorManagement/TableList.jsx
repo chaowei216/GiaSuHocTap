@@ -11,6 +11,7 @@ import NoDataPage from "../../global/NoDataPage"
 import GlobalLoading from "../../global/GlobalLoading"
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import ClearIcon from '@mui/icons-material/Clear';
+import TutorDetail from './TutorDetail';
 export default function TableList({ data, handleAccept, handleClickOpen, type }) {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -81,7 +82,7 @@ export default function TableList({ data, handleAccept, handleClickOpen, type })
                                     }}
                                     align="left"
                                 >
-                                    <span style={{ fontSize: "larger" }}>Status</span>
+                                    <span style={{ fontSize: "larger" }}>Hành động</span>
                                 </TableCell>
                             )}
                         </TableRow>
@@ -102,7 +103,7 @@ export default function TableList({ data, handleAccept, handleClickOpen, type })
                                             component="th"
                                             scope="row"
                                         >
-                                            Ảnh
+                                            <TutorDetaill />
                                         </StyledTableCell>
                                         <StyledTableCell
                                             sx={{ fontWeight: "600", width: "220px" }}
@@ -200,6 +201,7 @@ export default function TableList({ data, handleAccept, handleClickOpen, type })
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TutorDetail />
         </div>
     )
 }
