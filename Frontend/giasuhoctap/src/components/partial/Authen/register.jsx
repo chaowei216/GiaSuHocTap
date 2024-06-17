@@ -172,7 +172,7 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }} error={formik.errors.gender && formik.touched.gender}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    Gender
+                    Giới tính
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -195,7 +195,7 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }} error={formik.errors.city && formik.touched.city}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    City
+                    Thành phố
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -258,17 +258,9 @@ export default function Register() {
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
                   formik={formik}
-                  content={"Upload ảnh thẻ (tùy chọn)"}
+                  content={"Tải lên ảnh thẻ (tùy chọn)"}
                   fieldName="imageUser"
                   size={1}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration and updates via email."
                 />
               </Grid>
             </Grid>
@@ -283,7 +275,7 @@ export default function Register() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                  Có tài khoản rồi ? Quay về trang đăng nhập
                 </Link>
               </Grid>
             </Grid>
