@@ -69,7 +69,7 @@ namespace Service.Service
             userMap.PasswordHash = passwordHash;
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
-            userMap.RoleId = (int)RoleEnum.Parents + 1;
+            userMap.RoleId = (int)RoleEnum.Parents;
             userMap.Status = UserStatusEnum.Active;
             userMap.UserImage = image;
 
@@ -168,7 +168,7 @@ namespace Service.Service
             userMap.PasswordHash = passwordHash;
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
-            userMap.RoleId = (int)RoleEnum.Tutor + 1;
+            userMap.RoleId = (int)RoleEnum.Tutor;
             userMap.Status = UserStatusEnum.InActive;
             userMap.UserImage = image;
             userMap.IdentityImage = identityFiles;
