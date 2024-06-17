@@ -64,7 +64,7 @@ export default function Login() {
             <img src={logoTutor} />
           </div>
           <Typography component="h1" variant="h5">
-            Login into account
+            Đăng nhập
           </Typography>
           <Box
             component="form"
@@ -78,7 +78,7 @@ export default function Login() {
               ref={userRef}
               fullWidth
               id="email"
-              label="Email Address"
+              label="Địa chỉ email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -93,7 +93,7 @@ export default function Login() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Mật khẩu"
               type="password"
               InputProps={{
                 startAdornment: (
@@ -127,7 +127,7 @@ export default function Login() {
                 </Link>
                 <br/>
                 <Link href="/registerTutors" variant="body2">
-                  {"Don't have an account? Register for tutor"}
+                  {"Không có tài khoản ? Đăng ký làm gia sư"}
                 </Link>
               </Grid>
             </Grid>

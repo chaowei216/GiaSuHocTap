@@ -212,7 +212,7 @@ export default function RegisterTutor() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    Gender
+                    Giới tính
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -235,7 +235,7 @@ export default function RegisterTutor() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "8px" }}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    City
+                    Thành phố
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -337,7 +337,7 @@ export default function RegisterTutor() {
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
                   formik={formik}
-                  content={"Upload ảnh thẻ"}
+                  content={"Tải lên ảnh thẻ"}
                   fieldName="imageUser"
                   size={1}
                 />
@@ -354,7 +354,7 @@ export default function RegisterTutor() {
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
                   formik={formik}
-                  content={"Upload Ảnh bằng cấp"}
+                  content={"Tải lên Ảnh bằng cấp"}
                   fieldName="imageCertificate"
                   size={4}
                 />
@@ -371,7 +371,7 @@ export default function RegisterTutor() {
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
                   formik={formik}
-                  content={"Upload Ảnh CMND/CCCD"}
+                  content={"Tải lên Ảnh CMND/CCCD"}
                   fieldName="imageIdentity"
                   size={2}
                 />
