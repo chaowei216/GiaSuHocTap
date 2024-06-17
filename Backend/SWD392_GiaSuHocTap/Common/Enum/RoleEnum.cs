@@ -2,9 +2,9 @@
 {
     public enum RoleEnum
     {
-        Admin,
-        Moderator,
-        Tutor,
-        Parents,
+        Admin = 1,
+        Moderator = 2,
+        Tutor = 3,
+        Parents = 4,
     }
 }

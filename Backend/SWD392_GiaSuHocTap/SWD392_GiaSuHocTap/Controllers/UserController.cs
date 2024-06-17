@@ -5,6 +5,7 @@ using Common.DTO.Auth;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -15,6 +16,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Moderator")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -98,39 +100,6 @@ namespace SWD392_GiaSuHocTap.Controllers
                 };
                 return BadRequest(response);
             }
-        }
-
-        [HttpGet("get-by-email")]
-        public IActionResult GetUserByEmail([FromQuery] [Required] [EmailAddress] string email)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new ResponseDTO()
-                {
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
-                    Message = ModelState.ToString()!,
-                    Data = null
-                });
-            }
-
-            var response = _userService.GetUserByEmail(email);
-
-            if (response != null)
-            {
-                return Ok(new ResponseDTO()
-                {
-                    StatusCode = (int)StatusCodeEnum.OK,
-                    Message = GeneralMessage.Success,
-                    Data = _mapper.Map<UserDTO>(response)
-                });
-            }
-
-            return BadRequest(new ResponseDTO()
-            {
-                StatusCode = (int)StatusCodeEnum.BadRequest,
-                Message = GeneralMessage.Fail,
-                Data = null
-            });
         }
     }
 }

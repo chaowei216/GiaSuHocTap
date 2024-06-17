@@ -1,6 +1,7 @@
 ﻿using Common.Constant.Message;
 using Common.DTO;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -10,6 +11,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClassController : ControllerBase
     {
         private readonly IClassService _classService;
