@@ -20,7 +20,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
 export default function Login() {
   const userRef = useRef();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  console.log(isAuthenticated)
   //const { auth, setAuth, isAuthenticated } = useAuth()
   // const navigate = useNavigate()
   // const location = useLocation()

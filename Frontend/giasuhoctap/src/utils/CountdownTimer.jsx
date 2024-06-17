@@ -1,7 +1,12 @@
 import { Button } from '@mui/material'
 import { useRef, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import { SendVerifyEmail } from '../api/AuthenApi';
+import { toast } from 'react-toastify';
 
 export default function CountdownTimer() {
+    let { email } = useParams();
+    const decodedEmail = atob(email);
     const [countdown, setCountdown] = useState(0);
     const countdownRef = useRef(null);
     const [canSendOTP, setCanSendOTP] = useState(true);
@@ -11,7 +16,15 @@ export default function CountdownTimer() {
         }
 
         // Gọi API để gửi mã OTP
-        // test
+        SendVerifyEmail(decodedEmail).then(response => {
+            if (response.statusCode === 200) {
+                toast.success("Send email success");
+            } else if (response.statusCode !== 200) {
+                toast.error("Send failed please try agian")
+            }
+        }).catch(error => {
+            console.error("Error:", error.message);
+        });
 
         let seconds = 1 * 60;
         setCountdown(seconds);

@@ -36,17 +36,7 @@ export const validationRegisterTutor = yup.object().shape({
     ),
   dateOfBirth: yup
     .string()
-    .required("Vui lòng nhập ngày")
-    .test({
-      name: "start-date-valid",
-      message: "Ngày sinh phải trước ngày hiện tại",
-      test: function (value) {
-        const currentDate = new Date();
-        const selectedDate = new Date(value);
-
-        return selectedDate <= currentDate;
-      },
-    }),
+    .required("Vui lòng nhập ngày"),
   gender: yup.string().required("Vui lòng chọn giới tính"),
   city: yup.string().required("Vui lòng chọn thành phố"),
   district: yup.string().required("Vui lòng chọn quận"),
