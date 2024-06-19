@@ -98,5 +98,11 @@ namespace Service.IService
         /// <returns></returns>
         PaginationResponseDTO<UserDTO> GetAllActiveUser(UserParameters parameters);
 
+        /// <summary>
+        /// Function to help service get image
+        /// </summary>
+        /// <param name="rootPath"></param>
+        /// <returns></returns>
+        Task<FileStream> RetrieveItemAsync(string rootPath);
     }
 }
