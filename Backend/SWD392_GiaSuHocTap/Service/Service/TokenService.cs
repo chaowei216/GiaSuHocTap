@@ -63,6 +63,16 @@ namespace Service.Service
             // write jwt token
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
+            if (user.RoleId == (int)RoleEnum.Admin)
+            {
+                return new TokenResponseDTO()
+                {
+                    AccessToken = jwtToken,
+                    RefreshToken = null,
+                    ExpiresAt = token.ValidTo
+                };
+            }
+
             // refresh token
             var refreshToken = new RefreshToken();
 
