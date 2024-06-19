@@ -11,7 +11,9 @@ import Typography from "@mui/material/Typography";
 import Messi from "/img/avatarMessi.png";
 import cmnd1 from "/img/cmnd1.jpg";
 import cmnd2 from "/img/cmnd2.webp";
-
+import WaitingModal from "../../global/WaitingModal";
+import emptyPicture from "/img/empty.png"
+const baseUrl = import.meta.env.VITE_API_HOST;
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -20,16 +22,28 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
 export default function TutorDetail({
   openDetail,
   handleClickOpenDetail,
   setOpenDetail,
+  dataDetail
 }) {
+  const getImageUrl = async (fileName) => {
+    try {
+      const response = await fetch(`https://localhost:7019/api/Auth/user-image?fileName=${fileName}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return await response.text();
+    } catch (error) {
+      console.error('Error fetching image:', error);
+      return null;
+    }
+  };
   const handleClose = () => {
     setOpenDetail(false);
   };
-
+  console.log(dataDetail);
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -70,7 +84,10 @@ export default function TutorDetail({
               <div className="col-md-7" style={{ width: "100%" }}>
                 <img
                   style={{ width: "90%", height: "250px" }}
-                  src={Messi}
+                  src={`${baseUrl}/api/Auth/user-image?fileName=${dataDetail?.userImage}`}
+                  onError={(e) => {
+                    e.currentTarget.src = emptyPicture;
+                  }}
                   alt="project-image"
                   className="rounded"
                 />
@@ -78,19 +95,19 @@ export default function TutorDetail({
             </div>
             <div className="project-info-box w-2/3">
               <p>
-                <b>Họ và tên:</b> Phạm Văn Quyệt
+                <b>Mã số:</b> {dataDetail?.userId}
               </p>
               <hr />
               <p>
-                <b>Năm sinh:</b> 01/01/1960
+                <b>Họ và tên:</b> {dataDetail?.fullname}
               </p>
               <hr />
               <p>
-                <b>Địa chỉ</b> 32, đường 23, Phú hữu, Quận 9
+                <b>Năm sinh:</b> {dataDetail?.dateOfBirth}
               </p>
               <hr />
               <p>
-                <b>Hiện là:</b> Sinh viên
+                <b>Địa chỉ</b> {dataDetail?.address}
               </p>
               <hr />
               <p className="mb-0">
@@ -98,33 +115,39 @@ export default function TutorDetail({
               </p>
             </div>
           </div>
-          <Typography gutterBottom className="mt-4">
-            <b>Nhận dạy:</b> Lớp 6, Lớp 7, Lớp 8, Lớp 9, Lớp 10, Lớp 11, Lớp 12,
-            Ôn Thi Đại Học
+          <Typography gutterBottom className="mt-3">
+            <b>Số điện thoại:</b> {dataDetail?.phonenumber}
           </Typography>
           <Typography gutterBottom className="mt-3">
-            <b>Các môn:</b> Toán, Lý, Hóa
+            <b>Chứng minh nhân dân:</b> {dataDetail?.identityNumber}
           </Typography>
           <Typography gutterBottom className="mt-3">
             <b>Hình chứng minh nhân dân</b>
           </Typography>
-          <div className="flex mt-3" style={{ justifyContent: "center" }}>
-            <div className="col-md-7" style={{ width: "40%" }}>
-              <img
-                style={{ width: "90%" }}
-                src={cmnd2}
-                alt="project-image"
-                className="rounded"
-              />
-            </div>
-            <div className="col-md-7" style={{ width: "40%" }}>
-              <img
-                style={{ width: "90%" }}
-                src={cmnd1}
-                alt="project-image"
-                className="rounded"
-              />
-            </div>
+          <div className="flex mt-3" style={{ justifyContent: "center", flexWrap: "wrap", }}>
+            {dataDetail?.identityImage.map((fileName, index) => (
+              <div key={index} className="col-md-7" style={{ width: "40%" }}>
+                <img
+                  style={{ width: "90%", height: "230px" }}
+                  src={`${baseUrl}/api/Auth/user-image?fileName=${fileName}`}
+                  onError={(e) => {
+                    e.currentTarget.src = emptyPicture;
+                  }}
+                  alt="project-image"
+                  className="rounded"
+                />
+              </div>
+            ))}
+            {(dataDetail == undefined || dataDetail?.identityImage.length == 0) && (
+              <div className="col-md-7" style={{ width: "40%" }}>
+                <img
+                  style={{ width: "90%", height: "200px" }}
+                  src={emptyPicture}
+                  alt="project-image"
+                  className="rounded"
+                />
+              </div>
+            )}
           </div>
           <Typography gutterBottom className="mt-3">
             <b>Hình chứng chỉ bằng cấp</b>
@@ -135,7 +158,7 @@ export default function TutorDetail({
           >
             <div className="col-md-7" style={{ width: "40%" }}>
               <img
-                style={{ width: "90%" }}
+                style={{ width: "90%", height: "200px"  }}
                 src={cmnd2}
                 alt="project-image"
                 className="rounded"

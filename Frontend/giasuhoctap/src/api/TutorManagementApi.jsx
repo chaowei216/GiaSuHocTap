@@ -8,6 +8,7 @@ export const GetAllTutor = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -24,6 +25,7 @@ export const GetPendingTutor = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -40,6 +42,7 @@ export const GetActiveTutor = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -56,6 +59,7 @@ export const GetAllPendingTutor = async () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -72,6 +76,7 @@ export const AcceptTutor = async (email) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify({email: email})
         };
@@ -89,6 +94,7 @@ export const RejectTutor = async (email, reason) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify({email: email, reason: reason})
         };

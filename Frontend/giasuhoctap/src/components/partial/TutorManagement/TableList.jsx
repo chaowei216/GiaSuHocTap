@@ -26,6 +26,7 @@ export default function TableList({
   handleClickOpen,
   type,
 }) {
+  const [dataDetail, setDataDetail] = useState();
   const [openDetail, setOpenDetail] = useState(false);
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -64,7 +65,8 @@ export default function TableList({
   ];
   const StatusType = ["Active", "Pending"];
 
-  const handleClickOpenDetail = () => {
+  const handleClickOpenDetail = (data) => {
+    setDataDetail(data)
     setOpenDetail(true);
   };
   return (
@@ -122,7 +124,7 @@ export default function TableList({
                 >
                   <Button
                     sx={{ paddingLeft: "0px", textTransform: "none" }}
-                    onClick={handleClickOpenDetail}
+                    onClick={() => setOpenDetail(true)}
                   >
                     <span>Test</span>
                   </Button>
@@ -153,7 +155,7 @@ export default function TableList({
                     >
                       <Button
                         sx={{ paddingLeft: "0px", textTransform: "none" }}
-                        // onClick={() => Navigate(`/class-detail/${row.classId}`)}
+                        onClick={() => handleClickOpenDetail(row)}
                       >
                         <span>{row.fullname}</span>
                       </Button>
@@ -246,15 +248,6 @@ export default function TableList({
                         </Button>
                       </StyledTableCell>
                     )}
-                    {/* <TableCell align="center">
-                                            <Action
-                                                setOpen={setOpen}
-                                                row={row}
-                                                setA={setA}
-                                                setData={setData}
-                                                rerender={rerender}
-                                            />
-                                        </TableCell> */}
                   </StyledTableRow>
                 );
               })}
@@ -265,6 +258,7 @@ export default function TableList({
         openDetail={openDetail}
         handleClickOpenDetail={handleClickOpenDetail}
         setOpenDetail={setOpenDetail}
+        dataDetail={dataDetail}
       />
     </div>
   );
