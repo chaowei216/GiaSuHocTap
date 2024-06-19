@@ -21,26 +21,22 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function TutorDetail() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+export default function TutorDetail({
+  openDetail,
+  handleClickOpenDetail,
+  setOpenDetail,
+}) {
   const handleClose = () => {
-    setOpen(false);
+    setOpenDetail(false);
   };
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         maxWidth="md"
-        open={open}
+        open={openDetail}
         fullWidth="500px"
       >
         <DialogTitle
@@ -50,6 +46,7 @@ export default function TutorDetail() {
             fontWeight: "bold",
             textAlign: "center",
             fontSize: "x-large",
+            backgroundColor: "burlywood"
           }}
           id="customized-dialog-title"
         >
@@ -162,11 +159,6 @@ export default function TutorDetail() {
             </div>
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </React.Fragment>
   );
