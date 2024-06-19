@@ -431,5 +431,53 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpGet("user-image")]
+        public async Task<IActionResult> GetUserImage(string fileName)
+        {
+            try
+            {
+                var fileStream = await _userService.RetrieveItemAsync(fileName);
+                var fileExtension = Path.GetExtension(fileName);
+                string mimeType;
+                switch (fileExtension.ToLower())
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        mimeType = "image/jpeg";
+                        break;
+                    case ".png":
+                        mimeType = "image/png";
+                        break;
+                    case ".gif":
+                        mimeType = "image/gif";
+                        break;
+                    case ".bmp":
+                        mimeType = "image/bmp";
+                        break;
+                    default:
+                        mimeType = "application/octet-stream"; // Fallback to a generic MIME type
+                        break;
+                }
+                if (fileStream == null)
+                {
+                    return BadRequest(new ResponseDTO()
+                    {
+                        StatusCode =(int) StatusCodeEnum.NotFound,
+                        Message = GeneralMessage.Fail,  
+                    });
+                }
+
+                return File(fileStream, mimeType);
+            } catch(Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Fail,
+                    StatusCode = (int) StatusCodeEnum.BadRequest,
+                };
+                return BadRequest(response);
+            }
+        }
     }
 }

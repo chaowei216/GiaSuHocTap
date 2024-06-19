@@ -659,5 +659,43 @@ namespace Service.Service
 
             return mappedResponse;
         }
+
+        public async Task<FileStream> RetrieveItemAsync(string rootPath)
+        {
+            try
+            {
+                // Create temporary file to save the memory stream contents
+                var fileName = Path.GetTempFileName();
+
+                // Create an empty zip file
+                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        // Download the file contents
+                        await _storageClient.DownloadObjectAsync("giasuhoctap-91d48.appspot.com", rootPath, stream);
+
+                        // Set the position of the memory stream to the beginning
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        // Copy the contents of the memory stream to the file stream
+                        await stream.CopyToAsync(fileStream);
+                    }
+                }
+
+                // Return FileStream for the file
+                return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            }
+            catch (Google.GoogleApiException ex) when (ex.Error.Code == 403)
+            {
+                Console.WriteLine($"Access denied: {ex.Error.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null!;
+        }
     }
 }
