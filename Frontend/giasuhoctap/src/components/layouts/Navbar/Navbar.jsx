@@ -19,7 +19,7 @@ export default function Navbar() {
   };
   return (
     <div className={style.main}>
-      <img src={logoEdu} alt="avatar logo" width={160} />
+      <img src={logoEdu} alt="avatar logo" width={120} />
       <div>
         <Stack spacing={2} direction="row">
           <Badge badgeContent={10} color="default" showZero>
@@ -27,7 +27,7 @@ export default function Navbar() {
           </Badge>
         </Stack>
         {/* {token && ( */}
-        <div style={{display: "flex", alignItems: "center", gap:"5px"}}>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <BasicMenu anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
             <img
               src={avatar}

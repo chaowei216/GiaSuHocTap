@@ -55,10 +55,9 @@ export default function TableList({
     justifyContent: "center",
   };
   const TableHeader = [
-    "Hình ảnh",
     "Họ và tên",
     "Ngày sinh",
-    "Chứng minh nhân dân",
+    "CCCD/CMND",
     "Điện thoại",
     "Giới tính",
     "Trạng thái",
@@ -117,7 +116,7 @@ export default function TableList({
             {
               data && data.length === 0 && (
                 <StyledTableCell
-                  sx={{ fontWeight: "600", width: "220px" }}
+                  sx={{ fontWeight: "600", width: "180px" }}
                   component="th"
                   align="left"
                   scope="row"
@@ -141,14 +140,7 @@ export default function TableList({
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "100px" }}
-                      component="th"
-                      scope="row"
-                    >
-                      Ảnh
-                    </StyledTableCell>
-                    <StyledTableCell
-                      sx={{ fontWeight: "600", width: "220px" }}
+                      sx={{ fontWeight: "600", width: "170px" }}
                       component="th"
                       align="left"
                       scope="row"
@@ -219,7 +211,7 @@ export default function TableList({
                       <StyledTableCell
                         style={{
                           fontWeight: "600",
-                          width: "270px",
+                          width: "340px",
                           padding: "0px",
                         }}
                         align="left"

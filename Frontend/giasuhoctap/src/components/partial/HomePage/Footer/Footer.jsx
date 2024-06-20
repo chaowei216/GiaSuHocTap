@@ -1,7 +1,9 @@
 // src/Footer.js
 import React from 'react';
 import styles from './Footer.module.css';
-import logo from "../../../../../public/img/Logo2.jpg";
+import logo from "../../../../../public/img/logoGiasu2.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquareFacebook, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
@@ -9,8 +11,24 @@ const Footer = () => {
       <div className={styles.footerContent}>
         <div className={styles.footerSection}>
           <h3>Về Chúng Tôi</h3>
-          {/* <p>Công ty Gia Sư...</p> */}
-          <img src={logo} alt="logo" className={styles.brand} />
+          <div className={styles.social}>
+            <img src={logo} alt="logo" className={styles.brand} />
+            <div className={styles.socialIcon}>
+              <div className={styles.socialText}>
+                <FontAwesomeIcon icon={faSquareFacebook} />
+                <a href="">FaceBook</a>
+              </div>
+              <div  className={styles.socialText}>
+                <FontAwesomeIcon icon={faInstagram} />
+                <a href="">Instagram</a>
+              </div>
+              <div  className={styles.socialText}>
+                <FontAwesomeIcon icon={faTwitterSquare} />
+                <a href="">Twitter</a>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div className={styles.footerSection}>
           <h3>Liên Kết Nhanh</h3>

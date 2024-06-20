@@ -242,6 +242,9 @@ namespace DAO.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LinkMeet")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -404,6 +407,18 @@ namespace DAO.Migrations
                     b.Property<string>("Major")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("NumberOfRent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentHour")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TeachingOffline")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("TeachingOnline")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
