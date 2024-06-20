@@ -56,6 +56,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
             try
+            
             {
                 var user = _userService.GetAllPendingUser(queries);
                 var response = new ResponseDTO()

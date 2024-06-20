@@ -22,6 +22,9 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<PagedList<User>, PaginationResponseDTO<UserDTO>>().ReverseMap();
             CreateMap<ClassDTO, Class>().ReverseMap();
             CreateMap<CourseDTO, Course>().ReverseMap();
+            CreateMap<User, TutorDTO>().ReverseMap();
+            CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
+            CreateMap<TutorDetailDTO, TutorDetail>().ReverseMap();
             #endregion
         }
     }
