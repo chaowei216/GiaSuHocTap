@@ -9,6 +9,10 @@ import GuestAuth from "../components/partial/Authen/GuestAuth";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import TutorPage from "../pages/TutorPage/TutorPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
+import RegisterTutor from "../pages/RegisterTutor/RegisterTutor";
+import BookTutorPage from "../pages/BookTutorPage/BookTutorPage";
+import BookTutorOfflinePage from "../pages/BookTutorOfflinePage/BookTutorOfflinePage";
+
 import Profile from "../components/partial/HomePage/Profile/Profile";
 import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
 
@@ -24,6 +28,9 @@ export const router = createBrowserRouter([
   { path: "test", element: <DashboardPage /> },
   { path: "tutor", element: <TutorPage /> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
+  { path: "RegisterTutor", element: <RegisterTutor /> },
+  { path: "BookTutorOnline", element: <BookTutorPage /> },
+  { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
   { path: "Profile", element: <Profile /> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> }
 ]);
