@@ -170,7 +170,7 @@ export default function TableList({ data, handleAccept, handleClickOpen, type })
                                         </StyledTableCell>
                                         {type == "Pending" && (
                                             <StyledTableCell
-                                                style={{ fontWeight: "600", width: "270px", padding: "0px" }}
+                                                style={{ fontWeight: "600", width: "370px", padding: "0px" }}
                                                 align="left"
                                             >
                                                 <Button variant="contained" color="success" onClick={() => handleAccept(row.email)}

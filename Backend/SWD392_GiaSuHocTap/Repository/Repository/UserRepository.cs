@@ -3,6 +3,7 @@ using Common.DTO.Query;
 using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -76,7 +77,7 @@ namespace Repository.Repository
 
         public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<User> GetPagedActiveUserList(UserParameters parameters)
