@@ -11,16 +11,18 @@ import PageSize from "./PageSize";
 import { AcceptTutor, GetActiveTutor, GetAllTutor, GetPendingTutor } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
 import Diablog from "./Diablog";
+import WaitingModal from "../../global/WaitingModal";
 
 export default function ViewTutor() {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
-  const [type, setType] = React.useState("All");
+  const [type, setType] = React.useState("Pending");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleClickOpen = (email) => {
     setOpen(true);
     setEmail(email);
@@ -101,6 +103,7 @@ export default function ViewTutor() {
         )}
       </Container>
       <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
+      <WaitingModal open={false} setOpen={setIsModalOpen}/>
     </div>
   );
 }
