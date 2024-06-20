@@ -129,7 +129,7 @@ var app = builder.Build();
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);
 
-void SeedData(IHost app)
+async void SeedData(IHost app)
 {
     var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
 

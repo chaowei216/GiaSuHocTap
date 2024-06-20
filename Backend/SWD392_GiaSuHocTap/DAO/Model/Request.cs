@@ -13,6 +13,7 @@ namespace DAO.Model
         public string RequestType { get; set; } = null!;
         public DateTime CretaeDate { get; set; }
         public bool Status { get; set; }
+        public string? LinkMeet { get; set; }
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public Course Course { get; set; } = null!;

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240613050355_init")]
+    [Migration("20240620072251_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -245,6 +245,9 @@ namespace DAO.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LinkMeet")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -407,6 +410,18 @@ namespace DAO.Migrations
                     b.Property<string>("Major")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("NumberOfRent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentHour")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TeachingOffline")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("TeachingOnline")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

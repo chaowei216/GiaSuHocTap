@@ -43,6 +43,8 @@ namespace DAO.Data
                     roleParents
                 };
 
+                _context.Roles.AddRange(userRoles);
+
                 List<Class> classes = new()
                 {
                     new Class
@@ -124,9 +126,10 @@ namespace DAO.Data
                         IdentityNumber = "283471927471",
                         IdentityImage = null,
                         UserImage = "anh-den-ngau-005.jpg",
+                        YoutubeLink = null,
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -147,10 +150,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283471927221",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-002.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -171,10 +175,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283471927221",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-001.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -195,10 +200,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-003.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -219,10 +225,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-011.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -243,10 +250,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-012.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Parents + 1,
+                        RoleId = (int)RoleEnum.Parents,
                     },
                     new()
                     {
@@ -267,17 +275,17 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-016.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Parents + 1,
+                        RoleId = (int)RoleEnum.Parents,
                     }
                 };
 
                 _context.Classes.AddRange(classes);
                 _context.Courses.AddRange(courses);
                 _context.Users.AddRange(users);
-                _context.Roles.AddRange(userRoles);
 
                 _context.SaveChanges();
             }
