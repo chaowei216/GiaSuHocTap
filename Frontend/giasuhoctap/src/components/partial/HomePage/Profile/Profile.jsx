@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Profile.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const Profile = () => {
+    const [teachingMode, setTeachingMode] = useState('');
+
     const Subject = [
         'Toán', 'Lý', 'Hóa', 'Văn', 'Tiếng Việt',
         'Anh Văn', 'Báo Bài', 'Sinh', 'Sử', 'Địa', 'Tin Học',
@@ -18,7 +19,17 @@ const Profile = () => {
         'Lớp 11', 'Lớp 12', 'Ôn Thi Đại Học', 'Dạy Song Ngữ', 'TOEFL',
     ];
 
-    const DayOfWeek = [
+    const DayOfWeekOnline = [
+        'Sáng Thứ 2', 'Chiều Thứ 2', 'Tối Thứ 2',
+        'Sáng Thứ 3', 'Chiều Thứ 3', 'Tối Thứ 3',
+        'Sáng Thứ 4', 'Chiều Thứ 4', 'Tối Thứ 4',
+        'Sáng Thứ 5', 'Chiều Thứ 5', 'Tối Thứ 5',
+        'Sáng Thứ 6', 'Chiều Thứ 6', 'Tối Thứ 6',
+        'Sáng Thứ 7', 'Chiều Thứ 7', 'Tối Thứ 7',
+        'Sáng Chủ Nhật', 'Chiều Chủ Nhật', 'Tối Chủ Nhật',
+    ];
+
+    const DayOfWeekOffline = [
         'Sáng Thứ 2', 'Chiều Thứ 2', 'Tối Thứ 2',
         'Sáng Thứ 3', 'Chiều Thứ 3', 'Tối Thứ 3',
         'Sáng Thứ 4', 'Chiều Thứ 4', 'Tối Thứ 4',
@@ -34,13 +45,41 @@ const Profile = () => {
         '18:00 - 21:00',
     ];
 
+    const [selectedTime, setSelectedTime] = useState([]);
+    const [selectedDayOfWeekOnline, setSelectedDayOfWeekOnline] = useState([]);
+    const [selectedDayOfWeekOffline, setSelectedDayOfWeekOffline] = useState([]);
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
+    const [selectedClasses, setSelectedClasses] = useState([]);
+
+    const handleTeachingModeChange = (event) => {
+        setTeachingMode(event.target.value);
+    };
+
+    const handleCheckboxChange = (event, setState, state) => {
+        const value = event.target.value;
+        if (event.target.checked) {
+            setState([...state, value]);
+        } else {
+            setState(state.filter(item => item !== value));
+        }
+    };
+
+    const handleSubmit = () => {
+        console.log('Hình thức dạy:', teachingMode);
+        console.log('Thời gian dạy Online:', selectedTime);
+        console.log('Ngày trong tuần của dạy Online:', selectedDayOfWeekOnline);
+        console.log('Ngày trong tuần của dạy Offline:', selectedDayOfWeekOffline);
+        console.log('Môn dạy:', selectedSubjects);
+        console.log('Lớp dạy:', selectedClasses);
+    };
+
     return (
         <div className={`profileBox ${styles.profileBox}`} style={{ width: '100%', height: '100%', backgroundColor: '#F0F9FC' }}>
             <div className={styles.profileBody} style={{ backgroundColor: 'white' }}>
                 <div className='container mr-4' style={{ borderBottom: '1px solid #679312', paddingBottom: '10px', paddingTop: '10px', width: '95%' }}>
                     <div className={styles.profileReTutor}>
                         <div className={styles.profileBgTu}>
-                            <h1>ĐĂNG KÝ LÀM GIA SƯ</h1>
+                            <h1>Cập nhật thông tin gia sư</h1>
                         </div>
                         <div className={styles.profileContent}>
                             <p>Để nhận được lớp dạy, Bạn phải đăng ký tài khoản gia sư. Tài khoản gia sư chỉ cần đăng ký 1 lần duy nhất (lần đầu tiên), Lần sau nhận lớp bạn không cần đăng ký nữa.</p>
@@ -57,40 +96,32 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="container mt-4" >
-                    {/* <div className="mb-3" style={{ display: 'flex' }}>
-                        <label htmlFor="name" className="form-label" style={{ width: '20%' }}>Nghề nghiệp:</label>
-                        <input type="text" className="form-control" id="name" name="name" style={{ width: '60%', marginLeft: '120px' }} />
-                    </div>
-                    <div className="mb-3" style={{ display: 'flex' }}>
-                        <label htmlFor="bio" className="form-label" style={{ width: '20%' }}>Mô tả:</label>
-                        <textarea className="form-control" style={{ width: '60%', marginLeft: '120px' }} id="bio" name="bio" rows="3"></textarea>
-                    </div> */}
                     <div className={styles.profileTime} >
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Hình thức dạy:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
-                            <select className="form-select" aria-label="Default select example" style={{width: '135%'}}>
-                                <option selected>Chọn Hình Thức Dạy</option>
-                                <option  value={1}>Dạy Online</option>
-                                <option value={2}>Dạy Offline</option>
-                                <option value={3}>Dạy Online và Offline</option>
+                            <select className="form-select" aria-label="Default select example" style={{ width: '135%' }} onChange={handleTeachingModeChange}>
+                                <option value="">Chọn Hình Thức Dạy</option>
+                                <option value="online">Dạy Online</option>
+                                <option value="both">Dạy Online và Offline</option>
                             </select>
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <div className={styles.profileTime} >
-                        <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Thời gian dạy:</div>
+                        <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Thời gian dạy Online:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {Time.map((name, index) => (
                                 <div key={index} className="mb-4">
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
-                                        id={`checkbox${index}`}
-                                        name={`checkbox${index}`}
+                                        id={`timeCheckbox${index}`}
+                                        value={name}
+                                        onChange={(event) => handleCheckboxChange(event, setSelectedTime, selectedTime)}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor={`checkbox${index}`}
+                                        htmlFor={`timeCheckbox${index}`}
                                     >
                                         {name}
                                     </label>
@@ -100,19 +131,20 @@ const Profile = () => {
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <div className={styles.profileDayOfWeek} >
-                        <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày trong tuần:</div>
+                        <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày trong tuần của dạy Online:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
-                            {DayOfWeek.map((name, index) => (
+                            {DayOfWeekOnline.map((name, index) => (
                                 <div key={index} className="mb-4">
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
-                                        id={`checkbox${index}`}
-                                        name={`checkbox${index}`}
+                                        id={`dayOfWeekOnlineCheckbox${index}`}
+                                        value={name}
+                                        onChange={(event) => handleCheckboxChange(event, setSelectedDayOfWeekOnline, selectedDayOfWeekOnline)}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor={`checkbox${index}`}
+                                        htmlFor={`dayOfWeekOnlineCheckbox${index}`}
                                     >
                                         {name}
                                     </label>
@@ -120,6 +152,31 @@ const Profile = () => {
                             ))}
                         </div>
                     </div>
+                    <hr style={{ width: '95%', marginLeft: '20px' }} />
+                    {teachingMode === 'both' && (
+                        <div className={styles.profileDayOfWeek}>
+                            <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày trong tuần của dạy Offline:</div>
+                            <div className={`form-check ${styles.subjectGrid}`}>
+                                {DayOfWeekOffline.map((name, index) => (
+                                    <div key={index} className="mb-4">
+                                        <input
+                                            type="checkbox"
+                                            className="form-check-input"
+                                            id={`dayOfWeekOfflineCheckbox${index}`}
+                                            value={name}
+                                            onChange={(event) => handleCheckboxChange(event, setSelectedDayOfWeekOffline, selectedDayOfWeekOffline)}
+                                        />
+                                        <label
+                                            className="form-check-label"
+                                            htmlFor={`dayOfWeekOfflineCheckbox${index}`}
+                                        >
+                                            {name}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <div className={styles.profileSubject}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>
@@ -131,12 +188,13 @@ const Profile = () => {
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
-                                        id={`checkbox${index}`}
-                                        name={`checkbox${index}`}
+                                        id={`subjectCheckbox${index}`}
+                                        value={name}
+                                        onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor={`checkbox${index}`}
+                                        htmlFor={`subjectCheckbox${index}`}
                                     >
                                         {name}
                                     </label>
@@ -153,12 +211,13 @@ const Profile = () => {
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
-                                        id={`checkbox${index}`}
-                                        name={`checkbox${index}`}
+                                        id={`classCheckbox${index}`}
+                                        value={name}
+                                        onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor={`checkbox${index}`}
+                                        htmlFor={`classCheckbox${index}`}
                                     >
                                         {name}
                                     </label>
@@ -167,7 +226,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    <button className={styles.buttonProfile}>Đăng Ký</button>
+                    <button className={styles.buttonProfile} onClick={handleSubmit}>Cập nhật thông tin gia sư</button>
                 </div>
             </div>
         </div>
