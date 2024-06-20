@@ -1,41 +1,71 @@
-import InfoIcon from "@mui/icons-material/Info";
+import style from "./TutorDetailMiddle.module.css"
+import ImageWithPreview from "../../global/ImageWithPreview";
+import FeedbackTutor from "./FeedbackTutor";
 function TutorDetailMiddle() {
+  const imageList = [
+    'https://picsum.photos/200',
+    'https://picsum.photos/200/300',
+    'https://picsum.photos/seed/picsum/200/300',
+  ];
+
   return (
-    <div className="w-2/3">
+    <div style={{width: "70%"}}>
       <div className="flex gap-3 align-middle">
         <div className="font-mono font-bold text-3xl">Lưu Chao Wei</div>
         <div className="text-2xl">🌸</div>
       </div>
       <div className="mt-4 flex">
         <div className="w-1/4">
-          <div>Số lượt thuê</div>
-          <div>120 lượt</div>
+          <div className={style.nav_item_name}>Số lượt thuê</div>
+          <div className={style.nav_item_value}>120 lượt</div>
         </div>
         <div className="w-1/4">
-          <div>Đã được thuê</div>
-          <div>1721 giờ</div>
+          <div className={style.nav_item_name}>Đã được thuê</div>
+          <div className={style.nav_item_value}>1721 giờ</div>
         </div>
         <div className="w-1/4">
-          <div>Tỷ lệ hoàn thành</div>
-          <div>99%</div>
+          <div className={style.nav_item_name}>Tỷ lệ hoàn thành</div>
+          <div className={style.nav_item_value}>99%</div>
         </div>
         <div className="w-1/4">
-          <div>Tình trạng thiết bị</div>
-          <div>Mic</div>
+          <div className={style.nav_item_name}>Tình trạng thiết bị</div>
+          <div className={style.nav_item_value}>Mic</div>
         </div>
       </div>
-      <div>
-        <div>Cart Item</div>
+      <hr />
+      <div className="flex flex-wrap">
+        <div className={style.field_name}>Lĩnh vực</div>
+        <div className={style.field_name}>Toán học</div>
+        <div className={style.field_name}>Hóa học</div>
+        <div className={style.field_name}>Văn học</div>
+        <div className={style.field_name}>Vật lý</div>
+        <div className={style.field_name}>Tiếng anh</div>
+        <div className={style.field_name}>Tiếng anh</div>
       </div>
       <hr />
       <div>
-        <div>Thông tin</div>
-        <div>Nội dung nè</div>
+        <div className={style.title_user_profile}>Thông tin</div>
+        <div className={style.content_player_profile}>
+          <p>Xin chào</p>
+          <div className={style.album_of_player}>
+            <ImageWithPreview imageList={imageList} />
+          </div>
+          <p>Tên: Lưu Chao Wei</p>
+          <p>Email: luuchaowei@gmail.com</p>
+          <p>Địa chỉ: TP HCM</p>
+          <p>Công việc: Sinh viên</p>
+          <p>Chuyên ngành: Công nghệ thông tin</p>
+        </div>
+        <div style={{ marginTop: "25px" }}>
+          <div>
+            <iframe className="w-full aspect-video" src="https://www.youtube.com/embed/T02jpd13JwI"></iframe>
+          </div>
+        </div>
       </div>
       <hr />
       <div>
-        <div>Đánh giá</div>
-        <div>Cart đánh giá nè</div>
+        <div className={style.title_user_profile}>Đánh giá</div>
+        <FeedbackTutor/>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import TutorPage from "../pages/TutorPage/TutorPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 import Profile from "../components/partial/HomePage/Profile/Profile";
 import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
-import TutorDetailContainer from "../components/partial/TutorDetail/TutorDetailContainer";
+import TutorDetailPage from "../pages/TutorPage/TutorDetailPage";
 
 export const router = createBrowserRouter([
   {
@@ -27,5 +27,5 @@ export const router = createBrowserRouter([
   { path: "forgot-password", element: <ForgotPasswordPage /> },
   { path: "Profile", element: <Profile /> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
-  { path: "tutor-detail", element: <TutorDetailContainer/> }
+  { path: "tutor-detail", element: <TutorDetailPage/> }
 ]);

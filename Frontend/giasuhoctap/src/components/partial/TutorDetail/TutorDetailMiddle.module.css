@@ -1,0 +1,122 @@
+.nav_item_name {
+  opacity: 0.7;
+  font-size: 12px;
+  font-weight: 700;
+  color: #354052;
+  text-transform: uppercase;
+  display: inline;
+}
+.nav_item_value {
+  font-size: 15px;
+  color: #f0564a;
+}
+.field_name {
+  text-shadow: 2px 0 0 #000;
+  margin: 0;
+  padding: 13px 16px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  text-transform: capitalize;
+  margin: 0 8px 6px 0;
+  min-width: 100px;
+  text-align: center;
+}
+.title_user_profile {
+  margin-top: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #354052;
+}
+.content_player_profile {
+  white-space: normal;
+  word-break: break-word;
+  margin-top: 15px;
+}
+.album_of_player {
+  margin: 10px 0;
+  display: flex;
+}
+.imageContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.imageWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.image {
+  display: block;
+  width: 200px; /* Chiều rộng của ảnh */
+  height: auto; /* Đảm bảo tỷ lệ chiều cao tự động */
+  transition: transform 0.3s ease;
+}
+
+.previewButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.previewButton:hover {
+  opacity: 1;
+}
+
+.eyeIcon {
+  margin-right: 5px;
+}
+
+.previewText {
+  font-size: 14px;
+}
+
+.fullImageOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.fullImage {
+  max-width: 80%; /* Kích thước lớn nhất của ảnh xem trước */
+  max-height: 80vh; /* Chiều cao lớn nhất của ảnh xem trước */
+  object-fit: contain; /* Đảm bảo ảnh không bị kéo ra khi thay đổi kích thước */
+  cursor: pointer;
+}
+.name_user {
+  margin-bottom: 5px !important;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.13;
+  letter-spacing: -0.2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
