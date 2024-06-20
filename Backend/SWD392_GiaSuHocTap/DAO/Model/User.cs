@@ -1,6 +1,7 @@
 ﻿using Common.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace DAO.Model
@@ -37,8 +38,11 @@ namespace DAO.Model
         public int CoinBalance { get; set; }
         [Range(12,12)]
         public string? IdentityNumber { get; set; }
-        public string[]? IdentityImage { get; set; }
-        public string UserImage { get; set; } = null!;
+        public List<string>? IdentityImage { get; set; }
+        [AllowNull]
+        public string? UserImage { get; set; } = null!;
+        [AllowNull]
+        public string? YoutubeLink { get; set; }
         public int NumberOfReport {  get; set; }
         [Required]
         [Column(TypeName = "nvarchar(24)")]

@@ -44,7 +44,8 @@ export default function InputFileUpload({ setFieldValue, formik, content, fieldN
     if (fieldName === "imageUser" || fieldName === "imageCertificate" || fieldName === "imageIdentity") {
       const fileNames = [];
       for (let i = 0; i < files.length; i++) {
-        const fileName = files[i].name;
+        const fileName = files[i];
+        console.log(fileName);
         // Kiểm tra xem tên file đã tồn tại trong mảng fileNamesRef.current chưa
         if (!fileNamesRef.current.includes(fileName)) {
           fileNamesRef.current.push(fileName);
@@ -94,7 +95,7 @@ export default function InputFileUpload({ setFieldValue, formik, content, fieldN
         startIcon={<CloudUploadIcon />}
       >
         {content}
-        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple  />
+        <VisuallyHiddenInput type="file" onChange={handleFileInputChange} multiple />
       </Button>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: "10px" }}>
         {selectedFile && selectedFile.map((file, index) => (

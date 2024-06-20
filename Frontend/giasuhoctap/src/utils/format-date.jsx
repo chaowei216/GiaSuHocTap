@@ -1,10 +1,6 @@
 export default function FormatDate(date) {
-    const dateObj = new Date(date);
-    const formattedDate =
-        ("0" + dateObj.getDate()).slice(-2) +
-        "/" +
-        ("0" + (dateObj.getMonth() + 1)).slice(-2) +
-        "/" +
-        dateObj.getFullYear();
+    // Chuyển chuỗi ngày tháng từ "dd-mm-yyyy" thành định dạng "dd/mm/yyyy"
+    const parts = date.split('-'); // Tách ngày, tháng, năm từ chuỗi
+    const formattedDate = parts[0] + '/' + parts[1] + '/' + parts[2]; // Định dạng lại thành "dd/mm/yyyy"
     return formattedDate;
 }

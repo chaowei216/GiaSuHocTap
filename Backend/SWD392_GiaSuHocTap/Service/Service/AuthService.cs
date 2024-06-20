@@ -34,7 +34,7 @@ namespace Service.Service
             _configuration = configuration;
             _refreshTokenService = refreshTokenService;
             _emailService = emailService;
-        } 
+        }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
         {
@@ -42,12 +42,14 @@ namespace Service.Service
             var user = CheckAdminAccount(loginRequest.Email, loginRequest.Password);
             if (user != null)
             {
+                var token = await _tokenService.CreateJWTToken(user, "");
                 return new LoginResponseDTO()
                 {
                     User = _mapper.Map<UserDTO>(user),
-                    Token = null
+                    Token = token
                 };
-            } else
+            }
+            else
             {
                 // get user by email
                 user = _userService.GetUserByEmail(loginRequest.Email);
@@ -72,22 +74,13 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<LogoutResponseDTO> LogOut(string accessToken, string refreshToken)
+        public async Task<LogoutResponseDTO> LogOut(string refreshToken)
         {
-            // check if it is a valid token
-            var isValidToken = _tokenService.CheckValidToken(accessToken, refreshToken);
+            // update refresh token in db (revoke token)
+            var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
 
-            if (!isValidToken.IsValidated)
+            if (refreshTokenDb != null)
             {
-                return new LogoutResponseDTO()
-                {
-                    Message = isValidToken.Message!
-                };
-            } else
-            {
-                // update refresh token in db (revoke token)
-                var refreshTokenDb = _refreshTokenService.GetRefreshTokenByToken(refreshToken);
-
                 refreshTokenDb!.IsRevoked = true;
 
                 var updatedRefreshToken = await _refreshTokenService.UpdateRefreshToken(refreshTokenDb);
@@ -100,12 +93,12 @@ namespace Service.Service
                         Message = AuthMessage.LogoutSuccess
                     };
                 }
-
-                return new LogoutResponseDTO()
-                {
-                    Message = AuthMessage.LogoutFail
-                };
             }
+
+            return new LogoutResponseDTO()
+            {
+                Message = AuthMessage.LogoutFail
+            };
         }
 
         // verify password hash
@@ -138,7 +131,7 @@ namespace Service.Service
 
             if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
             {
-                if(adminEmail == username && adminPassword == password)
+                if (adminEmail == username && adminPassword == password)
                 {
                     return new User
                     {
@@ -156,39 +149,44 @@ namespace Service.Service
             throw new NotImplementedException();
         }
 
-        public ForgotPasswordResponseDTO ResetPassword(ForgotPasswordDTO model)
+        public async Task<ResponseDTO> ResetPassword(ForgotPasswordDTO dto)
         {
-            if (model.Email.IsNullOrEmpty())
+            var user = _userService.GetUserByEmail(dto.Email);
+            
+            CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            if(user == null)
             {
-                var response = new ForgotPasswordResponseDTO()
+                return new ResponseDTO
                 {
-                    IsSuccess = false,
+                    Message = GeneralMessage.Fail,
                     StatusCode = (int)StatusCodeEnum.BadRequest,
-                    Message = CreateUserMessage.NullEmail
                 };
-                return response;
             }
 
-            var user = _userService.GetAllUsers().FirstOrDefault(c => c.Email == model.Email);
-            if (user == null)
+            if(dto.Password != dto.ConfirmPassword)
             {
-                return  new ForgotPasswordResponseDTO()
+                return new ResponseDTO
                 {
-                    IsSuccess = false,
-                    StatusCode = (int) StatusCodeEnum.BadRequest,
-                    Message = CreateUserMessage.NullEmail
-                }; 
+                    Message = GeneralMessage.Fail,
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                };
             }
-            return new ForgotPasswordResponseDTO()
-            {
-                IsSuccess = false,
-                StatusCode = (int)StatusCodeEnum.BadRequest,
-                Message = CreateUserMessage.NullEmail
-            };
 
+            user.Otp = null;
+            user.OtpExpiredTime = null;
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            await _userService.UpdateUserOtp(user);
+
+            return new ResponseDTO
+            {
+                Message = GeneralMessage.Success,
+                StatusCode = (int)StatusCodeEnum.NoContent,
+            };
         }
 
-        public ResponseDTO ForgotPassword(string email)
+        public async Task<ResponseDTO> ForgotPassword(string email)
         {
             var user = _userService.GetUserByEmail(email);
             if (user == null)
@@ -196,15 +194,16 @@ namespace Service.Service
                 return new ResponseDTO()
                 {
                     Message = AuthMessage.UserNotFound,
-                    StatusCode =(int) StatusCodeEnum.NotFound
+                    StatusCode = (int)StatusCodeEnum.NotFound
                 };
             }
 
             if (!user.IsVerified)
             {
-                return new ResponseDTO() { 
+                return new ResponseDTO()
+                {
                     Message = AuthMessage.UserIsNotVerified,
-                    StatusCode = (int) StatusCodeEnum.NotFound
+                    StatusCode = (int)StatusCodeEnum.BadRequest
                 };
             }
 
@@ -213,13 +212,14 @@ namespace Service.Service
 
             user.Otp = otp.OTPCode;
             user.OtpExpiredTime = otp.ExpiredTime;
+            await _userService.UpdateUserOtp(user);
 
             _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.ResetPassEmailSubject);
 
             return new ResponseDTO()
             {
                 Message = EmailNotificationMessage.SendOTPEmailSuccessfully + email,
-                StatusCode = (int) StatusCodeEnum.Created,
+                StatusCode = (int)StatusCodeEnum.OK,
                 Data = otp
             };
         }
@@ -227,9 +227,9 @@ namespace Service.Service
         public bool CheckUserVerifiedStatus(string email)
         {
             var user = _userService.GetUserByEmail(email);
-            while(user != null)
+            while (user != null)
             {
-                if(user.IsVerified)
+                if (user.IsVerified)
                 {
                     return true;
                 }
@@ -239,7 +239,13 @@ namespace Service.Service
 
         public bool CheckOTPExpired(string email)
         {
-            throw new NotImplementedException();
+            var user = _userService.GetUserByEmail(email);
+            if (user != null && user.OtpExpiredTime > DateTime.Now)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool SetOtp(OtpCodeDTO otpDto, string email)
@@ -250,7 +256,7 @@ namespace Service.Service
             {
                 user.Otp = otpDto.OTPCode;
                 user.OtpExpiredTime = otpDto.ExpiredTime;
-                _userService.UpdateUser(user);
+                _userService.UpdateUserOtp(user);
                 return true;
             }
             return false;
@@ -258,7 +264,63 @@ namespace Service.Service
 
         public bool CheckOTP(string email, string otpCode)
         {
-            throw new NotImplementedException();
+            var user = _userService.GetUserByEmail(email);
+            if (user?.Otp == otpCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool VerifyEmail(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user != null)
+            {
+                user.Otp = null;
+                user.OtpExpiredTime = null;
+                user.IsVerified = true;
+                _userService.UpdateUserOtp(user);
+
+                return true;
+            }
+            return false;
+        }
+
+        public void SendEmailVerify(string email)
+        {
+            var otp = _emailService.GenerateOTP();
+            var user = _userService.GetUserByEmail(email);
+            if (user?.IsVerified == false)
+            {
+                SetOtp(otp, email);
+                _emailService.SendOTPEmail(email, otp.OTPCode, EmailSubject.VerifyEmailSubject);
+            }
+        }
+
+        public bool AcceptUser(string email)
+        {
+            var user = _userService.GetUserByEmail(email);
+            if (user != null)
+            {
+                user.Status = UserStatusEnum.Active;
+                _userService.UpdateUserOtp(user);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RejectTutor(string email, string reason)
+        {
+            var user = _userService?.GetUserByEmail(email);
+            if(user != null)
+            {
+                _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
+                return true;
+
+            }
+            return false;
         }
     }
 }

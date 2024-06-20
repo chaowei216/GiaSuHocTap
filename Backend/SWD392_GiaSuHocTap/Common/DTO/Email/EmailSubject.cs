@@ -13,5 +13,7 @@ namespace Common.DTO.Email
         public const string ResetPassEmailSubject = "GiaSuHocTap: OTP Code For Reseting Password";
 
         public const string WelcomeEmailSubject = "GiaSuHocTap: Welcome to GiaSuHocTap";
+
+        public const string RejectEmailSubject = "GiaSuHocTap: Tutor request rejected";
     }
 }

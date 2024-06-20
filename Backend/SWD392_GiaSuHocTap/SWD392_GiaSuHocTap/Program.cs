@@ -1,14 +1,17 @@
 using Common.DTO;
 using DAO.DAO;
+using DAO.Data;
 using DAO.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;
 using Service.Service;
 using Service.Services;
+using Swashbuckle.AspNetCore.Filters;
 using SWD392_GiaSuHocTap.Middleware;
 using System.Text;
 
@@ -19,7 +22,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description =
+        "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
+        "Enter 'Bearer' [space] and then your token in the text input below. \r\n\r\n" +
+        "Example: \"Bearer 12345abcdef\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer",
+        Type = SecuritySchemeType.ApiKey
+    });
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 // auto mapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -100,6 +117,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IValidateHandleService, ValidateHandleService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+builder.Services.AddTransient<DataSeed>();
 // Db context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -107,7 +125,20 @@ builder.Services.AddDbContext<DataContext>(options => options.UseMySql(connectio
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+//seed data
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+    SeedData(app);
 
+async void SeedData(IHost app)
+{
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<DataSeed>();
+        service.TrySeed();
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

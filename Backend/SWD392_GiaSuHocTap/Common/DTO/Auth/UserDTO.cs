@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Enum;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Common.DTO.Auth
 {
@@ -13,12 +15,14 @@ namespace Common.DTO.Auth
         public string District { get; set; } = null!;
         public string City { get; set; } = null!;
         public string Gender { get; set; } = null!;
+        public bool IsVerified { get; set; }
         public int CoinBalance { get; set; }
-        public string IdentityNumber { get; set; } = null!;
-        public string[] IdentityImage { get; set; } = null!;
-        public string UserImage { get; set; } = null!;
+        public string? IdentityNumber { get; set; }
+        public List<string>? IdentityImage { get; set; }
+        public string? UserImage { get; set; } = null!;
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public UserStatusEnum Status { get; set; }
         public int NumberOfReport { get; set; }
-        public bool Status { get; set; }
-        public int RoleId { get; set; }
+        public string RoleName { get; set; } = null!;
     }
 }

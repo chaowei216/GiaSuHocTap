@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240610070305_init")]
+    [Migration("20240620072251_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -245,6 +245,9 @@ namespace DAO.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LinkMeet")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -326,10 +329,17 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<string>("LearningType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Period")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Status")
@@ -400,6 +410,18 @@ namespace DAO.Migrations
                     b.Property<string>("Major")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("NumberOfRent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentHour")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TeachingOffline")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("TeachingOnline")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -492,7 +514,9 @@ namespace DAO.Migrations
                         .HasColumnType("nvarchar(24)");
 
                     b.Property<string>("UserImage")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("YoutubeLink")
                         .HasColumnType("longtext");
 
                     b.HasKey("UserId");

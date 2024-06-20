@@ -1,4 +1,6 @@
-﻿using DAO.DAO;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.DAO;
 using DAO.Model;
 using Repository.IRepository;
 
@@ -21,6 +23,11 @@ namespace Repository.Repository
         public IEnumerable<Report> GetAllReports()
         {
             return _reportDAO.GetAll().AsEnumerable();
+        }
+
+        public PagedList<Report> GetPagedReportList(ReportParameters parameters)
+        {
+            return PagedList<Report>.ToPagedList(_reportDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Report?> GetReportById(int id)

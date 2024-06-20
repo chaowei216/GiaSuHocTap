@@ -13,40 +13,49 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./forgotPassword.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
-import { useEffect, useRef } from "react";
-import { SignIn } from "../../../api/AuthenApi";
+import { useEffect, useRef, useState } from "react";
+import { ForgotPasswordApi, ResetPassword, SignIn } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const defaultTheme = createTheme();
 export default function ForgotPassword() {
-  const userRef = useRef();
-  const { login } = useAuth();
-  //const { auth, setAuth, isAuthenticated } = useAuth()
-  // const navigate = useNavigate()
-  // const location = useLocation()
-  // const from = location.state?.from?.pathname || "/";
-
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // const userInput = {
-    //   userName: data.get("email"),
-    //   password: data.get("password"),
-    // };
-    // const response = await SignIn(userInput);
-    // if (response.status == 200) {
-    //   const responseJson = await response.json();
-    //   const accessToken = responseJson?.result?.accessToken;
-    //   const user = responseJson?.result?.user
-    //   localStorage.setItem("accessToken", accessToken);
-    //   setAuth({ ...auth, user, accessToken, isInitialized: true, isAuthenticated: true, });
-    //   //navigate(from, { replace: true });
-    // }
-    await login(data.get("email"), data.get("password"));
+    if (isSuccess == false) {
+      if (email == null || email.trim().length == 0) {
+        toast.error("Vui lòng nhập email");
+        return;
+      }
+      const response = await ForgotPasswordApi(email)
+      if (!response.ok) {
+        toast.error("Lỗi")
+        return;
+      }
+      const responseJson = await response.json();
+      if (responseJson.statusCode === 200) {
+        toast.success(responseJson.message)
+        setIsSuccess(true);
+      } else {
+        toast.error(responseJson.message)
+      }
+    } else {
+      console.log(email, otp, password, confirmPassword);
+      const response = await ResetPassword(otp, password, confirmPassword, email)
+      const responseJson = await response.json();
+      if (responseJson.statusCode === 204) {
+        toast.success("Đổi mật khẩu thành công")
+        window.location.href = "/login"
+      } else {
+        toast.error("Đổi mật khẩu không thành công")
+      }
+    }
   };
-  useEffect(() => {
-    userRef.current.focus();
-  }, [])
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="sm" className={styles.layout_container}>
@@ -65,8 +74,8 @@ export default function ForgotPassword() {
           <Typography component="h1" variant="h4">
             Quên mật khẩu
           </Typography>
-          <Typography component="h1" variant="h6" sx={{mt: 3}}>
-            Điền email của bạn và chúng tôi sẽ gửi mã code đến mail bạn
+          <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
+            Điền email của bạn và chúng tôi sẽ gửi mã otp đến mail bạn
           </Typography>
           <Box
             component="form"
@@ -74,34 +83,88 @@ export default function ForgotPassword() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              ref={userRef}
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              InputProps={{
-                startAdornment: (
-                  <MailOutlineIcon />
-                ),
-              }}
-            />
+            {isSuccess == false && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Địa chỉ email"
+                name="email"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                autoFocus
+                InputProps={{
+                  startAdornment: (
+                    <MailOutlineIcon />
+                  ),
+                }}
+              />
+            )}
+            {isSuccess == true && (
+              <>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="otp"
+                  label="Mã OTP"
+                  name="otp"
+                  autoComplete="otp"
+                  onChange={(e) => setOtp(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="password"
+                  label="Mật khẩu"
+                  name="password"
+                  autoComplete="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="confirmPassword"
+                  label="Xác nhận mật khẩu"
+                  name="confirmPassword"
+                  autoComplete="confirmPassword"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+              </>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2}}
+              sx={{ mt: 3, mb: 2 }}
             >
               Submit
             </Button>
-            <div style={{display: 'flex', justifyContent: "center"}}>
-            <Link href="/login" variant="body2">
-                  Trở về trang đăng nhập
-            </Link>
+            <div style={{ display: 'flex', justifyContent: "center" }}>
+              <Link href="/login" variant="body2">
+                Trở về trang đăng nhập
+              </Link>
             </div>
           </Box>
         </Box>

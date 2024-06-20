@@ -1,107 +1,103 @@
-﻿using Common.Constant.Message;
+﻿using AutoMapper;
+using Common.Constant.Message;
 using Common.DTO;
+using Common.DTO.Auth;
+using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
+using Service.Service;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Moderator")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+                              IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
-        [HttpPost("AddNewTutor")]
-        public async Task<IActionResult> CreateNewTutor([FromBody] TutorCreateRequestDTO tutor)
+        [HttpGet()]
+        public IActionResult GetAllUsers([FromQuery] UserParameters queries)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetPagedUserList(queries);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
+
+        [HttpGet("get-pending-tutor")]
+        public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
             try
+            
             {
-                var checkValidate = _userService.CheckCreateTutor(tutor);
-
-                if(!checkValidate.IsSuccess)
-                {
-                    return BadRequest(checkValidate);
-                }
-
-                var createTutor = await _userService.AddNewTutor(tutor);
-
-                if(createTutor.IsSuccess)
-                {
-                    var response = new ResponseDTO()
-                    {
-                        Message = CreateUserMessage.CreateSuccess,
-                        StatusCode = (int)StatusCodeEnum.Created,
-                        Data = createTutor
-                    };
-                    return Ok(response);
-                } else
-                {
-                    var response = new ResponseDTO()
-                    {
-                        Message = CreateUserMessage.CreateFail,
-                        StatusCode = (int)StatusCodeEnum.BadRequest,
-                    };
-                    return BadRequest(response);
-                }
-            } catch (Exception ex)
-            {
+                var user = _userService.GetAllPendingUser(queries);
                 var response = new ResponseDTO()
                 {
-                    Message = ex.Message,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = GeneralMessage.Success,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Data = user
                 };
-                return BadRequest(response);
-            }
-        }
+                return Ok(response);
 
-        [HttpPost("AddNewParent")]
-        public async Task<IActionResult> CreateNewParent([FromBody] ParentCreateRequestDTO parent)
-        {
-            try
-            {
-                var checkValidate = _userService.CheckCreateParent(parent);
-
-                if (!checkValidate.IsSuccess)
-                {
-                    return BadRequest(checkValidate);
-                }
-
-                var createTutor = await _userService.AddNewParent(parent);
-
-                if (createTutor.IsSuccess)
-                {
-                    var response = new ResponseDTO()
-                    {
-                        Message = CreateUserMessage.CreateSuccess,
-                        StatusCode = (int)StatusCodeEnum.Created,
-                        Data = createTutor
-                    };
-                    return Ok(response);
-                }
-                else
-                {
-                    var response = new ResponseDTO()
-                    {
-                        Message = CreateUserMessage.CreateFail,
-                        StatusCode = (int)StatusCodeEnum.BadRequest,
-                    };
-                    return BadRequest(response);
-                }
             }
             catch (Exception ex)
             {
                 var response = new ResponseDTO()
                 {
                     Message = ex.Message,
-                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                };
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("get-active-tutor")]
+        public IActionResult GetActiveTutor([FromQuery] UserParameters queries)
+        {
+            try
+            {
+                var user = _userService.GetAllActiveUser(queries);
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Success,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Data = user
+                };
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
                 };
                 return BadRequest(response);
             }

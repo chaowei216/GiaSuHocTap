@@ -114,7 +114,9 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdentityImage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserImage = table.Column<string>(type: "longtext", nullable: false)
+                    UserImage = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    YoutubeLink = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NumberOfReport = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(24)", nullable: false),
@@ -264,6 +266,8 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CretaeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LinkMeet = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     FromId = table.Column<int>(type: "int", nullable: false),
                     ClassId = table.Column<int>(type: "int", nullable: false)
@@ -300,9 +304,13 @@ namespace DAO.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DayOfWeek = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Period = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LearningType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -357,6 +365,10 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CertificateImage = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TeachingOnline = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TeachingOffline = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RentHour = table.Column<int>(type: "int", nullable: false),
+                    NumberOfRent = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

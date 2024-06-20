@@ -17,11 +17,14 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import cityJson from "../../../data/cityJson.json";
 import { validationRegisterParent } from "./ValidationAuthen/ValidationRegisterParent";
+import useAuth from "../../../hooks/useAuth";
 const defaultTheme = createTheme();
 
 export default function Register() {
   const [provinces, setProvinces] = useState([]);
-  
+
+  const { register } = useAuth();
+
   useEffect(() => {
     setProvinces(cityJson.data);
   }, []);
@@ -36,10 +39,10 @@ export default function Register() {
       gender: values.gender,
       city: values.city,
       address: values.address,
-      image: values.imageUser,
+      image: values.imageUser.toString(),
       district: values.district,
     };
-    console.log(user);
+    await register(user)
   };
   const formik = useFormik({
     initialValues: {
@@ -169,7 +172,7 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }} error={formik.errors.gender && formik.touched.gender}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    Gender
+                    Giới tính
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -192,7 +195,7 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }} error={formik.errors.city && formik.touched.city}>
                   <InputLabel id="demo-simple-select-helper-label">
-                    City
+                    Thành phố
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -255,17 +258,9 @@ export default function Register() {
                 <InputFileUpload
                   setFieldValue={formik.setFieldValue}
                   formik={formik}
-                  content={"Upload ảnh thẻ (tùy chọn)"}
+                  content={"Tải lên ảnh thẻ (tùy chọn)"}
                   fieldName="imageUser"
                   size={1}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration and updates via email."
                 />
               </Grid>
             </Grid>
@@ -280,7 +275,7 @@ export default function Register() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
-                  Already have an account? Sign in
+                  Có tài khoản rồi ? Quay về trang đăng nhập
                 </Link>
               </Grid>
             </Grid>
