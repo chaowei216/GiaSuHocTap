@@ -34,5 +34,5 @@ export const router = createBrowserRouter([
   { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
   { path: "Profile", element: <Profile /> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
-  { path: "tutor-detail", element: <TutorDetailPage/> }
+  { path: "tutor-detail/:email", element: <TutorDetailPage/> }
 ]);

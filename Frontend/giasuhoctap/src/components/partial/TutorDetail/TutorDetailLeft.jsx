@@ -2,11 +2,11 @@ import messi from "/img/avatarMessi.png";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 function TutorDetailLeft() {
   return (
-    <div style={{marginRight: "30px", width: "28%"}}>
+    <div style={{marginRight: "30px", width: "26%"}}>
       <div>
         <div className="col-md-7" style={{ width: "100%" }}>
           <img
-            style={{ width: "100%", height: "250px" }}
+            style={{ width: "97%", height: "250px" }}
             src={messi}
             alt="project-image"
             className="rounded"
@@ -21,7 +21,7 @@ function TutorDetailLeft() {
         </div>
         <div><EmojiEventsIcon/> <span style={{color: "#f0564a", fontWeight: "bold", fontSize: "20px"}}>Thành tích</span></div>
         <hr style={{marginTop: "5px"}} />
-        <span>Ngu nè</span>
+        <div className="mt-2">Ông xã em number one</div>
       </div>
     </div>
   );

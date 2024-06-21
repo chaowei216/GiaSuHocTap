@@ -7,11 +7,10 @@ export default function TutorDetailPage() {
     const [hamActive, setHamActive] = useState(false);
     return (
         <div>
-            <div>
+            <div className='fixed top-0 left-0 right-0 z-10' style={{ border: "1px solid #dcdcdc" }}>
                 <Navbar hamActive={hamActive} setHamActive={setHamActive} />
-                <NavbarResponsive hamActive={hamActive} />
             </div>
-            <div>
+            <div style={{marginTop: "10rem"}}>
                 <TutorDetailContainer />
             </div>
         </div>

@@ -16,7 +16,7 @@ function TutorDetailRight() {
           <StarRateIcon sx={{ color: "#ff9948" }} />
           <StarRateIcon sx={{ color: "#ff9948" }} />
         </div>
-        <Button sx={{
+        <Button variant="contained" color="error" sx={{
           width: "100%", color: "white", border: "1px solid #e2e6ea",
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "20px 0px 20px 0px", backgroundColor: "#f0564a"
