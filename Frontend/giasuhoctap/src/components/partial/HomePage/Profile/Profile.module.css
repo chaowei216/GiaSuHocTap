@@ -7,8 +7,13 @@
     margin-top: 20px;
 }
 
-  .profileClass, .profileSubject,.profileTime{
+  .profileClass, .profileSubject,.profileTime, .profileDayOfWeek{
     display: flex;
+    margin: 20px 0;
+  }
+
+  .profileSubject .div{
+    font-weight: 600;
   }
 
 
@@ -16,7 +21,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0 6rem;
-    margin-left: 200px;
+    margin-left: 50px;
     width: 85%;
   }
 
@@ -24,47 +29,83 @@
     width: 100%;
   } 
 
-  .buttonProfile{
-    margin-left: 400px;
-    margin-bottom: 15px;
-    border: none;
-    background: #4DA8DA;
-    width: 125px;
+  
+
+  /* .buttonProfile {
+    margin: 20px 0 25px 390px;
+    width: 200px;
     height: 50px;
-    border-radius: 5px;
-    color: white;
+    color: #000;
+    border-left: solid 1px #4dccda;
+    padding: 8px 12px;
     font-weight: 700;
-    transition: all 0.5s;
+    text-decoration: none;
+    background-size: 0 100%;
+    background-image: linear-gradient(#4dccda, #4481eb, #04befe, #4DA8DA);
+    background-repeat: no-repeat;
+    transition: all 0.4s linear;
+    color: #000;
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  }
+  
+  .buttonProfile:hover {
+    background-size: 100% 100%;
+    color: #ececec;
+    transition: all 0.4s cubic-bezier(0.000, 0.000, 0.230, 1);
   }
 
   .buttonProfile:hover{
     background-color: #4dccda;
+  } */
+
+  .buttonProfile {
+    border: none;
+    font-size: 16px;
+    color: #FFF;
+    padding: 8px 16px;
+    background-color: #4DA8DA;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 20px 0 25px 400px;
+    width: 200px;
+    height: 50px;
+    font-weight: 700;
+  }
+  .buttonProfile:hover {
+    background: #265DF2;
   }
   
   .profileBgTu{
     background: url(../../../../../public/img/ReTutor.png) no-repeat 0 0;
-    margin-left: 170px;
     margin-top: 20px;
+    background-size: 875px;
+    margin-bottom: 18px;
    
   }
 
   .profileBgTu h1{
-    height: 36px;
-    line-height: 36px;
+    height: 58px;
+    line-height: 50px;
     color: #043882;
     font-weight: bold;
+    font-size: 23px;
+    margin-left: 308px;
+    padding-top: 3px;
+  }
+
+  .profileContent p{
+    margin: 15px 0 5px 0;
     font-size: 15px;
-    margin-left: 205px;
   }
 
   .profileButtonRe {
     width: 200px;
-    margin-left: 360px !important;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     color: #fff;
-    cursor: pointer;
-    margin: 20px;
+    margin: 20px 20px 20px 340px;
     height: 45px;
     text-align:center;
     border: none;
