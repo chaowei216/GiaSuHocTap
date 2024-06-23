@@ -1,9 +1,10 @@
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { Button } from '@mui/material';
+import HiringTuor from './HiringTuor';
 
 function TutorDetailRight() {
   return (
-    <div className="ml-5" style={{width: "28%"}}>
+    <div className="ml-5" style={{ width: "28%" }}>
       <div style={{ width: "100%", height: "auto", borderRadius: "15px", padding: "10px", border: "1px solid #e2e6ea" }}>
         <div style={{
           fontSize: "24px", fontWeight: "700", fontStyle: "normal",
@@ -26,6 +27,7 @@ function TutorDetailRight() {
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "0px 0px 10px 0px"
         }}>Đánh giá</Button>
+        <HiringTuor />
       </div>
     </div>
   );

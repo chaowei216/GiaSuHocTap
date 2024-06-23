@@ -115,19 +115,20 @@ export default function TableList({
             {!data && <NoDataPage />}
             {
               data && data.length === 0 && (
-                <StyledTableCell
-                  sx={{ fontWeight: "600", width: "180px" }}
-                  component="th"
-                  align="left"
-                  scope="row"
-                >
-                  <Button
-                    sx={{ paddingLeft: "0px", textTransform: "none" }}
-                    onClick={() => setOpenDetail(true)}
-                  >
-                    <span>Test</span>
-                  </Button>
-                </StyledTableCell>
+                // <StyledTableCell
+                //   sx={{ fontWeight: "600", width: "180px" }}
+                //   component="th"
+                //   align="left"
+                //   scope="row"
+                // >
+                //   <Button
+                //     sx={{ paddingLeft: "0px", textTransform: "none" }}
+                //     onClick={() => setOpenDetail(true)}
+                //   >
+                //     <span>Test</span>
+                //   </Button>
+                // </StyledTableCell>
+                <NoDataPage />
               )
               /* <NoDataPage />*/
             }
@@ -223,7 +224,9 @@ export default function TableList({
                           sx={{
                             background: "#0b7234",
                             color: "white",
+                            borderRadius: "18px",
                             marginRight: "15px",
+                            fontSize: "12px"
                           }}
                         >
                           <DoneOutlineIcon /> Accept
@@ -232,7 +235,7 @@ export default function TableList({
                           variant="contained"
                           color="error"
                           onClick={() => handleClickOpen(row.email)}
-                          sx={{ background: "#de3a3b", color: "white" }}
+                          sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                         >
                           <div>
                             <ClearIcon /> Deny

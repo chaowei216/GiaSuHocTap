@@ -1,6 +1,5 @@
 import style from "./style.module.css";
 import avatar from "/img/avatar.png";
-import logoEdu from "/img/logoGiasu.png";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import MailIcon from '@mui/icons-material/Mail';
 import { Badge, Stack } from "@mui/material";
@@ -19,7 +18,6 @@ export default function Navbar() {
   };
   return (
     <div className={style.main}>
-      <img src={logoEdu} alt="avatar logo" width={120} />
       <div>
         <Stack spacing={2} direction="row">
           <Badge badgeContent={10} color="default" showZero>
@@ -44,7 +42,6 @@ export default function Navbar() {
           </BasicMenu>
           <span>Lê Việt Hùng</span>
         </div>
-
         {/* )} */}
       </div>
     </div>

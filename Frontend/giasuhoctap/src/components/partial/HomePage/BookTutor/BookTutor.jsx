@@ -124,7 +124,7 @@ const BookTutor = () => {
                                             height: "39px", margin: "14px",
                                             fontWeight: "bold", textTransform: "none"
                                         }}><InfoIcon /> Chi tiết</Button>
-                                        <button className={`button ${styles.button} w-1/2`}>Đăng ký</button>
+                                        <button className={`button ${styles.button} w-1/2`}>Thuê</button>
                                     </div>
                                 </div>
                             ))}
