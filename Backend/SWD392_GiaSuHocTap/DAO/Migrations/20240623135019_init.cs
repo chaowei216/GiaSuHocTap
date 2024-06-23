@@ -466,8 +466,7 @@ namespace DAO.Migrations
                     RequestId = table.Column<int>(type: "int", nullable: false),
                     IsAccepted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -484,11 +483,6 @@ namespace DAO.Migrations
                         principalTable: "TimeTables",
                         principalColumn: "TimeTableId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RequestTimes_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -541,11 +535,6 @@ namespace DAO.Migrations
                 name: "IX_RequestTimes_TimeTableId",
                 table: "RequestTimes",
                 column: "TimeTableId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RequestTimes_UserId",
-                table: "RequestTimes",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTables_UserId",
