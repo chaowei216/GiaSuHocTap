@@ -54,7 +54,7 @@ namespace DAO.Model
         public ICollection<UserClass> UserClasses { get; set; } = null!;
         public ICollection<UserCourse> UserCourses { get; set; } = null!;
         public ICollection<UserNotification> UserNotifications { get; set; } = null!;
-        public ICollection<RequestTime> RequestTimes { get; set; } = null!;
+        public ICollection<TimeTable> TimeTables { get; set; } = null!;
         public ICollection<Transaction> Transactions { get; set; } = null!;
         public ICollection<News> News { get; set; } = null!;
         public ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
