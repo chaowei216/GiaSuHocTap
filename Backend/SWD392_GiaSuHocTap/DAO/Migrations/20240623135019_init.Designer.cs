@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240620072251_init")]
+    [Migration("20240623135019_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -288,14 +288,9 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("RequestId", "TimeTableId");
 
                     b.HasIndex("TimeTableId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("RequestTimes");
                 });
@@ -672,10 +667,6 @@ namespace DAO.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAO.Model.User", null)
-                        .WithMany("RequestTimes")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Request");
 
                     b.Navigation("TimeTable");
@@ -684,7 +675,7 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.TimeTable", b =>
                 {
                     b.HasOne("DAO.Model.User", "User")
-                        .WithMany()
+                        .WithMany("TimeTables")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -822,7 +813,7 @@ namespace DAO.Migrations
 
                     b.Navigation("RefreshTokens");
 
-                    b.Navigation("RequestTimes");
+                    b.Navigation("TimeTables");
 
                     b.Navigation("Transactions");
 
