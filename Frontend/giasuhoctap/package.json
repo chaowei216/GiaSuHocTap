@@ -26,6 +26,7 @@
     "@popperjs/core": "^2.11.8",
     "apexcharts": "^3.49.1",
     "bootstrap": "^5.3.3",
+    "boxicons": "^2.1.4",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
