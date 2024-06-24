@@ -15,6 +15,7 @@ import BookTutorOfflinePage from "../pages/BookTutorOfflinePage/BookTutorOffline
 
 import Profile from "../components/partial/HomePage/Profile/Profile";
 import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
+import ParentPage from "../pages/ParentPage/ParentPage";
 import TutorDetailPage from "../pages/TutorPage/TutorDetailPage";
 import RequestTutorPage from "../pages/RequestPage/RequestTutorPage";
 import UserProfilePage from "../pages/UserProfile/UserProfilePage";
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
   { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
   { path: "Profile", element: <Profile /> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
+  { path: "ParentPage", element: <ParentPage /> },
   { path: "tutor-detail/:email", element: <TutorDetailPage /> },
   { path: "request-tutor", element: <RequestTutorPage /> },
   { path: "personal-profile", element: <UserProfilePage /> }
