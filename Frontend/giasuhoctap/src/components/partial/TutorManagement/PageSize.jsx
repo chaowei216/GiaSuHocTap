@@ -10,14 +10,13 @@ function PageSize({ pageSize, setPageSize }) {
     }
 
     return (
-        <div style={{ width: "46%" }}>
+        <li style={{ width: "46%" }}>
             <div
                 style={{
                     display: "flex",
                     alignItems: "center",
                     gap: "10px",
-                    justifyContent: "end",
-                    paddingBottom: "3px",
+                    width: "250px",
                 }}
             >
                 <div>Rows per page</div>
@@ -32,7 +31,7 @@ function PageSize({ pageSize, setPageSize }) {
                     </FormControl>
                 </div>
             </div>
-        </div>
+        </li>
     );
 }
 

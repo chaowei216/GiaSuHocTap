@@ -1,5 +1,7 @@
+import { Button } from '@mui/material';
 import styles from './BookTutor.module.css';
-
+import InfoIcon from '@mui/icons-material/Info';
+import { useState } from 'react';
 const tutors = [
     {
         name: "David Dell",
@@ -70,6 +72,9 @@ const tutors = [
 ];
 
 const BookTutor = () => {
+    const handleClick = (item) => {
+        window.location.href = `/tutor-detail/${item}`;
+    }
     return (
         <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
             <div className={styles.slideReTutor}>
@@ -114,7 +119,13 @@ const BookTutor = () => {
                                             <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
                                         </div>
                                     </div>
-                                    <button className={`button ${styles.button}`}>Đăng ký</button>
+                                    <div style={{ display: "flex" }}>
+                                        <Button onClick={() => handleClick(tutor.name)} variant="contained" className='w-1/2 gap-4' sx={{
+                                            height: "39px", margin: "14px",
+                                            fontWeight: "bold", textTransform: "none"
+                                        }}><InfoIcon /> Chi tiết</Button>
+                                        <button className={`button ${styles.button} w-1/2`}>Thuê</button>
+                                    </div>
                                 </div>
                             ))}
                         </div>

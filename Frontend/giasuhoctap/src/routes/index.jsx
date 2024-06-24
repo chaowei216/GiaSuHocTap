@@ -15,6 +15,9 @@ import BookTutorOfflinePage from "../pages/BookTutorOfflinePage/BookTutorOffline
 
 import Profile from "../components/partial/HomePage/Profile/Profile";
 import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
+import TutorDetailPage from "../pages/TutorPage/TutorDetailPage";
+import RequestTutorPage from "../pages/RequestPage/RequestTutorPage";
+import UserProfilePage from "../pages/UserProfile/UserProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +26,7 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
   },
   { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
-  { path: "registerParents", element: <RegisterPage />},//<RequireAuth></RequireAuth> },
+  { path: "registerParents", element: <RegisterPage /> },//<RequireAuth></RequireAuth> },
   { path: "registerTutors", element: <RegisterTutorPage /> },
   { path: "test", element: <DashboardPage /> },
   { path: "tutor", element: <TutorPage /> },
@@ -32,5 +35,8 @@ export const router = createBrowserRouter([
   { path: "BookTutorOnline", element: <BookTutorPage /> },
   { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
   { path: "Profile", element: <Profile /> },
-  { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> }
+  { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
+  { path: "tutor-detail/:email", element: <TutorDetailPage /> },
+  { path: "request-tutor", element: <RequestTutorPage /> },
+  { path: "personal-profile", element: <UserProfilePage /> }
 ]);

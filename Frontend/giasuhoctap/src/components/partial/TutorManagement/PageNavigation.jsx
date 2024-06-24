@@ -11,13 +11,13 @@ export default function PageNavigation({
   };
 
   return (
-    <div>
+    <li>
       <Stack
         spacing={2}
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "end",
+          alignItems: "center",
         }}
       >
         <Pagination
@@ -27,6 +27,6 @@ export default function PageNavigation({
           color="primary"
         />
       </Stack>
-    </div>
+    </li>
   );
 }

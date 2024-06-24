@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.item {
+  border: 3px solid #bdbdbd6c;
+  border-radius: 10px;
+  height: 100px;
+  cursor: pointer;
+  width: 25%;
+  width: 230px;
+  margin-right: 60px;
+  padding: 15px;
+}
+.item_header {
+  font-size: 17px;
+}
+.item_content {
+  font-size: 30px;
+  font-weight: bold;
+}
+.active {
+  border: 3px solid #50c7e9;
+  background-color: #e0f2f8;
+  border-radius: 10px;
+}
