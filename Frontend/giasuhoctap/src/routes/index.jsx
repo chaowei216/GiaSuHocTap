@@ -18,6 +18,7 @@ import SendOtpPage from "../pages/AuthenPage/SendOtpPage";
 import TutorDetailPage from "../pages/TutorPage/TutorDetailPage";
 import RequestTutorPage from "../pages/RequestPage/RequestTutorPage";
 import UserProfilePage from "../pages/UserProfile/UserProfilePage";
+import BuyCoinPage from "../pages/BuyCoinPage/BuyCoinPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,5 +39,6 @@ export const router = createBrowserRouter([
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
   { path: "tutor-detail/:email", element: <TutorDetailPage /> },
   { path: "request-tutor", element: <RequestTutorPage /> },
-  { path: "personal-profile", element: <UserProfilePage /> }
+  { path: "personal-profile", element: <UserProfilePage /> },
+  { path: "buycoin", element: <BuyCoinPage /> },
 ]);

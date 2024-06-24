@@ -81,13 +81,13 @@ const Navbar = () => {
             </a>
           </div>
         </div>
-        {(!user && !isAuthenticated) && (
+        {/* {(!user && !isAuthenticated) && (
           <div className={styles.nav_info}>
-            <button onClick={() => handleClickLogin()} className={styles.login}>Log in</button>
-            <button onClick={() => handleClickRegister()} className={styles.signup}>Sign Up</button>
+            <button onClick={() => handleClickLogin()} className={styles.login}>Đăng nhập</button>
+            <button onClick={() => handleClickRegister()} className={styles.signup}>Đăng ký</button>
           </div>
-        )}
-        {(user && isAuthenticated) && (
+        )} */}
+        {(!user && !isAuthenticated) && (
           <div className={styles.nav_info}>
             <Stack sx={{ marginRight: "20px" }} spacing={2} direction="row">
               <Badge badgeContent={10} color="default" showZero>
