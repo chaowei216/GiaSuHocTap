@@ -1,7 +1,7 @@
 .active {
-  background-color: #2f903f;
+  background-color: #d6f0e0;
   font-weight: 600;
-  color: white;
+  color: #0d6832;
   height: 30px;
   display: flex;
   align-items: center;
@@ -9,10 +9,10 @@
   border-radius: 18px;
 }
 .pending {
-  background-color: #d45b13;
   font-weight: 600;
-  color: white;
   height: 30px;
+  background-color: #fbf0da;
+  color: #73510d;
   display: flex;
   align-items: center;
   justify-content: center;
