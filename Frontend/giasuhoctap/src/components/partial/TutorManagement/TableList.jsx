@@ -20,6 +20,7 @@ import GlobalLoading from "../../global/GlobalLoading";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 import TutorDetail from "./TutorDetail";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 export default function TableList({
   data,
   handleAccept,
@@ -61,6 +62,7 @@ export default function TableList({
     "Điện thoại",
     "Giới tính",
     "Trạng thái",
+    "Hành động"
   ];
   const StatusType = ["Active", "Pending"];
 
@@ -92,23 +94,6 @@ export default function TableList({
                   <span style={{ fontSize: "larger" }}>{row}</span>
                 </TableCell>
               ))}
-              {type == "Pending" && (
-                <TableCell
-                  style={{
-                    color: "white",
-                    alignItems: "center",
-                    height: "50px",
-                  }}
-                  sx={{
-                    "&:last-child th": {
-                      textAlign: "center",
-                    },
-                  }}
-                  align="left"
-                >
-                  <span style={{ fontSize: "larger" }}>Hành động</span>
-                </TableCell>
-              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -146,21 +131,16 @@ export default function TableList({
                       align="left"
                       scope="row"
                     >
-                      <Button
-                        sx={{ paddingLeft: "0px", textTransform: "none" }}
-                        onClick={() => handleClickOpenDetail(row)}
-                      >
                         <span>{row.fullname}</span>
-                      </Button>
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600", width: "180px" }}
                       align="left"
                     >
                       {FormatDate(row.dateOfBirth)}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600", width: "180px" }}
                       align="middle"
                     >
                       {row.identityNumber}
@@ -208,6 +188,16 @@ export default function TableList({
                           }
                         })}
                     </StyledTableCell>
+                    {type != "Pending" && (
+                      <StyledTableCell
+                        style={{ fontWeight: "600", width: "140px" }}
+                        align="left"
+                      >
+                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                          <VisibilityIcon />
+                        </Button>
+                      </StyledTableCell>
+                    )}
                     {type == "Pending" && (
                       <StyledTableCell
                         style={{
@@ -240,6 +230,9 @@ export default function TableList({
                           <div>
                             <ClearIcon /> Deny
                           </div>
+                        </Button>
+                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                          <VisibilityIcon />
                         </Button>
                       </StyledTableCell>
                     )}

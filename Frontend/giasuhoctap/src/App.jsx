@@ -5,7 +5,7 @@ import ToastWrapper from "./routes/ToastWrapper"
 function App() {
   return (
     <>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
       <ToastWrapper/>
     </>
   )

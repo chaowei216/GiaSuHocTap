@@ -5,6 +5,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { Badge, Stack } from "@mui/material";
 import { useState } from "react";
 import BasicMenu from "./DropdownAva";
+import useAuth from "../../../hooks/useAuth"
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -16,6 +17,7 @@ export default function Navbar() {
   const handleLogout = () => {
     console.log("log out");
   };
+  const { user } = useAuth();
   return (
     <div className={style.main}>
       <div>
@@ -40,7 +42,7 @@ export default function Navbar() {
               }}
             />
           </BasicMenu>
-          <span>Lê Việt Hùng</span>
+          <span>{user?.fullname}</span>
         </div>
         {/* )} */}
       </div>
