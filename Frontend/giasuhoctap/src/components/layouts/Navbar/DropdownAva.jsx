@@ -4,6 +4,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function BasicMenu({ anchorEl, handleClick, handleClose, children }) {
+    const handleClickProfile = () => {
+        window.location.href = "/personal-profile"
+    }
     const open = Boolean(anchorEl);
     return (
         <div>
@@ -25,7 +28,7 @@ export default function BasicMenu({ anchorEl, handleClick, handleClose, children
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={() => handleClickProfile()}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>

@@ -9,32 +9,32 @@ const BuyCoin = () => {
   const gems = [
     {
       title: "Pocketful of Gems",
-      quantity: "80",
-      price: "€1.09",
+      quantity: "10",
+      price: "10.000 VND",
       image: "/img/coin_3.png",
     },
     {
       title: "Pile of Gems",
-      quantity: "500",
-      price: "€5.49",
+      quantity: "5",
+      price: "5.000 VND",
       image: "/img/coin_3.png",
     },
     {
       title: "Bag of Gems",
-      quantity: "1200",
-      price: "€10.99",
+      quantity: "20",
+      price: "20.000 VND",
       image: "/img/coin_3.png",
     },
     {
       title: "Sack of Gems",
-      quantity: "2500",
-      price: "€21.99",
+      quantity: "50",
+      price: "50.000 VND",
       image: "/img/coin_3.png",
     },
     {
       title: "Box of Gems",
-      quantity: "6500",
-      price: "€54.99",
+      quantity: "100",
+      price: "100.000 VND",
       image: "/img/coin_3.png",
     },
   ];
@@ -46,7 +46,7 @@ const BuyCoin = () => {
     speed: 1300,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 2000,
     responsive: [
       {
@@ -77,8 +77,9 @@ const BuyCoin = () => {
         </h1>
       </div>
       <div className={styles.sliderListWrapper}>
-        <div>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <div style={{ fontSize: "24px", fontWeight: "bold", paddingLeft: "30px" }}>Get coins</div>
+        <div className={styles.avatar1}>
+          <Avatar alt="Remy Sharp" src="/img/avatarMessi.png" />
           <div>Luu Trieu Nam</div>
         </div>
         <Slider {...settings} className={styles.sliderList} ref={sliderRef}>
@@ -87,15 +88,12 @@ const BuyCoin = () => {
               <div className={`swiper-wrapper ${styles.content}`}>
                 <div className={`swiper-slide ${styles.card}`}>
                   <div className={styles.cardContent}>
-                    <div className={styles.image}>
-                      <img src={gem.image} alt={gem.title} />
-                    </div>
                     <div className={styles.cardBody}>
                       <h5
                         className="card-title"
                         style={{
                           textAlign: "center",
-                          fontSize: "18px",
+                          fontSize: "22px",
                           fontWeight: "600",
                         }}
                       >
@@ -106,13 +104,14 @@ const BuyCoin = () => {
                           display: "flex",
                           marginTop: "10px",
                           alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
-                        <p>Quantity:</p>
+                        <p>Số lượng coin:</p>
                         <p
                           className="card-text"
                           style={{
-                            color: "#0000FF",
+                            color: "black",
                             marginLeft: "5px",
                             marginTop: "0px",
                             fontWeight: "bold",
@@ -121,14 +120,16 @@ const BuyCoin = () => {
                           {gem.quantity}
                         </p>
                       </div>
+                      <div className={styles.image}>
+                        <img src={gem.image} alt={gem.title} />
+                      </div>
                       <Button
                         variant="contained"
                         sx={{
-                          backgroundColor: "gray",
-                          width: "100px",
+                          backgroundColor: "#2c5b67",
                           color: "white",
+                          width: "180px"
                         }}
-                        className="card-text"
                         style={{ fontWeight: "600", marginTop: "15px" }}
                       >
                         {gem.price}
@@ -141,13 +142,12 @@ const BuyCoin = () => {
           ))}
         </Slider>
       </div>
-      <div>
+      <div className={styles.avatar}>
         <div>Payment Method</div>
         <div>Total: $ 0</div>
-        <Button>Buy Now</Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default BuyCoin;
