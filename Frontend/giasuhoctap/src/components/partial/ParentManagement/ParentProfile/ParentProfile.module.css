@@ -1,0 +1,46 @@
+.profileBody{
+    margin: 0 0 0 100px;
+}
+.cropimgAvatar{
+     display: flex;
+}
+.brand{
+    width: 7%;
+    border: 1px solid #4dccda;
+    border-radius: 90px;
+    height: 100px;
+    max-width: 7%;
+    max-height: 100px;
+}
+
+.profile{
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;;
+    color: #354052;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-weight: 400;
+}
+
+.profileBox{
+     margin-top: 20px;
+}
+
+.profileBoxNIput label{
+    color: #90959c;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.profileButton{
+    background: #4dccda;
+    color: white;
+    width: 570px;
+    height: 40px;
+    margin-left: 35px;
+    border-radius: 5px;
+    transition: all 0.5s;
+}
+
+
+
