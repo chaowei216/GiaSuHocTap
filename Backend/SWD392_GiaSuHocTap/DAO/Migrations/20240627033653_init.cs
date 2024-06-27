@@ -387,12 +387,12 @@ namespace DAO.Migrations
                 name: "UserClasses",
                 columns: table => new
                 {
-                    UsertId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClassId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClasses", x => new { x.ClassId, x.UsertId });
+                    table.PrimaryKey("PK_UserClasses", x => new { x.ClassId, x.UserId });
                     table.ForeignKey(
                         name: "FK_UserClasses_Classes_ClassId",
                         column: x => x.ClassId,
@@ -400,8 +400,8 @@ namespace DAO.Migrations
                         principalColumn: "ClassId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserClasses_Users_UsertId",
-                        column: x => x.UsertId,
+                        name: "FK_UserClasses_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -553,9 +553,9 @@ namespace DAO.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClasses_UsertId",
+                name: "IX_UserClasses_UserId",
                 table: "UserClasses",
-                column: "UsertId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCourses_CourseId",

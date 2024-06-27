@@ -3,6 +3,7 @@ using Repository.IRepository;
 using Service.IService;
 using Common.DTO.Course;
 using AutoMapper;
+using Repository.Repository;
 
 namespace Service.Service
 {
@@ -32,6 +33,26 @@ namespace Service.Service
         public async Task<Course?> GetCourseById(int id)
         {
             return await _courseRepository.GetCourseById(id);
+        }
+        public async Task<bool> DeleteUserCourse(int userId)
+        {
+            try
+            {
+                var userCourses = _courseRepository.GetUserCourseByUserId(userId).ToList();
+                await Task.WhenAll(userCourses.Select(c => _courseRepository.DeleteUserCourse(c)));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+        public IEnumerable<DeleteUserCourseDTO> GetAllUserCourses(int userId)
+        {
+            var userCourse = _courseRepository.GetUserCourseByUserId(userId);
+            var userCourseMap = _mapper.Map<List<DeleteUserCourseDTO>>(userCourse);
+            return userCourseMap;
         }
     }
 }

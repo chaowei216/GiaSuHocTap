@@ -640,12 +640,12 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public PaginationResponseDTO<TutorDTO> GetAllPendingUser(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetAllPendingUser(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedPendingUserList(parameters);
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
 
             return mappedResponse;
         }

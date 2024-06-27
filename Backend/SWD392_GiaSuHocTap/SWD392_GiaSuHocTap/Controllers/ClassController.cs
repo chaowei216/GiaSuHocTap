@@ -2,10 +2,8 @@
 using Common.DTO;
 using Common.Enum;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
