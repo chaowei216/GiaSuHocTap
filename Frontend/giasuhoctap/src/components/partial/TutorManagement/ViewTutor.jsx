@@ -18,7 +18,7 @@ export default function ViewTutor() {
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
-  const [type, setType] = React.useState("Pending");
+  const [type, setType] = React.useState("All");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -84,26 +84,33 @@ export default function ViewTutor() {
           <TableList data={data} handleAccept={handleAccept} handleClickOpen={handleClickOpen} type={type} />
         </Body>
         {data && data.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignContent: "space-betwwen",
-              justifyContent: "flex-end",
-            }}
-          >
-            <div style={{ marginTop: "20px" }}>
-              <PageNavigation
-                page={page}
-                setPage={setPage}
-                totalPages={totalPages}
-              />
+          <>
+            <div
+              style={{
+                position: "relative",
+                minHeight: "80px"
+              }}
+            >
+              <ul style={{
+                marginTop: "28px", marginBottom: "10px", position: "absolute",
+                left: "50%",
+                transform: "translate(-50%)",
+              }}>
+                <PageNavigation
+                  page={page}
+                  setPage={setPage}
+                  totalPages={totalPages}
+                />
+              </ul>
+              <ul style={{ float: "right", marginTop: "12px" }} >
+                <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+              </ul>
             </div>
-            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
-          </div>
+          </>
         )}
       </Container>
       <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
-      <WaitingModal open={false} setOpen={setIsModalOpen}/>
+      <WaitingModal open={false} setOpen={setIsModalOpen} />
     </div>
   );
 }

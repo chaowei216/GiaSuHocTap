@@ -5,17 +5,22 @@ import ViewTutor from '../../components/partial/TutorManagement/ViewTutor'
 
 export default function TutorPage() {
     return (
-        <div>
-            <div className="fixed top-0 left-0 right-0 z-10 bg-gray-200">
+        <div style={{ height: "90vh", position: "relative", top: "0" }}>
+            <div style={{
+                position: "fixed", top: "0", height: "100%", bottom: "0", width: "260px", left: "0",
+                zIndex: "1030", borderRight: "1px solid #ddd", backgroundColor: "#212120"
+            }}>
+                <Sidebar />
+            </div>
+            <div className="fixed top-0 left-64 z-10" style={{ width: "calc(100% - 260px)", float: "right" }}>
                 <Navbar />
             </div>
-            <div className="flex mt-32">
-                <div className=" fixed left-0 overflow-y-auto">
-                    <Sidebar />
-                </div>
-                <div className="w-2/3 ml-72 p-4 flex-1 overflow-y-auto">
-                    <ViewTutor />
-                </div>
+            <div style={{
+                overflow: "hidden", overflowAnchor: "none", float: "right", backgroundColor: "#f4f3ef",
+                position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
+            }}
+                className="p-4 overflow-y-auto">
+                <ViewTutor />
             </div>
         </div>
     )

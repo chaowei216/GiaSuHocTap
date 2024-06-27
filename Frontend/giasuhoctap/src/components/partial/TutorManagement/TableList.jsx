@@ -20,6 +20,7 @@ import GlobalLoading from "../../global/GlobalLoading";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 import TutorDetail from "./TutorDetail";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 export default function TableList({
   data,
   handleAccept,
@@ -61,6 +62,7 @@ export default function TableList({
     "Điện thoại",
     "Giới tính",
     "Trạng thái",
+    "Hành động"
   ];
   const StatusType = ["Active", "Pending"];
 
@@ -92,42 +94,26 @@ export default function TableList({
                   <span style={{ fontSize: "larger" }}>{row}</span>
                 </TableCell>
               ))}
-              {type == "Pending" && (
-                <TableCell
-                  style={{
-                    color: "white",
-                    alignItems: "center",
-                    height: "50px",
-                  }}
-                  sx={{
-                    "&:last-child th": {
-                      textAlign: "center",
-                    },
-                  }}
-                  align="left"
-                >
-                  <span style={{ fontSize: "larger" }}>Hành động</span>
-                </TableCell>
-              )}
             </TableRow>
           </TableHead>
           <TableBody>
             {!data && <NoDataPage />}
             {
               data && data.length === 0 && (
-                <StyledTableCell
-                  sx={{ fontWeight: "600", width: "180px" }}
-                  component="th"
-                  align="left"
-                  scope="row"
-                >
-                  <Button
-                    sx={{ paddingLeft: "0px", textTransform: "none" }}
-                    onClick={() => setOpenDetail(true)}
-                  >
-                    <span>Test</span>
-                  </Button>
-                </StyledTableCell>
+                // <StyledTableCell
+                //   sx={{ fontWeight: "600", width: "180px" }}
+                //   component="th"
+                //   align="left"
+                //   scope="row"
+                // >
+                //   <Button
+                //     sx={{ paddingLeft: "0px", textTransform: "none" }}
+                //     onClick={() => setOpenDetail(true)}
+                //   >
+                //     <span>Test</span>
+                //   </Button>
+                // </StyledTableCell>
+                <NoDataPage />
               )
               /* <NoDataPage />*/
             }
@@ -145,21 +131,16 @@ export default function TableList({
                       align="left"
                       scope="row"
                     >
-                      <Button
-                        sx={{ paddingLeft: "0px", textTransform: "none" }}
-                        onClick={() => handleClickOpenDetail(row)}
-                      >
                         <span>{row.fullname}</span>
-                      </Button>
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600", width: "180px" }}
                       align="left"
                     >
                       {FormatDate(row.dateOfBirth)}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600", width: "180px" }}
                       align="middle"
                     >
                       {row.identityNumber}
@@ -207,6 +188,16 @@ export default function TableList({
                           }
                         })}
                     </StyledTableCell>
+                    {type != "Pending" && (
+                      <StyledTableCell
+                        style={{ fontWeight: "600", width: "140px" }}
+                        align="left"
+                      >
+                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                          <VisibilityIcon />
+                        </Button>
+                      </StyledTableCell>
+                    )}
                     {type == "Pending" && (
                       <StyledTableCell
                         style={{
@@ -223,7 +214,9 @@ export default function TableList({
                           sx={{
                             background: "#0b7234",
                             color: "white",
+                            borderRadius: "18px",
                             marginRight: "15px",
+                            fontSize: "12px"
                           }}
                         >
                           <DoneOutlineIcon /> Accept
@@ -232,11 +225,14 @@ export default function TableList({
                           variant="contained"
                           color="error"
                           onClick={() => handleClickOpen(row.email)}
-                          sx={{ background: "#de3a3b", color: "white" }}
+                          sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                         >
                           <div>
                             <ClearIcon /> Deny
                           </div>
+                        </Button>
+                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                          <VisibilityIcon />
                         </Button>
                       </StyledTableCell>
                     )}

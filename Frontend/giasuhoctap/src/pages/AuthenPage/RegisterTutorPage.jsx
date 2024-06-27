@@ -11,7 +11,7 @@ function RegisterTutorPage() {
                 <div style={{ width: "50%", margin: "20px 0px 20px 0px" }}>
                     <RegisterTutor />
                 </div>
-                <div style={{ width: "50%", marginRight: "20px" }}><LayoutRegisterPage styleSizeBg="90vh" /></div>
+                <div style={{ width: "50%", marginRight: "20px" }}><LayoutRegisterPage styleSizeBg="75vh" /></div>
             </div>
         </div>
     )
