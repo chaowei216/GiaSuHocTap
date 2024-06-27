@@ -18,7 +18,7 @@ export default function ViewTutor() {
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
-  const [type, setType] = React.useState("Pending");
+  const [type, setType] = React.useState("All");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");

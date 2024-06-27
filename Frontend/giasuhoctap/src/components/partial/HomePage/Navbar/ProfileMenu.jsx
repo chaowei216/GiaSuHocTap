@@ -67,10 +67,10 @@ export default function ProfileMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <a style={{ display: "flex", borderBottom: ".5px solid #f0f0f0" }}>
-                        <img src={avatar} style={{ width: "55px", height: "55px" }}></img>
+                        <img src={avatar} style={{ width: "55px", height: "55px", marginRight: "10px"}}></img>
                         <div style={{ marginBottom: "5px" }}>
-                            <h4>Lê Phương Nam</h4>
-                            <p>ID: leviethung22072003@gmail.com</p>
+                            <h4>{user.fullname}</h4>
+                            <p>ID: {user.email}</p>
                             <p>Xem trang cá nhân của bạn</p>
                         </div>
                     </a>
@@ -79,12 +79,6 @@ export default function ProfileMenu() {
                     <Avatar /> My account
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <PersonAddIcon fontSize="small" />
-                    </ListItemIcon>
-                    Add another account
-                </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                         <SettingsIcon fontSize="small" />

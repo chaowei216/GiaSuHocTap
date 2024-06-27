@@ -94,23 +94,23 @@ export default function TutorDetail({
               </div>
             </div>
             <div className="project-info-box w-2/3">
-              <p>
+              <p style={{height: "40px"}}>
                 <b>Mã số:</b> {dataDetail?.userId}
               </p>
               <hr />
-              <p>
+              <p style={{height: "40px", marginTop: "15px"}}>
                 <b>Họ và tên:</b> {dataDetail?.fullname}
               </p>
               <hr />
-              <p>
+              <p style={{height: "40px", marginTop: "15px"}}>
                 <b>Năm sinh:</b> {dataDetail?.dateOfBirth}
               </p>
               <hr />
-              <p>
+              <p style={{height: "40px", marginTop: "15px"}}>
                 <b>Địa chỉ</b> {dataDetail?.address}
               </p>
               <hr />
-              <p className="mb-0">
+              <p style={{height: "40px", marginTop: "15px"}} className="mb-0">
                 <b>Chuyên ngành:</b> Công nghệ thông tin
               </p>
             </div>

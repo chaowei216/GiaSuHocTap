@@ -67,7 +67,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }); ;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO request)
         {

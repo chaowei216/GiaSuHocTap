@@ -76,15 +76,15 @@ const Navbar = () => {
             <a href="/" className={`${styles.nav} ${styles.center}`}>
               TUYỂN DỤNG
             </a>
-            <a href="/" className={`${styles.nav} ${styles.center}`}>
-              LIÊN HỆ
+            <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
+              MUA COIN
             </a>
           </div>
         </div>
         {(!user && !isAuthenticated) && (
           <div className={styles.nav_info}>
-            <button onClick={() => handleClickLogin()} className={styles.login}>Log in</button>
-            <button onClick={() => handleClickRegister()} className={styles.signup}>Sign Up</button>
+            <button onClick={() => handleClickLogin()} className={styles.login}>Đăng nhập</button>
+            <button onClick={() => handleClickRegister()} className={styles.signup}>Đăng ký</button>
           </div>
         )}
         {(user && isAuthenticated) && (
