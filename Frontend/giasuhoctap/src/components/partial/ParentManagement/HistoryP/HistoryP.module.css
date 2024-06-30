@@ -1,0 +1,176 @@
+.Body {
+    padding: 0;
+    margin: 10px 0 0 0;
+    box-shadow: 1px 2px 10px 1px rgb(0 0 0 / 10%);
+    background: white;
+    width: 80%;
+    height: 400px;
+}
+
+.historyTitle {
+    display: flex;
+    height: 50px;
+    padding: 20px 0 0 20px;
+}
+
+.nameTitle {
+    width: 75%;
+}
+
+.nameTitle h2 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.statusTitle {
+    display: flex;
+    width: 25%;
+    align-items: center;
+}
+
+.statusIcon {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(0, 0, 0, .12);
+    ;
+}
+
+.statusIcon p {
+    margin: 0 10px 0 12px;
+    color: #00bfa5;
+}
+
+.statusIcon .icon {
+    color: #00bfa5;
+
+}
+
+.statusIcon .icon {
+    color: #00bfa5;
+}
+
+.statusIcon .icon:nth-of-type(2) {
+    margin-right: 5px;
+}
+
+.statusName {
+    color: #4dccda;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.historyContent {
+    display: flex;
+}
+
+.historyImg {
+    width: 20%;
+}
+
+.historyImg img {
+    width: 48%;
+    border: 1px solid;
+    border-radius: 63px;
+    height: 130px;
+    margin: 25px 0 0 50px;
+}
+
+
+.historyDetail {
+    display: flex;
+    flex-direction: column;
+}
+
+.detailItem {
+    display: flex;
+    margin-top: 10px;
+}
+
+.detailItem h1 {
+    font-size: 20px;
+    color: #212121;
+    font-weight: bold;
+}
+
+.detailItem p:first-child {
+    color: #212121;
+    margin-right: 10px;
+    margin-left: 3px;
+}
+
+.detailItem p:last-child {
+    font-weight: 600;
+}
+
+.historyCoin {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+
+.coinIcon {
+    display: flex;
+    align-items: center;
+
+}
+
+.coinIcon .icon {
+    color: #4dccda;
+    font-size: 20px;
+}
+
+.coinIcon p {
+    margin: 0 10px 0 10px;
+    font-size: 18px;
+}
+
+.coinIcon h1 {
+    color: #4dccda;
+    font-size: 30px;
+}
+
+.feedbackButton {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+
+.evaluate {
+    width: 200px;
+    height: 50px;
+    background-color: #4dccda;
+    border-color: #4DA8DA;
+    color: white;
+    padding: 12px 0 0 60px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: all 1s;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.evaluate:hover{
+    background-color: #4DA8DA;
+}
+
+.refunds{
+    width: 250px;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, .09);
+    color: #212121;
+    padding: 12px 0 0 45px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: all 1s;
+    cursor: pointer;
+    background-color: white;
+}
+
+.refunds:hover{
+    background-color: #ebe4e4;
+}

@@ -20,6 +20,7 @@ import TutorDetailPage from "../pages/TutorPage/TutorDetailPage";
 import RequestTutorPage from "../pages/RequestPage/RequestTutorPage";
 import UserProfilePage from "../pages/UserProfile/UserProfilePage";
 import BuyCoinPage from "../pages/BuyCoinPage/BuyCoinPage";
+import ParentHistory from "../pages/ParentPage/ParentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -43,4 +44,5 @@ export const router = createBrowserRouter([
   { path: "request-tutor", element: <RequestTutorPage /> },
   { path: "personal-profile", element: <UserProfilePage /> },
   { path: "buycoin", element: <BuyCoinPage /> },
+  { path: "ParentHistory", element: <ParentHistory /> },
 ]);
