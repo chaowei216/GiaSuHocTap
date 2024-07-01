@@ -18,6 +18,11 @@ namespace Service.Service
             return await _notificationRepository.AddNewNotification(notification);
         }
 
+        public async Task<UserNotification> AddNewUserNotification(UserNotification userNotification)
+        {
+            return await _notificationRepository.AddNewUserNotification(userNotification);
+        }
+
         public IEnumerable<Notification> GetAllNotifications()
         {
             return _notificationRepository.GetAllNotifications().AsEnumerable();

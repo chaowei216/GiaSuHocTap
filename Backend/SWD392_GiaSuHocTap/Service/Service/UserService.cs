@@ -2,6 +2,7 @@
 using Common.Constant;
 using Common.Constant.Firebase;
 using Common.Constant.Message;
+using Common.Constant.Notification;
 using Common.Constant.Teaching;
 using Common.DTO;
 using Common.DTO.Auth;
@@ -22,26 +23,29 @@ namespace Service.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IClassRepository _classRepository;
-        private readonly ICourseRepository _courseRepository;
-        private readonly ITimeTableRepository _timeTableRepository;
+        private readonly IClassService _classService;
+        private readonly ICourseService _courseService;
+        private readonly ITimeTableService _timeTableService;
         private readonly IValidateHandleService _validateHandleService;
+        private readonly INotificationService _notificationService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
                             IValidateHandleService validateHandleService,
-                            IClassRepository classRepository,
-                            ICourseRepository courseRepository,
-                            ITimeTableRepository timeTableRepository)
+                            IClassService classService,
+                            ICourseService courseService,
+                            ITimeTableService timeTableService,
+                            INotificationService notificationService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _validateHandleService = validateHandleService;
-            _classRepository = classRepository;
-            _courseRepository = courseRepository;
-            _timeTableRepository = timeTableRepository;
+            _classService = classService;
+            _courseService = courseService;
+            _timeTableService = timeTableService;
+            _notificationService = notificationService;
 
             string pathToJsonFile = "firebase.json";
 
@@ -717,9 +721,9 @@ namespace Service.Service
             var user = await _userRepository.GetUserById(tutorInfo.TutorId);
 
             if (user != null && 
-                tutorInfo.Courses.Any() && 
+                tutorInfo.Subjects.Any() && 
                 tutorInfo.Classes.Any() &&
-                tutorInfo.OnlineTime.Any())
+                tutorInfo.DayOfWeekOnline.Any())
             {
                 // update Youtube link
                 user.YoutubeLink = tutorInfo.YoutubeLink;
@@ -727,7 +731,7 @@ namespace Service.Service
                 // add user class
                 foreach (var c in tutorInfo.Classes)
                 {
-                    await _classRepository.AddNewUserClass(new UserClass()
+                    await _classService.AddNewUserClass(new UserClass()
                     {
                         ClassId = c,
                         UserId = user.UserId
@@ -735,9 +739,9 @@ namespace Service.Service
                 }
 
                 // add user course
-                foreach (var c in tutorInfo.Courses)
+                foreach (var c in tutorInfo.Subjects)
                 {
-                    await _courseRepository.AddNewUserCourse(new UserCourse ()
+                    await _courseService.AddNewUserCourse(new UserCourse ()
                     {
                         CourseId = c,
                         UserId = user.UserId
@@ -746,16 +750,20 @@ namespace Service.Service
 
                 // add time table
                 // online
-                foreach (var time in tutorInfo.OnlineTime)
+                foreach (var time in tutorInfo.DayOfWeekOnline)
                 {
-                    await _timeTableRepository.AddTimeTable(new TimeTable ()
+                    var splitTime = time.Last().Split('-');
+                    string startTime = splitTime[0] + ":00";
+                    string endTime = splitTime[1] + ":00";
+
+                    await _timeTableService.AddTimeTable(new TimeTable ()
                     {
                         UserId = user.UserId,
-                        DayOfWeek = time.DayOfWeek,
-                        StartTime = "DateTime.Now",
-                        EndTime = "DateTime.Now",
+                        DayOfWeek = time.First(),
+                        StartTime = startTime,
+                        EndTime = endTime,           
                         LearningType = LearningType.Online,
-                        Period = "30",
+                        Period = time[1],
                         Status = "Active"
                     });
                 }
@@ -763,22 +771,44 @@ namespace Service.Service
                 // check if tutor choose offline teaching 
                 if (tutorInfo.IsOfflineTeaching)
                 {
-                    foreach (var time in tutorInfo.OfflineTime!)
+                    foreach (var time in tutorInfo.DayOfWeekOffline!)
                     {
-                        await _timeTableRepository.AddTimeTable(new TimeTable()
+                        var splitTime = time.Last().Split('-');
+                        string startTime = splitTime[0] + ":00";
+                        string endTime = splitTime[1] + ":00";
+
+                        await _timeTableService.AddTimeTable(new TimeTable()
                         {
                             UserId = user.UserId,
-                            DayOfWeek = time.DayOfWeek,
-                            StartTime = "DateTime.Now",
-                            EndTime = "DateTime.Now",
+                            DayOfWeek = time.First(),
+                            StartTime = startTime,
+                            EndTime = endTime,
                             LearningType = LearningType.Offline,
-                            Status = "Active"
+                            Period = time[1],
+                            Status = "Active",                         
                         });
                     }
                 }
 
                 user.Status = UserStatusEnum.Checking;
                 await _userRepository.UpdateUser(user);
+
+                // add notification
+                var notification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UpdateTutorDetailSuccess,
+                    Status = false,                   
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UsertId = user.UserId,
+                    NotificationId = notification.NotificationId
+                });
+
+                return true;
             }
 
             return false;

@@ -45,5 +45,12 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<DeleteUserCourseDTO> GetAllUserCourses(int userId);
+
+        /// <summary>
+        /// Add new user course
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
+        Task<UserCourse> AddNewUserCourse(UserCourse userCourse);
     }
 }

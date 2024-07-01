@@ -38,5 +38,12 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<DeleteUserClassDTO> GetAllUserClasses(int userId);
+
+        /// <summary>
+        /// Add new user class
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<UserClass> AddNewUserClass(UserClass entity);
     }
 }
