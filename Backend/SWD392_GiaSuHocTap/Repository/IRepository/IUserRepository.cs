@@ -110,6 +110,5 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
-        IEnumerable<User>? GetUserByStatus();      
     }
 }
