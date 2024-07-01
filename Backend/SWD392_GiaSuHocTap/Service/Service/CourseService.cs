@@ -23,6 +23,11 @@ namespace Service.Service
             return await _courseRepository.AddCourse(entity);
         }
 
+        public async Task<UserCourse> AddUserCouse(UserCourse userCourse)
+        {
+            return await _courseRepository.AddNewUserCourse(userCourse);
+        }
+
         public IEnumerable<CourseDTO> GetAllCourses()
         {
             var courses = _courseRepository.GetAllCourses();

@@ -23,6 +23,11 @@ namespace Repository.Repository
             return await _classDAO.AddAsync(entity);
         }
 
+        public async Task<UserClass> AddNewUserClass(UserClass entity)
+        {
+            return await _userClassDAO.AddAsync(entity);
+        }
+
         public async Task<bool> DeleteUserClass(UserClass userClass)
         {
 

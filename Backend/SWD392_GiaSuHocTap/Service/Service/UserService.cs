@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Common.Constant;
 using Common.Constant.Firebase;
 using Common.Constant.Message;
+using Common.Constant.Teaching;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Query;
@@ -10,6 +12,7 @@ using DAO.Model;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Crypto.Engines;
 using Repository.IRepository;
 using Service.IService;
 using System.Security.Cryptography;
@@ -19,15 +22,26 @@ namespace Service.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IClassRepository _classRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly ITimeTableRepository _timeTableRepository;
         private readonly IValidateHandleService _validateHandleService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IValidateHandleService validateHandleService)
+        public UserService(IUserRepository userRepository, 
+                            IMapper mapper, 
+                            IValidateHandleService validateHandleService,
+                            IClassRepository classRepository,
+                            ICourseRepository courseRepository,
+                            ITimeTableRepository timeTableRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _validateHandleService = validateHandleService;
+            _classRepository = classRepository;
+            _courseRepository = courseRepository;
+            _timeTableRepository = timeTableRepository;
 
             string pathToJsonFile = "firebase.json";
 
@@ -696,6 +710,78 @@ namespace Service.Service
             }
 
             return null!;
+        }
+
+        public async Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo)
+        {
+            var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+
+            if (user != null && 
+                tutorInfo.Courses.Any() && 
+                tutorInfo.Classes.Any() &&
+                tutorInfo.OnlineTime.Any())
+            {
+                // update Youtube link
+                user.YoutubeLink = tutorInfo.YoutubeLink;
+
+                // add user class
+                foreach (var c in tutorInfo.Classes)
+                {
+                    await _classRepository.AddNewUserClass(new UserClass()
+                    {
+                        ClassId = c,
+                        UserId = user.UserId
+                    });
+                }
+
+                // add user course
+                foreach (var c in tutorInfo.Courses)
+                {
+                    await _courseRepository.AddNewUserCourse(new UserCourse ()
+                    {
+                        CourseId = c,
+                        UserId = user.UserId
+                    });
+                }
+
+                // add time table
+                // online
+                foreach (var time in tutorInfo.OnlineTime)
+                {
+                    await _timeTableRepository.AddTimeTable(new TimeTable ()
+                    {
+                        UserId = user.UserId,
+                        DayOfWeek = time.DayOfWeek,
+                        StartTime = DateTime.Now,
+                        EndTime = DateTime.Now,
+                        LearningType = LearningType.Online,
+                        Period = "30",
+                        Status = "Active"
+                    });
+                }
+
+                // check if tutor choose offline teaching 
+                if (tutorInfo.IsOfflineTeaching)
+                {
+                    foreach (var time in tutorInfo.OfflineTime!)
+                    {
+                        await _timeTableRepository.AddTimeTable(new TimeTable()
+                        {
+                            UserId = user.UserId,
+                            DayOfWeek = time.DayOfWeek,
+                            StartTime = DateTime.Now,
+                            EndTime = DateTime.Now,
+                            LearningType = LearningType.Offline,
+                            Status = "Active"
+                        });
+                    }
+                }
+
+                user.Status = UserStatusEnum.Checking;
+                await _userRepository.UpdateUser(user);
+            }
+
+            return false;
         }
     }
 }

@@ -104,5 +104,12 @@ namespace Service.IService
         /// <param name="rootPath"></param>
         /// <returns></returns>
         Task<FileStream> RetrieveItemAsync(string rootPath);
+
+        /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo);
     }
 }
