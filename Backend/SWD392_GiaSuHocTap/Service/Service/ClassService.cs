@@ -23,6 +23,10 @@ namespace Service.Service
             return await _classRepository.AddClass(entity);
         }
 
+        public async Task<UserClass> AddUserClass(UserClass entity)
+        {
+            return await _classRepository.AddNewUserClass(entity);
+        }
         public async Task<bool> DeleteUserClass(int userId)
         {
             try
@@ -34,7 +38,6 @@ namespace Service.Service
             {
                 throw new Exception(ex.Message);
             }
-            
         }
 
         public IEnumerable<ClassDTO> GetAllClasses()

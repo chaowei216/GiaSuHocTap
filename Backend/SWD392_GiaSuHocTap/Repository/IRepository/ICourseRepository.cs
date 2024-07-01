@@ -34,11 +34,30 @@ namespace Repository.IRepository
         PagedList<Course> GetPagedCourseList(CourseParameters parameters);
 
         /// <summary>
+        /// Add new user course
+        /// </summary>
+        /// <param name="course"></param>
+        /// <returns></returns>
+        Task<UserCourse> AddNewUserCourse(UserCourse userCourse);
+
+        /// <summary>
+        /// Delete user course
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
+
+        /// <summary>
         /// Delete course which tutor teach
         /// </summary>
         /// <param name="userCourse"></param>
         /// <returns></returns>
         Task<bool> DeleteUserCourse(UserCourse userCourse);
+
+        /// <summary>
+        /// Get all user course by user Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
 
         /// <summary>
         /// Get tutor's couse

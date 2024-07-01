@@ -88,7 +88,7 @@ builder.Services.AddScoped<IGenericDAO<Notification>, GenericDAO<Notification>>(
 builder.Services.AddScoped<IGenericDAO<Report>, GenericDAO<Report>>();
 builder.Services.AddScoped<IGenericDAO<RefreshToken>, GenericDAO<RefreshToken>>();
 builder.Services.AddScoped<IGenericDAO<UserClass>, GenericDAO<UserClass>>();
-builder.Services.AddScoped<IGenericDAO<UserCourse>, GenericDAO<UserCourse>>();
+builder.Services.AddScoped<IGenericDAO<UserCourse>,  GenericDAO<UserCourse>>();
 
 // Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();

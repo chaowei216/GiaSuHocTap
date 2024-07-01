@@ -109,6 +109,13 @@ namespace Service.IService
         Task<FileStream> RetrieveItemAsync(string rootPath);
 
         /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo);
+
+        /// <summary>
         /// Get all teaching online tutor
         /// </summary>
         /// <param name="parameters"></param>

@@ -23,6 +23,11 @@ namespace Repository.Repository
             return await _courseDAO.AddAsync(course);
         }
 
+        public async Task<UserCourse> AddNewUserCourse(UserCourse userCourse)
+        {
+            return await _userCourseDAO.AddAsync(userCourse);
+        }
+
         public async Task<bool> DeleteUserCourse(UserCourse userCourse)
         {
             return await _userCourseDAO.DeleteAsync(userCourse);

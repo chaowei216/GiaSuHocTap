@@ -39,6 +39,25 @@ namespace Repository.IRepository
         /// <param name="userClass"></param>
         /// <returns></returns>
         Task<bool> DeleteUserClass(UserClass userClass);
+        /// <summary>
+        /// Add new user class
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<UserClass> AddNewUserClass(UserClass entity);
+
+        /// <summary>
+        /// Delete user class
+        /// </summary>
+        /// <param name="userClassmy"></param>
+        /// <returns></returns>
+        Task<bool> DeleteUserClass(UserClass userClassmy);
+
+        /// <summary>
+        /// Get all user classes by user Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
 
         /// <summary>
         /// Get tutor's class

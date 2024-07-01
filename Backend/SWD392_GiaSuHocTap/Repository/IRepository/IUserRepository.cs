@@ -89,8 +89,9 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<User> GetPagedActiveUserList(UserParameters parameters);
+
         /// <summary>
-        /// Get user by id
+        /// Get user by status
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
@@ -109,5 +110,6 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
+        IEnumerable<User>? GetUserByStatus();      
     }
 }
