@@ -7,7 +7,7 @@ using Repository.Repository;
 
 namespace Service.Service
 {
-    public class CourseService: ICourseService
+    public class CourseService : ICourseService
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
@@ -58,6 +58,11 @@ namespace Service.Service
             var userCourse = _courseRepository.GetUserCourseByUserId(userId);
             var userCourseMap = _mapper.Map<List<DeleteUserCourseDTO>>(userCourse);
             return userCourseMap;
+        }
+
+        public async Task<UserCourse> AddNewUserCourse(UserCourse userCourse)
+        {
+            return await _courseRepository.AddNewUserCourse(userCourse);
         }
     }
 }

@@ -23,6 +23,11 @@ namespace Service.Service
             return await _classRepository.AddClass(entity);
         }
 
+        public async Task<UserClass> AddNewUserClass(UserClass entity)
+        {
+            return await _classRepository.AddNewUserClass(entity);
+        }
+
         public async Task<UserClass> AddUserClass(UserClass entity)
         {
             return await _classRepository.AddNewUserClass(entity);
