@@ -1,5 +1,6 @@
 ﻿using DAO.Model;
 using Repository.IRepository;
+using Repository.Repository;
 using Service.IService;
 
 namespace Service.Service
@@ -18,9 +19,18 @@ namespace Service.Service
            return await _timeTableRepository.AddTimeTable(timeTable);
         }
 
-        public async Task<bool> DeleteTimeTable(TimeTable timeTable)
+        public async Task<bool> DeleteTimeTable(int userId)
         {
-            return await _timeTableRepository.DeleteTimeTable(timeTable);
+            try
+            {
+                var userTimeTable = _timeTableRepository.GetTimeTableByUserId(userId).ToList();
+                await Task.WhenAll(userTimeTable.Select(c => _timeTableRepository.DeleteTimeTable(c)));
+                return true;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public IEnumerable<TimeTable> GetAllTimeTables()

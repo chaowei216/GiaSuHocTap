@@ -22,6 +22,16 @@ namespace SWD392_GiaSuHocTap.Controllers
         [HttpGet("get-all-courses")]
         public IActionResult GetAllCourses()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
             try
             {
                 var courses = _courseService.GetAllCourses();

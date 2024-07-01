@@ -321,8 +321,8 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("EndTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LearningType")
                         .IsRequired()
@@ -331,8 +331,8 @@ namespace DAO.Migrations
                     b.Property<string>("Period")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("StartTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
                         .IsRequired()

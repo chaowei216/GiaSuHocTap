@@ -11,9 +11,9 @@ namespace DAO.Model
         [Required]
         public string DayOfWeek { get; set; } = null!;
         [AllowNull]
-        public DateTime? StartTime { get; set; }
+        public string? StartTime { get; set; }
         [AllowNull]
-        public DateTime? EndTime { get; set; }
+        public string? EndTime { get; set; }
         [AllowNull]
         public string? Period { get; set; } = null!;
         public string Status { get; set; } = null!;

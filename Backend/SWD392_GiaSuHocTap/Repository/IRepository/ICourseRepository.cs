@@ -33,8 +33,18 @@ namespace Repository.IRepository
         /// <returns></returns>
         PagedList<Course> GetPagedCourseList(CourseParameters parameters);
 
+        /// <summary>
+        /// Delete course which tutor teach
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
         Task<bool> DeleteUserCourse(UserCourse userCourse);
 
+        /// <summary>
+        /// Get tutor's couse
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         IEnumerable<UserCourse> GetUserCourseByUserId(int userId);
     }
 }
