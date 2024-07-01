@@ -47,6 +47,16 @@ namespace SWD392_GiaSuHocTap.Controllers
         [HttpGet("get-pending-tutor")]
         public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
             try
             
             {
@@ -70,9 +80,19 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
-        [HttpGet("get-active-tutor")]
-        public IActionResult GetActiveTutor([FromQuery] UserParameters queries)
+        [HttpGet("get-active-users")]
+        public IActionResult GetActiveUsers([FromQuery] UserParameters queries)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
             try
             {
                 var user = _userService.GetAllActiveUser(queries);
@@ -126,6 +146,79 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Message = GeneralMessage.Fail,
                 Data = null
             });
+        }
+
+        [HttpGet("get-tutor-teach-online")]
+        public IActionResult GetTutorTeachOnline([FromQuery] UserParameters queries)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            try
+
+            {
+                var user = _userService.GetTutorTeachOnline(queries);
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Success,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Data = user
+                };
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("get-tutor-teach-offline")]
+        public IActionResult GetTutorTeachOffline([FromQuery] UserParameters queries)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            try
+
+            {
+                var user = _userService.GetTutorTeachOffline(queries);
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Success,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Data = user
+                };
+
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = ex.Message,
+                };
+                return BadRequest(response);
+            }
         }
     }
 }

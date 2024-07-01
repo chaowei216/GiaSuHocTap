@@ -46,6 +46,11 @@ namespace Repository.IRepository
         /// <param name="userCourse"></param>
         /// <returns></returns>
 
+        /// <summary>
+        /// Delete course which tutor teach
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
         Task<bool> DeleteUserCourse(UserCourse userCourse);
 
         /// <summary>
@@ -54,6 +59,11 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
 
+        /// <summary>
+        /// Get tutor's couse
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         IEnumerable<UserCourse> GetUserCourseByUserId(int userId);
     }
 }

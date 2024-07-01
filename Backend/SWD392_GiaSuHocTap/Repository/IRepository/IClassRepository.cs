@@ -34,6 +34,12 @@ namespace Repository.IRepository
         PagedList<Class> GetPagedClassList(ClassParameters parameters);
 
         /// <summary>
+        /// Delete tutor's class
+        /// </summary>
+        /// <param name="userClass"></param>
+        /// <returns></returns>
+        Task<bool> DeleteUserClass(UserClass userClass);
+        /// <summary>
         /// Add new user class
         /// </summary>
         /// <param name="entity"></param>
@@ -53,6 +59,11 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
 
+        /// <summary>
+        /// Get tutor's class
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         IEnumerable<UserClass> GetUserClassByUserId(int userId);
 
     }

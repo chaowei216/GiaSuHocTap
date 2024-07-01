@@ -78,25 +78,28 @@ namespace Service.IService
         /// <param name="parent"></param>
         /// <returns></returns>
         CheckValidateResponseDTO CheckCreateParent(ParentCreateRequestDTO parent);
-        
+
         /// <summary>
         /// Get user list with pagination
         /// Get all users where status is pending
         /// </summary>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
         /// Get all pending users
         /// </summary>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<TutorInforDTO> GetAllPendingUser(UserParameters parameters);
 
         /// <summary>
         /// Get all active users
         /// </summary>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<UserDTO> GetAllActiveUser(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetAllActiveUser(UserParameters parameters);
 
         /// <summary>
         /// Function to help service get image
@@ -111,5 +114,19 @@ namespace Service.IService
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo);
+
+        /// <summary>
+        /// Get all teaching online tutor
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters);
+
+        /// <summary>
+        /// Get all teaching offline tutor
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters);
     }
 }

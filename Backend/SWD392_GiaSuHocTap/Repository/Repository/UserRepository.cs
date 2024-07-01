@@ -70,9 +70,9 @@ namespace Repository.Repository
             return PagedList<User>.ToPagedList(_userDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
         }
 
-        public IEnumerable<User>? GetUserByStatus()
+        public IEnumerable<User>? GetUserByStatus(UserStatusEnum status)
         {
-            return _userDAO.GetByCondition(u => u.Status == UserStatusEnum.Pending);
+            return _userDAO.GetByCondition(u => u.Status == status);
         }
 
         public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
@@ -83,6 +83,16 @@ namespace Repository.Repository
         public PagedList<User> GetPagedActiveUserList(UserParameters parameters)
         {
             return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IEnumerable<User> GetTutorTeachOnline(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOnline == true), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IEnumerable<User> GetTutorTeachOffline(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

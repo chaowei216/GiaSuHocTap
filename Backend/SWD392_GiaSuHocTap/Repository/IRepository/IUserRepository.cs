@@ -1,5 +1,6 @@
 ﻿using Common.DTO;
 using Common.DTO.Query;
+using Common.Enum;
 using DAO.Model;
 
 namespace Repository.IRepository
@@ -94,6 +95,21 @@ namespace Repository.IRepository
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
+        IEnumerable<User>? GetUserByStatus(UserStatusEnum status);
+
+        /// <summary>
+        /// Get tutor who teach online
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        IEnumerable<User> GetTutorTeachOnline(UserParameters parameters);
+
+        /// <summary>
+        /// Get tutor who teach online
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
         IEnumerable<User>? GetUserByStatus();      
     }
 }

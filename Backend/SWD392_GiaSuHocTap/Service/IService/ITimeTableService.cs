@@ -34,8 +34,8 @@ namespace Service.IService
         /// <summary>
         /// Delete time table
         /// </summary>
-        /// <param name="timeTable"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        Task<bool> DeleteTimeTable(TimeTable timeTable);
+        Task<bool> DeleteTimeTable(int userId);
     }
 }

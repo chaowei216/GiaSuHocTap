@@ -21,6 +21,16 @@ namespace SWD392_GiaSuHocTap.Controllers
         [HttpGet("get-all-classes")]
         public IActionResult GetAllClasses()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
             try
             {
                 var classes = _classService.GetAllClasses();

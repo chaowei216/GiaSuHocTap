@@ -23,6 +23,7 @@ namespace Service.Service
         private readonly IEmailService _emailService;
         private readonly IClassService _classService;
         private readonly ICourseService _courseService;
+        private readonly ITimeTableService _timeTableService;
 
         public AuthService(IUserService userService,
                             ITokenService tokenService,
@@ -31,7 +32,8 @@ namespace Service.Service
                             IRefreshTokenService refreshTokenService,
                             IEmailService emailService,
                             IClassService classService,
-                            ICourseService courseService)
+                            ICourseService courseService,
+                            ITimeTableService timeTableService)
         {
             _userService = userService;
             _tokenService = tokenService;
@@ -41,6 +43,7 @@ namespace Service.Service
             _emailService = emailService;
             _classService = classService;
             _courseService = courseService;
+            _timeTableService = timeTableService;
         }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
@@ -325,6 +328,7 @@ namespace Service.Service
             {
                 _courseService.DeleteUserCourse(user.UserId);
                 _classService.DeleteUserClass(user.UserId);
+                _timeTableService.DeleteTimeTable(user.UserId);
                 user.Status = UserStatusEnum.Checking;
                 _userService.UpdateUserOtp(user);
                 _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
