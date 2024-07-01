@@ -752,8 +752,8 @@ namespace Service.Service
                     {
                         UserId = user.UserId,
                         DayOfWeek = time.DayOfWeek,
-                        StartTime = DateTime.Now,
-                        EndTime = DateTime.Now,
+                        StartTime = "DateTime.Now",
+                        EndTime = "DateTime.Now",
                         LearningType = LearningType.Online,
                         Period = "30",
                         Status = "Active"
@@ -769,8 +769,8 @@ namespace Service.Service
                         {
                             UserId = user.UserId,
                             DayOfWeek = time.DayOfWeek,
-                            StartTime = DateTime.Now,
-                            EndTime = DateTime.Now,
+                            StartTime = "DateTime.Now",
+                            EndTime = "DateTime.Now",
                             LearningType = LearningType.Offline,
                             Status = "Active"
                         });
