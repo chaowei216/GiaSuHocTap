@@ -48,11 +48,11 @@ namespace DAO.DAO
 
             #region M_M relationship
             modelBuilder.Entity<UserClass>()
-                .HasKey(uc => new { uc.ClassId, uc.UsertId });
+                .HasKey(uc => new { uc.ClassId, uc.UserId });
             modelBuilder.Entity<UserClass>()
                 .HasOne(uc => uc.User)
                 .WithMany(uc => uc.UserClasses)
-                .HasForeignKey(uc => uc.UsertId);
+                .HasForeignKey(uc => uc.UserId);
             modelBuilder.Entity<UserClass>()
                 .HasOne(uc => uc.Class)
                 .WithMany(uc => uc.UserClasses)

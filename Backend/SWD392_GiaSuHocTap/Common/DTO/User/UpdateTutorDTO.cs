@@ -1,4 +1,4 @@
-﻿using Common.DTO.Timetable;
+﻿using Common.DTO.TimeTable;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace Common.DTO.User
@@ -10,7 +10,7 @@ namespace Common.DTO.User
         public List<int> Classes { get; set; } = null!;
         public bool IsOfflineTeaching { get; set; } = false;
         public string YoutubeLink { get; set; } = null!;
-        public List<TimetableDTO> OnlineTime { get; set; } = null!;
-        public List<TimetableDTO>? OfflineTime { get; set; }
+        public List<TimeTableDTO> OnlineTime { get; set; } = null!;
+        public List<TimeTableDTO>? OfflineTime { get; set; }
     }
 }

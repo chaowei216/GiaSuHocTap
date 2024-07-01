@@ -3,20 +3,19 @@ using DAO.Model;
 using Common.DTO.Class;
 using Repository.IRepository;
 using Service.IService;
+using Repository.Repository;
 
 namespace Service.Service
 {
     public class ClassService : IClassService
     {
         private readonly IClassRepository _classRepository;
-        private readonly IUserClassRepository _userClassRepository;
         private readonly IMapper _mapper;
 
-        public ClassService(IClassRepository classRepository, IMapper mapper, IUserClassRepository userClassRepository)
+        public ClassService(IClassRepository classRepository, IMapper mapper)
         {
             _classRepository = classRepository;
             _mapper = mapper;
-            _userClassRepository = userClassRepository;
         }
 
         public async Task<Class> AddClass(Class entity)
@@ -26,7 +25,19 @@ namespace Service.Service
 
         public async Task<UserClass> AddUserClass(UserClass entity)
         {
-            return await _userClassRepository.AddNewUserClass(entity);
+            return await _classRepository.AddNewUserClass(entity);
+        }
+        public async Task<bool> DeleteUserClass(int userId)
+        {
+            try
+            {
+                var userClass = _classRepository.GetUserClassByUserId(userId).ToList();
+                await Task.WhenAll(userClass.Select(c => _classRepository.DeleteUserClass(c)));
+                return true;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public IEnumerable<ClassDTO> GetAllClasses()
@@ -35,6 +46,13 @@ namespace Service.Service
             var classesMap = _mapper.Map<List<ClassDTO>>(classes);
 
             return classesMap;
+        }
+
+        public IEnumerable<DeleteUserClassDTO> GetAllUserClasses(int userId)
+        {
+            var userClass = _classRepository.GetUserClassByUserId(userId);
+            var userClassMap = _mapper.Map<List<DeleteUserClassDTO>>(userClass);
+            return userClassMap;
         }
 
         public async Task<Class?> GetClassById(int id)

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.DTO.User
+namespace Common.DTO.TimeTable
 {
-    public class ParentsDTO
+    public class TimeTableDTO
     {
     }
 }

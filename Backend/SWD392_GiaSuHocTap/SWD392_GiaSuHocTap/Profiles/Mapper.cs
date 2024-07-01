@@ -3,6 +3,7 @@ using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Class;
 using Common.DTO.Course;
+using Common.DTO.TimeTable;
 using Common.DTO.User;
 using Common.Enum;
 using Common.Helpers;
@@ -22,9 +23,14 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<PagedList<User>, PaginationResponseDTO<UserDTO>>().ReverseMap();
             CreateMap<ClassDTO, Class>().ReverseMap();
             CreateMap<CourseDTO, Course>().ReverseMap();
-            CreateMap<User, TutorDTO>().ReverseMap();
-            CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
+            CreateMap<User, TutorInforDTO>().ReverseMap();
+            CreateMap<PagedList<User>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<TutorDetailDTO, TutorDetail>().ReverseMap();
+            CreateMap<UserClass, UserClassDTO>().ReverseMap();
+            CreateMap<UserCourse, UserCourseDTO>().ReverseMap();
+            CreateMap<TimeTable, TimeTableDTO>().ReverseMap();
+            CreateMap<DeleteUserClassDTO, UserClass>().ReverseMap();
+            CreateMap<DeleteUserCourseDTO, UserCourse>().ReverseMap();
             #endregion
         }
     }

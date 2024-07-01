@@ -96,8 +96,6 @@ builder.Services.AddScoped<ITimeTableRepository, TimeTableRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
-builder.Services.AddScoped<IUserClassRepository, UserClassRepository>();
-builder.Services.AddScoped<IUserCourseRepository, UserCourseRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();

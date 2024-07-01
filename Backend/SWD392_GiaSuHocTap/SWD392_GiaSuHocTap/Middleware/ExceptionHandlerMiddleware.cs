@@ -25,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Middleware
             }
         }
 
+
         private static async Task HandleError(HttpContext context, Exception ex)
         {
             var responseDTO = new ResponseDTO();

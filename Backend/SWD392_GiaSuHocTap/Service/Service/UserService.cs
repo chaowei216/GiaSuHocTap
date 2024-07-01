@@ -22,8 +22,8 @@ namespace Service.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserClassRepository _userClassRepository;
-        private readonly IUserCourseRepository _userCourseRepository;
+        private readonly IClassRepository _classRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly ITimeTableRepository _timeTableRepository;
         private readonly IValidateHandleService _validateHandleService;
         private readonly StorageClient _storageClient;
@@ -32,15 +32,15 @@ namespace Service.Service
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
                             IValidateHandleService validateHandleService,
-                            IUserClassRepository userClassRepository,
-                            IUserCourseRepository userCourseRepository,
+                            IClassRepository classRepository,
+                            ICourseRepository courseRepository,
                             ITimeTableRepository timeTableRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _validateHandleService = validateHandleService;
-            _userClassRepository = userClassRepository;
-            _userCourseRepository = userCourseRepository;
+            _classRepository = classRepository;
+            _courseRepository = courseRepository;
             _timeTableRepository = timeTableRepository;
 
             string pathToJsonFile = "firebase.json";
@@ -654,12 +654,12 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public PaginationResponseDTO<TutorDTO> GetAllPendingUser(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetAllPendingUser(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedPendingUserList(parameters);
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
 
             return mappedResponse;
         }
@@ -727,17 +727,17 @@ namespace Service.Service
                 // add user class
                 foreach (var c in tutorInfo.Classes)
                 {
-                    await _userClassRepository.AddNewUserClass(new UserClass()
+                    await _classRepository.AddNewUserClass(new UserClass()
                     {
                         ClassId = c,
-                        UsertId = user.UserId
+                        UserId = user.UserId
                     });
                 }
 
                 // add user course
                 foreach (var c in tutorInfo.Courses)
                 {
-                    await _userCourseRepository.AddNewUserCourse(new UserCourse ()
+                    await _courseRepository.AddNewUserCourse(new UserCourse ()
                     {
                         CourseId = c,
                         UserId = user.UserId
