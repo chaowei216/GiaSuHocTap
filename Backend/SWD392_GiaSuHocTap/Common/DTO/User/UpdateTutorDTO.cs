@@ -1,7 +1,4 @@
-﻿using Common.DTO.TimeTable;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
-namespace Common.DTO.User
+﻿namespace Common.DTO.User
 {
     public class UpdateTutorDTO
     {

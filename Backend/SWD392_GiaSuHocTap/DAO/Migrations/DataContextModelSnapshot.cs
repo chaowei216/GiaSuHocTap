@@ -550,13 +550,13 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.UserNotification", b =>
                 {
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsertId", "NotificationId");
+                    b.HasKey("UserId", "NotificationId");
 
                     b.HasIndex("NotificationId");
 
@@ -761,7 +761,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserNotifications")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
