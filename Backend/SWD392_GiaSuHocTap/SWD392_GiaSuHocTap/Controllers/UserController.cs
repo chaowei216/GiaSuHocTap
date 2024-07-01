@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using Common.Constant.Message;
 using Common.DTO;
-using Common.DTO.Auth;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
-using System.ComponentModel.DataAnnotations;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -101,6 +97,39 @@ namespace SWD392_GiaSuHocTap.Controllers
                 };
                 return BadRequest(response);
             }
+        }
+
+        [HttpPut("update-tutor-detail")]
+        public async Task<IActionResult> UpdateTutorDetail([FromBody] UpdateTutorDTO updatedInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _userService.UpdateTutorLastStep(updatedInfo);
+
+            if (response)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    Message = GeneralMessage.Success,
+                    Data = null
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
         }
     }
 }

@@ -24,5 +24,12 @@ namespace Service.IService
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<Class> AddClass(Class entity);
+
+        /// <summary>
+        /// Add new user class
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<UserClass> AddUserClass(UserClass entity);
     }
 }

@@ -24,5 +24,12 @@ namespace Service.IService
         /// <param name="course"></param>
         /// <returns></returns>
         Task<Course> AddCourse(Course course);
+
+        /// <summary>
+        /// Add new user course
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
+        Task<UserCourse> AddUserCouse(UserCourse userCourse);
     }
 }

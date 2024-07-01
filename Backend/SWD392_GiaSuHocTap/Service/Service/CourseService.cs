@@ -9,17 +9,24 @@ namespace Service.Service
     public class CourseService: ICourseService
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly IUserCourseRepository _userCourseRepository;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository CourseRepository, IMapper mapper)
+        public CourseService(ICourseRepository CourseRepository, IMapper mapper, IUserCourseRepository userCourseRepository)
         {
             _courseRepository = CourseRepository;
             _mapper = mapper;
+            _userCourseRepository = userCourseRepository;
         }
 
         public async Task<Course> AddCourse(Course entity)
         {
             return await _courseRepository.AddCourse(entity);
+        }
+
+        public async Task<UserCourse> AddUserCouse(UserCourse userCourse)
+        {
+            return await _userCourseRepository.AddNewUserCourse(userCourse);
         }
 
         public IEnumerable<CourseDTO> GetAllCourses()

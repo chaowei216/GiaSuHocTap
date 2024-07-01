@@ -9,17 +9,24 @@ namespace Service.Service
     public class ClassService : IClassService
     {
         private readonly IClassRepository _classRepository;
+        private readonly IUserClassRepository _userClassRepository;
         private readonly IMapper _mapper;
 
-        public ClassService(IClassRepository classRepository, IMapper mapper)
+        public ClassService(IClassRepository classRepository, IMapper mapper, IUserClassRepository userClassRepository)
         {
             _classRepository = classRepository;
             _mapper = mapper;
+            _userClassRepository = userClassRepository;
         }
 
         public async Task<Class> AddClass(Class entity)
         {
             return await _classRepository.AddClass(entity);
+        }
+
+        public async Task<UserClass> AddUserClass(UserClass entity)
+        {
+            return await _userClassRepository.AddNewUserClass(entity);
         }
 
         public IEnumerable<ClassDTO> GetAllClasses()

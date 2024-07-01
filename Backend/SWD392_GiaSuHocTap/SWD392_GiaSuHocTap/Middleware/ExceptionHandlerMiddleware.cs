@@ -37,7 +37,7 @@ namespace SWD392_GiaSuHocTap.Middleware
                     case HttpStatusCode.BadRequest:
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         responseDTO.StatusCode = (int)HttpStatusCode.BadRequest;
-                        responseDTO.Message = ex.InnerException.Message ;
+                        responseDTO.Message = ex.Message ;
                         break;
                     default:
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

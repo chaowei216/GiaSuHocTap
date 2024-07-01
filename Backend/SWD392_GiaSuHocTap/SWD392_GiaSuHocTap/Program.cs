@@ -87,6 +87,8 @@ builder.Services.AddScoped<IGenericDAO<News>, GenericDAO<News>>();
 builder.Services.AddScoped<IGenericDAO<Notification>, GenericDAO<Notification>>();
 builder.Services.AddScoped<IGenericDAO<Report>, GenericDAO<Report>>();
 builder.Services.AddScoped<IGenericDAO<RefreshToken>, GenericDAO<RefreshToken>>();
+builder.Services.AddScoped<IGenericDAO<UserClass>, GenericDAO<UserClass>>();
+builder.Services.AddScoped<IGenericDAO<UserCourse>,  GenericDAO<UserCourse>>();
 
 // Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -94,6 +96,8 @@ builder.Services.AddScoped<ITimeTableRepository, TimeTableRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IUserClassRepository, UserClassRepository>();
+builder.Services.AddScoped<IUserCourseRepository, UserCourseRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
