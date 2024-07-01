@@ -28,7 +28,7 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<TutorDetailDTO, TutorDetail>().ReverseMap();
             CreateMap<UserClass, UserClassDTO>().ReverseMap();
             CreateMap<UserCourse, UserCourseDTO>().ReverseMap();
-            CreateMap<TimeTable, TimeTableDTO>().ReverseMap();
+            CreateMap<TimeTable, TimetableDTO>().ReverseMap();
             CreateMap<DeleteUserClassDTO, UserClass>().ReverseMap();
             CreateMap<DeleteUserCourseDTO, UserCourse>().ReverseMap();
             #endregion

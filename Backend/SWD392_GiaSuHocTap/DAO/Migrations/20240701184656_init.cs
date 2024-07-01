@@ -439,12 +439,12 @@ namespace DAO.Migrations
                 name: "UserNotifications",
                 columns: table => new
                 {
-                    UsertId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserNotifications", x => new { x.UsertId, x.NotificationId });
+                    table.PrimaryKey("PK_UserNotifications", x => new { x.UserId, x.NotificationId });
                     table.ForeignKey(
                         name: "FK_UserNotifications_Notifications_NotificationId",
                         column: x => x.NotificationId,
@@ -452,8 +452,8 @@ namespace DAO.Migrations
                         principalColumn: "NotificationId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserNotifications_Users_UsertId",
-                        column: x => x.UsertId,
+                        name: "FK_UserNotifications_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);

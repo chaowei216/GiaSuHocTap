@@ -804,7 +804,7 @@ namespace Service.Service
                 // add user notification
                 await _notificationService.AddNewUserNotification(new UserNotification
                 {
-                    UsertId = user.UserId,
+                    UserId = user.UserId,
                     NotificationId = notification.NotificationId
                 });
 

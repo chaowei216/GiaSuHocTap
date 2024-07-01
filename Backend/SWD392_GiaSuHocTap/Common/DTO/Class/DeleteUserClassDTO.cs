@@ -8,7 +8,7 @@ namespace Common.DTO.Class
 {
     public class DeleteUserClassDTO
     {
-        public int UsertId { get; set; }
+        public int UserId { get; set; }
         public int ClassId { get; set; }
     }
 }

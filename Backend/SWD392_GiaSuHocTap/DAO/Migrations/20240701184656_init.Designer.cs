@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240701034658_init")]
+    [Migration("20240701184656_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -553,13 +553,13 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.UserNotification", b =>
                 {
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsertId", "NotificationId");
+                    b.HasKey("UserId", "NotificationId");
 
                     b.HasIndex("NotificationId");
 
@@ -764,7 +764,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserNotifications")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

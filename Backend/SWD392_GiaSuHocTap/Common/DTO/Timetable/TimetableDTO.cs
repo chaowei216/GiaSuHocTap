@@ -1,6 +1,6 @@
 ﻿namespace Common.DTO.TimeTable
 {
-    public class TimeTableDTO
+    public class TimetableDTO
     {
         public string DayOfWeek { get; set; }
         public string Period { get; set; }

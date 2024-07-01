@@ -33,7 +33,7 @@ namespace Common.DTO.User
         public TutorDetailDTO TutorDetail { get; set; } = null!;
         public ICollection<UserClassDTO> UserClasses { get; set; } = null!;
         public ICollection<UserCourseDTO> UserCourses { get; set; } = null!;
-        public ICollection<TimeTableDTO> TimeTables { get; set; } = null!;
+        public ICollection<TimetableDTO> TimeTables { get; set; } = null!;
 
     }
 }
