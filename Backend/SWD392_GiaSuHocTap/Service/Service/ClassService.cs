@@ -3,6 +3,7 @@ using DAO.Model;
 using Common.DTO.Class;
 using Repository.IRepository;
 using Service.IService;
+using Repository.Repository;
 
 namespace Service.Service
 {
@@ -22,12 +23,33 @@ namespace Service.Service
             return await _classRepository.AddClass(entity);
         }
 
+        public async Task<bool> DeleteUserClass(int userId)
+        {
+            try
+            {
+                var userClass = _classRepository.GetUserClassByUserId(userId).ToList();
+                await Task.WhenAll(userClass.Select(c => _classRepository.DeleteUserClass(c)));
+                return true;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
         public IEnumerable<ClassDTO> GetAllClasses()
         {
             var classes =_classRepository.GetAllClasses().AsEnumerable();
             var classesMap = _mapper.Map<List<ClassDTO>>(classes);
 
             return classesMap;
+        }
+
+        public IEnumerable<DeleteUserClassDTO> GetAllUserClasses(int userId)
+        {
+            var userClass = _classRepository.GetUserClassByUserId(userId);
+            var userClassMap = _mapper.Map<List<DeleteUserClassDTO>>(userClass);
+            return userClassMap;
         }
 
         public async Task<Class?> GetClassById(int id)

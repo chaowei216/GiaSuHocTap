@@ -24,5 +24,9 @@ namespace Service.IService
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<Class> AddClass(Class entity);
+        
+        Task<bool> DeleteUserClass(int userId);
+
+        IEnumerable<DeleteUserClassDTO> GetAllUserClasses(int userId);
     }
 }

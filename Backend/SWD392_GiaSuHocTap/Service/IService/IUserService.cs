@@ -90,7 +90,7 @@ namespace Service.IService
         /// Get all pending users
         /// </summary>
         /// <returns></returns>
-        PaginationResponseDTO<TutorDTO> GetAllPendingUser(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetAllPendingUser(UserParameters parameters);
 
         /// <summary>
         /// Get all active users

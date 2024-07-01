@@ -1,10 +1,12 @@
-﻿using Common.Enum;
+﻿using Common.DTO.TimeTable;
+using Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Common.DTO.User
 {
@@ -29,6 +31,9 @@ namespace Common.DTO.User
         public int NumberOfReport { get; set; }
         public string RoleName { get; set; } = null!;
         public TutorDetailDTO TutorDetail { get; set; } = null!;
+        public ICollection<UserClassDTO> UserClasses { get; set; } = null!;
+        public ICollection<UserCourseDTO> UserCourses { get; set; } = null!;
+        public ICollection<TimeTableDTO> TimeTables { get; set; } = null!;
 
     }
 }

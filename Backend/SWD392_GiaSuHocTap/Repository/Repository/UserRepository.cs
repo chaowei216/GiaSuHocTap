@@ -77,7 +77,7 @@ namespace Repository.Repository
 
         public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize); ;
         }
 
         public PagedList<User> GetPagedActiveUserList(UserParameters parameters)

@@ -1,32 +1,23 @@
 ﻿using AutoMapper;
 using Common.Constant.Message;
 using Common.DTO;
-using Common.DTO.Auth;
 using Common.DTO.Query;
-using Common.DTO.User;
 using Common.Enum;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
-using System.ComponentModel.DataAnnotations;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Moderator")]
+    //[Authorize(Roles = "Admin,Moderator")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService,
-                              IMapper mapper)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
         }
 
         [HttpGet()]
