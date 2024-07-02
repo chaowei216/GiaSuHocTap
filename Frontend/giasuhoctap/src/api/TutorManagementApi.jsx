@@ -37,7 +37,7 @@ export const GetPendingTutor = async (page, pageSize) => {
 
 export const GetActiveTutor = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/User/get-active-tutor?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/User/get-active-users?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {

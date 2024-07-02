@@ -36,6 +36,7 @@ export default function ViewTutor() {
           break;
         case 'Pending':
           response = await GetPendingTutor(page, pageSize);
+          console.log("test");
           break;
         case 'Active':
           response = await GetActiveTutor(page, pageSize);

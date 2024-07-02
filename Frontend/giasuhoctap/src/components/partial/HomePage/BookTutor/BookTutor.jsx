@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import styles from './BookTutor.module.css';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
+import HiringTuor from '../../TutorDetail/HiringTuor';
 const tutors = [
     {
         name: "David Dell",
@@ -72,67 +73,76 @@ const tutors = [
 ];
 
 const BookTutor = () => {
+    const [tutorHire, setTutorHire] = useState()
     const handleClick = (item) => {
         window.location.href = `/tutor-detail/${item}`;
     }
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setTutorHire(item);
+        setBasicModal(true);
+    }
     return (
-        <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
-            <div className={styles.slideReTutor}>
-                <div className={styles.slideBgTu}>
-                    <h1>DANH SÁCH GIA SƯ ONLINE</h1>
-                </div>
-                <div className={`slide-container ${styles.slideContainer}`}>
-                    <div className={`slide-content ${styles.slideContent}`}>
-                        <div className={`card-wrapper ${styles.cardWrapper}`}>
-                            {tutors.map((tutor, index) => (
-                                <div key={index} className={`card ${styles.card}`}>
-                                    <div className={`image-content ${styles.imageContent}`}>
-                                        <span className={`overlay ${styles.overlay}`}></span>
-                                        <div className={`card-image ${styles.cardImage}`}>
-                                            <img src={tutor.imgSrc} className={`card-img ${styles.cardImg}`} alt={tutor.name} />
+        <>
+            <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
+                <div className={styles.slideReTutor}>
+                    <div className={styles.slideBgTu}>
+                        <h1>DANH SÁCH GIA SƯ ONLINE</h1>
+                    </div>
+                    <div className={`slide-container ${styles.slideContainer}`}>
+                        <div className={`slide-content ${styles.slideContent}`}>
+                            <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutors.map((tutor, index) => (
+                                    <div key={index} className={`card ${styles.card}`}>
+                                        <div className={`image-content ${styles.imageContent}`}>
+                                            <span className={`overlay ${styles.overlay}`}></span>
+                                            <div className={`card-image ${styles.cardImage}`}>
+                                                <img src={tutor.imgSrc} className={`card-img ${styles.cardImg}`} alt={tutor.name} />
+                                            </div>
+                                        </div>
+                                        <div className={`card-content ${styles.cardContent}`}>
+                                            <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Môn dạy: </p>
+                                                <p className={`class ${styles.subject}`}>{tutor.subject}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Lớp dạy: </p>
+                                                <p className={`class ${styles.class}`}>{tutor.class}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Tiền lương: </p>
+                                                <p className={`wage ${styles.wage}`}>{tutor.wage}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Hình thức dạy: </p>
+                                                <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Ngày trong tuần: </p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Thời gian: </p>
+                                                <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <Button onClick={() => handleClick(tutor.name)} variant="contained" className='w-1/2 gap-4' sx={{
+                                                height: "39px", margin: "14px",
+                                                fontWeight: "bold", textTransform: "none"
+                                            }}><InfoIcon /> Chi tiết</Button>
+                                            <button onClick={() => handleHire(tutor)} className={`button ${styles.button} w-1/2`}>Thuê</button>
                                         </div>
                                     </div>
-                                    <div className={`card-content ${styles.cardContent}`}>
-                                        <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Môn dạy: </p>
-                                            <p className={`class ${styles.subject}`}>{tutor.subject}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Lớp dạy: </p>
-                                            <p className={`class ${styles.class}`}>{tutor.class}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Tiền lương: </p>
-                                            <p className={`wage ${styles.wage}`}>{tutor.wage}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Hình thức dạy: </p>
-                                            <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Ngày trong tuần: </p>
-                                            <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Thời gian: </p>
-                                            <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <Button onClick={() => handleClick(tutor.name)} variant="contained" className='w-1/2 gap-4' sx={{
-                                            height: "39px", margin: "14px",
-                                            fontWeight: "bold", textTransform: "none"
-                                        }}><InfoIcon /> Chi tiết</Button>
-                                        <button className={`button ${styles.button} w-1/2`}>Thuê</button>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} />
+        </>
     );
 };
 

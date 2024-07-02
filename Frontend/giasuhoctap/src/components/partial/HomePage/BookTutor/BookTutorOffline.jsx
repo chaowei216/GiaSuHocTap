@@ -1,3 +1,4 @@
+import HiringTuor from '../../TutorDetail/HiringTuor';
 import styles from './BookTutor.module.css';
 
 const tutors = [
@@ -65,53 +66,56 @@ const tutors = [
 
 const BookTutorOffline = () => {
     return (
-        <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
-            <div className={styles.slideReTutor}>
-                <div className={styles.slideBgTu}>
-                    <h1>DANH SÁCH GIA SƯ OFFLINE</h1>
-                </div>
-                <div className={`slide-container ${styles.slideContainer}`}>
-                    <div className={`slide-content ${styles.slideContent}`}>
-                        <div className={`card-wrapper ${styles.cardWrapper}`}>
-                            {tutors.map((tutor, index) => (
-                                <div key={index} className={`card ${styles.card}`}>
-                                    <div className={`image-content ${styles.imageContent}`}>
-                                        <span className={`overlay ${styles.overlay}`}></span>
-                                        <div className={`card-image ${styles.cardImage}`}>
-                                            <img src={tutor.imgSrc} className={`card-img ${styles.cardImg}`} alt={tutor.name} />
+        <>
+            <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
+                <div className={styles.slideReTutor}>
+                    <div className={styles.slideBgTu}>
+                        <h1>DANH SÁCH GIA SƯ OFFLINE</h1>
+                    </div>
+                    <div className={`slide-container ${styles.slideContainer}`}>
+                        <div className={`slide-content ${styles.slideContent}`}>
+                            <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutors.map((tutor, index) => (
+                                    <div key={index} className={`card ${styles.card}`}>
+                                        <div className={`image-content ${styles.imageContent}`}>
+                                            <span className={`overlay ${styles.overlay}`}></span>
+                                            <div className={`card-image ${styles.cardImage}`}>
+                                                <img src={tutor.imgSrc} className={`card-img ${styles.cardImg}`} alt={tutor.name} />
+                                            </div>
                                         </div>
+                                        <div className={`card-content ${styles.cardContent}`}>
+                                            <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Môn dạy: </p>
+                                                <p className={`class ${styles.subject}`}>{tutor.subject}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Lớp dạy: </p>
+                                                <p className={`class ${styles.class}`}>{tutor.class}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Tiền lương: </p>
+                                                <p className={`wage ${styles.wage}`}>{tutor.wage}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Hình thức dạy: </p>
+                                                <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Ngày trong tuần: </p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
+                                            </div>
+                                        </div>
+                                        <button className={`button ${styles.button}`}>Đăng ký</button>
                                     </div>
-                                    <div className={`card-content ${styles.cardContent}`}>
-                                        <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Môn dạy: </p>
-                                            <p className={`class ${styles.subject}`}>{tutor.subject}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Lớp dạy: </p>
-                                            <p className={`class ${styles.class}`}>{tutor.class}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Tiền lương: </p>
-                                            <p className={`wage ${styles.wage}`}>{tutor.wage}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Hình thức dạy: </p>
-                                            <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Ngày trong tuần: </p>
-                                            <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
-                                        </div>
-                                    </div>
-                                    <button className={`button ${styles.button}`}>Đăng ký</button>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <HiringTuor />
+        </>
     );
 };
 

@@ -153,8 +153,12 @@ function AuthProvider1({ children }) {
     const response = await SignIn(userInput)
     const responseJson = await response.json();
     console.log(responseJson);
+    if (responseJson.statusCode == 400) {
+      toast.error(responseJson.message)
+      return;
+    }
     const { token, user } = responseJson.data;
-    //localStorage.setItem("accessToken", accessToken);
+    //localStorage.setItem("accessToken", accessToken);     
     console.log(token.accessToken);
     if (user.isVerified == false) {
       dispatch({
