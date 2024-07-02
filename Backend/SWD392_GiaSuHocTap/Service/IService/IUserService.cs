@@ -85,7 +85,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
         /// Get all pending users
