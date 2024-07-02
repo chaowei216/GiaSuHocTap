@@ -3,22 +3,19 @@ import Container from "./Container";
 import Search_Input from "../../global/Search_Input";
 import Header from "./Header";
 import Body from "./Body";
-import TableList from "./TableList";
+import UserTable from "./UserTable";
 import Title from "./Title";
-import ButtonType from "./ButtonType";
-import PageNavigation from "./PageNavigation";
-import PageSize from "./PageSize";
-import { AcceptTutor, GetActiveTutor, GetAllTutor, GetPendingTutor } from "../../../api/TutorManagementApi";
+import PageNavigation from "../TutorManagement/PageNavigation";
+import PageSize from "../TutorManagement/PageSize";
+import { GetActiveTutor } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
-import Diablog from "./Diablog";
 import WaitingModal from "../../global/WaitingModal";
 
-export default function ViewTutor() {
+export default function ViewUser() {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
-  const [type, setType] = React.useState("All");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -29,44 +26,20 @@ export default function ViewTutor() {
   };
   useEffect(() => {
     const fetchAllTutor = async () => {
-      let response;
-      switch (type) {
-        case 'All':
-          response = await GetAllTutor(page, pageSize);
-          break;
-        case 'Pending':
-          response = await GetPendingTutor(page, pageSize);
-          console.log("test");
-          break;
-        case 'Active':
-          response = await GetActiveTutor(page, pageSize);
-          break;
-        default:
-          throw new Error(`Unknown type: ${type}`);
-      }
+      const response = await GetActiveTutor(page, pageSize);
       if (response.ok) {
         const responseJson = await response.json();
         const user = responseJson.data.data
         setData(user);
         setTotalPages(responseJson.data.totalPages)
+        console.log(responseJson);
       } else {
         toast.error("Error fetching data")
       }
     };
     fetchAllTutor();
-  }, [page, pageSize, type, isUpdate]);
+  }, [page, pageSize, isUpdate]);
 
-  const handleAccept = async (email) => {
-    console.log(email);
-    const response = await AcceptTutor(email);
-    const responseJson = await response.json();
-    if (responseJson.statusCode == 200) {
-      toast.success("Accepted");
-      setIsUpdate(!isUpdate)
-    } else {
-      toast.error("Something error")
-    }
-  }
   return (
     <div
       style={{
@@ -76,13 +49,12 @@ export default function ViewTutor() {
       }}
     >
       <Container>
-        <Title title="Danh sách gia sư yêu cầu được duyệt" />
+        <Title title="Danh sách user" />
         <Header>
           <Search_Input />
         </Header>
         <Body>
-          <ButtonType setType={setType} isUpdate={isUpdate} />
-          <TableList data={data} handleAccept={handleAccept} handleClickOpen={handleClickOpen} type={type} />
+          <UserTable data={data} handleClickOpen={handleClickOpen} />
         </Body>
         {data && data.length > 0 && (
           <>
@@ -110,7 +82,6 @@ export default function ViewTutor() {
           </>
         )}
       </Container>
-      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
       <WaitingModal open={false} setOpen={setIsModalOpen} />
     </div>
   );

@@ -7,25 +7,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css"
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import WorkOffIcon from '@mui/icons-material/WorkOff';
 import logoEdu from "/img/logoGiasu.png";
-import useAuth from "../../../hooks/useAuth";
-import GroupIcon from '@mui/icons-material/Group';
+import WorkOffIcon from '@mui/icons-material/WorkOff';
 
-export const MyGlobalContext = createContext({
-  isSidebarOpen: true,
-  setIsSidebarOpen: () => { },
-  trainingProgramData: null,
-  setTrainingProgramData: () => { },
-  refreshData: () => { },
-});
-
-export const useGlobalContext = () => useContext(MyGlobalContext);
-
-export default function Sidebar() {
-  const { user } = useAuth();
+export default function SidebarAdmin() {
   const Menus = [
     {
       title: "Home",
@@ -42,18 +28,18 @@ export default function Sidebar() {
       src: "/personal-profile",
     },
     {
-      title: "Register Request",
-      path: "/tutor",
+      title: "Online Request",
+      path: "/request-tutor",
       icon: <WorkHistoryIcon />,
       id: 2,
-      src: "/tutor",
+      src: "/request-tutor",
     },
     {
-      title: "User Management",
-      path: "/user-management",
-      icon: <GroupIcon />,
-      id: 2,
-      src: "/user-management",
+      title: "Offline Request",
+      path: "/tutor",
+      icon: <WorkOffIcon />,
+      id: 3,
+      src: "/tutor",
     },
   ];
   const location = useLocation();
@@ -68,7 +54,7 @@ export default function Sidebar() {
         <img src={logoEdu} alt="avatar logo" width={75} />
         <div className={styles.header_sidebar}>Gia sư học tập</div>
       </div>
-      <hr style={{border: "1px solid white"}}/>
+      <hr style={{ border: "1px solid white" }} />
       <ul className={styles['sidebar-nav']}>
         {Menus.map((menu) => (
           <li key={menu.id} className={styles['sidebar-nav-item']}>
