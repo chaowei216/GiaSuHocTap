@@ -187,7 +187,7 @@ namespace Service.Service
             userMap.PasswordSalt = passwordSalt;
             userMap.CoinBalance = 0;
             userMap.RoleId = (int)RoleEnum.Tutor;
-            userMap.Status = UserStatusEnum.InActive;
+            userMap.Status = UserStatusEnum.Pending;
             userMap.UserImage = image;
             userMap.IdentityImage = identityFiles;
 
@@ -648,12 +648,12 @@ namespace Service.Service
             return successfulResponse;
         }
 
-        public PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedUserList(parameters);
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
 
             return mappedResponse;
         }
