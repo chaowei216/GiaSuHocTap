@@ -71,11 +71,17 @@ const BookTutorOffline = () => {
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Hình thức dạy: </p>
-                                                <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
+                                                <p className={`teachingForm ${styles.teachingForm}`}>
+                                                    Offline
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
-                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>
+                                                    {tutor.timeTables.map((item) => (
+                                                        item.dayOfWeek
+                                                    ))}
+                                                </p>
                                             </div>
                                         </div>
                                         <button className={`button ${styles.button}`}>Đăng ký</button>

@@ -22,10 +22,10 @@ const BookTutor = () => {
             console.log(response);
             if (response.ok) {
                 const responseJson = await response.json();
-                console.log(responseJson);
                 const user = responseJson.data.data
                 setTutorList(user);
                 setTotalPages(responseJson.data.totalPages)
+                console.log(tutorList);
             } else {
                 toast.error("Error fetching data")
             }
@@ -81,15 +81,23 @@ const BookTutor = () => {
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Hình thức dạy: </p>
-                                                <p className={`teachingForm ${styles.teachingForm}`}>Offline</p>
+                                                <p className={`teachingForm ${styles.teachingForm}`}>Online</p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
-                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>
+                                                    {tutor.timeTables.map((item) => (
+                                                        item.dayOfWeek
+                                                    ))}
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Thời gian: </p>
-                                                <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
+                                                <p className={`dayOfWeek ${styles.time}`}>
+                                                    {tutor.timeTables.map((item) => (
+                                                        `${item.startTime} - ${item.endTime}`
+                                                    ))}
+                                                </p>
                                             </div>
                                         </div>
                                         <div style={{ display: "flex" }}>
