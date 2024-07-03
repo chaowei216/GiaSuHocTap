@@ -37,5 +37,12 @@ namespace Repository.IRepository
         /// <param name="timeTable"></param>
         /// <returns></returns>
         Task<bool> DeleteTimeTable(TimeTable timeTable);
+
+        /// <summary>
+        /// Get timetable of tutor by tutorId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetTimeTableByUserId(int userId);
     }
 }

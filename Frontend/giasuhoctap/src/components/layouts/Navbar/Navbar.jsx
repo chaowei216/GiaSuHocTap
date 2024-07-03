@@ -1,11 +1,11 @@
 import style from "./style.module.css";
 import avatar from "/img/avatar.png";
-import logoEdu from "/img/logoGiasu.png";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import MailIcon from '@mui/icons-material/Mail';
 import { Badge, Stack } from "@mui/material";
 import { useState } from "react";
 import BasicMenu from "./DropdownAva";
+import useAuth from "../../../hooks/useAuth"
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -17,9 +17,9 @@ export default function Navbar() {
   const handleLogout = () => {
     console.log("log out");
   };
+  const { user } = useAuth();
   return (
     <div className={style.main}>
-      <img src={logoEdu} alt="avatar logo" width={160} />
       <div>
         <Stack spacing={2} direction="row">
           <Badge badgeContent={10} color="default" showZero>
@@ -27,7 +27,7 @@ export default function Navbar() {
           </Badge>
         </Stack>
         {/* {token && ( */}
-        <div style={{display: "flex", alignItems: "center", gap:"5px"}}>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <BasicMenu anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
             <img
               src={avatar}
@@ -42,9 +42,8 @@ export default function Navbar() {
               }}
             />
           </BasicMenu>
-          <span>Lê Việt Hùng</span>
+          <span>{user?.fullname}</span>
         </div>
-
         {/* )} */}
       </div>
     </div>

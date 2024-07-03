@@ -63,6 +63,7 @@ export const RefreshToken = (accessToken, refreshToken) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
         },
         body: JSON.stringify({ accessToken, refreshToken })
     };
@@ -86,11 +87,12 @@ export const RefreshToken = (accessToken, refreshToken) => {
 //ham test GetUser mot co api cua prj thi thay doi
 export const GetUserByEmail = async (email) => {
     try {
-        const url = `${baseUrl}/api/User/get-by-email?email=${email}`;
+        const url = `${baseUrl}/api/Auth/get-by-email?email=${email}`;
         const request = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);

@@ -30,5 +30,12 @@ namespace Service.IService
         /// <param name="notification"></param>
         /// <returns></returns>
         Task<Notification> UpdateNotification(Notification notification);
+
+        /// <summary>
+        /// Add new user notification
+        /// </summary>
+        /// <param name="userNotification"></param>
+        /// <returns></returns>
+        Task<UserNotification> AddNewUserNotification(UserNotification userNotification);
     }
 }

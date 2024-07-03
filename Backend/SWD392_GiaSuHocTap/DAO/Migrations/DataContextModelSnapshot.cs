@@ -242,6 +242,9 @@ namespace DAO.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
+                    b.Property<string>("LinkMeet")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -282,14 +285,9 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("RequestId", "TimeTableId");
 
                     b.HasIndex("TimeTableId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("RequestTimes");
                 });
@@ -323,8 +321,8 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("EndTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LearningType")
                         .IsRequired()
@@ -333,8 +331,8 @@ namespace DAO.Migrations
                     b.Property<string>("Period")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("StartTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -404,6 +402,18 @@ namespace DAO.Migrations
                     b.Property<string>("Major")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("NumberOfRent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentHour")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TeachingOffline")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("TeachingOnline")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -513,12 +523,12 @@ namespace DAO.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClassId", "UsertId");
+                    b.HasKey("ClassId", "UserId");
 
-                    b.HasIndex("UsertId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserClasses");
                 });
@@ -540,13 +550,13 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.UserNotification", b =>
                 {
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsertId", "NotificationId");
+                    b.HasKey("UserId", "NotificationId");
 
                     b.HasIndex("NotificationId");
 
@@ -654,10 +664,6 @@ namespace DAO.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAO.Model.User", null)
-                        .WithMany("RequestTimes")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Request");
 
                     b.Navigation("TimeTable");
@@ -666,7 +672,7 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.TimeTable", b =>
                 {
                     b.HasOne("DAO.Model.User", "User")
-                        .WithMany()
+                        .WithMany("TimeTables")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -717,7 +723,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserClasses")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -755,7 +761,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserNotifications")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -804,7 +810,7 @@ namespace DAO.Migrations
 
                     b.Navigation("RefreshTokens");
 
-                    b.Navigation("RequestTimes");
+                    b.Navigation("TimeTables");
 
                     b.Navigation("Transactions");
 

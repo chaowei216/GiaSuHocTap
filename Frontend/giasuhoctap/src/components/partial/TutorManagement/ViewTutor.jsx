@@ -11,6 +11,7 @@ import PageSize from "./PageSize";
 import { AcceptTutor, GetActiveTutor, GetAllTutor, GetPendingTutor } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
 import Diablog from "./Diablog";
+import WaitingModal from "../../global/WaitingModal";
 
 export default function ViewTutor() {
   const [data, setData] = useState([]);
@@ -20,7 +21,8 @@ export default function ViewTutor() {
   const [type, setType] = React.useState("All");
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [email ,setEmail] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleClickOpen = (email) => {
     setOpen(true);
     setEmail(email);
@@ -73,7 +75,7 @@ export default function ViewTutor() {
       }}
     >
       <Container>
-        <Title title="List of Tutors" />
+        <Title title="Danh sách gia sư" />
         <Header>
           <Search_Input />
         </Header>
@@ -82,25 +84,33 @@ export default function ViewTutor() {
           <TableList data={data} handleAccept={handleAccept} handleClickOpen={handleClickOpen} type={type} />
         </Body>
         {data && data.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignContent: "space-betwwen",
-              justifyContent: "flex-end",
-            }}
-          >
-            <div style={{ marginTop: "20px" }}>
-              <PageNavigation
-                page={page}
-                setPage={setPage}
-                totalPages={totalPages}
-              />
+          <>
+            <div
+              style={{
+                position: "relative",
+                minHeight: "80px"
+              }}
+            >
+              <ul style={{
+                marginTop: "28px", marginBottom: "10px", position: "absolute",
+                left: "50%",
+                transform: "translate(-50%)",
+              }}>
+                <PageNavigation
+                  page={page}
+                  setPage={setPage}
+                  totalPages={totalPages}
+                />
+              </ul>
+              <ul style={{ float: "right", marginTop: "12px" }} >
+                <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+              </ul>
             </div>
-            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
-          </div>
+          </>
         )}
       </Container>
-      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate}/>
+      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
+      <WaitingModal open={false} setOpen={setIsModalOpen} />
     </div>
   );
 }

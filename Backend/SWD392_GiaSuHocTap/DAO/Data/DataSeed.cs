@@ -43,6 +43,8 @@ namespace DAO.Data
                     roleParents
                 };
 
+                _context.Roles.AddRange(userRoles);
+
                 List<Class> classes = new()
                 {
                     new Class
@@ -124,9 +126,10 @@ namespace DAO.Data
                         IdentityNumber = "283471927471",
                         IdentityImage = null,
                         UserImage = "anh-den-ngau-005.jpg",
+                        YoutubeLink = null,
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -147,10 +150,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283471927221",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-002.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -171,10 +175,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283471927221",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-001.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -195,10 +200,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-003.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -219,10 +225,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-011.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Moderator + 1,
+                        RoleId = (int)RoleEnum.Moderator  ,
                     },
                     new()
                     {
@@ -243,10 +250,11 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-012.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Parents + 1,
+                        RoleId = (int)RoleEnum.Parents,
                     },
                     new()
                     {
@@ -267,17 +275,117 @@ namespace DAO.Data
                         CoinBalance = 0,
                         IdentityNumber = "283881927121",
                         IdentityImage = null,
+                        YoutubeLink = null,
                         UserImage = "anh-den-ngau-016.jpg",
                         NumberOfReport = 0,
                         Status = UserStatusEnum.Active,
-                        RoleId = (int)RoleEnum.Parents + 1,
+                        RoleId = (int)RoleEnum.Parents,
+                    },
+                    new()
+                    {
+                        Fullname = "Nguyễn Đăng Khoa",
+                        Email = "nam5@gmail.com",
+                        PasswordHash = passwordHash,
+                        PasswordSalt = passwordSalt,
+                        RefreshTokens = null,
+                        Phonenumber = "0910228993",
+                        DateOfBirth = "12-1-2001",
+                        Address = "162A, Thủ Dầu Một",
+                        District = "Thủ Dầu Một",
+                        City = "Bình Dương",
+                        Gender = "FeMale",
+                        Otp = null,
+                        OtpExpiredTime = null,
+                        IsVerified = true,
+                        CoinBalance = 0,
+                        IdentityNumber = "280881927121",
+                        IdentityImage = null,
+                        YoutubeLink = null,
+                        UserImage = "anh-den-ngau-016.jpg",
+                        NumberOfReport = 0,
+                        Status = UserStatusEnum.Active,
+                        RoleId = (int)RoleEnum.Tutor,
+                    },
+                    new()
+                    {
+                        Fullname = "Nguyễn Vũ Sơn",
+                        Email = "nam4@gmail.com",
+                        PasswordHash = passwordHash,
+                        PasswordSalt = passwordSalt,
+                        RefreshTokens = null,
+                        Phonenumber = "0919228093",
+                        DateOfBirth = "01-09-2000",
+                        Address = "162A, Thủ Dầu Một",
+                        District = "Thủ Dầu Một",
+                        City = "Bình Dương",
+                        Gender = "FeMale",
+                        Otp = null,
+                        OtpExpiredTime = null,
+                        IsVerified = true,
+                        CoinBalance = 0,
+                        IdentityNumber = "203881927121",
+                        IdentityImage = null,
+                        YoutubeLink = null,
+                        UserImage = "anh-den-ngau-016.jpg",
+                        NumberOfReport = 0,
+                        Status = UserStatusEnum.Active,
+                        RoleId = (int)RoleEnum.Tutor,
+                    },
+                    new()
+                    {
+                        Fullname = "Nguyễn Huy Nam",
+                        Email = "nam3@gmail.com",
+                        PasswordHash = passwordHash,
+                        PasswordSalt = passwordSalt,
+                        RefreshTokens = null,
+                        Phonenumber = "0919028993",
+                        DateOfBirth = "12-10-2004",
+                        Address = "162A, Thủ Dầu Một",
+                        District = "Thủ Dầu Một",
+                        City = "Bình Dương",
+                        Gender = "FeMale",
+                        Otp = null,
+                        OtpExpiredTime = null,
+                        IsVerified = true,
+                        CoinBalance = 0,
+                        IdentityNumber = "283881927021",
+                        IdentityImage = null,
+                        YoutubeLink = null,
+                        UserImage = "anh-den-ngau-016.jpg",
+                        NumberOfReport = 0,
+                        Status = UserStatusEnum.Active,
+                        RoleId = (int)RoleEnum.Tutor,
+                    },
+                    new()
+                    {
+                        Fullname = "Nguyễn Phương Huy",
+                        Email = "nam2@gmail.com",
+                        PasswordHash = passwordHash,
+                        PasswordSalt = passwordSalt,
+                        RefreshTokens = null,
+                        Phonenumber = "0919220990",
+                        DateOfBirth = "12-1-1999",
+                        Address = "162A, Thủ Dầu Một",
+                        District = "Thủ Dầu Một",
+                        City = "Bình Dương",
+                        Gender = "FeMale",
+                        Otp = null,
+                        OtpExpiredTime = null,
+                        IsVerified = true,
+                        CoinBalance = 0,
+                        IdentityNumber = "283880927121",
+                        IdentityImage = null,
+                        YoutubeLink = null,
+                        UserImage = "anh-den-ngau-016.jpg",
+                        NumberOfReport = 0,
+                        Status = UserStatusEnum.Active,
+                        RoleId = (int)RoleEnum.Tutor,
                     }
                 };
 
                 _context.Classes.AddRange(classes);
                 _context.Courses.AddRange(courses);
                 _context.Users.AddRange(users);
-                _context.Roles.AddRange(userRoles);
 
                 _context.SaveChanges();
             }

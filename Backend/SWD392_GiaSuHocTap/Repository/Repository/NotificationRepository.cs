@@ -9,15 +9,22 @@ namespace Repository.Repository
     public class NotificationRepository : INotificationRepository
     {
         private readonly IGenericDAO<Notification> _notificationDAO;
+        private readonly IGenericDAO<UserNotification> _userNotificationDAO;
 
-        public NotificationRepository(IGenericDAO<Notification> notificationDAO)
+        public NotificationRepository(IGenericDAO<Notification> notificationDAO, IGenericDAO<UserNotification> userNotificationDAO)
         {
             _notificationDAO = notificationDAO;
+            _userNotificationDAO = userNotificationDAO;
         }
 
         public async Task<Notification> AddNewNotification(Notification notification)
         {
             return await _notificationDAO.AddAsync(notification);
+        }
+
+        public async Task<UserNotification> AddNewUserNotification(UserNotification userNotification)
+        {
+            return await _userNotificationDAO.AddAsync(userNotification);
         }
 
         public IEnumerable<Notification> GetAllNotifications()

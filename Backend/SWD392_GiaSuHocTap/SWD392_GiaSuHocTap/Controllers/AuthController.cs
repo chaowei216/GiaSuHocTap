@@ -1,4 +1,5 @@
-﻿using Common.Constant.Message;
+﻿using AutoMapper;
+using Common.Constant.Message;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.User;
@@ -20,14 +21,17 @@ namespace SWD392_GiaSuHocTap.Controllers
         private readonly IAuthService _authService;
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
         public AuthController(IAuthService authService,
                               ITokenService tokenService,
-                              IUserService userService)
+                              IUserService userService,
+                              IMapper mapper)
         {
             _authService = authService;
             _tokenService = tokenService;
             _userService = userService;
+            _mapper = mapper;   
         }
 
         [HttpPost("login")]
@@ -63,6 +67,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }); ;
         }
 
+        //[Authorize]
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO request)
         {
@@ -96,6 +101,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromBody] LogOutRequestDTO request)
         {
@@ -152,9 +158,6 @@ namespace SWD392_GiaSuHocTap.Controllers
             var result = await _authService.ResetPassword(dto);
             return Ok(result);
         }
-
-        /*[HttpPost("reset-password")]
-        public IActionResult */
 
         [HttpGet("user-by-token")]
         public async Task<IActionResult> GetUserByToken([Required] string refreshToken)
@@ -347,6 +350,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpPost("accept-tutor")]
         public IActionResult AcceptTutor([FromBody] EmailDTO email)
         {
@@ -370,6 +374,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             
         }
 
+        //[Authorize(Roles = "Moderator")]
         [HttpPost("reject-tutor")]
         public IActionResult RejectTutor([FromBody] RejectTutorDTO dto)
         {
@@ -391,6 +396,88 @@ namespace SWD392_GiaSuHocTap.Controllers
                 };
                 return BadRequest(response);
             } 
+        }
+
+        [Authorize]
+        [HttpGet("get-by-email")]
+        public IActionResult GetUserByEmail([FromQuery][Required][EmailAddress] string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetUserByEmail(email);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = _mapper.Map<UserDTO>(response)
+                });
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpGet("user-image")]
+        public async Task<IActionResult> GetUserImage(string fileName)
+        {
+            try
+            {
+                var fileStream = await _userService.RetrieveItemAsync(fileName);
+                var fileExtension = Path.GetExtension(fileName);
+                string mimeType;
+                switch (fileExtension.ToLower())
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        mimeType = "image/jpeg";
+                        break;
+                    case ".png":
+                        mimeType = "image/png";
+                        break;
+                    case ".gif":
+                        mimeType = "image/gif";
+                        break;
+                    case ".bmp":
+                        mimeType = "image/bmp";
+                        break;
+                    default:
+                        mimeType = "application/octet-stream"; // Fallback to a generic MIME type
+                        break;
+                }
+                if (fileStream == null)
+                {
+                    return BadRequest(new ResponseDTO()
+                    {
+                        StatusCode =(int) StatusCodeEnum.NotFound,
+                        Message = GeneralMessage.Fail,  
+                    });
+                }
+
+                return File(fileStream, mimeType);
+            } catch(Exception ex)
+            {
+                var response = new ResponseDTO()
+                {
+                    Message = GeneralMessage.Fail,
+                    StatusCode = (int) StatusCodeEnum.BadRequest,
+                };
+                return BadRequest(response);
+            }
         }
     }
 }

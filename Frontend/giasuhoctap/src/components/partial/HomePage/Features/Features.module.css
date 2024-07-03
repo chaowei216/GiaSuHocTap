@@ -1,6 +1,8 @@
 .featuresWrapper {
   flex-direction: column;
   background: #FFFAF3;
+  height: 700px;
+  max-height: 700px;
 }
 
 .featuresHeading {
@@ -18,5 +20,60 @@
 
 .featuresListWrapper{
   max-height: 500px;
+}
+
+.cardBody{
+  height: 230px;
+  max-height: 230px;
+}
+
+.cardBody h5{
+  margin-top: 20px;
+}
+
+.cardBody p{
+  margin-top: 5px;
+}
+
+.swiper{
+  width: 950px;
+}
+.card{
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  margin: 20px 0;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.card::before{
+  content: "";
+  position: absolute;
+  height: 40%;
+  width: 100%;
+  background: #4DA8DA;
+  border-radius: 20px 20px 0 0;
+  top: -30px;
+}
+.card .cardContent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  position: relative;
+  z-index: 100;
+}
+.card .image{
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  padding: 3px;
+  background: #4DA8DA;
+}
+.card .image img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #fff;
 }
 

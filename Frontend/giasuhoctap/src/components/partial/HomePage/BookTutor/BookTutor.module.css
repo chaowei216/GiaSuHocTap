@@ -1,0 +1,194 @@
+.slideBody{
+    max-width: 50%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.7);
+    margin-left: 515px;
+    border: 1px solid #81a73b;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.slideContainer {
+  max-width: 80%;
+  width: 100%;
+  padding: 40px 0;
+  margin-left: 150px;
+}
+
+.slideContent {
+  margin: 0 40px;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+.cardWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Ensures 2 cards per row */
+  gap: 1rem; /* Adjust the gap between cards as needed */
+  padding: 1rem;
+}
+
+.card {
+  border-radius: 25px;
+  background-color: #FFF;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  margin-left: 20px;
+  margin-bottom: 20px;
+
+}
+
+.imageContent,
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+}
+
+.imageContent{
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  align-items: center;
+}
+
+.imageContent {
+  position: relative;
+  row-gap: 5px;
+  padding: 25px 0;
+}
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #4DA8DA;
+  border-radius: 25px 25px 0 25px;
+}
+.overlay::before,
+.overlay::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  height: 40px;
+  width: 40px;
+  background-color: #4DA8DA;
+}
+.overlay::after {
+  border-radius: 0 25px 0 0;
+  background-color: #FFF;
+}
+.cardImage {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background: #FFF;
+  padding: 3px;
+}
+.cardImage .cardImg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #4DA8DA;
+}
+.name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+/* .description {
+  font-size: 14px;
+  color: #707070;
+  max-height: 110px;
+  height: 105px;
+} */
+
+.button {
+  border: none;
+  font-size: 16px;
+  color: #FFF;
+  padding: 8px 16px 8px 12px;
+  background-color: #f0564a;
+  border-radius: 6px;
+  margin: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.button:hover {
+  background: red;
+}
+
+
+@media screen and (max-width: 768px) {
+  .slideContent {
+    margin: 0 10px;
+  }
+  .swiper-navBtn {
+    display: none;
+  }
+}
+
+.cardSubject{
+  display: flex;
+  margin-top: 10px;
+  
+}
+.cardSubject p{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+
+.cardTitle{
+  color: #4d4d4d;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.subject, .class{
+  color: #0000FF;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.wage{
+  color: red;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.teachingForm, .dayOfWeek, .time{
+  font-weight: bold;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+.slideBgTu{
+  background: url(../../../../../public/img/ReTutor.png) no-repeat 0 0;
+  margin-top: 40px;
+  background-size: 1020px;
+  margin-bottom: 18px;
+  height: 70px;
+  margin-left: 405px;
+ 
+}
+
+.slideBgTu h1{
+  margin-left: 350px;
+  margin-top: 38px;
+  font-size: 23px;
+  font-weight: bold;
+  padding-top: 17px;
+ color: #043882;
+}
+

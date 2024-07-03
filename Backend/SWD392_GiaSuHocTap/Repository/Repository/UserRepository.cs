@@ -3,6 +3,7 @@ using Common.DTO.Query;
 using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -66,22 +67,32 @@ namespace Repository.Repository
 
         public PagedList<User> GetPagedUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
         }
 
-        public IEnumerable<User>? GetUserByStatus()
+        public IEnumerable<User>? GetUserByStatus(UserStatusEnum status)
         {
-            return _userDAO.GetByCondition(u => u.Status == UserStatusEnum.Pending);
+            return _userDAO.GetByCondition(u => u.Status == status);
         }
 
         public PagedList<User> GetPagedPendingUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.Status == UserStatusEnum.Pending), parameters.PageNumber, parameters.PageSize); ;
         }
 
         public PagedList<User> GetPagedActiveUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IEnumerable<User> GetTutorTeachOnline(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOnline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public IEnumerable<User> GetTutorTeachOffline(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
         }
     }
 }

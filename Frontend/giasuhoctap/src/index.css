@@ -45,3 +45,13 @@ li {
 .slick-next:before{
   color: rgb(232, 28, 75);
 }
+
+
+.react-datepicker__input-container input{
+   border: 1px solid rgb(144 149 156 / 33%);
+   width: 40%;
+   height: 40px;
+   border-radius: 6px;
+   padding-left: 10px;
+}
+

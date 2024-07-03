@@ -1,15 +1,15 @@
 ﻿using Common.Constant.Message;
 using Common.DTO;
 using Common.Enum;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -22,6 +22,16 @@ namespace SWD392_GiaSuHocTap.Controllers
         [HttpGet("get-all-courses")]
         public IActionResult GetAllCourses()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
             try
             {
                 var courses = _courseService.GetAllCourses();

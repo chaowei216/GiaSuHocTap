@@ -266,6 +266,8 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CretaeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LinkMeet = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     FromId = table.Column<int>(type: "int", nullable: false),
                     ClassId = table.Column<int>(type: "int", nullable: false)
@@ -302,8 +304,10 @@ namespace DAO.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DayOfWeek = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    StartTime = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EndTime = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Period = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<string>(type: "longtext", nullable: false)
@@ -363,6 +367,10 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CertificateImage = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TeachingOnline = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TeachingOffline = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RentHour = table.Column<int>(type: "int", nullable: false),
+                    NumberOfRent = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -381,12 +389,12 @@ namespace DAO.Migrations
                 name: "UserClasses",
                 columns: table => new
                 {
-                    UsertId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClassId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClasses", x => new { x.ClassId, x.UsertId });
+                    table.PrimaryKey("PK_UserClasses", x => new { x.ClassId, x.UserId });
                     table.ForeignKey(
                         name: "FK_UserClasses_Classes_ClassId",
                         column: x => x.ClassId,
@@ -394,8 +402,8 @@ namespace DAO.Migrations
                         principalColumn: "ClassId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserClasses_Users_UsertId",
-                        column: x => x.UsertId,
+                        name: "FK_UserClasses_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -431,12 +439,12 @@ namespace DAO.Migrations
                 name: "UserNotifications",
                 columns: table => new
                 {
-                    UsertId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserNotifications", x => new { x.UsertId, x.NotificationId });
+                    table.PrimaryKey("PK_UserNotifications", x => new { x.UserId, x.NotificationId });
                     table.ForeignKey(
                         name: "FK_UserNotifications_Notifications_NotificationId",
                         column: x => x.NotificationId,
@@ -444,8 +452,8 @@ namespace DAO.Migrations
                         principalColumn: "NotificationId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserNotifications_Users_UsertId",
-                        column: x => x.UsertId,
+                        name: "FK_UserNotifications_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -460,8 +468,7 @@ namespace DAO.Migrations
                     RequestId = table.Column<int>(type: "int", nullable: false),
                     IsAccepted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -478,11 +485,6 @@ namespace DAO.Migrations
                         principalTable: "TimeTables",
                         principalColumn: "TimeTableId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RequestTimes_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -537,11 +539,6 @@ namespace DAO.Migrations
                 column: "TimeTableId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequestTimes_UserId",
-                table: "RequestTimes",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TimeTables_UserId",
                 table: "TimeTables",
                 column: "UserId");
@@ -558,9 +555,9 @@ namespace DAO.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClasses_UsertId",
+                name: "IX_UserClasses_UserId",
                 table: "UserClasses",
-                column: "UsertId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCourses_CourseId",

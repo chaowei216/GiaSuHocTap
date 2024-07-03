@@ -32,5 +32,27 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Class> GetPagedClassList(ClassParameters parameters);
+
+        /// <summary>
+        /// Delete tutor's class
+        /// </summary>
+        /// <param name="userClass"></param>
+        /// <returns></returns>
+        Task<bool> DeleteUserClass(UserClass userClass);
+        /// <summary>
+        /// Add new user class
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<UserClass> AddNewUserClass(UserClass entity);
+
+        /// <summary>
+        /// Get all user classes by user Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+
+        IEnumerable<UserClass> GetUserClassByUserId(int userId);
+
     }
 }

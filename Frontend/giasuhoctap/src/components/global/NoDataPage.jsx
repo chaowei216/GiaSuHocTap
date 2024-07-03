@@ -15,7 +15,7 @@ function NoDataPage() {
           colSpan={8}
         >
           <InventoryIcon />
-          No data
+          Không có dữ liệu
         </TableCell>
       </TableRow>
     </>
