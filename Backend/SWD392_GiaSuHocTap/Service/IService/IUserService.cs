@@ -128,5 +128,12 @@ namespace Service.IService
         /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters);
+
+        /// <summary>
+        /// Get tutor by email include all information
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        TutorInforDTO? GetTutorByEmailInclude(string email);
     }
 }
