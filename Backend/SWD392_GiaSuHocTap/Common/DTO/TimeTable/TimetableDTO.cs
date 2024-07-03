@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DAO.Model
+namespace Common.DTO.TimeTable
 {
-    public class TimeTable
+    public class TimetableDTO
     {
-        [Key]
-        public int TimeTableId { get; set; }
         [Required]
         public string DayOfWeek { get; set; } = null!;
         [AllowNull]
@@ -18,9 +20,5 @@ namespace DAO.Model
         public string? Period { get; set; } = null!;
         public string Status { get; set; } = null!;
         public string LearningType { get; set; } = null!;
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; } = null!;
-        public ICollection<RequestTime> RequestTimes { get; set; } = null!;
     }
 }

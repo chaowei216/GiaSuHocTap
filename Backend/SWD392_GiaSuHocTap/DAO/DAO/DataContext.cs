@@ -48,18 +48,18 @@ namespace DAO.DAO
 
             #region M_M relationship
             modelBuilder.Entity<UserClass>()
-                .HasKey(uc => new { uc.ClassId, uc.UsertId });
+                .HasKey(uc => new { uc.ClassId, uc.UserId });
             modelBuilder.Entity<UserClass>()
                 .HasOne(uc => uc.User)
                 .WithMany(uc => uc.UserClasses)
-                .HasForeignKey(uc => uc.UsertId);
+                .HasForeignKey(uc => uc.UserId);
             modelBuilder.Entity<UserClass>()
                 .HasOne(uc => uc.Class)
                 .WithMany(uc => uc.UserClasses)
                 .HasForeignKey(uc => uc.ClassId);
 
             modelBuilder.Entity<UserNotification>()
-                .HasKey(uc => new { uc.UsertId, uc.NotificationId });
+                .HasKey(uc => new { uc.UserId, uc.NotificationId });
             modelBuilder.Entity<UserNotification>()
                 .HasOne(uc => uc.Notification)
                 .WithMany(uc => uc.UserNotification)
@@ -67,7 +67,7 @@ namespace DAO.DAO
             modelBuilder.Entity<UserNotification>()
                 .HasOne(uc => uc.User)
                 .WithMany(uc => uc.UserNotifications)
-                .HasForeignKey(uc => uc.UsertId);
+                .HasForeignKey(uc => uc.UserId);
 
             modelBuilder.Entity<UserCourse>()
                 .HasKey(uc => new { uc.UserId, uc.CourseId });

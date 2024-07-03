@@ -374,7 +374,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             
         }
 
-        [Authorize(Roles = "Moderator")]
+        //[Authorize(Roles = "Moderator")]
         [HttpPost("reject-tutor")]
         public IActionResult RejectTutor([FromBody] RejectTutorDTO dto)
         {

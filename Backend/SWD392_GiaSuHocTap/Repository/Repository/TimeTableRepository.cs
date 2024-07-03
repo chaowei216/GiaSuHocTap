@@ -34,6 +34,11 @@ namespace Repository.Repository
             return await _timeTableDAO.GetByIdAsync(id);
         }
 
+        public IEnumerable<TimeTable> GetTimeTableByUserId(int userId)
+        {
+            return _timeTableDAO.GetAll().Where(t => t.UserId == userId).AsEnumerable();
+        }
+
         public Task<TimeTable> UpdateTimeTable(TimeTable timeTable)
         {
             return _timeTableDAO.UpdateAsync(timeTable);

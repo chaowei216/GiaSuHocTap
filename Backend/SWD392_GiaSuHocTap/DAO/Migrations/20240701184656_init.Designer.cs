@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240623135019_init")]
+    [Migration("20240701184656_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -324,8 +324,8 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("EndTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LearningType")
                         .IsRequired()
@@ -334,8 +334,8 @@ namespace DAO.Migrations
                     b.Property<string>("Period")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("StartTime")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -526,12 +526,12 @@ namespace DAO.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClassId", "UsertId");
+                    b.HasKey("ClassId", "UserId");
 
-                    b.HasIndex("UsertId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserClasses");
                 });
@@ -553,13 +553,13 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.UserNotification", b =>
                 {
-                    b.Property<int>("UsertId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("UsertId", "NotificationId");
+                    b.HasKey("UserId", "NotificationId");
 
                     b.HasIndex("NotificationId");
 
@@ -726,7 +726,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserClasses")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -764,7 +764,7 @@ namespace DAO.Migrations
 
                     b.HasOne("DAO.Model.User", "User")
                         .WithMany("UserNotifications")
-                        .HasForeignKey("UsertId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -39,5 +39,12 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Notification> GetPagedNotificationList(NotificationParameters parameters);
+
+        /// <summary>
+        /// Add new user notification
+        /// </summary>
+        /// <param name="userNotification"></param>
+        /// <returns></returns>
+        Task<UserNotification> AddNewUserNotification(UserNotification userNotification);
     }
 }

@@ -1,5 +1,5 @@
-﻿using DAO.Model;
-using Common.DTO.Course;
+﻿using Common.DTO.Course;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -24,5 +24,33 @@ namespace Service.IService
         /// <param name="course"></param>
         /// <returns></returns>
         Task<Course> AddCourse(Course course);
+
+        /// <summary>
+        /// Add new user course
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
+        Task<UserCourse> AddUserCouse(UserCourse userCourse);
+
+        /// <summary>
+        /// Delete user course
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<bool> DeleteUserCourse(int userId);
+
+        /// <summary>
+        /// Get all user course
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<DeleteUserCourseDTO> GetAllUserCourses(int userId);
+
+        /// <summary>
+        /// Add new user course
+        /// </summary>
+        /// <param name="userCourse"></param>
+        /// <returns></returns>
+        Task<UserCourse> AddNewUserCourse(UserCourse userCourse);
     }
 }

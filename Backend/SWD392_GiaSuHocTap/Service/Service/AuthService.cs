@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper;
 using Common.Constant.Message;
 using Common.DTO;
 using Common.DTO.Auth;
@@ -20,13 +21,19 @@ namespace Service.Service
         private readonly IConfiguration _configuration;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly IEmailService _emailService;
+        private readonly IClassService _classService;
+        private readonly ICourseService _courseService;
+        private readonly ITimeTableService _timeTableService;
 
         public AuthService(IUserService userService,
                             ITokenService tokenService,
                             IConfiguration configuration,
                             IMapper mapper,
                             IRefreshTokenService refreshTokenService,
-                            IEmailService emailService)
+                            IEmailService emailService,
+                            IClassService classService,
+                            ICourseService courseService,
+                            ITimeTableService timeTableService)
         {
             _userService = userService;
             _tokenService = tokenService;
@@ -34,6 +41,9 @@ namespace Service.Service
             _configuration = configuration;
             _refreshTokenService = refreshTokenService;
             _emailService = emailService;
+            _classService = classService;
+            _courseService = courseService;
+            _timeTableService = timeTableService;
         }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO loginRequest)
@@ -316,6 +326,11 @@ namespace Service.Service
             var user = _userService?.GetUserByEmail(email);
             if(user != null)
             {
+                _courseService.DeleteUserCourse(user.UserId);
+                _classService.DeleteUserClass(user.UserId);
+                _timeTableService.DeleteTimeTable(user.UserId);
+                user.Status = UserStatusEnum.Checking;
+                _userService.UpdateUserOtp(user);
                 _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
                 return true;
 

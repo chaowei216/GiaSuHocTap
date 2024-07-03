@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAO.Model
+namespace Common.DTO.Class
 {
-    public class UserClass
+    public class DeleteUserClassDTO
     {
         public int UserId { get; set; }
         public int ClassId { get; set; }
-        public User User { get; set; } = null!;
-        public Class Class { get; set; } = null!;
     }
 }
