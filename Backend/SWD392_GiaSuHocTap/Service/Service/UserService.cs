@@ -833,5 +833,13 @@ namespace Service.Service
 
             return mappedResponse;
         }
+
+        public TutorInforDTO? GetTutorByEmailInclude(string email)
+        {
+            var user = _userRepository.GetTutorByEmailInclude(email);
+
+            var userMap = _mapper.Map<TutorInforDTO>(user);
+            return userMap;
+        }
     }
 }
