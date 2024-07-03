@@ -94,5 +94,10 @@ namespace Repository.Repository
         {
             return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
         }
+
+        public User? GetTutorByEmailInclude(string email)
+        {
+            return _userDAO.GetAll().Where(d => d.Email == email).Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).FirstOrDefault();
+        }
     }
 }

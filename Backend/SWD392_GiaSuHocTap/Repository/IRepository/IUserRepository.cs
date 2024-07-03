@@ -110,5 +110,12 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
+
+        /// <summary>
+        /// Get tutor by email include all infor
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User? GetTutorByEmailInclude(string email);
     }
 }

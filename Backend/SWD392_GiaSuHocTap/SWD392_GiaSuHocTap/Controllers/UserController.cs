@@ -220,5 +220,28 @@ namespace SWD392_GiaSuHocTap.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("get-user-by-email")]
+        public IActionResult GetUserByEmail([FromQuery] string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetTutorByEmailInclude(email);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
     }
 }
