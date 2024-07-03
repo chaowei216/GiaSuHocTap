@@ -19,7 +19,7 @@ export default function BasicMenu({ anchorEl, handleClick, handleClose, children
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
-            window.location.href = "/login";
+            window.location.href = "/";
         }
     }
     const open = Boolean(anchorEl);

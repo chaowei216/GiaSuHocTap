@@ -1,7 +1,7 @@
 import style from "./TutorDetailMiddle.module.css"
 import ImageWithPreview from "../../global/ImageWithPreview";
 import FeedbackTutor from "./FeedbackTutor";
-function TutorDetailMiddle() {
+function TutorDetailMiddle({ data }) {
   const imageList = [
     'https://picsum.photos/200',
     'https://picsum.photos/200/300',
@@ -11,7 +11,7 @@ function TutorDetailMiddle() {
   return (
     <div style={{ width: "70%" }}>
       <div className="flex gap-3 align-middle">
-        <div className="font-mono font-bold text-3xl">Lưu Chao Wei</div>
+        <div className="font-mono font-bold text-3xl">{data?.fullname}</div>
         <div className="text-2xl">🌸</div>
       </div>
       <div className="mt-4 flex">
@@ -47,13 +47,15 @@ function TutorDetailMiddle() {
         <div className={style.title_user_profile}>Thông tin</div>
         <div className={style.content_player_profile}>
           <p>Xin chào</p>
+          <p><b>Ngày dạy:</b> {data && data?.timeTables?.map((item) => `Thứ ${item.dayOfWeek}`)}</p>
+          <p><b>Thời gian:</b> {data && data?.timeTables?.map((item) => `${item.startTime} - ${item.endTime}`)}</p>
           <div className={style.album_of_player}>
             <ImageWithPreview imageList={imageList} />
           </div>
-          <p><b>Email:</b> luuchaowei@gmail.com</p>
-          <p><b>Địa chỉ:</b> TP HCM</p>
-          <p><b>Công việc:</b> Sinh viên</p>
-          <p><b>Chuyên ngành:</b> Công nghệ thông tin</p>
+          <p><b>Email:</b> {data?.email}</p>
+          <p><b>Địa chỉ:</b> {data?.address}</p>
+          <p><b>Công việc:</b> {data?.tutorDetail?.job}</p>
+          <p><b>Chuyên ngành:</b> {data?.tutorDetail?.major}</p>
         </div>
         <div style={{ marginTop: "25px" }}>
           <div>

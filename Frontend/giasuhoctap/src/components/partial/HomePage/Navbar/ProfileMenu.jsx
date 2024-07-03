@@ -7,7 +7,7 @@ import avatar from "/img/avatar.png";
 import useAuth from '../../../../hooks/useAuth';
 import { green } from '@mui/material/colors';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Logout } from '@mui/icons-material';
+import { Logout } from '../../../../api/AuthenApi';
 export default function ProfileMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -38,7 +38,7 @@ export default function ProfileMenu() {
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
-            window.location.href = "/login";
+            window.location.href = "/";
         }
     }
     return (

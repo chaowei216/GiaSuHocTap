@@ -6,8 +6,8 @@ export default function GuestAuth({ children }) {
 
     if (isAuthenticated) {
         if (user?.roleName == "Moderator" || user.roleName == "Admin") {
-            return <Navigate to="/test" />;
-        }else if (user?.roleName == "Tutor"){
+            return <Navigate to="/dashboard" />;
+        } else if (user?.roleName == "Tutor") {
             return <Navigate to="/home-tutor" />;
         }
         return <Navigate to="/" />;

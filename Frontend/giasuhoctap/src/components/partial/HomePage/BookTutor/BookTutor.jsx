@@ -86,7 +86,7 @@ const BookTutor = () => {
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
-                                                    {tutor.timeTables.map((item) => (
+                                                    {tutor.timeTables?.map((item) => (
                                                         item.dayOfWeek
                                                     ))}
                                                 </p>
@@ -94,7 +94,7 @@ const BookTutor = () => {
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Thời gian: </p>
                                                 <p className={`dayOfWeek ${styles.time}`}>
-                                                    {tutor.timeTables.map((item) => (
+                                                    {tutor.timeTables?.map((item) => (
                                                         `${item.startTime} - ${item.endTime}`
                                                     ))}
                                                 </p>
