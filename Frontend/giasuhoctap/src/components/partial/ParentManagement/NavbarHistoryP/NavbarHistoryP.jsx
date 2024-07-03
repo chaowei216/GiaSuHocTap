@@ -25,7 +25,7 @@ const NavbarHistoryP = () => {
           href="#"
           onClick={() => handleTabClick('pending')}
         >
-          CHỜ THANH TOÁN
+          ĐÃ ĐẶT LỊCH
         </a>
       </li>
       <li className={styles.navItem}>
@@ -46,15 +46,7 @@ const NavbarHistoryP = () => {
           ĐÃ HỦY
         </a>
       </li>
-      <li className={styles.navItem}>
-        <a
-          className={`${styles.navLink} ${activeTab === 'refunded' ? styles.active : ''}`}
-          href="#"
-          onClick={() => handleTabClick('refunded')}
-        >
-          HOÀN TIỀN
-        </a>
-      </li>
+      
     </ul>
   );
 };
