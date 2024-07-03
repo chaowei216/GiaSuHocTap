@@ -59,6 +59,13 @@ export default function ViewTutor() {
   const handleAccept = async (email) => {
     console.log(email);
     const response = await AcceptTutor(email);
+    if (response.status == 403) {
+      toast.error("You do not have permission to do this action")
+      return;
+    } else if (!response.ok) {
+      toast.error("Something error")
+      return;
+    }
     const responseJson = await response.json();
     if (responseJson.statusCode == 200) {
       toast.success("Accepted");

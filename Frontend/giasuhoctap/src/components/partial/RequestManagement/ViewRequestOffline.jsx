@@ -5,7 +5,7 @@ import data from "../../../data/fakeData.json"
 import RequestTable from './RequestTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
-export default function ViewRequest() {
+export default function ViewRequestOffline() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
@@ -25,7 +25,7 @@ export default function ViewRequest() {
         }}>
             <Header>
                 <div style={{ fontSize: "30px", fontWeight: "bold" }}>
-                    Danh sách học sinh yêu cầu online
+                    Danh sách học sinh yêu cầu offline
                 </div>
             </Header>
             <MiddleContent />

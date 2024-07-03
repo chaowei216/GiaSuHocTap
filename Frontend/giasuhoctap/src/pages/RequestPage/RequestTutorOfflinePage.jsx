@@ -1,7 +1,7 @@
-import ViewRequest from '../../components/partial/RequestManagement/ViewRequest'
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import SidebarTutor from '../../components/layouts/Sidebar/SidebarTutor'
-export default function RequestTutorPage() {
+import ViewRequestOffline from '../../components/partial/RequestManagement/ViewRequestOffline'
+export default function RequestTutorOfflinePage() {
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
@@ -18,7 +18,7 @@ export default function RequestTutorPage() {
                 position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
             }}
                 className="p-4 overflow-y-auto">
-                <ViewRequest />
+                <ViewRequestOffline />
             </div>
         </div>
     )

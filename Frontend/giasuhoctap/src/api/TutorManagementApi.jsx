@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 // Base Url for API
 const baseUrl = import.meta.env.VITE_API_HOST;
 

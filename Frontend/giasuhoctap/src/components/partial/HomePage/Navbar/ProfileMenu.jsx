@@ -5,11 +5,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import avatar from "/img/avatar.png";
 import useAuth from '../../../../hooks/useAuth';
-
+import { green } from '@mui/material/colors';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Logout } from '@mui/icons-material';
 export default function ProfileMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     console.log(user);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -19,6 +21,26 @@ export default function ProfileMenu() {
         setAnchorEl(null);
     };
 
+    const handleNavigate = () => {
+        if (user?.roleName == "Admin" || user?.roleName == "Moderator") {
+            setAnchorEl(null);
+            window.location.href = "/dashboard"
+        } else if (user?.roleName == "Tutor") {
+            setAnchorEl(null);
+            window.location.href = "/home-tutor"
+        } else {
+            setAnchorEl(null);
+        }
+    };
+
+    const handleClickLogout = async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const response = await Logout(refreshToken)
+        if (response.ok) {
+            await logout();
+            window.location.href = "/login";
+        }
+    }
     return (
         <div>
             <Tooltip title="Account settings">
@@ -67,7 +89,7 @@ export default function ProfileMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <a style={{ display: "flex", borderBottom: ".5px solid #f0f0f0" }}>
-                        <img src={avatar} style={{ width: "55px", height: "55px", marginRight: "10px"}}></img>
+                        <img src={avatar} style={{ width: "55px", height: "55px", marginRight: "10px" }}></img>
                         <div style={{ marginBottom: "5px" }}>
                             <h4>{user.fullname}</h4>
                             <p>ID: {user.email}</p>
@@ -75,8 +97,8 @@ export default function ProfileMenu() {
                         </div>
                     </a>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
+                <MenuItem sx={{ gap: "13px" }} onClick={handleNavigate}>
+                    <Avatar sx={{ bgcolor: green[500] }} style={{ marginLeft: "12px" }}><AssignmentIcon /></Avatar> Trang quản lý của tôi
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleClose}>
@@ -85,7 +107,7 @@ export default function ProfileMenu() {
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClickLogout}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>

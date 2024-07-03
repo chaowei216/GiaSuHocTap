@@ -1,7 +1,11 @@
-import ViewRequest from '../../components/partial/RequestManagement/ViewRequest'
-import Navbar from '../../components/layouts/Navbar/Navbar'
-import SidebarTutor from '../../components/layouts/Sidebar/SidebarTutor'
-export default function RequestTutorPage() {
+import Navbar from '../../components/layouts/Navbar/Navbar';
+import SidebarTutor from '../../components/layouts/Sidebar/SidebarTutor';
+import useAuth from '../../hooks/useAuth';
+import DashboardTutor from './DashboardTutor';
+import style from './style.module.css';
+
+export default function HomeTutorPage() {
+    const { user } = useAuth()
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
@@ -18,8 +22,13 @@ export default function RequestTutorPage() {
                 position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
             }}
                 className="p-4 overflow-y-auto">
-                <ViewRequest />
+                <div className={style.dashboard}>
+                    <header className={style.header}>
+                        <h1>Xin Chào Giáo Viên {user?.fullname}</h1>
+                    </header>
+                </div>
+                <DashboardTutor />
             </div>
         </div>
-    )
+    );
 }

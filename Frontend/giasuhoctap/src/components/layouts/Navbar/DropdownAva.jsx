@@ -6,15 +6,20 @@ import { Logout } from '../../../api/AuthenApi';
 import useAuth from '../../../hooks/useAuth';
 
 export default function BasicMenu({ anchorEl, handleClick, handleClose, children }) {
-    const { logout } = useAuth()
+    const { logout, user } = useAuth()
     const handleClickProfile = () => {
-        window.location.href = "/personal-profile"
+        if (user?.roleName == "Tutor") {
+            window.location.href = "/tutor-profile"
+        } else {
+            window.location.href = "/personal-profile"
+        }
     }
     const handleClickLogout = async () => {
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
+            window.location.href = "/login";
         }
     }
     const open = Boolean(anchorEl);
