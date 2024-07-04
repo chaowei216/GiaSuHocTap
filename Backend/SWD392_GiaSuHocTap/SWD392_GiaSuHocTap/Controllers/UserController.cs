@@ -72,11 +72,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
@@ -107,11 +108,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
@@ -176,11 +178,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
@@ -213,11 +216,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
