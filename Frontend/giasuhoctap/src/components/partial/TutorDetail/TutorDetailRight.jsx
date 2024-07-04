@@ -1,8 +1,15 @@
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { Button } from '@mui/material';
 import HiringTuor from './HiringTuor';
+import { useState } from 'react';
 
 function TutorDetailRight() {
+  const [tutorHire, setTutorHire] = useState()
+  const [basicModal, setBasicModal] = useState(false);
+  const handleHire = (item) => {
+      setTutorHire(item);
+      setBasicModal(true);
+  }
   return (
     <div className="ml-5" style={{ width: "28%" }}>
       <div style={{ width: "100%", height: "auto", borderRadius: "15px", padding: "10px", border: "1px solid #e2e6ea" }}>
@@ -17,7 +24,7 @@ function TutorDetailRight() {
           <StarRateIcon sx={{ color: "#ff9948" }} />
           <StarRateIcon sx={{ color: "#ff9948" }} />
         </div>
-        <Button variant="contained" color="error" sx={{
+        <Button onClick={handleHire} variant="contained" color="error" sx={{
           width: "100%", color: "white", border: "1px solid #e2e6ea",
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "20px 0px 20px 0px", backgroundColor: "#f0564a"
@@ -27,7 +34,7 @@ function TutorDetailRight() {
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "0px 0px 10px 0px"
         }}>Đánh giá</Button>
-        <HiringTuor />
+        <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} />
       </div>
     </div>
   );

@@ -64,7 +64,7 @@ export default function TutorDetail({
           }}
           id="customized-dialog-title"
         >
-          Thông tin chi tiết gia sư
+          Thông tin chi tiết user
         </DialogTitle>
         <IconButton
           aria-label="close"

@@ -7,44 +7,39 @@ import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css"
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import WorkOffIcon from '@mui/icons-material/WorkOff';
 import logoEdu from "/img/logoGiasu.png";
-import useAuth from "../../../hooks/useAuth";
-import GroupIcon from '@mui/icons-material/Group';
+import WorkOffIcon from '@mui/icons-material/WorkOff';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
-export default function Sidebar() {
-  const { user } = useAuth();
+export default function SidebarTutor() {
   const Menus = [
     {
       title: "Home",
-      path: "/test",
+      path: "/home-tutor",
       icon: <HomeIcon />,
       id: 0,
-      src: "/test",
+      src: "/home-tutor",
     },
     {
       title: "User Profile",
-      path: "/personal-profile",
+      path: "/tutor-profile",
       icon: <PersonIcon />,
       id: 1,
-      src: "/personal-profile",
+      src: "/tutor-profile",
     },
     {
-      title: "Register Request",
-      path: "/tutor",
+      title: "Online Request",
+      path: "/request-tutor",
       icon: <WorkHistoryIcon />,
       id: 2,
-      src: "/tutor",
+      src: "/request-tutor",
     },
     {
-      title: "User Management",
-      path: "/user-management",
-      icon: <GroupIcon />,
-      id: 2,
-      src: "/user-management",
+      title: "Offline Request",
+      path: "/request-tutor-offline",
+      icon: <WorkOffIcon />,
+      id: 3,
+      src: "/request-tutor-offline",
     },
   ];
   const location = useLocation();
@@ -74,6 +69,7 @@ export default function Sidebar() {
             </li>
           ))}
         </ul>
+
       </div>
       <div style={{ position: "fixed", bottom: "0%", padding: "18px 18px 0px 18px" }}>
         <li className={styles['sidebar-nav-item']}>

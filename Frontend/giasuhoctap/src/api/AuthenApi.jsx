@@ -202,3 +202,21 @@ export const ResetPassword = async (otp, password, confirmPassword, email) => {
         console.log(err);
     }
 }
+
+export const Logout = async (refreshToken) => {
+    try {
+        const url = `${baseUrl}/api/Auth/logout`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify({refreshToken: refreshToken})
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};

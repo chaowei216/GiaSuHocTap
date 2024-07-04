@@ -24,6 +24,7 @@ function PageSize({ pageSize, setPageSize }) {
                     <FormControl sx={{ minWidth: 120, border: "none" }}>
                         <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={pageSize} onChange={handleChange} label="perPage" style={{ border: "none", width: "55%" }}>
                             <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={6}>6</MenuItem>
                             <MenuItem value={10}>10</MenuItem>
                             <MenuItem value={15}>15</MenuItem>
                             <MenuItem value={20}>20</MenuItem>
