@@ -175,8 +175,8 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             <select className="form-select" aria-label="Default select example" style={{ width: '135%' }} onChange={handleTeachingModeChange}>
                                 <option value="">Chọn Hình Thức Dạy</option>
-                                <option value="false">Dạy Online</option>
-                                <option value="true">Dạy Online và Offline</option>
+                                <option value="true">Dạy Online</option>
+                                <option value="false">Dạy Online và Offline</option>
                             </select>
                         </div>
                     </div>
@@ -204,7 +204,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    {teachingMode === 'both' && (
+                    {teachingMode === 'false' && (
                         <div className={styles.profileDayOfWeek}>
                             <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày dạy offline:</div>
                             <div className={`form-check ${styles.subjectGrid}`}>
@@ -235,7 +235,7 @@ const Profile = () => {
                             {courses.map((course, index) => (
                                 <div key={index} className="mb-4">
                                     {/* thay item.courseName thanh courseId */}
-                                    <input className="form-check-input" type="checkbox" value={course.courseName} id={`course-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
+                                    <input className="form-check-input" type="checkbox" value={course.courseId} id={`course-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
                                     <label className="form-check-label" htmlFor={`course-${index}`}>
                                         {course.courseName}
                                     </label>
@@ -250,7 +250,7 @@ const Profile = () => {
                             {classes.map((item, index) => (
                                 <div key={index} className="mb-4">
                                     {/* thay item.className thanh classId */}
-                                    <input className="form-check-input" type="checkbox" value={item.className} id={`class-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)} />
+                                    <input className="form-check-input" type="checkbox" value={item.classId} id={`class-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)} />
                                     <label className="form-check-label" htmlFor={`class-${index}`}>
                                         {item.className}
                                     </label>

@@ -4,7 +4,7 @@ export const UpdateTutor = async (value) => {
     try {
         const url = `${baseUrl}/api/User/update-tutor-detail`;
         const request = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
