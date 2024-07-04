@@ -356,20 +356,26 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TransactionId"));
 
-                    b.Property<double>("Amout")
+                    b.Property<double>("Amount")
                         .HasColumnType("double");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("TransactionDate")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TransactionInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TransactionNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 

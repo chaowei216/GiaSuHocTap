@@ -334,13 +334,16 @@ namespace DAO.Migrations
                 {
                     TransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TransactionNumber = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PaymentMethod = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TransactionInfo = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TransactionDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Amout = table.Column<double>(type: "double", nullable: false),
-                    Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TransactionDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Amount = table.Column<double>(type: "double", nullable: false),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

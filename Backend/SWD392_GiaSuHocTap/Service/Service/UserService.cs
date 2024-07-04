@@ -855,5 +855,10 @@ namespace Service.Service
 
             return mappedResponse;
         }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            return await _userRepository.UpdateUser(user);
+        }
     }
 }
