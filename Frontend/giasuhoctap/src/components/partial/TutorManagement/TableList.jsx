@@ -100,22 +100,8 @@ export default function TableList({
             {!data && <NoDataPage />}
             {
               data && data.length === 0 && (
-                // <StyledTableCell
-                //   sx={{ fontWeight: "600", width: "180px" }}
-                //   component="th"
-                //   align="left"
-                //   scope="row"
-                // >
-                //   <Button
-                //     sx={{ paddingLeft: "0px", textTransform: "none" }}
-                //     onClick={() => setOpenDetail(true)}
-                //   >
-                //     <span>Test</span>
-                //   </Button>
-                // </StyledTableCell>
                 <NoDataPage />
               )
-              /* <NoDataPage />*/
             }
             {data &&
               data.map((row, index) => {
@@ -126,40 +112,39 @@ export default function TableList({
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell
-                      sx={{ fontWeight: "600", width: "170px" }}
+                      sx={{ fontWeight: "600" }}
                       component="th"
                       align="left"
                       scope="row"
                     >
-                        <span>{row.fullname}</span>
+                      <span>{row.fullname}</span>
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "180px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {FormatDate(row.dateOfBirth)}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "180px" }}
+                      style={{ fontWeight: "600" }}
                       align="middle"
                     >
                       {row.identityNumber}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "170px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {row.phonenumber}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "140px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {row.gender}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
-                        width: "150px",
                         paddingLeft: "0px",
                         paddingRight: "20px",
                       }}
@@ -190,10 +175,10 @@ export default function TableList({
                     </StyledTableCell>
                     {type != "Pending" && (
                       <StyledTableCell
-                        style={{ fontWeight: "600", width: "140px" }}
+                        style={{ fontWeight: "600" }}
                         align="left"
                       >
-                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>
                           <VisibilityIcon />
                         </Button>
                       </StyledTableCell>
@@ -202,7 +187,6 @@ export default function TableList({
                       <StyledTableCell
                         style={{
                           fontWeight: "600",
-                          width: "340px",
                           padding: "0px",
                         }}
                         align="left"
@@ -231,7 +215,7 @@ export default function TableList({
                             <ClearIcon /> Deny
                           </div>
                         </Button>
-                        <Button variant="text" sx={{color: "black"}} onClick={() => handleClickOpenDetail(row)}>
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>
                           <VisibilityIcon />
                         </Button>
                       </StyledTableCell>

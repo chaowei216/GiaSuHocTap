@@ -9,7 +9,7 @@ namespace Service.IService
         /// Get all classes
         /// </summary>
         /// <returns></returns>
-        IEnumerable<ClassDTO> GetAllClasses();
+        IEnumerable<ClassFullDTO> GetAllClasses();
 
         /// <summary>
         /// Get class by id

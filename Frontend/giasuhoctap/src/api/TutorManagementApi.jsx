@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 // Base Url for API
 const baseUrl = import.meta.env.VITE_API_HOST;
 
@@ -37,7 +39,7 @@ export const GetPendingTutor = async (page, pageSize) => {
 
 export const GetActiveTutor = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/User/get-active-tutor?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/User/get-active-users?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -78,7 +80,7 @@ export const AcceptTutor = async (email) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
-            body: JSON.stringify({email: email})
+            body: JSON.stringify({ email: email })
         };
         const response = await fetch(url, request);
         return response;
@@ -96,7 +98,55 @@ export const RejectTutor = async (email, reason) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
-            body: JSON.stringify({email: email, reason: reason})
+            body: JSON.stringify({ email: email, reason: reason })
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetTutorTeachOnline = async (page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User/get-tutor-teach-online?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetTutorTeachOffline = async (page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User/get-tutor-teach-offline?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetTutorByEmail = async (email) => {
+    try {
+        const url = `${baseUrl}/api/User/get-user-by-email?email=${email}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
         };
         const response = await fetch(url, request);
         return response;

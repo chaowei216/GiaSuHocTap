@@ -21,7 +21,10 @@ import RequestTutorPage from "../pages/RequestPage/RequestTutorPage";
 import UserProfilePage from "../pages/UserProfile/UserProfilePage";
 import BuyCoinPage from "../pages/BuyCoinPage/BuyCoinPage";
 import ParentHistory from "../pages/ParentPage/ParentHistory";
-
+import UserPage from "../pages/UserPage/UserPage";
+import HomeTutorPage from "../pages/TutorPage/HomeTutorPage"
+import TutorProfilePage from "../pages/TutorPage/TutorProfilePage";
+import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +34,7 @@ export const router = createBrowserRouter([
   { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
   { path: "registerParents", element: <RegisterPage /> },//<RequireAuth></RequireAuth> },
   { path: "registerTutors", element: <RegisterTutorPage /> },
-  { path: "test", element: <DashboardPage /> },
+  { path: "dashboard", element: <DashboardPage /> },
   { path: "tutor", element: <TutorPage /> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
   { path: "RegisterTutor", element: <RegisterTutor /> },
@@ -45,4 +48,8 @@ export const router = createBrowserRouter([
   { path: "personal-profile", element: <UserProfilePage /> },
   { path: "buycoin", element: <BuyCoinPage /> },
   { path: "ParentHistory", element: <ParentHistory /> },
+  { path: "user-management", element: <UserPage /> },
+  { path: "home-tutor", element: <HomeTutorPage /> },
+  { path: "tutor-profile", element: <TutorProfilePage /> },
+  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> }
 ]);

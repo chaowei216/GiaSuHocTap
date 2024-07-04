@@ -1,0 +1,48 @@
+/* dashboard.module.css */
+
+.dashboard {
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f4f3ef;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #007bff;
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  /* Assuming your text has around 20 characters; adjust accordingly */
+  animation: typing 3.5s steps(20, end) infinite, blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+  0%, 100% { width: 0; }
+  50% { width: 100%; }
+  90% { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: rgba(255, 255, 255, 0.75); }
+}
+
+.content p {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer; /* Only if it's clickable */
+}
+
+.content p:hover {
+  color: #007bff; /* Or any other color you prefer */
+}

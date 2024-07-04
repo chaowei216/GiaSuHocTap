@@ -70,7 +70,7 @@ export default function RequestTable({
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table  aria-label="simple table" size="small">
+        <Table aria-label="simple table" size="small">
           <TableHead style={{ backgroundColor: "#000000" }}>
             <TableRow>
               {TableHeader.map((row, index) => (
@@ -95,24 +95,7 @@ export default function RequestTable({
           </TableHead>
           <TableBody>
             {!data && <NoDataPage />}
-            {
-              data && data.length === 0 && (
-                <StyledTableCell
-                  sx={{ fontWeight: "600", width: "220px" }}
-                  component="th"
-                  align="left"
-                  scope="row"
-                >
-                  <Button
-                    sx={{ paddingLeft: "0px", textTransform: "none" }}
-                    onClick={() => setOpenDetail(true)}
-                  >
-                    <span>Test</span>
-                  </Button>
-                </StyledTableCell>
-              )
-              /* <NoDataPage />*/
-            }
+            {data && data.length === 0 && <NoDataPage />}
             {data &&
               data.map((row, index) => {
                 return (
@@ -122,14 +105,14 @@ export default function RequestTable({
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "100px" }}
+                      style={{ fontWeight: "600" }}
                       component="th"
                       scope="row"
                     >
                       Ảnh
                     </StyledTableCell>
                     <StyledTableCell
-                      sx={{ fontWeight: "600", width: "220px" }}
+                      sx={{ fontWeight: "600" }}
                       component="th"
                       align="left"
                       scope="row"
@@ -142,25 +125,25 @@ export default function RequestTable({
                       </Button>
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {/* {FormatDate(row.dateOfBirth)} */}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600" }}
                       align="middle"
                     >
                       {row.identityNumber}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "170px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {row.phonenumber}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "140px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
                       {row.gender}
@@ -199,7 +182,6 @@ export default function RequestTable({
                     <StyledTableCell
                       style={{
                         fontWeight: "600",
-                        width: "270px",
                         padding: "0px",
                       }}
                       align="left"

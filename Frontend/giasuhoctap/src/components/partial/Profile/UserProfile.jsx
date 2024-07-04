@@ -6,9 +6,6 @@ import {
     MDBCardText,
     MDBCardBody,
     MDBCardImage,
-    MDBBtn,
-    MDBBreadcrumb,
-    MDBBreadcrumbItem,
     MDBProgress,
     MDBProgressBar,
     MDBIcon,
@@ -17,6 +14,11 @@ import {
 } from 'mdb-react-ui-kit';
 import styles from "./UserProfile.module.css"
 import useAuth from "../../../hooks/useAuth"
+import { Button } from '@mui/material';
+import PaidIcon from '@mui/icons-material/Paid';
+import CheckIcon from '@mui/icons-material/Check';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import ReportIcon from '@mui/icons-material/Report';
 export default function PersonalProfile() {
     const { user } = useAuth();
     console.log(user);
@@ -36,9 +38,9 @@ export default function PersonalProfile() {
                                         fluid />
                                     <p className="text-muted mb-1">{user?.roleName}</p>
                                     <p className="text-muted mb-4">{user?.fullname}</p>
-                                    <div className="d-flex justify-content-center mb-2">
-                                        <MDBBtn>Follow</MDBBtn>
-                                        <MDBBtn outline className="ms-1">Rating</MDBBtn>
+                                    <div className="d-flex justify-content-center mb-2 gap-3">
+                                        <Button variant="contained">Follow</Button>
+                                        <Button color='success' variant="contained">Rating</Button>
                                     </div>
                                 </MDBCardBody>
                             </MDBCard>
@@ -47,24 +49,24 @@ export default function PersonalProfile() {
                                 <MDBCardBody className="p-0">
                                     <MDBListGroup flush className="rounded-3">
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fas icon="globe fa-lg text-warning" />
-                                            <MDBCardText>https://mdbootstrap.com</MDBCardText>
+                                            <MDBCardText>Số coin hiện có: {user?.coinBalance}</MDBCardText>
+                                            <PaidIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="github fa-lg" style={{ color: '#333333' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
+                                            <MDBCardText>Trạng thái: {user?.status}</MDBCardText>
+                                            <CheckIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="twitter fa-lg" style={{ color: '#55acee' }} />
-                                            <MDBCardText>@mdbootstrap</MDBCardText>
+                                            <MDBCardText>Đã được verify: {user?.isVerified == true ? "Yes" : "No"}</MDBCardText>
+                                            <CheckIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="instagram fa-lg" style={{ color: '#ac2bac' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
+                                            <MDBCardText>CCCD: {user?.identityNumber}</MDBCardText>
+                                            <FingerprintIcon/>
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="facebook fa-lg" style={{ color: '#3b5998' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
+                                            <MDBCardText>Số của report: {user?.numberOfReport}</MDBCardText>
+                                            <ReportIcon />
                                         </MDBListGroupItem>
                                     </MDBListGroup>
                                 </MDBCardBody>
@@ -121,7 +123,7 @@ export default function PersonalProfile() {
                             </MDBCard>
 
                             <MDBRow>
-                                <MDBCol md="6">
+                                <MDBCol>
                                     <MDBCard className="mb-4 mb-md-0">
                                         <MDBCardBody>
                                             <MDBCardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</MDBCardText>
@@ -153,37 +155,6 @@ export default function PersonalProfile() {
                                     </MDBCard>
                                 </MDBCol>
 
-                                <MDBCol md="6">
-                                    <MDBCard className="mb-4 mb-md-0">
-                                        <MDBCardBody>
-                                            <MDBCardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</MDBCardText>
-                                            <MDBCardText className="mb-1" style={{ fontSize: '.77rem' }}>Web Design</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={80} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Website Markup</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={72} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>One Page</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={89} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Mobile Template</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={55} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Backend API</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={66} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>

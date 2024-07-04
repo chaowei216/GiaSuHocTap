@@ -25,7 +25,7 @@ export default function ViewRequest() {
         }}>
             <Header>
                 <div style={{ fontSize: "30px", fontWeight: "bold" }}>
-                    Request Management
+                    Danh sách học sinh yêu cầu online
                 </div>
             </Header>
             <MiddleContent />
