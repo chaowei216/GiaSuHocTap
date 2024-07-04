@@ -135,5 +135,11 @@ namespace Service.IService
         /// <param name="email"></param>
         /// <returns></returns>
         TutorDTO? GetUserByEmailInclude(string email);
+
+        /// <summary>
+        /// Get top tutor
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<TutorInforDTO> GetTopTutor();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Common.DTO;
+using Common.DTO.Feedback;
 using Common.DTO.Query;
+using Common.DTO.User;
 using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
@@ -98,6 +100,30 @@ namespace Repository.Repository
         public User? GetUserByEmailInclude(string email)
         {
             return _userDAO.GetAll().Where(d => d.Email == email).Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Include(d => d.FromFeedbacks).Include(d => d.ToFeedbacks).FirstOrDefault();
+        }
+
+        public IEnumerable<User> GetTopTutorByFeedBack(IEnumerable<Feedback> feedbacks)
+        {
+            var tutors = _userDAO.GetAll().Where(p => p.RoleId == (int)RoleEnum.Tutor).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).ToList();
+
+            var tutorScores = (from t in tutors
+                               let ratingCount = feedbacks.Count(r => r.ToId == t.UserId)
+                               let averageRating = feedbacks.Where(r => r.ToId == t.UserId).Average(r => r.Rating)
+                               select new TutorScoreDTO()
+                               {
+                                   TutorId = t.UserId,
+                                   RatingCount = ratingCount,
+                                   AverageRating = averageRating
+                               });
+
+            foreach (var t in tutorScores)
+            {
+                t.Score = (t.RatingCount * 0.6) + (t.AverageRating * 0.4);
+            }
+
+            var topScores = tutorScores.OrderByDescending(p => p.Score).Select(p => p.TutorId).Take(6);
+
+            return tutors.Where(p => topScores.Contains(p.UserId)).ToList();
         }
     }
 }
