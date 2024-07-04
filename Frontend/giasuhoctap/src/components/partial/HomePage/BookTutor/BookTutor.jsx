@@ -1,138 +1,146 @@
 import { Button } from '@mui/material';
 import styles from './BookTutor.module.css';
 import InfoIcon from '@mui/icons-material/Info';
-import { useState } from 'react';
-const tutors = [
-    {
-        name: "David Dell",
-        imgSrc: "../../../../../public/img/Carousel1.jpg",
-        description: "The Lorem ipsum, dolor sit amet consectetur adipisici.",
-        subject: 'Toán, Lý, Hóa',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    },
-    {
-        name: "Jane Doe",
-        imgSrc: "../../../../../public/img/Carousel2.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing el.",
-        subject: 'Lý, Toán, Văn',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    },
-    {
-        name: "John Smith",
-        imgSrc: "../../../../../public/img/Carousel3.jpg",
-        description: "Sed nisi. Nulla quis sem at nibh elementum imperdi.",
-        subject: 'Hóa, Toán, Văn',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    },
-    {
-        name: "Emily Johnson",
-        imgSrc: "../../../../../public/img/Carousel2.jpg",
-        description: "Mauris massa. Vestibulum lacinia arcu eget nulla.",
-        subject: 'Anh, Hóa, Toán, Văn',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    },
-    {
-        name: "Michael Brown",
-        imgSrc: "../../../../../public/img/Carousel1.jpg",
-        description: "Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam.",
-        subject: 'Văn, Hóa, Toán, Văn',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    },
-    {
-        name: "Michael Brown",
-        imgSrc: "../../../../../public/img/Carousel1.jpg",
-        description: "Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam.",
-        subject: 'Văn, Hóa, Toán, Văn',
-        wage: '100.000VND',
-        teachingForm: 'Online',
-        dayOfWeek: 'Thứ 2, Thứ 3, Thứ 4, Thứ 5',
-        time: '8:00 - 12:00 , 13:00 - 17:00, 18:00 - 21:00',
-        class: 'Lớp 7, Lớp 8, Lớp 9, Lớp 10',
-    }
-];
+import { useEffect, useState } from 'react';
+import HiringTuor from '../../TutorDetail/HiringTuor';
+import { GetTutorTeachOnline } from '../../../../api/TutorManagementApi';
+import PageNavigation from '../../TutorManagement/PageNavigation';
+import PageSize from '../../TutorManagement/PageSize';
+import { toast } from 'react-toastify';
+import emptyPicture from "/img/empty.png"
 
+const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutor = () => {
+    const [totalPages, setTotalPages] = useState();
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
+    const [tutorHire, setTutorHire] = useState()
+    const [tutorList, setTutorList] = useState()
+    useEffect(() => {
+        const fetchAllTutor = async () => {
+            const response = await GetTutorTeachOnline(page, pageSize);
+            console.log(response);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const user = responseJson.data.data
+                setTutorList(user);
+                setTotalPages(responseJson.data.totalPages)
+                console.log(tutorList);
+            } else {
+                toast.error("Error fetching data")
+            }
+        };
+        fetchAllTutor();
+    }, [page, pageSize]);
     const handleClick = (item) => {
         window.location.href = `/tutor-detail/${item}`;
     }
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setTutorHire(item);
+        setBasicModal(true);
+    }
     return (
-        <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
-            <div className={styles.slideReTutor}>
-                <div className={styles.slideBgTu}>
-                    <h1>DANH SÁCH GIA SƯ ONLINE</h1>
-                </div>
-                <div className={`slide-container ${styles.slideContainer}`}>
-                    <div className={`slide-content ${styles.slideContent}`}>
-                        <div className={`card-wrapper ${styles.cardWrapper}`}>
-                            {tutors.map((tutor, index) => (
-                                <div key={index} className={`card ${styles.card}`}>
-                                    <div className={`image-content ${styles.imageContent}`}>
-                                        <span className={`overlay ${styles.overlay}`}></span>
-                                        <div className={`card-image ${styles.cardImage}`}>
-                                            <img src={tutor.imgSrc} className={`card-img ${styles.cardImg}`} alt={tutor.name} />
+        <>
+            <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
+                <div className={styles.slideReTutor}>
+                    <div className={styles.slideBgTu}>
+                        <h1>DANH SÁCH GIA SƯ ONLINE</h1>
+                    </div>
+                    <div className={`slide-container ${styles.slideContainer}`}>
+                        <div className={`slide-content ${styles.slideContent}`}>
+                            <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutorList && tutorList.map((tutor, index) => (
+                                    <div key={index} className={`card ${styles.card}`}>
+                                        <div className={`image-content ${styles.imageContent}`}>
+                                            <span className={`overlay ${styles.overlay}`}></span>
+                                            <div className={`card-image ${styles.cardImage}`}>
+                                                <img
+                                                    className={`card-img ${styles.cardImg}`}
+                                                    src={`${baseUrl}/api/Auth/user-image?fileName=${tutor?.userImage}`}
+                                                    onError={(e) => {
+                                                        e.currentTarget.src = emptyPicture;
+                                                    }}
+                                                    alt="project-image"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className={`card-content ${styles.cardContent}`}>
+                                            <h2 className={`name ${styles.name}`}>{tutor.fullname}</h2>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Môn dạy: </p>
+                                                <p className={`class ${styles.subject}`}>{tutor.tutorDetail.major}</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Lớp dạy: </p>
+                                                <p className={`class ${styles.class}`}>12</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Tiền lương: </p>
+                                                <p className={`wage ${styles.wage}`}>100 Coin</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Hình thức dạy: </p>
+                                                <p className={`teachingForm ${styles.teachingForm}`}>Online</p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Ngày trong tuần: </p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>
+                                                    {tutor.timeTables?.map((item) => (
+                                                        item.dayOfWeek
+                                                    ))}
+                                                </p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Thời gian: </p>
+                                                <p className={`dayOfWeek ${styles.time}`}>
+                                                    {tutor.timeTables?.map((item) => (
+                                                        `${item.startTime} - ${item.endTime}`
+                                                    ))}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <Button onClick={() => handleClick(tutor.email)} variant="contained" className='w-1/2 gap-4' sx={{
+                                                height: "39px", margin: "14px",
+                                                fontWeight: "bold", textTransform: "none"
+                                            }}><InfoIcon /> Chi tiết</Button>
+                                            <button onClick={() => handleHire(tutor)} className={`button ${styles.button} w-1/2`}>Thuê</button>
                                         </div>
                                     </div>
-                                    <div className={`card-content ${styles.cardContent}`}>
-                                        <h2 className={`name ${styles.name}`}>{tutor.name}</h2>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Môn dạy: </p>
-                                            <p className={`class ${styles.subject}`}>{tutor.subject}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Lớp dạy: </p>
-                                            <p className={`class ${styles.class}`}>{tutor.class}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Tiền lương: </p>
-                                            <p className={`wage ${styles.wage}`}>{tutor.wage}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Hình thức dạy: </p>
-                                            <p className={`teachingForm ${styles.teachingForm}`}>{tutor.teachingForm}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Ngày trong tuần: </p>
-                                            <p className={`dayOfWeek ${styles.dayOfWeek}`}>{tutor.dayOfWeek}</p>
-                                        </div>
-                                        <div className={styles.cardSubject}>
-                                            <p className={styles.cardTitle}>Thời gian: </p>
-                                            <p className={`dayOfWeek ${styles.time}`}>{tutor.time}</p>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <Button onClick={() => handleClick(tutor.name)} variant="contained" className='w-1/2 gap-4' sx={{
-                                            height: "39px", margin: "14px",
-                                            fontWeight: "bold", textTransform: "none"
-                                        }}><InfoIcon /> Chi tiết</Button>
-                                        <button className={`button ${styles.button} w-1/2`}>Thuê</button>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            {tutorList && tutorList.length > 0 && (
+                <>
+                    <div
+                        style={{
+                            position: "relative",
+                            minHeight: "80px"
+                        }}
+                    >
+                        <ul style={{
+                            marginTop: "28px", marginBottom: "10px", position: "absolute",
+                            left: "50%",
+                            transform: "translate(-50%)",
+                        }}>
+                            <PageNavigation
+                                page={page}
+                                setPage={setPage}
+                                totalPages={totalPages}
+                            />
+                        </ul>
+                        <ul style={{ float: "right", marginTop: "12px" }} >
+                            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+                        </ul>
+                    </div>
+                </>
+            )}
+            <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} />
+        </>
     );
 };
 

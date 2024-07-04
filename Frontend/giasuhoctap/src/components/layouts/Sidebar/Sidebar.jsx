@@ -11,18 +11,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import logoEdu from "/img/logoGiasu.png";
-
-export const MyGlobalContext = createContext({
-  isSidebarOpen: true,
-  setIsSidebarOpen: () => { },
-  trainingProgramData: null,
-  setTrainingProgramData: () => { },
-  refreshData: () => { },
-});
-
-export const useGlobalContext = () => useContext(MyGlobalContext);
+import useAuth from "../../../hooks/useAuth";
+import GroupIcon from '@mui/icons-material/Group';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 export default function Sidebar() {
+  const { user } = useAuth();
   const Menus = [
     {
       title: "Home",
@@ -39,25 +33,18 @@ export default function Sidebar() {
       src: "/personal-profile",
     },
     {
-      title: "Online Request",
-      path: "/request-tutor",
+      title: "Register Request",
+      path: "/tutor",
       icon: <WorkHistoryIcon />,
       id: 2,
-      src: "/request-tutor",
-    },
-    {
-      title: "Offline Request",
-      path: "/tutor",
-      icon: <WorkOffIcon />,
-      id: 3,
       src: "/tutor",
     },
     {
-      title: "Notifications",
-      path: "/nontification",
-      icon: <NotificationsIcon />,
-      id: 4,
-      src: "/nontification",
+      title: "User Management",
+      path: "/user-management",
+      icon: <GroupIcon />,
+      id: 2,
+      src: "/user-management",
     },
   ];
   const location = useLocation();
@@ -67,25 +54,38 @@ export default function Sidebar() {
     setCurrentPath(location.pathname);
   }, [location]);
   return (
-    <div className={styles.sidebar}>
-      <div className={styles.header_container}>
-        <img src={logoEdu} alt="avatar logo" width={75} />
-        <div className={styles.header_sidebar}>Gia sư học tập</div>
+    <>
+      <div className={styles.sidebar}>
+        <div className={styles.header_container}>
+          <img src={logoEdu} alt="avatar logo" width={75} />
+          <div className={styles.header_sidebar}>Gia sư học tập</div>
+        </div>
+        <hr style={{ border: "1px solid white" }} />
+        <ul className={styles['sidebar-nav']}>
+          {Menus.map((menu) => (
+            <li key={menu.id} className={styles['sidebar-nav-item']}>
+              <NavLink
+                exact
+                to={menu.path}
+                className={`${styles['sidebar-nav-link']} ${currentPath === menu.path && styles.active}`}
+              >
+                <p>{menu.icon} {menu.title}</p>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </div>
-      <hr style={{border: "1px solid white"}}/>
-      <ul className={styles['sidebar-nav']}>
-        {Menus.map((menu) => (
-          <li key={menu.id} className={styles['sidebar-nav-item']}>
-            <NavLink
-              exact
-              to={menu.path}
-              className={`${styles['sidebar-nav-link']} ${currentPath === menu.path && styles.active}`}
-            >
-              <p>{menu.icon} {menu.title}</p>
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div style={{ position: "fixed", bottom: "0%", padding: "18px 18px 0px 18px" }}>
+        <li className={styles['sidebar-nav-item']}>
+          <NavLink
+            exact
+            to="/"
+            className={`${styles['sidebar-nav-link']}`}
+          >
+            <p><ExitToAppIcon /> Back to homepage</p>
+          </NavLink>
+        </li>
+      </div>
+    </>
   );
 }

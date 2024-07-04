@@ -648,12 +648,12 @@ namespace Service.Service
             return successfulResponse;
         }
 
-        public PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters)
+        public PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedUserList(parameters);
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
 
             return mappedResponse;
         }
@@ -834,11 +834,11 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public TutorInforDTO? GetTutorByEmailInclude(string email)
+        public TutorDTO? GetUserByEmailInclude(string email)
         {
-            var user = _userRepository.GetTutorByEmailInclude(email);
+            var user = _userRepository.GetUserByEmailInclude(email);
 
-            var userMap = _mapper.Map<TutorInforDTO>(user);
+            var userMap = _mapper.Map<TutorDTO>(user);
             return userMap;
         }
     }

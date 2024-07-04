@@ -32,11 +32,12 @@ const handlers = {
       user,
     };
   },
-  //   LOGOUT: (state) => ({
-  //     ...state,
-  //     isAuthenticated: false,
-  //     user: null,
-  //   }),
+  LOGOUT: (state) => ({
+    ...state,
+    isAuthenticated: false,
+    user: null,
+  }),
+
   REGISTER: (state, action) => {
     const { user } = action.payload;
 
@@ -77,7 +78,7 @@ const AuthContext1 = createContext({
   ...initialState,
   method: "jwt",
   login: () => Promise.resolve(),
-  //logout: () => Promise.resolve(),
+  logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
   register_tutor: () => Promise.resolve(),
   sendOtp: () => Promise.resolve,
@@ -153,8 +154,12 @@ function AuthProvider1({ children }) {
     const response = await SignIn(userInput)
     const responseJson = await response.json();
     console.log(responseJson);
+    if (responseJson.statusCode == 400) {
+      toast.error(responseJson.message)
+      return;
+    }
     const { token, user } = responseJson.data;
-    //localStorage.setItem("accessToken", accessToken);
+    //localStorage.setItem("accessToken", accessToken);     
     console.log(token.accessToken);
     if (user.isVerified == false) {
       dispatch({
@@ -218,10 +223,10 @@ function AuthProvider1({ children }) {
     }
   };
 
-  //   const logout = async () => {
-  //     setSession(null);
-  //     dispatch({ type: "LOGOUT" });
-  //   };
+  const logout = async () => {
+    setSession(null);
+    dispatch({ type: "LOGOUT" });
+  };
 
 
   const register_tutor = async (tutor) => {
@@ -322,7 +327,7 @@ function AuthProvider1({ children }) {
         ...state,
         method: "jwt",
         login,
-        //logout,
+        logout,
         register,
         register_tutor,
         sendOtp

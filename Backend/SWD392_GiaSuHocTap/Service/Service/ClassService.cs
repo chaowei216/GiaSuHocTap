@@ -45,10 +45,10 @@ namespace Service.Service
             }
         }
 
-        public IEnumerable<ClassDTO> GetAllClasses()
+        public IEnumerable<ClassFullDTO> GetAllClasses()
         {
             var classes =_classRepository.GetAllClasses().AsEnumerable();
-            var classesMap = _mapper.Map<List<ClassDTO>>(classes);
+            var classesMap = _mapper.Map<List<ClassFullDTO>>(classes);
 
             return classesMap;
         }
