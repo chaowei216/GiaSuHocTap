@@ -6,6 +6,7 @@ import { GetTutorTeachOffline } from '../../../../api/TutorManagementApi';
 import emptyPicture from "/img/empty.png"
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
+import HiringTuorOffline from './HiringTuorOffline';
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutorOffline = () => {
@@ -30,6 +31,11 @@ const BookTutorOffline = () => {
         };
         fetchAllTutor();
     }, [page, pageSize]);
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setTutorHire(item);
+        setBasicModal(true);
+    }
     return (
         <>
             <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
@@ -84,7 +90,7 @@ const BookTutorOffline = () => {
                                                 </p>
                                             </div>
                                         </div>
-                                        <button className={`button ${styles.button}`}>Đăng ký</button>
+                                        <button onClick={() => handleHire(tutor)} className={`button ${styles.button}`}>Đăng ký</button>
                                     </div>
                                 ))}
                             </div>
@@ -117,6 +123,7 @@ const BookTutorOffline = () => {
                     </div>
                 </>
             )}
+            <HiringTuorOffline basicModal={basicModal} setBasicModal={setBasicModal} data={tutorHire} />
         </>
     );
 };

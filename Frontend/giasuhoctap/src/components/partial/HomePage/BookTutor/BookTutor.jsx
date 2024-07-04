@@ -66,14 +66,30 @@ const BookTutor = () => {
                                             </div>
                                         </div>
                                         <div className={`card-content ${styles.cardContent}`}>
-                                            <h2 className={`name ${styles.name}`}>{tutor.fullname}</h2>
+                                            <h2 className={`name ${styles.name} mb-2`}>{tutor.fullname}</h2>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Môn dạy: </p>
-                                                <p className={`class ${styles.subject}`}>{tutor.tutorDetail.major}</p>
+                                                <p className={`class ${styles.class}`}>
+                                                    {tutor?.userCourses?.map((item, index) => (
+                                                        <>
+                                                            {item.course.courseName}
+                                                            {index !== tutor.userCourses.length - 1 && <span>, </span>}
+                                                        </>
+                                                    ))}
+                                                    {tutor?.userCourses?.length == 0 ? <>Chưa đăng kí môn</> : null}
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Lớp dạy: </p>
-                                                <p className={`class ${styles.class}`}>12</p>
+                                                <p className={`class ${styles.subject}`}>
+                                                    {tutor?.userClasses?.map((item, index) => (
+                                                        <>
+                                                            {item.class.className}
+                                                            {index !== tutor.userClasses.length - 1 && <span>, </span>}
+                                                        </>
+                                                    ))}
+                                                    {tutor?.userClasses?.length == 0 ? <>Chưa đăng kí lớp</> : null}
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Tiền lương: </p>
@@ -84,10 +100,10 @@ const BookTutor = () => {
                                                 <p className={`teachingForm ${styles.teachingForm}`}>Online</p>
                                             </div>
                                             <div className={styles.cardSubject}>
-                                                <p className={styles.cardTitle}>Ngày trong tuần: </p>
+                                                <p className={styles.cardTitle}>Ngày dạy trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
                                                     {tutor.timeTables?.map((item) => (
-                                                        item.dayOfWeek
+                                                        `Thứ ${item.dayOfWeek}`
                                                     ))}
                                                 </p>
                                             </div>
@@ -139,7 +155,7 @@ const BookTutor = () => {
                     </div>
                 </>
             )}
-            <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} />
+            <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} data={tutorHire} />
         </>
     );
 };

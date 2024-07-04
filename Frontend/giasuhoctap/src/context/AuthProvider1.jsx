@@ -171,7 +171,7 @@ function AuthProvider1({ children }) {
       localStorage.setItem("accessToken", token.accessToken);
       localStorage.setItem("refreshToken", token.refreshToken);
       const encodedEmail = btoa(email);
-      window.location.href = `/send-otp/${encodedEmail}`;
+      window.location.replace(`/send-otp/${encodedEmail}`);
       return;
     }
     setSession(token.accessToken, token.refreshToken);

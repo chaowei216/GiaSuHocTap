@@ -21,7 +21,8 @@ import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 export default function RequestTable({
   data,
-  handleClickOpen,
+  handleHire,
+  handleOpenDeny
 }) {
   const [dataDetail, setDataDetail] = useState();
   const [openDetail, setOpenDetail] = useState(false);
@@ -189,6 +190,7 @@ export default function RequestTable({
                       <Button
                         variant="contained"
                         color="success"
+                        onClick={() => handleHire(row)}
                         sx={{
                           background: "#0b7234",
                           color: "white",
@@ -201,8 +203,8 @@ export default function RequestTable({
                       </Button>
                       <Button
                         variant="contained"
+                        onClick={() => handleOpenDeny(row)}
                         color="error"
-                        onClick={() => handleClickOpen()}
                         sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                       >
                         <div>
