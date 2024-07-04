@@ -65,11 +65,11 @@ const ParentProfile = () => {
         <Formik
             initialValues={{
                 fullName: '',
-                nickname: '',
+                phone: '',
                 birthdate: null,
-                language: '',
-                country: '',
                 city: '',
+                district: '',
+                address: '',
                 gender: '',
                 image: null, // Add image field
             }}
@@ -117,10 +117,10 @@ const ParentProfile = () => {
                             </div>
                             <div className={styles.profileBox}>
                                 <div className={styles.notify}>
-                                    <label className={styles.label}>BIỆT DANH</label>
-                                    <ErrorMessage name="nickname" component="div" className={styles.error} />
+                                    <label className={styles.label}>SỐ ĐIỆN THOẠI</label>
+                                    <ErrorMessage name="phone" component="div" className={styles.error} />
                                 </div>
-                                <Field type="text" name="nickname" placeholder="Nhập biệt danh" className={styles.input} />
+                                <Field type="text" name="phone" placeholder="Nhập số điện thoại" className={styles.input} />
                             </div>
                             <div className={styles.profileBoxNIput} style={{ display: 'flex', flexDirection: 'column' }}>
                                 <div className={styles.notify}>
@@ -138,34 +138,6 @@ const ParentProfile = () => {
                             </div>
                             <div className={styles.profileBoxNIput}>
                                 <div className={styles.notify}>
-                                    <label>NGÔN NGỮ</label>
-                                    <ErrorMessage name="language" component="div" className={styles.error} />
-                                </div>
-                                <Field as="select" name="language" className={styles.input}>
-                                    <option value="" disabled>
-                                        --- Chọn ngôn ngữ ---
-                                    </option>
-                                    <option value="vietnamese">Tiếng Việt</option>
-                                </Field>
-                            </div>
-                            <div className={styles.profileBoxNIput}>
-                                <div className={styles.notify}>
-                                    <label>QUỐC GIA</label>
-                                    <ErrorMessage name="country" component="div" className={styles.error} />
-                                </div>
-                                <Field as="select" name="country" className={styles.input}>
-                                    <option value="" disabled>
-                                        --- Chọn quốc gia ---
-                                    </option>
-                                    {countries.map((country, index) => (
-                                        <option key={index} value={country}>
-                                            {country}
-                                        </option>
-                                    ))}
-                                </Field>
-                            </div>
-                            <div className={styles.profileBoxNIput}>
-                                <div className={styles.notify}>
                                     <label>THÀNH PHỐ</label>
                                     <ErrorMessage name="city" component="div" className={styles.error} />
                                 </div>
@@ -179,6 +151,20 @@ const ParentProfile = () => {
                                         </option>
                                     ))}
                                 </Field>
+                            </div>
+                            <div className={styles.profileBox}>
+                                <div className={styles.notify}>
+                                    <label className={styles.label}>QUẬN/HUYỆN</label>
+                                    <ErrorMessage name="district" component="div" className={styles.error} />
+                                </div>
+                                <Field type="text" name="district" placeholder="Nhập quận/huyện" className={styles.input} />
+                            </div>
+                            <div className={styles.profileBoxNIput}>
+                                <div className={styles.notify}>
+                                    <label>ĐỊA CHỈ CỤ THỂ</label>
+                                    <ErrorMessage name="address" component="div" className={styles.error} />
+                                </div>
+                                <Field type="text" name="address" placeholder="Nhập địa chỉ cụ thể" className={styles.input} />
                             </div>
                             <div className={styles.profileBoxNIput}>
                                 <div className={styles.notify}>

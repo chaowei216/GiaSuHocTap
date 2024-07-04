@@ -3,7 +3,6 @@ import styles from "./Programs.module.css";
 
 const Programs = () => {
   const prices = [
-    { group: 'Lớp 1 - 2 - 3 - 4', data: [{ grade: 1, price: '100.000 ~ 120.000' }, { grade: 2, price: '110.000 ~ 130.000' }, { grade: 3, price: '120.000 ~ 150.000' }, { grade: 4, price: '120.000 ~ 160.000' }] },
     { group: 'Lớp 5 - 6 - 7 - 8', data: [{ grade: 5, price: '150.000 ~ 170.000' }, { grade: 6, price: '150.000 ~ 180.000' }, { grade: 7, price: '170.000 ~ 190.000' }, { grade: 8, price: '190.000 ~ 220.000' }] },
     { group: 'Lớp 9 - 10 - 11 - 12', data: [{ grade: 9, price: '200.000 ~ 240.000' }, { grade: 10, price: '210.000 ~ 250.000' }, { grade: 11, price: '220.000 ~ 280.000' }, { grade: 12, price: '220.000 ~ 300.000' }] },
   ];

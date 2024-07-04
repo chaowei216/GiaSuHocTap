@@ -25,7 +25,7 @@ const NavbarHistoryP = () => {
           href="#"
           onClick={() => handleTabClick('pending')}
         >
-          ĐÃ ĐẶT LỊCH
+          YÊU CẦU
         </a>
       </li>
       <li className={styles.navItem}>
