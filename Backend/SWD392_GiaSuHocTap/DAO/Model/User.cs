@@ -59,5 +59,13 @@ namespace DAO.Model
         public ICollection<News> News { get; set; } = null!;
         public ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
         public TutorDetail TutorDetail { get; set; } = null!;
+        [InverseProperty("From")]
+        public ICollection<Feedback> FromFeedbacks { get; set; } = null!;
+        [InverseProperty("To")]
+        public ICollection<Feedback> ToFeedbacks { get; set; } = null!;
+        [InverseProperty("From")]
+        public ICollection<Report> FromReports { get; set; } = null!;
+        [InverseProperty("To")]
+        public ICollection<Report> ToReports { get; set; } = null!;
     }
 }
