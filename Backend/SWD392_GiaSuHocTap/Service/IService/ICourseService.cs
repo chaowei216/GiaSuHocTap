@@ -9,7 +9,7 @@ namespace Service.IService
         /// Get all course
         /// </summary>
         /// <returns></returns>
-        IEnumerable<CourseDTO> GetAllCourses();
+        IEnumerable<CourseFullDTO> GetAllCourses();
 
         /// <summary>
         /// Get course by id

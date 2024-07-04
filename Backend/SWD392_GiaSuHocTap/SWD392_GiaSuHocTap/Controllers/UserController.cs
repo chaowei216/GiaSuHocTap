@@ -234,7 +234,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var response = _userService.GetTutorByEmailInclude(email);
+            var response = _userService.GetUserByEmailInclude(email);
 
             return Ok(new ResponseDTO
             {
