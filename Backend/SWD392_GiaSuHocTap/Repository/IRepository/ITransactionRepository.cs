@@ -32,5 +32,19 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Transaction> GetPagedTransactionList(TransactionParameters parameters);
+
+        /// <summary>
+        /// Update transaction
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        Task<Transaction> UpdateTransaction(Transaction transaction);
+
+        /// <summary>
+        /// Get last transaction of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Transaction? GetLastTransactionOfUser(int userId);
     }
 }
