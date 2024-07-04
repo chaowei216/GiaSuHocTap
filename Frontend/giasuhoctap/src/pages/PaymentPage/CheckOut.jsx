@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -18,45 +18,51 @@ import {
   Avatar
 } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Footer from "../../components/partial/HomePage/Footer/Footer";
+import { MDBCardText, MDBCol, MDBRow } from "mdb-react-ui-kit";
+
+const generateRandomCode = () => {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+};
 
 const Checkout = () => {
   const navigate = useNavigate();
-
-  const shoppingCart = [
-    { name: "Coin 1", price: 10, quantity: 2, day: "2024-07-04", image: "https://via.placeholder.com/50" },
-    { name: "Coin 2", price: 20, quantity: 1, day: "2024-07-04", image: "https://via.placeholder.com/50" },
-  ];
-
-  const totalPrice = shoppingCart.reduce((total, product) => {
-    const productTotal = product.price * product.quantity;
-    return total + productTotal;
-  }, 0);
-
-  const newObject = shoppingCart.map((product) => {
-    const newDay = shoppingCart[0].day;
-    return {
-      type: product.name,
-      Amount: product.quantity,
-      startDate: newDay,
-    };
-  });
-
-  const formData = {
+  const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
+  const [userCaptchaInput, setUserCaptchaInput] = useState("");
+  const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
-    totalPrice: totalPrice,
-    tickets: newObject,
-  };
+    captcha: ""
+  });
+
+  const shoppingCart = [
+    { name: "Coin 1", price: 10, quantity: 2, day: "2024-07-04", image: "https://via.placeholder.com/50" },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    formData[name] = value;
-    console.log(formData);
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleCaptchaChange = (e) => {
+    setUserCaptchaInput(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (userCaptchaInput !== captchaCode) {
+      toast.error("CAPTCHA code does not match. Please try again.");
+      setCaptchaCode(generateRandomCode());
+      setUserCaptchaInput("");
+      return;
+    }
+
     console.log("Form submitted");
     localStorage.setItem("orderItem", JSON.stringify(formData));
     try {
@@ -68,16 +74,15 @@ const Checkout = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response) {
+      if (response.ok) {
         const responseData = await response.json();
         window.location.replace(responseData.url);
         console.log("API Response Data:", responseData);
       } else {
-        // Handle errors, e.g., display an error message
+        console.log("Error in response");
       }
     } catch (error) {
-      // Handle network errors
-      console.log("error");
+      console.log("Network error");
     }
   };
 
@@ -88,7 +93,7 @@ const Checkout = () => {
           background: "#333333",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          padding: '50px 0',
+          padding: '40px 0',
           textAlign: 'center',
           color: '#fff'
         }}
@@ -111,8 +116,8 @@ const Checkout = () => {
           </Box>
         </Container>
       </Box>
-      <Container>
-        <Paper elevation={3} style={{ padding: '20px', marginTop: '55px' }}>
+      <Container sx={{ marginBottom: "40px" }}>
+        <Paper elevation={3} style={{ padding: '20px', marginTop: '40px' }}>
           <form className="checkout-meta donate-page" onSubmit={handleSubmit}>
             <Grid container >
               <Grid item xs={12} md={8}>
@@ -133,44 +138,66 @@ const Checkout = () => {
                     </React.Fragment>
                   ))}
                 </List>
-                <TextField
-                  fullWidth
-                  required
-                  name="fullName"
-                  label="Complete Name"
-                  variant="outlined"
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  required
-                  type="email"
-                  name="email"
-                  label="Email address"
-                  variant="outlined"
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  required
-                  type="tel"
-                  name="phoneNumber"
-                  label="Phone"
-                  variant="outlined"
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  name="order_comments"
-                  label="Order Note"
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                  margin="normal"
-                />
+                <MDBRow style={{ justifyContent: "space-between", height: "50px" }}>
+                  <MDBCol sm="3" style={{ margin: "auto 0" }}>
+                    <MDBCardText>Tên người yêu cầu: </MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="7" style={{ margin: "auto 0" }}>
+                    <MDBCardText className="text-muted font-bold">Lưu Việt Nam</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow style={{ justifyContent: "space-between", height: "50px" }}>
+                  <MDBCol sm="3" style={{ margin: "auto 0" }}>
+                    <MDBCardText>Địa chỉ: </MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="7" style={{ margin: "auto 0" }}>
+                    <MDBCardText className="text-muted font-bold">Lưu Việt Nam</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow style={{ justifyContent: "space-between", height: "50px" }}>
+                  <MDBCol sm="3" style={{ margin: "auto 0" }}>
+                    <MDBCardText>Email address: </MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="7" style={{ margin: "auto 0" }}>
+                    <MDBCardText className="text-muted font-bold">Lưu Việt Nam</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow style={{ justifyContent: "space-between", height: "50px" }}>
+                  <MDBCol sm="3" style={{ margin: "auto 0" }}>
+                    <MDBCardText>Số điện thoại: </MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="7" style={{ margin: "auto 0" }}>
+                    <MDBCardText className="text-muted font-bold">Lưu Việt Nam</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+
+                <Typography variant="h6" gutterBottom marginTop={2} style={{ marginLeft: "7px" }}>
+                  Nhập mã dưới đây để tránh robot
+                </Typography>
+                <Box display="flex" alignItems="center">
+                  <Box
+                    sx={{
+                      padding: '10px 20px',
+                      marginTop: "10px",
+                      backgroundColor: '#f0f0f0',
+                      borderRadius: '5px',
+                      fontSize: '1.5rem',
+                      fontWeight: 'bold',
+                      letterSpacing: '0.1em',
+                      marginRight: '10px'
+                    }}
+                  >
+                    {captchaCode}
+                  </Box>
+                  <TextField
+                    required
+                    label="Điền mã CAPTCHA"
+                    variant="outlined"
+                    onChange={handleCaptchaChange}
+                    value={userCaptchaInput}
+                    margin="normal"
+                  />
+                </Box>
               </Grid>
               <Grid container xs={12} md={4} alignItems="center" justifyContent="center" >
                 <Paper
@@ -188,14 +215,18 @@ const Checkout = () => {
                   <Typography variant="h6" style={{ color: 'black' }}>Cart Total</Typography>
                   <Box display="flex" justifyContent="space-between">
                     <Typography>Subtotal:</Typography>
-                    <Typography>${totalPrice}</Typography>
+                    <Typography>
+                      ${shoppingCart.reduce((total, product) => total + product.price * product.quantity, 0)}
+                    </Typography>
                   </Box>
                   <Box display="flex" justifyContent="space-between" marginTop={2}>
                     <Typography>Total:</Typography>
-                    <Typography>${totalPrice}</Typography>
+                    <Typography>
+                      ${shoppingCart.reduce((total, product) => total + product.price * product.quantity, 0)}
+                    </Typography>
                   </Box>
                   <Typography variant="h6" marginTop={3} style={{ color: 'black' }}>Payment Method</Typography>
-                  <RadioGroup name="paymentMethod">
+                  <RadioGroup name="paymentMethod" onChange={handleChange}>
                     <FormControlLabel value="Vnpay" control={<Radio />} label="Vnpay" style={{ color: 'black' }} />
                   </RadioGroup>
                   <Button type="submit" variant="contained" color="primary" fullWidth>
@@ -207,6 +238,7 @@ const Checkout = () => {
           </form>
         </Paper>
       </Container>
+      <Footer />
     </div>
   );
 };
