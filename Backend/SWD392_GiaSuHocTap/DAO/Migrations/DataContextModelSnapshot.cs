@@ -566,13 +566,13 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.Feedback", b =>
                 {
                     b.HasOne("DAO.Model.User", "From")
-                        .WithMany()
+                        .WithMany("FromFeedbacks")
                         .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAO.Model.User", "To")
-                        .WithMany()
+                        .WithMany("ToFeedbacks")
                         .HasForeignKey("ToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -607,13 +607,13 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.Report", b =>
                 {
                     b.HasOne("DAO.Model.User", "From")
-                        .WithMany()
+                        .WithMany("FromReports")
                         .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAO.Model.User", "To")
-                        .WithMany()
+                        .WithMany("ToReports")
                         .HasForeignKey("ToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -806,11 +806,19 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.User", b =>
                 {
+                    b.Navigation("FromFeedbacks");
+
+                    b.Navigation("FromReports");
+
                     b.Navigation("News");
 
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("TimeTables");
+
+                    b.Navigation("ToFeedbacks");
+
+                    b.Navigation("ToReports");
 
                     b.Navigation("Transactions");
 

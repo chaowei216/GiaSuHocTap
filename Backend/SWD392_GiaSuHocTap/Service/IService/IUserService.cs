@@ -85,7 +85,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters);
+        PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
         /// Get all pending users
@@ -134,6 +134,12 @@ namespace Service.IService
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        TutorInforDTO? GetTutorByEmailInclude(string email);
+        TutorDTO? GetUserByEmailInclude(string email);
+
+        /// <summary>
+        /// Get top tutor
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<TutorInforDTO> GetTopTutor();
     }
 }

@@ -28,6 +28,7 @@ namespace Service.Service
         private readonly ITimeTableService _timeTableService;
         private readonly IValidateHandleService _validateHandleService;
         private readonly INotificationService _notificationService;
+        private readonly IFeedbackService _feedbackService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
 
@@ -37,7 +38,8 @@ namespace Service.Service
                             IClassService classService,
                             ICourseService courseService,
                             ITimeTableService timeTableService,
-                            INotificationService notificationService)
+                            INotificationService notificationService,
+                            IFeedbackService feedbackService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -46,6 +48,7 @@ namespace Service.Service
             _courseService = courseService;
             _timeTableService = timeTableService;
             _notificationService = notificationService;
+            _feedbackService = feedbackService;
 
             string pathToJsonFile = "firebase.json";
 
@@ -648,12 +651,12 @@ namespace Service.Service
             return successfulResponse;
         }
 
-        public PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters)
+        public PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters)
         {
             var userList = _userRepository.GetPagedUserList(parameters);
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
 
             return mappedResponse;
         }
@@ -834,12 +837,23 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public TutorInforDTO? GetTutorByEmailInclude(string email)
+        public TutorDTO? GetUserByEmailInclude(string email)
         {
-            var user = _userRepository.GetTutorByEmailInclude(email);
+            var user = _userRepository.GetUserByEmailInclude(email);
 
-            var userMap = _mapper.Map<TutorInforDTO>(user);
+            var userMap = _mapper.Map<TutorDTO>(user);
             return userMap;
+        }
+
+        public IEnumerable<TutorInforDTO> GetTopTutor()
+        {
+            var allFeedback = _feedbackService.GetAllFeedbacks();
+
+            var topTutors = _userRepository.GetTopTutorByFeedBack(allFeedback);
+
+            var mappedResponse = _mapper.Map<List<TutorInforDTO>>(topTutors);
+
+            return mappedResponse;
         }
     }
 }

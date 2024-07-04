@@ -23,12 +23,20 @@
 }
 
 .profileBox{
-     margin-top: 20px;
+     margin-top: 10px;
+     display: flex;
+     flex-direction: column;
+}
+
+.notify{
+     display: flex;
+     flex-direction: row;
+     align-items: center;
 }
 
 .profileBoxNIput label{
     color: #90959c;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 12px;
 }
 
@@ -40,7 +48,40 @@
     margin-left: 35px;
     border-radius: 5px;
     transition: all 0.5s;
+    margin-bottom: 50px;
 }
 
+.input{
+    border: 1px solid rgb(144 149 156 / 33%);
+    width: 40%;
+    height: 40px;
+    border-radius: 6px;
+    padding-left: 10px;
+}
 
+.notify label{
+    color: #90959c;
+    margin-top: 20px;
+    font-size: 16px;
+}
 
+.error{
+    margin-left: 10px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: red;
+}
+
+.errorr{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: red;
+}
+
+.errorImg{
+    margin-left: 15px;
+    margin-top: 40px;
+    font-size: 13px;
+    color: red;
+}
