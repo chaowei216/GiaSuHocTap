@@ -243,5 +243,18 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = response
             });
         }
+
+        [HttpGet("get-top-tutor")]
+        public IActionResult GetTopTutor()
+        {
+            var response = _userService.GetTopTutor();
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
     }
 }

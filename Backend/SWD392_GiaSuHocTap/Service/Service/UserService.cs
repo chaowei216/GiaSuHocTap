@@ -28,6 +28,7 @@ namespace Service.Service
         private readonly ITimeTableService _timeTableService;
         private readonly IValidateHandleService _validateHandleService;
         private readonly INotificationService _notificationService;
+        private readonly IFeedbackService _feedbackService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
 
@@ -37,7 +38,8 @@ namespace Service.Service
                             IClassService classService,
                             ICourseService courseService,
                             ITimeTableService timeTableService,
-                            INotificationService notificationService)
+                            INotificationService notificationService,
+                            IFeedbackService feedbackService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -46,6 +48,7 @@ namespace Service.Service
             _courseService = courseService;
             _timeTableService = timeTableService;
             _notificationService = notificationService;
+            _feedbackService = feedbackService;
 
             string pathToJsonFile = "firebase.json";
 
@@ -840,6 +843,17 @@ namespace Service.Service
 
             var userMap = _mapper.Map<TutorDTO>(user);
             return userMap;
+        }
+
+        public IEnumerable<TutorInforDTO> GetTopTutor()
+        {
+            var allFeedback = _feedbackService.GetAllFeedbacks();
+
+            var topTutors = _userRepository.GetTopTutorByFeedBack(allFeedback);
+
+            var mappedResponse = _mapper.Map<List<TutorInforDTO>>(topTutors);
+
+            return mappedResponse;
         }
     }
 }
