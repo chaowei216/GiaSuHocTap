@@ -1,8 +1,8 @@
 .flowBoder {
     border: 2px solid #e6eaee;
     height: 100px;
-    width: 450px;
-    margin: 25px 0 0 100px;
+    width: 400px;
+    margin: 25px 0 0 50px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;

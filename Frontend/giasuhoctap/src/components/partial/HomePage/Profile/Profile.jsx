@@ -95,7 +95,7 @@ const Profile = () => {
 
     const handleSubmit = () => {
         console.log('LinkYoutube:', youtubeLink);
-        console.log('TeachingMode:', teachingMode);
+        console.log('isOfflineTeaching:', teachingMode);
         console.log('DayOfWeekOnline:', selectedDayOfWeekOnline);
         console.log('DayOfWeekOffline:', selectedDayOfWeekOffline);
         console.log('Subjects:', selectedSubjects);
@@ -139,8 +139,8 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             <select className="form-select" aria-label="Default select example" style={{ width: '135%' }} onChange={handleTeachingModeChange}>
                                 <option value="">Chọn Hình Thức Dạy</option>
-                                <option value="online">Dạy Online</option>
-                                <option value="both">Dạy Online và Offline</option>
+                                <option value="false">Dạy Online</option>
+                                <option value="true">Dạy Online và Offline</option>
                             </select>
                         </div>
                     </div>
