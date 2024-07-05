@@ -90,6 +90,8 @@ builder.Services.AddScoped<IGenericDAO<RefreshToken>, GenericDAO<RefreshToken>>(
 builder.Services.AddScoped<IGenericDAO<UserClass>, GenericDAO<UserClass>>();
 builder.Services.AddScoped<IGenericDAO<UserCourse>,  GenericDAO<UserCourse>>();
 builder.Services.AddScoped<IGenericDAO<UserNotification>, GenericDAO<UserNotification>>();
+builder.Services.AddScoped<IGenericDAO<Request>, GenericDAO<Request>>();
+builder.Services.AddScoped<IGenericDAO<RequestTime>,  GenericDAO<RequestTime>>();
 
 // Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -103,6 +105,7 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 
 // Service
 builder.Services.AddScoped<IRoleService, RoleService>();
@@ -122,6 +125,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 builder.Services.AddTransient<DataSeed>();
 // Db context
