@@ -16,10 +16,13 @@ namespace SWD392_GiaSuHocTap.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
+        private readonly IUserService _userService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ITransactionService transactionService,
+                                     IUserService userService)
         {
             _transactionService = transactionService;
+            _userService = userService;
         }
 
         [HttpGet("get-all-transactions")]
@@ -36,7 +39,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpGet("get-trans-user/{userId}")]
-        public IActionResult GetTransOfUser([Required] int userId, [FromQuery] TransactionParameters parameters)
+        public async Task<IActionResult> GetTransOfUser([Required] int userId, [FromQuery] TransactionParameters parameters)
         {
             if (!ModelState.IsValid)
             {
@@ -48,13 +51,28 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var response = _transactionService.GetTransOfUser(userId, parameters);
+            var user = await _userService.GetUserById(userId);
 
-            return Ok(new ResponseDTO
+            if (user != null)
             {
-                StatusCode = (int)StatusCodeEnum.OK,
-                Message = GeneralMessage.Success,
-                Data = response
+                var response = _transactionService.GetTransOfUser(userId, parameters);
+
+                if (response != null)
+                {
+                    return Ok(new ResponseDTO
+                    {
+                        StatusCode = (int)StatusCodeEnum.OK,
+                        Message = GeneralMessage.Success,
+                        Data = response
+                    });
+                }
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
             });
         }
     }
