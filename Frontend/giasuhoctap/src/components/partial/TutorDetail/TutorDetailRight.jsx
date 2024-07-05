@@ -3,12 +3,12 @@ import { Button } from '@mui/material';
 import HiringTuor from './HiringTuor';
 import { useState } from 'react';
 
-function TutorDetailRight() {
+function TutorDetailRight({ data }) {
   const [tutorHire, setTutorHire] = useState()
   const [basicModal, setBasicModal] = useState(false);
   const handleHire = (item) => {
-      setTutorHire(item);
-      setBasicModal(true);
+    setTutorHire(item);
+    setBasicModal(true);
   }
   return (
     <div className="ml-5" style={{ width: "28%" }}>
@@ -34,7 +34,7 @@ function TutorDetailRight() {
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "0px 0px 10px 0px"
         }}>Đánh giá</Button>
-        <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} />
+        <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} data={data} />
       </div>
     </div>
   );

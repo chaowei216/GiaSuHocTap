@@ -5,18 +5,30 @@ import data from "../../../data/fakeData.json"
 import RequestTable from './RequestTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
+import AcceptTeach from './AcceptTeach';
+import DenyTeach from './DenyTeach';
 export default function ViewRequest() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [test, setTest] = useState();
+    const [parent, setParent] = useState({});
+    const [showModalDelete, setShowmodalDelete] = useState(false);
+    const handleClose = () => {
+        setShowmodalDelete(false);
+    };
     useEffect(() => {
         setTest(data)
     }, [])
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setParent(item);
+        setBasicModal(true);
+        console.log(item);
+    }
+    const handleOpenDeny = (row) => {
+        setShowmodalDelete(true);
+    }
     return (
         <div style={{
             padding: "25px 25px 5px 25px",
@@ -29,7 +41,7 @@ export default function ViewRequest() {
                 </div>
             </Header>
             <MiddleContent />
-            <RequestTable data={test} handleClickOpen={handleClickOpen} />
+            <RequestTable data={test} handleHire={handleHire} handleOpenDeny={handleOpenDeny} />
             {data && data.length > 0 && (
                 <>
                     <div
@@ -55,6 +67,8 @@ export default function ViewRequest() {
                     </div>
                 </>
             )}
+            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} />
+            <DenyTeach show={showModalDelete} handleClose={handleClose} />
         </div>
     )
 }

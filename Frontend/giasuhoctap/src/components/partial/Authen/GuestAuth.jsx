@@ -5,9 +5,9 @@ export default function GuestAuth({ children }) {
     const { isAuthenticated, user } = useAuth();
 
     if (isAuthenticated) {
-        if (user?.roleName == "Moderator" || user.roleName == "Admin") {
+        if (user && (user?.roleName == "Moderator" || user?.roleName == "Admin")) {
             return <Navigate to="/dashboard" />;
-        } else if (user?.roleName == "Tutor") {
+        } else if (user && user?.roleName == "Tutor") {
             return <Navigate to="/home-tutor" />;
         }
         return <Navigate to="/" />;

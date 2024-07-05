@@ -65,6 +65,7 @@
   border-radius: 40px;
   width: 110px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 .login:hover {
@@ -94,6 +95,7 @@
     #4da8da
   );
   box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+  z-index: 1;
 }
 
 .signup a {
@@ -154,6 +156,7 @@
   display: flex;
   align-items: center;
   height: 50px;
+  width: 55rem;
 }
 
 .teal .nav {

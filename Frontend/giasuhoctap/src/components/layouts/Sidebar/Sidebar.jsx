@@ -20,10 +20,10 @@ export default function Sidebar() {
   const Menus = [
     {
       title: "Home",
-      path: "/test",
+      path: "/dashboard",
       icon: <HomeIcon />,
       id: 0,
-      src: "/test",
+      src: "/dashboard",
     },
     {
       title: "User Profile",

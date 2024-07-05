@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styles from "./MiddleContent.module.css"
 export default function MiddleContent() {
     const [type, setType] = useState("Pending");
-    console.log(type);
     return (
         <div className={styles.container}>
             <div onClick={() => setType("All")} className={`${styles.item} ${type == "All" ? `${styles.active}` : ""}`}>

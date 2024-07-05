@@ -36,7 +36,7 @@ function TutorDetailContainer() {
         <TutorDetailMain>
           <TutorDetailLeft image={userImage} />
           <TutorDetailMiddle data={data} />
-          <TutorDetailRight />
+          <TutorDetailRight data={data}/>
         </TutorDetailMain>
       </div>
       <div

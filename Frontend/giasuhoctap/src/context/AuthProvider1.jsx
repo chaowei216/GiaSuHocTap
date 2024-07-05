@@ -3,9 +3,7 @@ import { GetUserByEmail, GetUserByToken, RegisterParent, RegisterTutor, SignIn, 
 import { isValidToken, setSession } from "../utils/jwtValid"
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
 //---------------
-
 const initialState = {
   isAuthenticated: false,
   isInitialized: false,
@@ -120,7 +118,6 @@ function AuthProvider1({ children }) {
           // session(null) con ra true 200 thi set session la 2 cai responseJson la access va refresh          
         } else {
           setSession(accessToken, refreshToken);
-          console.log(accessToken === undefined || refreshToken === null);
           if (accessToken === null || refreshToken === null) {
             dispatch({
               type: "INITIALIZE",
@@ -171,7 +168,7 @@ function AuthProvider1({ children }) {
       localStorage.setItem("accessToken", token.accessToken);
       localStorage.setItem("refreshToken", token.refreshToken);
       const encodedEmail = btoa(email);
-      window.location.href = `/send-otp/${encodedEmail}`;
+      window.location.replace(`/send-otp/${encodedEmail}`);
       return;
     }
     setSession(token.accessToken, token.refreshToken);
@@ -217,7 +214,7 @@ function AuthProvider1({ children }) {
     if (responseJson.statusCode == 201) {
       toast.success("Đăng ký làm phụ huynh thành công")
       const timeout = setTimeout(() => {
-        window.location.href = "/login";
+        window.location.replace('/login');
       }, 4000);
       return () => clearTimeout(timeout);
     }
@@ -283,7 +280,7 @@ function AuthProvider1({ children }) {
     if (responseJson.statusCode == 201) {
       toast.success("Đăng ký làm gia sư thành công")
       const timeout = setTimeout(() => {
-        window.location.href = "/login";
+        window.location.replace('/login');
       }, 3000);
       return () => clearTimeout(timeout);
     }
@@ -294,6 +291,7 @@ function AuthProvider1({ children }) {
         toast.success(response.message);
       } else {
         toast.error("Verify failed please try agian")
+        return;
       }
     }).catch(error => {
       console.error("Error:", error.message);
@@ -308,8 +306,12 @@ function AuthProvider1({ children }) {
         }
       }).catch(error => {
         console.error("Error:", error.message);
+        toast.error("Verify failed please try agian")
       }).finally(() => {
         console.log(user);
+        if (user == null) {
+          return;
+        }
         setSession(accessToken, refreshToken);
         dispatch({
           type: "LOGIN",

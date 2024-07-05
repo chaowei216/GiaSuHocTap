@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  MDBBtn,
   MDBModal,
   MDBModalDialog,
   MDBModalContent,
@@ -15,13 +14,12 @@ import {
   MDBCardText,
   MDBTextArea,
 } from 'mdb-react-ui-kit';
-import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import styles from "../../partial/Profile/UserProfile.module.css"
-import useAuth from '../../../hooks/useAuth';
-
-export default function HiringTuor({ basicModal, setBasicModal, data }) {
+import { Autocomplete, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import styles from "../../../partial/Profile/UserProfile.module.css"
+import useAuth from '../../../../hooks/useAuth';
+import SchoolIcon from '@mui/icons-material/School';
+export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
   const { user } = useAuth();
-  console.log(data);
   const [classPicked, setClassPicked] = useState("");
   const handleChangeClass = (event) => {
     setClassPicked(event.target.value);
@@ -36,7 +34,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
         <MDBModalDialog size='lg'>
           <MDBModalContent>
             <MDBModalHeader className='justify-center'>
-              <MDBModalTitle className='text-xl font-bold'>THUÊ GIA SƯ ONLINE</MDBModalTitle>
+              <MDBModalTitle className='text-xl font-bold'>THUÊ GIA SƯ OFFLINE</MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody>
               <MDBCard className="mb-4" style={{ border: "none" }}>
@@ -51,16 +49,16 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "24px" }}>
                     <MDBCol sm="3" className={`${styles.profile} font-bold`}>
-                      <MDBCardText>Chọn môn thuê</MDBCardText>
+                      <MDBCardText>Chọn môn sẽ học</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
                       <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Môn học</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Chọn môn học</InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={subjectPicked}
-                          label="Môn học"
+                          label="Chọn môn học"
                           onChange={handleChangeSubject}
                         >
                           {data?.userCourses?.map((item, index) => (
@@ -70,18 +68,18 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                       </FormControl>
                     </MDBCol>
                   </MDBRow>
-                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "20px" }}>
+                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "15px" }}>
                     <MDBCol sm="3" className={`${styles.profile} font-bold`}>
-                      <MDBCardText>Lớp học</MDBCardText>
+                      <MDBCardText>Chọn lớp sẽ học</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
                       <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Lớp học</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Chọn lớp học</InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           value={classPicked}
-                          label="Lớp học"
+                          label="Chọn lớp học"
                           onChange={handleChangeClass}
                         >
                           {data?.userClasses?.map((item, index) => (
@@ -93,18 +91,10 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
                     <MDBCol sm="3" className={`${styles.profile} font-bold`}>
-                      <MDBCardText>Thời gian thuê</MDBCardText>
-                    </MDBCol>
-                    <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">1 giờ</MDBCardText>
-                    </MDBCol>
-                  </MDBRow>
-                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
-                    <MDBCol sm="3" className={`${styles.profile} font-bold`}>
                       <MDBCardText>Chi phí</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">40 Coins</MDBCardText>
+                      <MDBCardText className="text-muted font-bold">10 Coins</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
@@ -118,7 +108,6 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                 </MDBCardBody>
               </MDBCard>
               <MDBTextArea placeholder='Ghi chú thêm ...' style={{ marginLeft: "16px", width: "96%" }} contrast id='textAreaExample' rows={3}></MDBTextArea>
-
             </MDBModalBody>
 
             <MDBModalFooter style={{ gap: "10px" }}>
