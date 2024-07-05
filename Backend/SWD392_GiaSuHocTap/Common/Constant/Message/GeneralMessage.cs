@@ -10,5 +10,7 @@ namespace Common.Constant.Message
     {
         public const string Success = "Success";
         public const string Fail = "Something went wrong!";
+
+        public const string NotFound = "Not found";
     }
 }
