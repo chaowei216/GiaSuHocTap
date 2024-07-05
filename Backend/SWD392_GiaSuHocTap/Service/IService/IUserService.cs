@@ -141,5 +141,12 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         IEnumerable<TutorInforDTO> GetTopTutor();
+
+        /// <summary>
+        /// Update user info
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> UpdateUser(User user);
     }
 }
