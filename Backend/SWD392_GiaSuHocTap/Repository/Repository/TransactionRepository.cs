@@ -38,6 +38,13 @@ namespace Repository.Repository
             return PagedList<Transaction>.ToPagedList(_transactionDAO.GetAll().Include(p => p.User), parameters.PageNumber, parameters.PageSize);
         }
 
+        public PagedList<Transaction> GetPagedTransOfUser(int userId, TransactionParameters parameters)
+        {
+            var transOfUser = _transactionDAO.GetByCondition(p => p.UserId == userId).Include(p => p.User);
+
+            return PagedList<Transaction>.ToPagedList(transOfUser, parameters.PageNumber, parameters.PageSize);
+        }
+
         public async Task<Transaction?> GetTransaction(int id)
         {
             return await _transactionDAO.GetByIdAsync(id);

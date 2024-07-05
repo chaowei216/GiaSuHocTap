@@ -46,5 +46,13 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         Transaction? GetLastTransactionOfUser(int userId);
+
+        /// <summary>
+        /// Get transactions of user with pagination
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Transaction> GetPagedTransOfUser(int userId, TransactionParameters parameters);
     }
 }

@@ -46,5 +46,12 @@ namespace Repository.IRepository
         /// <param name="userNotification"></param>
         /// <returns></returns>
         Task<UserNotification> AddNewUserNotification(UserNotification userNotification);
+
+        /// <summary>
+        /// Get notifications of user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<Notification> GetNotificationsOfUser(int userId);
     }
 }

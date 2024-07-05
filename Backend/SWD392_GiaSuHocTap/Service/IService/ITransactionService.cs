@@ -34,5 +34,13 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         Transaction? GetLastTransOfUser(int userId);
+
+        /// <summary>
+        /// Get trans of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TransactionDTO> GetTransOfUser(int userId, TransactionParameters parameters);
     }
 }

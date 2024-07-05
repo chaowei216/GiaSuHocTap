@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using AutoMapper;
+using Common.DTO.Notification;
+using DAO.Model;
 using Repository.IRepository;
 using Service.IService;
 
@@ -7,10 +9,13 @@ namespace Service.Service
     public class NotificationService : INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
+        private readonly IMapper _mapper;
 
-        public NotificationService(INotificationRepository notificationRepository)
+        public NotificationService(INotificationRepository notificationRepository,
+                                   IMapper mapper)
         {
             _notificationRepository = notificationRepository;
+            _mapper = mapper;
         }
 
         public async Task<Notification> AddNewNotification(Notification notification)
@@ -26,6 +31,15 @@ namespace Service.Service
         public IEnumerable<Notification> GetAllNotifications()
         {
             return _notificationRepository.GetAllNotifications().AsEnumerable();
+        }
+
+        public IEnumerable<NotificationDTO> GetAllNotificationsOfUser(int userId)
+        {
+            var ntfOfUser = _notificationRepository.GetNotificationsOfUser(userId);
+
+            var mappedResponse = _mapper.Map<List<NotificationDTO>>(ntfOfUser);
+
+            return mappedResponse;
         }
 
         public async Task<Notification?> GetNotificationById(int id)
