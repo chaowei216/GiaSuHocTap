@@ -41,5 +41,33 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Request> GetPagedOnlineRequestsOfTutor(int tutorId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get request by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Request?> GetRequestById(int id);
+
+        /// <summary>
+        /// Get all request time of request
+        /// </summary>
+        /// <param name="requestId"></param>
+        /// <returns></returns>
+        IEnumerable<RequestTime> GetAllTimeOfRequest(int requestId);
+
+        /// <summary>
+        /// Update request time
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <returns></returns>
+        Task<RequestTime> UpdateRequestTime(RequestTime requestTime);
+
+        /// <summary>
+        /// Update request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<Request> UpdateRequest(Request request);
     }
 }
