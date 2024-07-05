@@ -801,6 +801,7 @@ namespace Service.Service
                 {
                     NotificationType = NotificationType.Infomation,
                     Description = Description.UpdateTutorDetailSuccess,
+                    CreatedTime = DateTime.Now,
                     Status = false,                   
                 });
 
@@ -854,6 +855,11 @@ namespace Service.Service
             var mappedResponse = _mapper.Map<List<TutorInforDTO>>(topTutors);
 
             return mappedResponse;
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            return await _userRepository.UpdateUser(user);
         }
     }
 }

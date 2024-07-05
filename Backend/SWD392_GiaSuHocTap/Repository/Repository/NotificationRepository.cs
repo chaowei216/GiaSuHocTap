@@ -37,6 +37,13 @@ namespace Repository.Repository
             return await _notificationDAO.GetByIdAsync(id);
         }
 
+        public IEnumerable<Notification> GetNotificationsOfUser(int userId)
+        {
+            var ntfIdOfUser = _userNotificationDAO.GetAll().Where(p => p.UserId == userId).Select(p => p.NotificationId).ToList();
+
+            return _notificationDAO.GetAll().Where(p => ntfIdOfUser.Contains(p.NotificationId)).ToList();
+        }
+
         public PagedList<Notification> GetPagedNotificationList(NotificationParameters parameters)
         {
             return PagedList<Notification>.ToPagedList(_notificationDAO.GetAll(), parameters.PageNumber, parameters.PageSize);

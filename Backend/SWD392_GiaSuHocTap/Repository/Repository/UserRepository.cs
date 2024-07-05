@@ -15,7 +15,7 @@ namespace Repository.Repository
         private readonly IGenericDAO<User> _userDAO;
         private readonly IGenericDAO<TutorDetail> _tutorDetailDAO;
 
-        public UserRepository(IGenericDAO<User> userDAO, 
+        public UserRepository(IGenericDAO<User> userDAO,
                               IGenericDAO<TutorDetail> tutorDetailDAO)
         {
             _userDAO = userDAO;
@@ -108,7 +108,9 @@ namespace Repository.Repository
 
             var tutorScores = (from t in tutors
                                let ratingCount = feedbacks.Count(r => r.ToId == t.UserId)
-                               let averageRating = feedbacks.Where(r => r.ToId == t.UserId).Average(r => r.Rating)
+                               let averageRating = feedbacks.Any(r => r.ToId == t.UserId)
+                                                    ? feedbacks.Where(r => r.ToId == t.UserId).Average(r => r.Rating)
+                                                    : 0
                                select new TutorScoreDTO()
                                {
                                    TutorId = t.UserId,

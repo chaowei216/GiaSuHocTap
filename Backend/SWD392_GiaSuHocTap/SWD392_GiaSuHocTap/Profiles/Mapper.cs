@@ -5,6 +5,8 @@ using Common.DTO.Auth;
 using Common.DTO.Class;
 using Common.DTO.Course;
 using Common.DTO.Feedback;
+using Common.DTO.Notification;
+using Common.DTO.Payment;
 using Common.DTO.Report;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
@@ -40,6 +42,9 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<Report, ReportDTO>().ReverseMap();
             CreateMap<Class, ClassFullDTO>().ReverseMap();
             CreateMap<Course, CourseFullDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionDTO>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email)).ReverseMap();
+            CreateMap<PagedList<Transaction>, PaginationResponseDTO<TransactionDTO>>().ReverseMap();
+            CreateMap<Notification, NotificationDTO>().ReverseMap();
             #endregion
         }
     }
