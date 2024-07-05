@@ -6,6 +6,7 @@ import styles from "./BuyCoin.module.css"; // Create a CSS module for styling
 import { Avatar, Button } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+const baseUrl = import.meta.env.VITE_API_HOST;
 const BuyCoin = () => {
   const navigate = useNavigate();
   const { user } = useAuth()
@@ -79,15 +80,15 @@ const BuyCoin = () => {
     <div className={styles.gemsSliderWrapper}>
       <div className={styles.sliderHeading}>
         <h1 style={{ color: "#E81C4B", fontSize: "30px" }}>
-          List of package coin
+          Các gói xu hiện đang có
         </h1>
       </div>
       <div className={styles.sliderListWrapper}>
-        <div style={{ fontSize: "24px", fontWeight: "bold", paddingLeft: "30px" }}>Get coins</div>
+        <div style={{ fontSize: "24px", fontWeight: "bold", paddingLeft: "30px" }}>Mua xu</div>
         {user?.fullname != undefined &&
           <div className={styles.avatar1}>
-            <Avatar alt="Remy Sharp" src="/img/avatarMessi.png" />
-            <div>{user?.fullname}</div>
+            <Avatar alt={user?.fullname} src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`} />
+            <div>{user?.fullname}: {user?.coinBalance || "0"} xu</div>
           </div>
         }
         <Slider {...settings} className={styles.sliderList} ref={sliderRef}>

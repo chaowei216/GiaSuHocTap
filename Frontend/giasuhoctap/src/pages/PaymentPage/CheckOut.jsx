@@ -25,6 +25,7 @@ import { Delete, Favorite } from '@mui/icons-material';
 import FooterCheckOut from "./FooterCheckOut";
 import HeaderCheckout from "./HeaderCheckout";
 import useAuth from "../../hooks/useAuth";
+import { PaymentVnPay } from "../../api/PaymentApi";
 
 const generateRandomCode = () => {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -37,23 +38,14 @@ const Checkout = () => {
   const [captchaCode, setCaptchaCode] = useState(generateRandomCode());
   const [userCaptchaInput, setUserCaptchaInput] = useState("");
   const [coinBuy, setCoinBuy] = useState({});
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    captcha: ""
-  });
+  const [methodPayment, setMethodPayment] = useState("");
 
   const shoppingCart = [
     { name: "Coin 1", price: 10, quantity: 2, day: "2024-07-04", image: "https://via.placeholder.com/50" },
   ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
+  const handleChange = (event) => {
+    setMethodPayment(event.target.value)
   };
 
   const handleCaptchaChange = (e) => {
@@ -69,27 +61,33 @@ const Checkout = () => {
       setUserCaptchaInput("");
       return;
     }
-
+    if (methodPayment == "" || methodPayment == undefined) {
+      toast.error("Làm ơn chọn phương thức thành toán")
+      return;
+    }
     console.log("Form submitted");
     localStorage.setItem("coinBuy", JSON.stringify(coinBuy));
+    const totalPriceString = coinBuy?.price.replace(" VND", "");
+    const totalPrice = parseFloat(totalPriceString.replace(".", "").replace(",", "."));
     const formBuyCoin = {
-      and: "dasdsadsa"
+      userId: user?.userId,
+      paymentMethod: methodPayment,
+      totalPrice: totalPrice,
+      coin: Number(coinBuy?.quantity)
     }
+    console.log(formBuyCoin);
     try {
-      const response = await fetch("https://localhost:44352/api/Payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
+      const response = await PaymentVnPay(formBuyCoin)
       if (response.ok) {
         const responseData = await response.json();
-        window.location.replace(responseData.url);
-        console.log("API Response Data:", responseData);
+        if (responseData.statusCode == 200) {
+          window.location.replace(responseData.data);
+          console.log("API Response Data:", responseData);
+        } else {
+          toast.error(responseData.message);
+        }
       } else {
-        console.log("Error in response");
+        toast.error("There was an error processing");
       }
     } catch (error) {
       console.log("Network error");
@@ -98,8 +96,8 @@ const Checkout = () => {
   useEffect(() => {
     const test = location.state; // Trích xuất state từ location
     setCoinBuy(test)
+    console.log(coinBuy);
   }, [location.state])
-  console.log(coinBuy);
   return (
     <div>
       <HeaderCheckout />
