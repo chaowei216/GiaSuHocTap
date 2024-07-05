@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import styles from './HistoryP.module.css';
+import styles from './Complete.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faCircleQuestion, faCoins, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const HistoryP = () => {
+const Complete = () => {
     // Dữ liệu mẫu các card
     const cardsData = [
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'HOÀN THÀNH',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
@@ -18,33 +18,33 @@ const HistoryP = () => {
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'HOÀN THÀNH',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
             teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 16
+            coins: 15
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'HOÀN THÀNH',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Anh',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 17
+            coins: 15
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'HOÀN THÀNH',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 18
+            coins: 15
         }
     ];
 
@@ -53,8 +53,6 @@ const HistoryP = () => {
     const [selectedCard, setSelectedCard] = useState(null);
     const [message, setMessage] = useState('');
     const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
-    const [additionalHours, setAdditionalHours] = useState(0); // State để lưu số giờ thêm vào
-    const [selectedCoins, setSelectedCoins] = useState(0); // State để lưu số coin hiện tại của selectedCard
 
     const messages = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
 
@@ -73,8 +71,6 @@ const HistoryP = () => {
         setRating(0);
         setSelectedCard(null);
         setMessage('');
-        setAdditionalHours(0); // Reset số giờ thêm vào khi đóng modal
-        setSelectedCoins(0); // Reset số coin hiện tại khi đóng modal
     };
 
     const handleReportClick = (card) => {
@@ -85,26 +81,6 @@ const HistoryP = () => {
     const handleCloseReportModal = () => {
         setIsReportModalOpen(false);
         setSelectedCard(null);
-    };
-
-    const handleAdditionalHoursChange = (event) => {
-        const hours = parseInt(event.target.value, 10);
-        setAdditionalHours(hours);
-        const selectedCoins = selectedCard.coins * (hours); // Tính số coin mới khi thêm giờ
-        setSelectedCoins(selectedCoins);
-    };
-
-    const handleAddHours = () => {
-        // Logic tính số coin khi thêm giờ vào đây
-        const selectedCardCopy = { ...selectedCard };
-        const newCoins = selectedCardCopy.coins * (additionalHours); // Tính số coin mới sau khi thêm giờ
-        selectedCardCopy.coins = newCoins;
-
-        // Cập nhật lại selectedCard và đóng modal
-        setSelectedCard(selectedCardCopy);
-        setIsModalOpen(false);
-        setAdditionalHours(0); // Reset số giờ thêm vào
-        setSelectedCoins(0); // Reset số coin hiện tại
     };
 
     return (
@@ -162,10 +138,10 @@ const HistoryP = () => {
                             <div className={styles.historyFeedback}>
                                 <div className={styles.feedbackButton}>
                                     <div className={styles.report}>
-                                        <button onClick={() => handleReportClick(card)}>HỦY</button>
+                                        <button onClick={() => handleReportClick(card)}>Báo Cáo</button>
                                     </div>
                                     <div className={styles.evaluate}>
-                                        <button onClick={() => handleEvaluateClick(card)}>THÊM GIỜ</button>
+                                        <button onClick={() => handleEvaluateClick(card)}>Đánh Giá</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,59 +156,6 @@ const HistoryP = () => {
                         <span className={styles.close} onClick={handleCloseModal}>&times;</span>
                         <div className={styles.titleEvaluate}>
                             <h1>Đánh Giá Gia Sư</h1>
-                        </div>
-                        <div className={styles.historyContentEvaluate} style={{marginLeft: '50px'}}>
-                            <div className={styles.historyImgEvaluate}>
-                                <img src={selectedCard.imgSrc} alt="Profile" />
-                            </div>
-                            <div className={styles.historyDetail}>
-                                <div className={styles.detailItem}>
-                                    <h1>{selectedCard.name}</h1>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Môn học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.subject}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Lớp học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.grade}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Ngày dạy:</p>
-                                    <p>{selectedCard.teachingDays}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.extendBox}>
-                            <select className={styles.extendSelect} onChange={handleAdditionalHoursChange} value={additionalHours}>
-                                <option >Chọn Số Giờ Thêm</option>
-                                <option value="1">1 giờ</option>
-                                <option value="2">2 giờ</option>
-                                <option value="3">3 giờ</option>
-                                <option value="4">4 giờ</option>
-                            </select>
-                            <div className={styles.additionalCoins}>
-                                <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                <p> Số coin cần trả: </p>
-                                <div style={{ fontSize: '25px', marginLeft: '10px', color: '#4dccda' }}>
-                                    {additionalHours > 0 ? <p>{selectedCoins}</p> : <p>0</p>}
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.reviewButtonGroupExtend}>
-                            <button className={styles.closeHoursButton} onClick={handleCloseModal}>Hủy</button>
-                            <button className={styles.addHoursButton} onClick={handleAddHours}>Thêm Giờ</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {isReportModalOpen && selectedCard && (
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={handleCloseReportModal}>&times;</span>
-                        <div className={styles.titleReport}>
-                            <h1>Hủy Môn Học Đã Đặt</h1>
                         </div>
                         <div className={styles.historyContentEvaluate}>
                             <div className={styles.historyImgEvaluate}>
@@ -256,24 +179,81 @@ const HistoryP = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.reportSelect}>
-                            <select className={styles.selectReason} style={{width: '40%'}}>
-                                <option disabled>Lý do Hủy</option>
-                                <option value="">Thay đổi giờ</option>
-                                <option value="">Muốn chọn gia sư khác</option>
-                                <option value="">Lý do khác</option>
-                            </select>
+                        <div className={styles.starContainer}>
+                            <div className={styles.starTitle}>
+                                <h3>Bạn có hài lòng về gia sư</h3>
+                            </div>
+                            <div>
+                                {[...Array(5)].map((star, index) => (
+                                    <FontAwesomeIcon
+                                        key={index}
+                                        icon={faStar}
+                                        className={`${styles.star} ${index < rating ? styles.checked : ''}`}
+                                        onClick={() => handleStarClick(index)}
+                                    />
+                                ))}
+                            </div>
+                            <div className={styles.ratingMessage}>
+                                {message}
+                            </div>
                         </div>
-                        <textarea className={styles.reportTextarea} placeholder="Chi tiết lý do..." />
+                        <textarea className={styles.reviewTextarea} placeholder="Viết đánh giá của bạn tại đây..." />
                         <div className={styles.reviewButtonGroup}>
-                            <button onClick={handleCloseReportModal}>Trở Lại</button>
-                            <button onClick={handleCloseReportModal}>Xác Nhận Hủy</button>
+                            <button onClick={handleCloseModal}>Trở Lại</button>
+                            <button onClick={handleCloseModal}>Hoàn Thành</button>
                         </div>
                     </div>
                 </div>
             )}
+
+{isReportModalOpen && selectedCard && (
+    <div className={styles.modal}>
+        <div className={styles.modalContent}>
+            <span className={styles.close} onClick={handleCloseReportModal}>&times;</span>
+            <div className={styles.titleReport}>
+                <h1>Báo Cáo Gia Sư</h1>
+            </div>
+            <div className={styles.historyContentEvaluate}>
+                <div className={styles.historyImgEvaluate}>
+                    <img src={selectedCard.imgSrc} alt="Profile" />
+                </div>
+                <div className={styles.historyDetail}>
+                    <div className={styles.detailItem}>
+                        <h1>{selectedCard.name}</h1>
+                    </div>
+                    <div className={styles.detailItem}>
+                        <p>Môn học:</p>
+                        <p style={{ color: '#0000FF' }}>{selectedCard.subject}</p>
+                    </div>
+                    <div className={styles.detailItem}>
+                        <p>Lớp học:</p>
+                        <p style={{ color: '#0000FF' }}>{selectedCard.grade}</p>
+                    </div>
+                    <div className={styles.detailItem}>
+                        <p>Ngày dạy:</p>
+                        <p>{selectedCard.teachingDays}</p>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.reportSelect}>
+                <select className={styles.selectReason}>
+                    <option value="">Chọn lý do báo cáo</option>
+                    <option value="Nội dung không đúng yêu cầu">Nội dung không đúng yêu cầu</option>
+                    <option value="Gia sư không đúng giờ">Gia sư không đúng giờ</option>
+                    <option value="Thái độ không phù hợp của gia sư/học sinh">Thái độ không phù hợp của gia sư/học sinh</option>
+                    <option value="Phản hồi không thỏa đáng">Phản hồi không thỏa đáng</option>
+                </select>
+            </div>
+            <textarea className={styles.reportTextarea} placeholder="Chi tiết về báo cáo..." />
+            <div className={styles.reviewButtonGroup}>
+                <button onClick={handleCloseReportModal}>Trở Lại</button>
+                <button onClick={handleCloseReportModal}>Gửi Báo Cáo</button>
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 };
 
-export default HistoryP;
+export default Complete;

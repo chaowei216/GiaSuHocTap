@@ -4,6 +4,7 @@
   position: relative;
   height: 110px;
   background-color: #ffffff;
+  border-bottom: 1px solid #4dccda;
 }
 
 .navbarInner {

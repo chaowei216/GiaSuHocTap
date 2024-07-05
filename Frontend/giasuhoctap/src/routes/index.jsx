@@ -25,6 +25,10 @@ import UserPage from "../pages/UserPage/UserPage";
 import HomeTutorPage from "../pages/TutorPage/HomeTutorPage"
 import TutorProfilePage from "../pages/TutorPage/TutorProfilePage";
 import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePage";
+import ParentRequest from "../pages/ParentPage/ParentRequest";
+import ParentComplete from "../pages/ParentPage/ParentComplete";
+import ParentCancelled from "../pages/ParentPage/ParentCancelled";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,5 +55,8 @@ export const router = createBrowserRouter([
   { path: "user-management", element: <UserPage /> },
   { path: "home-tutor", element: <HomeTutorPage /> },
   { path: "tutor-profile", element: <TutorProfilePage /> },
-  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> }
+  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
+  { path: "ParentRequest", element: <ParentRequest /> },
+  { path: "ParentComplete", element: <ParentComplete /> },
+  { path: "ParentCancelled", element: <ParentCancelled /> }
 ]);

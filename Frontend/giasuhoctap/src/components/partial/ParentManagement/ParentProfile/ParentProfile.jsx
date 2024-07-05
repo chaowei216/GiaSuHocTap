@@ -86,7 +86,7 @@ const ParentProfile = () => {
         >
             {({ setFieldValue, values, isSubmitting }) => (
                 <FormikForm>
-                    <div className='container'>
+                    <div className='container' >
                         <div className={styles.profileBody} style={{ marginLeft: '20px', marginTop: '25px' }}>
                             <div className={styles.profile}>
                                 <h1>Thông tin cá nhân</h1>
