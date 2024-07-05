@@ -4,8 +4,6 @@
     {
         // status
         public const string PendingStatus = "Pending";
-        public const string AcceptedStatus = "Accepted";
-        public const string DeniedStatus = "Denied";
         public const string InProcessStatus = "InProcess";
         public const string CompletedStatus = "Completed";
         public const string CancelledStatus = "Cancelled";
