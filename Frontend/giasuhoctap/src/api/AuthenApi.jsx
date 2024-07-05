@@ -21,7 +21,7 @@ export const SignIn = async (value) => {
 
 export const RegisterParent = async (formData) => {
     try {
-        const response = await fetch(`${baseUrl}/api/Auth/register-parent`, {
+        const response = await fetch(`${baseUrl}/api/Auth/register-parents`, {
             method: "POST",
             //   headers: {
             //     "Content-Type": "multipart/form-data",

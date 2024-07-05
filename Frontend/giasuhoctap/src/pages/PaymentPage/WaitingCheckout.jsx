@@ -89,7 +89,7 @@ function WaitingCheckout() {
 
             {paymentStatus === "success" && (
                 <Box className="status-payment">
-                    <Alert severity="success" style={{ fontSize: "30px" }}>
+                    <Alert severity="success" style={{ fontSize: "35px", display: "flex", alignItems: "center" }}>
                         Payment successful
                     </Alert>
                 </Box>
@@ -97,7 +97,7 @@ function WaitingCheckout() {
 
             {paymentStatus === "fail" && (
                 <Box className="status-payment">
-                    <Alert severity="error" style={{ fontSize: "30px" }}>
+                    <Alert severity="error" style={{ fontSize: "35px", display: "flex", alignItems: "center" }}>
                         Payment failed
                     </Alert>
                 </Box>
@@ -112,7 +112,7 @@ function WaitingCheckout() {
                     </Link>
                 </Box>
                 <Box className="buttonItem">
-                    <Link to="/cart">
+                    <Link to="/buycoin">
                         <Button variant="contained">Go to Cart</Button>
                     </Link>
                 </Box>

@@ -8,7 +8,9 @@ import useAuth from '../../../../hooks/useAuth';
 import { green } from '@mui/material/colors';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Logout } from '../../../../api/AuthenApi';
+import { useNavigate } from 'react-router-dom';
 export default function ProfileMenu() {
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const { user, logout } = useAuth();
@@ -24,10 +26,10 @@ export default function ProfileMenu() {
     const handleNavigate = () => {
         if (user?.roleName == "Admin" || user?.roleName == "Moderator") {
             setAnchorEl(null);
-            window.location.href = "/dashboard"
+            navigate('/dashboard')
         } else if (user?.roleName == "Tutor") {
             setAnchorEl(null);
-            window.location.href = "/home-tutor"
+            navigate('/home-tutor')
         } else {
             setAnchorEl(null);
         }
@@ -38,7 +40,7 @@ export default function ProfileMenu() {
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
-            window.location.href = "/";
+            navigate('/')
         }
     }
     return (

@@ -8,12 +8,14 @@ import { Badge, Button, Stack } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ProfileMenu from './ProfileMenu';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate()
   const handleClickLogin = () => {
-    window.location.href = "/login"
+    navigate('/login')
   }
   const handleClickRegister = () => {
-    window.location.href = "/registerParents"
+    navigate('/registerParents')
   }
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -81,7 +83,7 @@ const Navbar = () => {
             </a>
           </div>
         </div>
-        {(!user && !isAuthenticated) && (
+        {(!isAuthenticated) && (
           <div className={styles.nav_info}>
             <button onClick={() => handleClickLogin()} className={styles.login}>Đăng nhập</button>
             <button onClick={() => handleClickRegister()} className={styles.signup}>Đăng ký</button>

@@ -4,38 +4,41 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./BuyCoin.module.css"; // Create a CSS module for styling
 import { Avatar, Button } from "@mui/material";
-
+import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 const BuyCoin = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth()
   const gems = [
     {
-      title: "Pocketful of Gems",
-      quantity: "10",
-      price: "10.000 VND",
-      image: "/img/coin_3.png",
-    },
-    {
-      title: "Pile of Gems",
-      quantity: "5",
-      price: "5.000 VND",
-      image: "/img/coin_3.png",
-    },
-    {
-      title: "Bag of Gems",
+      title: "Gói 20 xu",
       quantity: "20",
       price: "20.000 VND",
       image: "/img/coin_3.png",
     },
     {
-      title: "Sack of Gems",
+      title: "Gói 50 xu",
       quantity: "50",
       price: "50.000 VND",
       image: "/img/coin_3.png",
     },
     {
-      title: "Box of Gems",
+      title: "Gói 100 xu",
       quantity: "100",
       price: "100.000 VND",
-      image: "/img/coin_3.png",
+      image: "/img/coins.png",
+    },
+    {
+      title: "Gói 200 xu",
+      quantity: "200",
+      price: "200.000 VND",
+      image: "/img/coins.png",
+    },
+    {
+      title: "Gói 500 xu",
+      quantity: "500",
+      price: "500.000 VND",
+      image: "/img/coins.png",
     },
   ];
 
@@ -43,10 +46,10 @@ const BuyCoin = () => {
 
   const settings = {
     infinite: true,
-    speed: 1300,
+    speed: 1500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 2000,
     responsive: [
       {
@@ -68,7 +71,10 @@ const BuyCoin = () => {
       },
     ],
   };
-
+  const handleBuyCoin = (item) => {
+    const coin = item
+    navigate('/payment', { state: coin })
+  }
   return (
     <div className={styles.gemsSliderWrapper}>
       <div className={styles.sliderHeading}>
@@ -78,10 +84,12 @@ const BuyCoin = () => {
       </div>
       <div className={styles.sliderListWrapper}>
         <div style={{ fontSize: "24px", fontWeight: "bold", paddingLeft: "30px" }}>Get coins</div>
-        <div className={styles.avatar1}>
-          <Avatar alt="Remy Sharp" src="/img/avatarMessi.png" />
-          <div>Luu Trieu Nam</div>
-        </div>
+        {user?.fullname != undefined &&
+          <div className={styles.avatar1}>
+            <Avatar alt="Remy Sharp" src="/img/avatarMessi.png" />
+            <div>{user?.fullname}</div>
+          </div>
+        }
         <Slider {...settings} className={styles.sliderList} ref={sliderRef}>
           {gems.map((gem, index) => (
             <div key={index} className={`container ${styles.swiper}`}>
@@ -107,7 +115,7 @@ const BuyCoin = () => {
                           justifyContent: "center",
                         }}
                       >
-                        <p>Số lượng coin:</p>
+                        <p>Số lượng xu:</p>
                         <p
                           className="card-text"
                           style={{
@@ -124,6 +132,7 @@ const BuyCoin = () => {
                         <img src={gem.image} alt={gem.title} />
                       </div>
                       <Button
+                        onClick={() => handleBuyCoin(gem)}
                         variant="contained"
                         sx={{
                           backgroundColor: "#2c5b67",
@@ -141,10 +150,6 @@ const BuyCoin = () => {
             </div>
           ))}
         </Slider>
-      </div>
-      <div className={styles.avatar}>
-        <div>Payment Method</div>
-        <div>Total: $ 0</div>
       </div>
     </div>
   )

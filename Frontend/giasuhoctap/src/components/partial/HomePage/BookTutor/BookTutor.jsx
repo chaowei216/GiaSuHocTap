@@ -8,9 +8,11 @@ import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
 import emptyPicture from "/img/empty.png"
+import { useNavigate } from 'react-router-dom';
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutor = () => {
+    const naviage = useNavigate();
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(6);
@@ -33,7 +35,7 @@ const BookTutor = () => {
         fetchAllTutor();
     }, [page, pageSize]);
     const handleClick = (item) => {
-        window.location.href = `/tutor-detail/${item}`;
+        naviage(`/tutor-detail/${item}`)
     }
     const [basicModal, setBasicModal] = useState(false);
     const handleHire = (item) => {
