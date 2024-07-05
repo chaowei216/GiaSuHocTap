@@ -57,6 +57,7 @@ namespace DAO.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NotificationType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -257,14 +258,15 @@ namespace DAO.Migrations
                 {
                     RequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Location = table.Column<string>(type: "longtext", nullable: false)
+                    Location = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "double", nullable: true),
+                    Coin = table.Column<int>(type: "int", nullable: true),
                     RequestType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CretaeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     LinkMeet = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -469,7 +471,6 @@ namespace DAO.Migrations
                 {
                     TimeTableId = table.Column<int>(type: "int", nullable: false),
                     RequestId = table.Column<int>(type: "int", nullable: false),
-                    IsAccepted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },

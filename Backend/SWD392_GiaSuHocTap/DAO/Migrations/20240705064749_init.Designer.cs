@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240704140133_init")]
+    [Migration("20240705064749_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -136,6 +136,9 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("NotificationId"));
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -232,10 +235,13 @@ namespace DAO.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Coin")
+                        .HasColumnType("int");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CretaeDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
@@ -249,11 +255,10 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double?>("Price")
+                        .HasColumnType("double");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
@@ -280,9 +285,6 @@ namespace DAO.Migrations
 
                     b.Property<int>("TimeTableId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Status")
                         .IsRequired()

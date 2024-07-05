@@ -4,6 +4,7 @@ using Common.Constant.Firebase;
 using Common.Constant.Message;
 using Common.Constant.Notification;
 using Common.Constant.Teaching;
+using Common.Constant.TimeTable;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Query;
@@ -767,7 +768,7 @@ namespace Service.Service
                         EndTime = endTime,           
                         LearningType = LearningType.Online,
                         Period = time[1],
-                        Status = "Active"
+                        Status = TimeTableConst.FreeStatus
                     });
                 }
 
@@ -788,7 +789,7 @@ namespace Service.Service
                             EndTime = endTime,
                             LearningType = LearningType.Offline,
                             Period = time[1],
-                            Status = "Active",                         
+                            Status = TimeTableConst.FreeStatus,                         
                         });
                     }
                 }

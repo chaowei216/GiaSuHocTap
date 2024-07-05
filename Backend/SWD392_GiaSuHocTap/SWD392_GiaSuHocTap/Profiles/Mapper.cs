@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Common.Constant.Request;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Class;
@@ -8,6 +9,7 @@ using Common.DTO.Feedback;
 using Common.DTO.Notification;
 using Common.DTO.Payment;
 using Common.DTO.Report;
+using Common.DTO.Request;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
 using Common.Enum;
@@ -45,6 +47,11 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<Transaction, TransactionDTO>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email)).ReverseMap();
             CreateMap<PagedList<Transaction>, PaginationResponseDTO<TransactionDTO>>().ReverseMap();
             CreateMap<Notification, NotificationDTO>().ReverseMap();
+            CreateMap<PagedList<Request>, PaginationResponseDTO<RequestDTO>>().ReverseMap();
+            CreateMap<Request, RequestDTO>().ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.ClassName))
+                                            .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Course.CourseName))
+                                            .ForMember(dest => dest.RequestUserName, opt => opt.MapFrom(src => src.From.Fullname))
+                                            .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status ? RequestConst.CompletedStatus : RequestConst.PendingStatus)).ReverseMap();
             #endregion
         }
     }
