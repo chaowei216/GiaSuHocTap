@@ -801,6 +801,7 @@ namespace Service.Service
                 {
                     NotificationType = NotificationType.Infomation,
                     Description = Description.UpdateTutorDetailSuccess,
+                    CreatedTime = DateTime.Now,
                     Status = false,                   
                 });
 

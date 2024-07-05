@@ -98,6 +98,7 @@ namespace Service.Service
                 {
                     NotificationType = NotificationType.Infomation,
                     Description = notifyDes,
+                    CreatedTime = DateTime.Now,
                     Status = false,
                 });
 

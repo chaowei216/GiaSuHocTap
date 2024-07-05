@@ -1,4 +1,5 @@
-﻿using DAO.Model;
+﻿using Common.DTO.Notification;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -37,5 +38,12 @@ namespace Service.IService
         /// <param name="userNotification"></param>
         /// <returns></returns>
         Task<UserNotification> AddNewUserNotification(UserNotification userNotification);
+
+        /// <summary>
+        /// Get all notifications by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<NotificationDTO> GetAllNotificationsOfUser(int userId);
     }
 }

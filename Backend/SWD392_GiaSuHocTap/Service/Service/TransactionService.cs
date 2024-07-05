@@ -41,6 +41,16 @@ namespace Service.Service
             return _transactionRepository.GetLastTransactionOfUser(userId);
         }
 
+        public PaginationResponseDTO<TransactionDTO> GetTransOfUser(int userId, TransactionParameters parameters)
+        {
+            var transactions = _transactionRepository.GetPagedTransOfUser(userId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TransactionDTO>>(transactions);
+            mappedResponse.Data = _mapper.Map<List<TransactionDTO>>(transactions);
+
+            return mappedResponse;
+        }
+
         public async Task<Transaction> UpdateTransaction(Transaction transaction)
         {
             return await _transactionRepository.UpdateTransaction(transaction);
