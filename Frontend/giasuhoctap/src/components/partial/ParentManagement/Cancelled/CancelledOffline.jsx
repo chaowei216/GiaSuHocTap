@@ -3,7 +3,7 @@ import styles from './Cancelled.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardUser, faCircleQuestion, faCoins, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const Cancelled = () => {
+const CancelledOffline = () => {
     // Dữ liệu mẫu các card
     const cardsData = [
         {
@@ -12,9 +12,9 @@ const Cancelled = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
+            coins: 155
         },
         {
             name: 'Trần Hồ Nam',
@@ -22,7 +22,7 @@ const Cancelled = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 15
         },
@@ -32,7 +32,7 @@ const Cancelled = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Anh',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 15
         },
@@ -42,7 +42,7 @@ const Cancelled = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 15
         }
@@ -109,4 +109,4 @@ const Cancelled = () => {
     );
 };
 
-export default Cancelled;
+export default CancelledOffline;

@@ -22,7 +22,7 @@ const Request = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
-            teachingMethod: 'Offline',
+            teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 16
         },
@@ -68,15 +68,8 @@ const Request = () => {
         setSelectedCoins(0); // Reset số coin hiện tại khi đóng modal
     };
 
-    const handleReportClick = (card) => {
-        setSelectedCard(card);
-        setIsReportModalOpen(true);
-    };
 
-    const handleCloseReportModal = () => {
-        setIsReportModalOpen(false);
-        setSelectedCard(null);
-    };
+
 
     const handleAdditionalHoursChange = (event) => {
         const hours = parseInt(event.target.value, 10);
@@ -195,9 +188,9 @@ const Request = () => {
                             <select className={styles.extendSelect} onChange={handleAdditionalHoursChange} value={additionalHours}>
                                 <option >Chọn Số Giờ Thêm</option>
                                 <option value="1">1 giờ</option>
-                                <option value="2">2 giờ</option>
+                                {/* <option value="2">2 giờ</option>
                                 <option value="3">3 giờ</option>
-                                <option value="4">4 giờ</option>
+                                <option value="4">4 giờ</option> */}
                             </select>
                             <div className={styles.additionalCoins}>
                                 <FontAwesomeIcon icon={faCoins} className={styles.icon} />

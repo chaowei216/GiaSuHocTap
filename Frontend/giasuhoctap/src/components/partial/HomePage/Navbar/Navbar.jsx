@@ -8,6 +8,9 @@ import { Badge, Button, Stack } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ProfileMenu from './ProfileMenu';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import NotifyBell from '../Notification/Notification';
+
+
 const Navbar = () => {
   const handleClickLogin = () => {
     window.location.href = "/login"
@@ -90,9 +93,7 @@ const Navbar = () => {
         {(user && isAuthenticated) && (
           <div className={styles.nav_info}>
             <Stack sx={{ marginRight: "20px" }} spacing={2} direction="row">
-              <Badge badgeContent={10} color="default" showZero>
-                <NotificationsNoneOutlinedIcon color="white" />
-              </Badge>
+              <NotifyBell />
             </Stack>
             <Button variant='outlined' color='error' sx={buttonStyles}>
               <AddOutlinedIcon /> 0 đ

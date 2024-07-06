@@ -22,7 +22,7 @@ const Complete = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
-            teachingMethod: 'Offline',
+            teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 15
         },

@@ -28,6 +28,10 @@ import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePag
 import ParentRequest from "../pages/ParentPage/ParentRequest";
 import ParentComplete from "../pages/ParentPage/ParentComplete";
 import ParentCancelled from "../pages/ParentPage/ParentCancelled";
+import ParentRequestOffline from "../pages/ParentPage/ParentRequestOffline";
+import ParentCompleteOffline from "../pages/ParentPage/ParentCompleteOffline";
+import ParentCancelledOffline from "../pages/ParentPage/ParentCancelledOffline";
+import ParentHistoryOffline from "../pages/ParentPage/ParentHistoryOffline";
 
 export const router = createBrowserRouter([
   {
@@ -58,5 +62,10 @@ export const router = createBrowserRouter([
   { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
   { path: "ParentRequest", element: <ParentRequest /> },
   { path: "ParentComplete", element: <ParentComplete /> },
-  { path: "ParentCancelled", element: <ParentCancelled /> }
+  { path: "ParentCancelled", element: <ParentCancelled /> },
+  { path: "ParentRequestOffline", element: <ParentRequestOffline /> },
+  { path: "ParentCompleteOffline", element: <ParentCompleteOffline /> },
+  { path: "ParentCancelledOffline", element: <ParentCancelledOffline /> },
+  { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> }
 ]);
+

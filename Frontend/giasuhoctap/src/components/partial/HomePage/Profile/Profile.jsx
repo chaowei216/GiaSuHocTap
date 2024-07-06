@@ -8,9 +8,8 @@ import { UpdateTutor } from '../../../../api/UpdateTutorApi';
 import { toast } from 'react-toastify';
 
 
-
 const Profile = () => {
-    const [teachingMode, setTeachingMode] = useState('');
+    const [teachingMode, setTeachingMode] = useState(false); // Đặt giá trị ban đầu là false
     const [youtubeLink, setYoutubeLink] = useState('');
     const [classes, setClasses] = useState([]);
     const [courses, setCourses] = useState([]);
@@ -78,7 +77,8 @@ const Profile = () => {
     };
 
     const handleTeachingModeChange = (event) => {
-        setTeachingMode(event.target.value);
+        const value = event.target.value === 'true'; // Chuyển đổi giá trị từ string sang boolean
+        setTeachingMode(value);
     };
 
     const handleDayCheckboxDayChange = (event, setState, state) => {
@@ -91,7 +91,7 @@ const Profile = () => {
     };
 
     const handleCheckboxChange = (event, setState, state) => {
-        const value = event.target.value;
+        const value = parseInt(event.target.value, 10); // Chuyển đổi giá trị thành số nguyên
         if (event.target.checked) {
             setState([...state, value]);
         } else {
@@ -110,33 +110,28 @@ const Profile = () => {
 
         const updateTutor = {
             tutorId: user?.userId,
-            subject: selectedSubjects,
+            subjects: selectedSubjects,
             classes: selectedClasses,
             isOfflineTeaching: teachingMode,
             youtubeLink: youtubeLink,
             dayOfWeekOnline: selectedDayOfWeekOnline,
             dayOfWeekOffline: selectedDayOfWeekOffline,
         };
-        console.log('updateTutor:', updateTutor)
 
-        const response = await UpdateTutor(updateTutor)
+        console.log('updateTutor:', updateTutor);
+
+        const response = await UpdateTutor(updateTutor);
         if (response.ok) {
             const responseJson = await response.json();
-            if (responseJson.statusCode == 400) {
-                toast.error(responseJson.message)
-                return;
-            } else{
-                toast.success('Update sucessful')
+            if (responseJson.statusCode === 400) {
+                toast.error(responseJson.message);
+            } else {
+                toast.success('Update successful');
             }
         } else {
-            toast.error('Error')
+            toast.error('Error');
         }
-
-
     };
-
-
-
 
     return (
         <div className={`profileBox ${styles.profileBox}`} style={{ width: '100%', height: '100%', backgroundColor: '#F0F9FC' }}>
@@ -160,8 +155,8 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <div className="container mt-4" >
-                    <div className={styles.profileTime} >
+                <div className="container mt-4">
+                    <div className={styles.profileTime}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Link Youtube:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
                             <Form.Control type="text" placeholder="Nhập link Youtube nếu có ở đây" style={{ width: '150%' }} onChange={handleYoutubeLinkChange} value={youtubeLink} />
@@ -169,19 +164,19 @@ const Profile = () => {
                     </div>
                 </div>
                 <hr style={{ width: '95%', marginLeft: '20px' }} />
-                <div className="container mt-4" >
-                    <div className={styles.profileTime} >
+                <div className="container mt-4">
+                    <div className={styles.profileTime}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Hình thức dạy:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
                             <select className="form-select" aria-label="Default select example" style={{ width: '135%' }} onChange={handleTeachingModeChange}>
                                 <option value="">Chọn Hình Thức Dạy</option>
-                                <option value="true">Dạy Online</option>
-                                <option value="false">Dạy Online và Offline</option>
+                                <option value="false">Dạy Online</option>
+                                <option value="true">Dạy Online và Offline</option>
                             </select>
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    <div className={styles.profileDayOfWeek} >
+                    <div className={styles.profileDayOfWeek}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày dạy online:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {DayOfWeekOnline.map((item, index) => (
@@ -204,7 +199,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    {teachingMode === 'false' && (
+                    {teachingMode && (
                         <div className={styles.profileDayOfWeek}>
                             <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày dạy offline:</div>
                             <div className={`form-check ${styles.subjectGrid}`}>
@@ -234,7 +229,6 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {courses.map((course, index) => (
                                 <div key={index} className="mb-4">
-                                    {/* thay item.courseName thanh courseId */}
                                     <input className="form-check-input" type="checkbox" value={course.courseId} id={`course-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
                                     <label className="form-check-label" htmlFor={`course-${index}`}>
                                         {course.courseName}
@@ -249,7 +243,6 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {classes.map((item, index) => (
                                 <div key={index} className="mb-4">
-                                    {/* thay item.className thanh classId */}
                                     <input className="form-check-input" type="checkbox" value={item.classId} id={`class-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)} />
                                     <label className="form-check-label" htmlFor={`class-${index}`}>
                                         {item.className}

@@ -15,16 +15,16 @@ const NavbarHistoryP = () => {
   // Cập nhật activeTab dựa trên đường dẫn hiện tại
   useEffect(() => {
     const path = location.pathname;
-    if (path.includes('ParentRequest')) {
+    if (path.includes('ParentRequestOffline')) {
       setActiveTab('request');
-    } else if (path.includes('ParentComplete')) {
+    } else if (path.includes('ParentCompleteOffline')) {
       setActiveTab('completed');
-    } else if (path.includes('ParentCancelled')) {
+    } else if (path.includes('ParentCancelledOffline')) {
       setActiveTab('cancelled');
-    } else if (path.includes('ParentHistory')) {
+    } else if (path.includes('ParentHistoryOffline')) {
       setActiveTab('all');
     } else {
-      setActiveTab('all');
+      setActiveTab('all'); // Nếu không phù hợp với bất kỳ đường dẫn nào khác, mặc định là 'all'
     }
   }, [location]);
 
@@ -34,7 +34,7 @@ const NavbarHistoryP = () => {
         <a
           className={`${styles.navLink} ${activeTab === 'all' ? styles.active : ''}`}
           href="#"
-          onClick={() => handleTabClick('all', '/ParentHistory')}
+          onClick={() => handleTabClick('all', '/ParentHistoryOffline')}
         >
           ĐANG CHỜ
         </a>
@@ -43,7 +43,7 @@ const NavbarHistoryP = () => {
         <a
           className={`${styles.navLink} ${activeTab === 'request' ? styles.active : ''}`}
           href="#"
-          onClick={() => handleTabClick('request', '/ParentRequest')}
+          onClick={() => handleTabClick('request', '/ParentRequestOffline')}
         >
           ĐANG HỌC
         </a>
@@ -52,7 +52,7 @@ const NavbarHistoryP = () => {
         <a
           className={`${styles.navLink} ${activeTab === 'completed' ? styles.active : ''}`}
           href="#"
-          onClick={() => handleTabClick('complete', '/ParentComplete')}
+          onClick={() => handleTabClick('completed', '/ParentCompleteOffline')}
         >
           HOÀN THÀNH
         </a>
@@ -61,7 +61,7 @@ const NavbarHistoryP = () => {
         <a
           className={`${styles.navLink} ${activeTab === 'cancelled' ? styles.active : ''}`}
           href="#"
-          onClick={() => handleTabClick('cancelled', '/ParentCancelled')}
+          onClick={() => handleTabClick('cancelled', '/ParentCancelledOffline')}
         >
           ĐÃ HỦY
         </a>
