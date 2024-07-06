@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -12,7 +11,6 @@ import { toast } from "react-toastify";
 function WaitingCheckout() {
     const { user } = useAuth()
     console.log(user);
-    const navigate = useNavigate();
     let paymentStatus = "fail";
 
     // Lấy tham số truy vấn (query parameters) từ URL
@@ -67,8 +65,8 @@ function WaitingCheckout() {
                     const postMethod = await ResponsePayment(data);
                     if (postMethod.ok) {
                         const responseData = await postMethod.json();
-                        if (responseData.statusCode == 200) {
-                            navigate("/");
+                        if (responseData.statusCode == 201) {
+                            window.location.href = "/"
                         } else {
                             toast.error(responseData.message);
                             return;

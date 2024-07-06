@@ -27,6 +27,8 @@ import TutorProfilePage from "../pages/TutorPage/TutorProfilePage";
 import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePage";
 import Checkout from "../pages/PaymentPage/CheckOut";
 import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
+import TransactionPage from "../pages/TransactionPage/TransactionPage";
+import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,4 +58,6 @@ export const router = createBrowserRouter([
   { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
   { path: "payment", element: <Checkout /> },
   { path: "waiting-checkout", element: <WaitingCheckout /> },
+  { path: "transaction", element: <TransactionPage /> },
+  { path: "transaction-user", element: <TransactionPageByUser /> },
 ]);

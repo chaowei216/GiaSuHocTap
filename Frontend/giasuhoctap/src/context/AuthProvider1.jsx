@@ -149,6 +149,10 @@ function AuthProvider1({ children }) {
       password: password
     }
     const response = await SignIn(userInput)
+    if (!response.ok) {
+      toast.error("Error signing")
+      return;
+    }
     const responseJson = await response.json();
     console.log(responseJson);
     if (responseJson.statusCode == 400) {

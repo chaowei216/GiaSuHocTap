@@ -14,7 +14,7 @@ import logoEdu from "/img/logoGiasu.png";
 import useAuth from "../../../hooks/useAuth";
 import GroupIcon from '@mui/icons-material/Group';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
@@ -43,12 +43,19 @@ export default function Sidebar() {
       title: "User Management",
       path: "/user-management",
       icon: <GroupIcon />,
-      id: 2,
+      id: 3,
       src: "/user-management",
+    },
+    {
+      title: "Transaction",
+      path: "/transaction",
+      icon: <AccountBalanceIcon />,
+      id: 4,
+      src: "/transaction",
     },
   ];
   const location = useLocation();
-  const [currentPath, setCurrentPath] = useState('/');
+  const [currentPath, setCurrentPath] = useState('/dashboard');
 
   useEffect(() => {
     setCurrentPath(location.pathname);
@@ -82,7 +89,7 @@ export default function Sidebar() {
             to="/"
             className={`${styles['sidebar-nav-link']}`}
           >
-            <p><ExitToAppIcon /> Back to homepage</p>
+            <p><ExitToAppIcon /> Back to home page</p>
           </NavLink>
         </li>
       </div>

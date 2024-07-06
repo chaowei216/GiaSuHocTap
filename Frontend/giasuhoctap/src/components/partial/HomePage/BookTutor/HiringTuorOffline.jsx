@@ -18,6 +18,8 @@ import { Autocomplete, Button, FormControl, InputLabel, MenuItem, Select, TextFi
 import styles from "../../../partial/Profile/UserProfile.module.css"
 import useAuth from '../../../../hooks/useAuth';
 import SchoolIcon from '@mui/icons-material/School';
+import { CreateOfflineRequest } from '../../../../api/TutorManagementApi';
+import { toast } from 'react-toastify';
 export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
   const { user } = useAuth();
   const [classPicked, setClassPicked] = useState("");
@@ -28,6 +30,45 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
   const handleChangeSubject = (event) => {
     setSubjectPicked(event.target.value);
   }
+  const [inputData, setInputData] = useState({
+    userId: '',
+    tutorId: '',
+    location: '',
+    description: '',
+    price: 1,
+    courseId: 1,
+    classId: 5
+  });
+  const handleClicked = async () => {
+    if (data && user) {
+      const updatedFormData = {
+        ...inputData,
+        userId: user?.userId,
+        tutorId: data?.userId,
+        price: Number(inputData.price)
+      };
+      console.log(updatedFormData);
+      const response = await CreateOfflineRequest(updatedFormData)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode) {
+          toast.success("Yêu cầu thành công")
+          setBasicModal(false);
+        } else {
+          toast.error(responseJson.message)
+        }
+      } else {
+        toast.error("Error when create data")
+      }
+    }
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData({
+      ...inputData,
+      [name]: value
+    });
+  };
   return (
     <>
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1'>
@@ -89,7 +130,7 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
                       </FormControl>
                     </MDBCol>
                   </MDBRow>
-                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
+                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "5px" }}>
                     <MDBCol sm="3" className={`${styles.profile} font-bold`}>
                       <MDBCardText>Chi phí</MDBCardText>
                     </MDBCol>
@@ -97,21 +138,62 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
                       <MDBCardText className="text-muted font-bold">10 Coins</MDBCardText>
                     </MDBCol>
                   </MDBRow>
+                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "15px" }}>
+                    <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                      <MDBCardText>Lương dự định thuê gia sư</MDBCardText>
+                    </MDBCol>
+                    <MDBCol sm="5" className={styles.profile}>
+                      <TextField
+                        id="standard-basic"
+                        label="Lương"
+                        variant="standard"
+                        name="price"
+                        type='number'
+                        inputProps={{ min: 1 }}
+                        value={inputData.price}
+                        onChange={handleChange}
+                      />
+                    </MDBCol>
+                  </MDBRow>
+                  <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "15px" }}>
+                    <MDBCol sm="3" className={`${styles.profile} font-bold`}>
+                      <MDBCardText>Địa điểm cung cấp</MDBCardText>
+                    </MDBCol>
+                    <MDBCol sm="5" className={styles.profile}>
+                      <TextField
+                        id="standard-basic"
+                        label="Địa điểm"
+                        variant="standard"
+                        name="location"
+                        value={inputData.location}
+                        onChange={handleChange}
+                      />
+                    </MDBCol>
+                  </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
                     <MDBCol sm="3" className={`${styles.profile} font-bold`}>
                       <MDBCardText>Số coin dư hiện tại</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-red-500 font-bold">{user?.coinBalance}đ</MDBCardText>
+                      <MDBCardText className="text-red-500 font-bold">{user?.coinBalance || "0"} xu</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                 </MDBCardBody>
               </MDBCard>
-              <MDBTextArea placeholder='Ghi chú thêm ...' style={{ marginLeft: "16px", width: "96%" }} contrast id='textAreaExample' rows={3}></MDBTextArea>
+              <MDBTextArea
+                placeholder="Ghi chú thêm ..."
+                style={{ marginLeft: "16px", width: "96%" }}
+                contrast
+                id="textAreaExample"
+                rows={3}
+                name="description"
+                value={inputData.description}
+                onChange={handleChange}
+              />
             </MDBModalBody>
 
             <MDBModalFooter style={{ gap: "10px" }}>
-              <Button variant='contained' style={{ background: "#f0564a" }}>Thuê</Button>
+              <Button onClick={handleClicked} variant='contained' style={{ background: "#f0564a" }}>Thuê</Button>
               <Button variant='contained' style={{ background: "white", color: "black" }} onClick={() => setBasicModal(false)}>
                 Đóng
               </Button>
