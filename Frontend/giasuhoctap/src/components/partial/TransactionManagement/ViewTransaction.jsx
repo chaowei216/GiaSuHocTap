@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../TutorManagement/Header'
-import MiddleContent from './MiddleContent'
-import RequestTable from './RequestTable';
+import TransactionTable from './TransactionTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
+import { GetAllTransaction } from '../../../api/TransactionApi';
 import { toast } from 'react-toastify';
-import { GetRequestOfflineApi } from '../../../api/RequestApi';
-import useAuth from '../../../hooks/useAuth';
-export default function ViewRequestOffline() {
-    const { user } = useAuth()
+export default function ViewTransaction() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
-    const [isUpdated, setIsUpdated] = useState(false);
     useEffect(() => {
-        if (user) {
-            const getAllTrans = async () => {
-                const response = await GetRequestOfflineApi(user?.userId, page, pageSize);
-                if (response.ok) {
-                    const responseJson = await response.json();
-                    const data = responseJson.data.data;
-                    setData(data);
-                    setTotalPages(responseJson.data.totalPages)
-                } else {
-                    toast.error("Error getting transaction")
-                }
+        const getAllTrans = async () => {
+            const response = await GetAllTransaction(page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const data = responseJson.data.data;
+                setData(data);
+                setTotalPages(responseJson.data.totalPages)
+            } else {
+                toast.error("Error getting transaction")
             }
-            getAllTrans();
         }
-    }, [page, totalPages, pageSize, user, isUpdated])
+        getAllTrans();
+    }, [page, totalPages, pageSize])
 
     return (
         <div style={{
@@ -38,12 +32,11 @@ export default function ViewRequestOffline() {
             boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         }}>
             <Header>
-                <div style={{ fontSize: "30px", fontWeight: "bold" }}>
-                    Danh sách học sinh yêu cầu offline
+                <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "30px" }}>
+                    Lịch sử giao dịch của all user
                 </div>
             </Header>
-            <MiddleContent />
-            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <TransactionTable data={data} />
             {data && data.length > 0 && (
                 <>
                     <div

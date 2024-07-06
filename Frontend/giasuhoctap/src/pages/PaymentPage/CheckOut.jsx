@@ -80,7 +80,7 @@ const Checkout = () => {
       const response = await PaymentVnPay(formBuyCoin)
       if (response.ok) {
         const responseData = await response.json();
-        if (responseData.statusCode == 200) {
+        if (responseData.statusCode == 201) {
           window.location.replace(responseData.data);
           console.log("API Response Data:", responseData);
         } else {

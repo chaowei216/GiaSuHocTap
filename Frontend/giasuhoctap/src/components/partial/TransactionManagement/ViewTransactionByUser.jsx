@@ -1,36 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../TutorManagement/Header'
-import MiddleContent from './MiddleContent'
-import RequestTable from './RequestTable';
+import data from "../../../data/fakeData.json"
+import RequestTable from './TransactionTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
-import { toast } from 'react-toastify';
-import { GetRequestOfflineApi } from '../../../api/RequestApi';
-import useAuth from '../../../hooks/useAuth';
-export default function ViewRequestOffline() {
-    const { user } = useAuth()
+export default function ViewTransactionByUser() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
-    const [data, setData] = useState([]);
-    const [isUpdated, setIsUpdated] = useState(false);
+    const [test, setTest] = useState();
+    const [parent, setParent] = useState({});
+    const [showModalDelete, setShowmodalDelete] = useState(false);
+    const handleClose = () => {
+        setShowmodalDelete(false);
+    };
     useEffect(() => {
-        if (user) {
-            const getAllTrans = async () => {
-                const response = await GetRequestOfflineApi(user?.userId, page, pageSize);
-                if (response.ok) {
-                    const responseJson = await response.json();
-                    const data = responseJson.data.data;
-                    setData(data);
-                    setTotalPages(responseJson.data.totalPages)
-                } else {
-                    toast.error("Error getting transaction")
-                }
-            }
-            getAllTrans();
-        }
-    }, [page, totalPages, pageSize, user, isUpdated])
-
+        setTest(data)
+    }, [])
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setParent(item);
+        setBasicModal(true);
+        console.log(item);
+    }
+    const handleOpenDeny = (row) => {
+        setShowmodalDelete(true);
+    }
     return (
         <div style={{
             padding: "25px 25px 5px 25px",
@@ -38,12 +33,11 @@ export default function ViewRequestOffline() {
             boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         }}>
             <Header>
-                <div style={{ fontSize: "30px", fontWeight: "bold" }}>
-                    Danh sách học sinh yêu cầu offline
+                <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "30px" }}>
+                    Lịch sử giao dịch của all user
                 </div>
             </Header>
-            <MiddleContent />
-            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <RequestTable data={test} handleHire={handleHire} handleOpenDeny={handleOpenDeny} />
             {data && data.length > 0 && (
                 <>
                     <div
@@ -60,7 +54,7 @@ export default function ViewRequestOffline() {
                             <PageNavigation
                                 page={page}
                                 setPage={setPage}
-                                totalPages={totalPages}
+                                totalPages={5}
                             />
                         </ul>
                         <ul style={{ float: "right", marginTop: "12px" }} >

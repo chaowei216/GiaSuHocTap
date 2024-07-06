@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,20 +8,16 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
+import { useState } from "react";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
+import GlobalLoading from "../../global/GlobalLoading";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
-import useAuth from "../../../hooks/useAuth";
-import { toast } from "react-toastify";
-import { AcceptOrDenyRequestOFfline } from "../../../api/RequestApi";
-export default function RequestTable({
+export default function TransactionTable({
   data,
-  setIsUpdated,
-  isUpdated
 }) {
-  const { user } = useAuth()
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -42,57 +37,17 @@ export default function RequestTable({
       border: 0,
     },
   }));
-
   const TableHeader = [
-    "Người yêu cầu",
-    "Địa điểm",
-    "Lương (VND)",
-    "Mô tả",
-    "Lớp",
-    "Môn",
+    "Giao dịch ID",
+    "Giao dịch bằng",
+    "Số giao dịch",
+    "Thông tin",
+    "Ngày giao dịch",
+    "Số lượng",
     "Trạng thái",
-    "Hành động",
+    "Email User",
   ];
-  const StatusType = ["Completed", "Pending"];
-
-  const handleAccept = async (requestId) => {
-    if (user) {
-      const dataUpdate = {
-        tutorId: user?.userId,
-        requestId: requestId,
-        isAccepted: true
-      }
-      const response = await AcceptOrDenyRequestOFfline(dataUpdate)
-      if (response.ok) {
-        const responseJson = await response.json();
-        if (responseJson.statusCode == 200) {
-          setIsUpdated(!isUpdated)
-          toast.success("Chấp nhận thành công")
-        }
-      } else {
-        toast.error("Error accepting")
-      }
-    }
-  };
-  const handleDeny = async (requestId) => {
-    if (user) {
-      const dataUpdate = {
-        tutorId: user?.userId,
-        requestId: requestId,
-        isAccepted: false
-      }
-      const response = await AcceptOrDenyRequestOFfline(dataUpdate)
-      if (response.ok) {
-        const responseJson = await response.json();
-        if (responseJson.statusCode == 200) {
-          setIsUpdated(!isUpdated)
-          toast.success("Chấp nhận thành công")
-        }
-      } else {
-        toast.error("Error accepting")
-      }
-    }
-  }
+  const StatusType = ["Cancel", "Paid"];
   return (
     <div>
       <TableContainer component={Paper}>
@@ -135,7 +90,7 @@ export default function RequestTable({
                       component="th"
                       scope="row"
                     >
-                      {row.requestUserName}
+                      {row.transactionId}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{ fontWeight: "600" }}
@@ -143,31 +98,31 @@ export default function RequestTable({
                       align="left"
                       scope="row"
                     >
-                      <span>{row.location}</span>
+                      <span>{row.paymentMethod}</span>
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.price}
+                      {row.transactionNumber}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="middle"
                     >
-                      {row.description}
+                      {row.transactionInfo}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.className}
+                      {row.transactionDate?.split("T")[0]}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.courseName}
+                      {row.amount}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
@@ -180,13 +135,13 @@ export default function RequestTable({
                     >
                       {StatusType &&
                         StatusType.map((type, index) => {
-                          if (row.requestStatus == type) {
+                          if (row.status == type) {
                             let styleName;
                             switch (type) {
-                              case "Completed":
+                              case "Paid":
                                 styleName = styles.active;
                                 break;
-                              case "Pending":
+                              case "Cancel":
                                 styleName = styles.pending;
                                 break;
                               default:
@@ -201,36 +156,10 @@ export default function RequestTable({
                         })}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{
-                        fontWeight: "600",
-                        padding: "0px",
-                      }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      <Button
-                        variant="contained"
-                        color="success"
-                        onClick={() => handleAccept(row.requestId)}
-                        sx={{
-                          background: "#0b7234",
-                          color: "white",
-                          borderRadius: "18px",
-                          marginRight: "15px",
-                          fontSize: "12px"
-                        }}
-                      >
-                        <DoneOutlineIcon /> Accept
-                      </Button>
-                      <Button
-                        variant="contained"
-                        onClick={() => handleDeny(row.requestId)}
-                        color="error"
-                        sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
-                      >
-                        <div>
-                          <ClearIcon /> Deny
-                        </div>
-                      </Button>
+                      {row.email}
                     </StyledTableCell>
                   </StyledTableRow>
                 );

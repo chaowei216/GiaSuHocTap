@@ -154,3 +154,21 @@ export const GetTutorByEmail = async (email) => {
         console.log(err);
     }
 }
+
+export const CreateOfflineRequest = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Request/create-offline-request`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

@@ -112,7 +112,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                       <MDBCardText>Số coin dư hiện tại</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-red-500 font-bold">{user?.coinBalance}đ</MDBCardText>
+                      <MDBCardText className="text-red-500 font-bold">{user?.coinBalance || "0"} xu</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                 </MDBCardBody>
