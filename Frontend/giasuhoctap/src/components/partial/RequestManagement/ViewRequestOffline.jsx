@@ -14,22 +14,44 @@ export default function ViewRequestOffline() {
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
+    const [type, setType] = useState("All");
+    const [totalCount, setTotalCount] = useState("")
     useEffect(() => {
-        if (user) {
+        if (user && type) {
             const getAllTrans = async () => {
-                const response = await GetRequestOfflineApi(user?.userId, page, pageSize);
-                if (response.ok) {
-                    const responseJson = await response.json();
-                    const data = responseJson.data.data;
-                    setData(data);
-                    setTotalPages(responseJson.data.totalPages)
-                } else {
-                    toast.error("Error getting transaction")
+                try {
+                    let response;
+                    switch (type) {
+                        case 'All':
+                            response = await GetRequestOfflineApi(user.userId, page, pageSize);
+                            break;
+                        case 'Pending':
+                            response = "zz";
+                            break;
+                        case 'Active':
+                            response = "zz";
+                            break;
+                        default:
+                            throw new Error(`Unknown type: ${type}`);
+                    }
+                    // Kiểm tra response có hợp lệ
+                    if (response && response.ok) {
+                        const responseJson = await response.json();
+                        const data = responseJson.data.data;
+                        setData(data);
+                        setTotalPages(responseJson.data.totalPages);
+                        setTotalCount(responseJson.data.totalCount)
+                    } else {
+                        toast.warning("Error getting request");
+                        setData(null);
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            }
+            };
             getAllTrans();
         }
-    }, [page, totalPages, pageSize, user, isUpdated])
+    }, [page, totalPages, pageSize, user, isUpdated, type])
 
     return (
         <div style={{
@@ -42,7 +64,7 @@ export default function ViewRequestOffline() {
                     Danh sách học sinh yêu cầu offline
                 </div>
             </Header>
-            <MiddleContent />
+            <MiddleContent type={type} setType={setType} totalCount={totalCount} />
             <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
             {data && data.length > 0 && (
                 <>

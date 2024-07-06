@@ -32,3 +32,19 @@ export const AcceptOrDenyRequestOFfline = async (value) => {
         console.log(err);
     }
 }
+
+export const GetRequestOnlineApi = async (tutorId, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/Request/get-tutor-online-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
