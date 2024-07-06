@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240705064749_init")]
+    [Migration("20240706032526_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -264,8 +264,9 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("RequestId");
 

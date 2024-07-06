@@ -51,5 +51,12 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<TimeTable> GetOfflineTimeOfUser(int userId);
+
+        /// <summary>
+        /// Get now online time of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetOnlineTimeOfUser(int userId);
     }
 }

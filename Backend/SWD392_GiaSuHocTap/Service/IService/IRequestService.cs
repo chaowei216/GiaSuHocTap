@@ -31,10 +31,23 @@ namespace Service.IService
         Task<RequestDTO?> AddOfflineRequest(RequestOfflineCreateDTO request);
 
         /// <summary>
-        /// Update offline request
+        /// Add new online request
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        Task<ResponseDTO?> AddOnlineRequest(RequestOnlineDTO request);
+
+        /// <summary>
+        /// Update offline request
+        /// </summary>
+        /// <param name="requestInfo"></param>
+        /// <returns></returns>
         Task<RequestDTO?> UpdateOfflineRequest(RequestUpdateDTO requestInfo);
+
+        /// <summary>
+        /// Accept/deny request
+        /// </summary>
+        /// <returns></returns>
+        Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfor);
     }
 }

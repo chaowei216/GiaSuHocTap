@@ -8,6 +8,7 @@ using Common.Constant.TimeTable;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Query;
+using Common.DTO.TimeTable;
 using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
@@ -821,11 +822,27 @@ namespace Service.Service
 
         public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters)
         {
-            var userList = _userRepository.GetTutorTeachOnline(parameters);
+            var userList = _userRepository.GetTutorTeachOnline(parameters).ToList();
+            List<TutorInforDTO> tutorInfoDTOs = new List<TutorInforDTO>();
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            foreach (var user in userList)
+            {
+                var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
+                tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
 
+                // Filter the timetables where the StartTime is in the future
+                tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                        DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                        && t.Status == TimeTableConst.FreeStatus).ToList();
+
+                if (tutorInfoDTO.TimeTables.Count > 0)
+                {
+                    tutorInfoDTOs.Add(tutorInfoDTO);
+                }
+            }
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
+            mappedResponse.Data = tutorInfoDTOs;
             return mappedResponse;
         }
 

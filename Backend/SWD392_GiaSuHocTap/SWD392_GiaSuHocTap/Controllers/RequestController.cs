@@ -158,5 +158,66 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPost("create-online-request")]
+        public async Task<IActionResult> CreateNewOnlineRequest([FromBody] RequestOnlineDTO requestDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.AddOnlineRequest(requestDTO);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpPut("update-online-request")]
+        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestUpdateDTO requestInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.UpdateOnlineRequest(requestInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
     }
 }
