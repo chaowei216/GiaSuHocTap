@@ -10,6 +10,7 @@ namespace Common.DTO.TimeTable
 {
     public class TimetableDTO
     {
+        public int TimeTableId { get; set; }
         [Required]
         public string DayOfWeek { get; set; } = null!;
         [AllowNull]

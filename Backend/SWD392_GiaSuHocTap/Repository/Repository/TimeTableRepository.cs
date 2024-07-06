@@ -1,4 +1,5 @@
 ﻿using Common.Constant.Teaching;
+using Common.Constant.TimeTable;
 using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,13 @@ namespace Repository.Repository
         public IEnumerable<TimeTable> GetOfflineTimeOfUser(int userId)
         {
             return _timeTableDAO.GetAll().Where(p => p.UserId == userId && p.LearningType == LearningType.Offline).ToList();
+        }
+
+        public IEnumerable<TimeTable> GetOnlineTimeOfUser(int userId)
+        {
+            return _timeTableDAO.GetAll().Where(t => DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                        DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                        && t.Status == TimeTableConst.FreeStatus);
         }
 
         public async Task<TimeTable?> GetTimeTableById(int id)

@@ -13,7 +13,7 @@ namespace DAO.Model
         public int? Coin { get; set; }
         public string RequestType { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; } = null!;
         public string? LinkMeet { get; set; }
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
