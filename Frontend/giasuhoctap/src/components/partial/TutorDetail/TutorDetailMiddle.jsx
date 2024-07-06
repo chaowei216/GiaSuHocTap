@@ -34,26 +34,28 @@ function TutorDetailMiddle({ data }) {
       </div>
       <hr style={{ margin: "20px 0px 20px 0px" }} />
       <div className="flex flex-wrap">
-        <div className={style.field_name}>Lĩnh vực</div>
-        <div className={style.field_name}>Toán học</div>
-        <div className={style.field_name}>Hóa học</div>
-        <div className={style.field_name}>Văn học</div>
-        <div className={style.field_name}>Vật lý</div>
-        <div className={style.field_name}>Tiếng anh</div>
-        <div className={style.field_name}>Tiếng anh</div>
+        {data?.userCourses?.map((item, index) => (
+          <div key={index} className={style.field_name}>{item.course.courseName}</div>
+        ))}
       </div>
       <hr style={{ margin: "20px 0px 20px 0px" }} />
       <div>
         <div className={style.title_user_profile}>Thông tin</div>
         <div className={style.content_player_profile}>
-          <p>Xin chào</p>
+          <p><b>Lớp dạy: </b>
+            {data?.userClasses?.map((item, index) => (
+              <>
+                {item.class.className}
+                {index !== data.userClasses.length - 1 && <span>, </span>}
+              </>
+            ))}
+          </p>
           <p><b>Ngày dạy:</b> {data && data?.timeTables?.map((item) => `Thứ ${item.dayOfWeek}`)}</p>
           <p><b>Thời gian:</b> {data && data?.timeTables?.map((item) => `${item.startTime} - ${item.endTime}`)}</p>
           <div className={style.album_of_player}>
             <ImageWithPreview imageList={imageList} />
           </div>
-          <p><b>Email:</b> {data?.email}</p>
-          <p><b>Địa chỉ:</b> {data?.address}</p>
+          <p><b>Liên lạc:</b> {data?.email}</p>
           <p><b>Công việc:</b> {data?.tutorDetail?.job}</p>
           <p><b>Chuyên ngành:</b> {data?.tutorDetail?.major}</p>
         </div>

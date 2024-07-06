@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { Avatar, Menu, MenuItem, ListItemIcon, Divider, Box, Typography, Tooltip, IconButton } from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Avatar, Menu, MenuItem, ListItemIcon, Divider, Tooltip, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import avatar from "/img/avatar.png";
 import useAuth from '../../../../hooks/useAuth';
 import { green } from '@mui/material/colors';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Logout } from '../../../../api/AuthenApi';
+import { useNavigate } from 'react-router-dom';
+import emptyPicture from "/img/empty.png"
+const baseUrl = import.meta.env.VITE_API_HOST;
 export default function ProfileMenu() {
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const { user, logout } = useAuth();
@@ -24,10 +26,10 @@ export default function ProfileMenu() {
     const handleNavigate = () => {
         if (user?.roleName == "Admin" || user?.roleName == "Moderator") {
             setAnchorEl(null);
-            window.location.href = "/dashboard"
+            navigate('/dashboard')
         } else if (user?.roleName == "Tutor") {
             setAnchorEl(null);
-            window.location.href = "/home-tutor"
+            navigate('/home-tutor')
         } else {
             setAnchorEl(null);
         }
@@ -38,7 +40,7 @@ export default function ProfileMenu() {
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
-            window.location.href = "/";
+            navigate('/')
         }
     }
     return (
@@ -52,7 +54,7 @@ export default function ProfileMenu() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar src={avatar} sx={{ width: 60, height: 60 }}></Avatar>
+                    <Avatar alt={user?.fullname} src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`} sx={{ width: 60, height: 60 }}></Avatar>
                 </IconButton>
             </Tooltip>
             <Menu
@@ -89,7 +91,11 @@ export default function ProfileMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <a style={{ display: "flex", borderBottom: ".5px solid #f0f0f0" }}>
-                        <img src={avatar} style={{ width: "55px", height: "55px", marginRight: "10px" }}></img>
+                        <img src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`} style={{ width: "55px", height: "55px", marginRight: "10px" }}
+                            onError={(e) => {
+                                e.currentTarget.src = emptyPicture;
+                            }}>
+                        </img>
                         <div style={{ marginBottom: "5px" }}>
                             <h4>{user.fullname}</h4>
                             <p>ID: {user.email}</p>

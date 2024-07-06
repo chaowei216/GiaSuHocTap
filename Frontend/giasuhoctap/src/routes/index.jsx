@@ -25,6 +25,10 @@ import UserPage from "../pages/UserPage/UserPage";
 import HomeTutorPage from "../pages/TutorPage/HomeTutorPage"
 import TutorProfilePage from "../pages/TutorPage/TutorProfilePage";
 import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePage";
+import Checkout from "../pages/PaymentPage/CheckOut";
+import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
+import TransactionPage from "../pages/TransactionPage/TransactionPage";
+import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,5 +55,9 @@ export const router = createBrowserRouter([
   { path: "user-management", element: <UserPage /> },
   { path: "home-tutor", element: <HomeTutorPage /> },
   { path: "tutor-profile", element: <TutorProfilePage /> },
-  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> }
+  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
+  { path: "payment", element: <Checkout /> },
+  { path: "waiting-checkout", element: <WaitingCheckout /> },
+  { path: "transaction", element: <TransactionPage /> },
+  { path: "transaction-user", element: <TransactionPageByUser /> },
 ]);
