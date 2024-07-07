@@ -3,7 +3,7 @@
     public static class TimeTableConst
     {
         // status
-        public const string BusyStatus = "NotAvailable";
-        public const string FreeStatus = "Available";
+        public const string BusyStatus = "Bận";
+        public const string FreeStatus = "Rảnh";
     }
 }
