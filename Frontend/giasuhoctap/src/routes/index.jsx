@@ -32,6 +32,7 @@ import ParentRequestOffline from "../pages/ParentPage/ParentRequestOffline";
 import ParentCompleteOffline from "../pages/ParentPage/ParentCompleteOffline";
 import ParentCancelledOffline from "../pages/ParentPage/ParentCancelledOffline";
 import ParentHistoryOffline from "../pages/ParentPage/ParentHistoryOffline";
+import NotificationPage from "../pages/ParentPage/NotificationPage";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,7 @@ export const router = createBrowserRouter([
   { path: "ParentRequestOffline", element: <ParentRequestOffline /> },
   { path: "ParentCompleteOffline", element: <ParentCompleteOffline /> },
   { path: "ParentCancelledOffline", element: <ParentCancelledOffline /> },
-  { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> }
+  { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> },
+  { path: "NotificationPage", element: <NotificationPage /> }
 ]);
 

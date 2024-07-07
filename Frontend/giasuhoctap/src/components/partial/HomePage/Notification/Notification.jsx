@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import { Badge, Stack, Popover, Typography, Box } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+
+import styles from './Notification.module.css';
 
 const NotifiBell = [
   {
     id: 1,
-    content: 'Thông báo 1',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget purus sed est interdum congue. ',
     color: 'red',
   },
   {
     id: 2,
-    content: 'Thông báo 2',
+    content: 'Sed eu odio nec libero sodales feugiat a nec velit. Cras vel augue nec nisl tristique luctus vitae et odio. ',
     color: 'blue',
   },
   {
     id: 3,
-    content: 'Thông báo 3',
+    content: 'Integer in quam eget eros euismod ullamcorper.',
     color: 'purple',
   },
   {
     id: 4,
-    content: 'Thông báo 4',
+    content: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. ',
     color: 'yellow',
   },
 ];
@@ -60,11 +63,13 @@ const Notification = () => {
           vertical: 'top',
           horizontal: 'center',
         }}
+        sx={{ marginTop: '10px' }}
       >
-        <Box sx={{ p: 2}}>
+        <Box sx={{ p: 2 }}>
           {NotifiBell.map((item) => (
-            <Typography key={item.id} sx={{ color: item.color }}>
-              {item.content}
+            <Typography key={item.id} sx={{ width: '350px', borderBottom: '1px solid #4dccda', marginBottom: '8px', display: 'flex', alignItems: 'center' }}>
+              <FiberManualRecordIcon sx={{ color: item.color, marginRight: '10px', fontSize: '12px' }} />
+              <span>{item.content}</span>
             </Typography>
           ))}
         </Box>
