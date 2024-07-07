@@ -5,6 +5,7 @@ using Common.Constant.Request;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.DTO;
+using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.Request;
 using Common.Enum;
@@ -21,18 +22,21 @@ namespace Service.Service
         private readonly ITimeTableService _timeTableService;
         private readonly IUserService _userService;
         private readonly INotificationService _notificationService;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
         public RequestService(IRequestRepository requestRepository,
                               ITimeTableService timeTableService,
                               IUserService userService,
                               INotificationService notificationService,
+                              IEmailService emailService,
                               IMapper mapper)
         {
             _requestRepository = requestRepository;
             _timeTableService = timeTableService;
             _userService = userService;
             _notificationService = notificationService;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -264,12 +268,37 @@ namespace Service.Service
                         user.CoinBalance += 10;
                         await _userService.UpdateUser(user);
                     }                 
+                } else
+                {
+                    var user = await _userService.GetUserById(request.FromId);
+                    var tutor = await _userService.GetUserById(requestInfo.TutorId);
+
+                    if (user != null && tutor != null)
+                    {
+                        _emailService.SendInfomationParentsEmail(tutor.Email, EmailSubject.ParentsInfoSubject, user);
+                    }
                 }
 
                 request.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
                 await _requestRepository.UpdateRequest(request);
 
                 string message = requestInfo.IsAccepted ? Description.AcceptedRequest : Description.DeniedRequest;
+
+                // add tutor notification
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.OfflineAcceptedChecking,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = requestInfo.TutorId,
+                    NotificationId = tutorNotification.NotificationId
+                });
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()

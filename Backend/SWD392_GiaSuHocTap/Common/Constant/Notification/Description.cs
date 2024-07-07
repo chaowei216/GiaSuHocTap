@@ -16,5 +16,6 @@
         public const string DeniedRequest = "Giáo viên đã từ chối yêu cầu của bạn, vui lòng thử lại sau";
         public const string AcceptedRequest = "Giáo viên đã chập nhận yêu cầu, hy vọng bạn có trải nghiệm tốt";
         public const string OfflineCompletedRequest = "Quá trình dạy và học offline đã hoàn thành";
+        public const string OfflineAcceptedChecking = "Vui lòng kiểm tra email để biết thêm thông tin về phụ huynh";
     }
 }
