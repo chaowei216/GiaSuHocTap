@@ -1,4 +1,6 @@
-﻿using Common.DTO;
+﻿using Common.Constant.Teaching;
+using Common.Constant.TimeTable;
+using Common.DTO;
 using Common.DTO.Feedback;
 using Common.DTO.Query;
 using Common.DTO.User;
@@ -94,7 +96,8 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTutorTeachOffline(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
+                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus), parameters.PageNumber, parameters.PageSize);
         }
 
         public User? GetUserByEmailInclude(string email)
@@ -126,6 +129,11 @@ namespace Repository.Repository
             var topScores = tutorScores.OrderByDescending(p => p.Score).Select(p => p.TutorId).Take(6);
 
             return tutors.Where(p => topScores.Contains(p.UserId)).ToList();
+        }
+
+        public async Task<TutorDetail?> GetTutorDetailByTutorId(int id)
+        {
+            return await _tutorDetailDAO.GetByCondition(p => p.UserId == id).FirstOrDefaultAsync();
         }
     }
 }

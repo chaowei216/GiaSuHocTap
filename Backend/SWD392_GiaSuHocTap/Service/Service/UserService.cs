@@ -724,14 +724,16 @@ namespace Service.Service
         public async Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo)
         {
             var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+            var tutorDetail = await _userRepository.GetTutorDetailByTutorId(tutorInfo.TutorId);
 
-            if (user != null && 
+            if (user != null && tutorDetail != null &&
                 tutorInfo.Subjects.Any() && 
                 tutorInfo.Classes.Any() &&
                 tutorInfo.DayOfWeekOnline.Any())
             {
                 // update Youtube link
                 user.YoutubeLink = tutorInfo.YoutubeLink;
+                tutorDetail.TeachingOnline = true;
 
                 // add user class
                 foreach (var c in tutorInfo.Classes)
@@ -803,10 +805,13 @@ namespace Service.Service
                             Status = TimeTableConst.FreeStatus,                         
                         });
                     }
+
+                    tutorDetail.TeachingOffline = true;
                 }
 
                 user.Status = UserStatusEnum.Checking;
                 await _userRepository.UpdateUser(user);
+                await _userRepository.UpdateTutorDetail(tutorDetail);
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()
