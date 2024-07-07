@@ -125,5 +125,12 @@ namespace Repository.IRepository
         /// <param name="feedbacks"></param>
         /// <returns></returns>
         IEnumerable<User> GetTopTutorByFeedBack(IEnumerable<Feedback> feedbacks);
+
+        /// <summary>
+        /// Get tutor detail by tutorId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TutorDetail?> GetTutorDetailByTutorId(int id); 
     }
 }

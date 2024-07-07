@@ -724,14 +724,16 @@ namespace Service.Service
         public async Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo)
         {
             var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+            var tutorDetail = await _userRepository.GetTutorDetailByTutorId(tutorInfo.TutorId);
 
-            if (user != null && 
+            if (user != null && tutorDetail != null &&
                 tutorInfo.Subjects.Any() && 
                 tutorInfo.Classes.Any() &&
                 tutorInfo.DayOfWeekOnline.Any())
             {
                 // update Youtube link
                 user.YoutubeLink = tutorInfo.YoutubeLink;
+                tutorDetail.TeachingOnline = true;
 
                 // add user class
                 foreach (var c in tutorInfo.Classes)
@@ -758,19 +760,29 @@ namespace Service.Service
                 foreach (var time in tutorInfo.DayOfWeekOnline)
                 {
                     var splitTime = time.Last().Split('-');
-                    string startTime = splitTime[0] + ":00";
-                    string endTime = splitTime[1] + ":00";
+                    int startTime = int.Parse(splitTime[0].ToString());
+                    int endTime = int.Parse(splitTime[1].ToString());
 
-                    await _timeTableService.AddTimeTable(new TimeTable ()
+                    if (startTime > endTime)
                     {
-                        UserId = user.UserId,
-                        DayOfWeek = time.First(),
-                        StartTime = startTime,
-                        EndTime = endTime,           
-                        LearningType = LearningType.Online,
-                        Period = time[1],
-                        Status = TimeTableConst.FreeStatus
-                    });
+                        int temp = startTime;
+                        startTime = endTime;
+                        endTime = temp;
+                    }
+
+                    for (int i = startTime; i < endTime; i++)
+                    {
+                        await _timeTableService.AddTimeTable(new TimeTable()
+                        {
+                            UserId = user.UserId,
+                            DayOfWeek = time.First(),
+                            StartTime = i.ToString() + ":00",
+                            EndTime = (i+1).ToString() + ":00",
+                            LearningType = LearningType.Online,
+                            Period = time[1],
+                            Status = TimeTableConst.FreeStatus
+                        });
+                    }
                 }
 
                 // check if tutor choose offline teaching 
@@ -793,10 +805,13 @@ namespace Service.Service
                             Status = TimeTableConst.FreeStatus,                         
                         });
                     }
+
+                    tutorDetail.TeachingOffline = true;
                 }
 
                 user.Status = UserStatusEnum.Checking;
                 await _userRepository.UpdateUser(user);
+                await _userRepository.UpdateTutorDetail(tutorDetail);
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()

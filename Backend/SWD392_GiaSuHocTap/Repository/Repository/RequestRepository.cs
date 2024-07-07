@@ -60,6 +60,23 @@ namespace Repository.Repository
             return await _requestDAO.GetByIdAsync(id);
         }
 
+        public PagedList<Request> GetUserRequest(int userId, RequestParameters parameters)
+        {
+            var request = _requestDAO.GetAll();
+
+            if (!string.IsNullOrEmpty(parameters.RequestType))
+            {
+                request = request.Where(p => p.RequestType.ToLower() == parameters.RequestType.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Status))
+            {
+                request = request.Where(p => p.Status.ToLower() == parameters.Status.ToLower());
+            }
+
+            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
+        }
+
         public async Task<Request> UpdateRequest(Request request)
         {
             return await _requestDAO.UpdateAsync(request);

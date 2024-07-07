@@ -5,6 +5,7 @@ using Common.Constant.Request;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.DTO;
+using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.Request;
 using Common.Enum;
@@ -21,18 +22,21 @@ namespace Service.Service
         private readonly ITimeTableService _timeTableService;
         private readonly IUserService _userService;
         private readonly INotificationService _notificationService;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
         public RequestService(IRequestRepository requestRepository,
                               ITimeTableService timeTableService,
                               IUserService userService,
                               INotificationService notificationService,
+                              IEmailService emailService,
                               IMapper mapper)
         {
             _requestRepository = requestRepository;
             _timeTableService = timeTableService;
             _userService = userService;
             _notificationService = notificationService;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -177,7 +181,7 @@ namespace Service.Service
 
                 await _notificationService.AddNewUserNotification(new UserNotification
                 {
-                    UserId = requestDto.FromId,
+                    UserId = timeTable.UserId,
                     NotificationId = tutorNotification.NotificationId
                 });
 
@@ -225,6 +229,16 @@ namespace Service.Service
             return mappedResponse;
         }
 
+        public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)
+        {
+            var requests = _requestRepository.GetUserRequest(userId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<RequestDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
+
+            return mappedResponse;
+        }
+
         public async Task<RequestDTO?> UpdateOfflineRequest(RequestUpdateDTO requestInfo)
         {
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
@@ -233,13 +247,13 @@ namespace Service.Service
             {
                 var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
 
-                foreach(var time in times)
+                foreach (var time in times)
                 {
                     time.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
                     await _requestRepository.UpdateRequestTime(time);
                 }
 
-                if(!requestInfo.IsAccepted)
+                if (!requestInfo.IsAccepted)
                 {
                     var offlineTime = _timeTableService.GetOfflineTimeOfUser(requestInfo.TutorId);
                     foreach (var time in offlineTime)
@@ -247,12 +261,44 @@ namespace Service.Service
                         time.Status = TimeTableConst.FreeStatus;
                         await _timeTableService.UpdateTimeTable(time);
                     }
+
+                    var user = await _userService.GetUserById(request.FromId);
+                    if (user != null)
+                    {
+                        user.CoinBalance += 10;
+                        await _userService.UpdateUser(user);
+                    }                 
+                } else
+                {
+                    var user = await _userService.GetUserById(request.FromId);
+                    var tutor = await _userService.GetUserById(requestInfo.TutorId);
+
+                    if (user != null && tutor != null)
+                    {
+                        _emailService.SendInfomationParentsEmail(tutor.Email, EmailSubject.ParentsInfoSubject, user);
+                    }
                 }
 
-                request.Status = RequestConst.CompletedStatus;
+                request.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
                 await _requestRepository.UpdateRequest(request);
 
                 string message = requestInfo.IsAccepted ? Description.AcceptedRequest : Description.DeniedRequest;
+
+                // add tutor notification
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.OfflineAcceptedChecking,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = requestInfo.TutorId,
+                    NotificationId = tutorNotification.NotificationId
+                });
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()
@@ -268,6 +314,53 @@ namespace Service.Service
                 {
                     UserId = request.FromId,
                     NotificationId = notification.NotificationId
+                });
+
+                var mappedResponse = _mapper.Map<RequestDTO>(request);
+
+                return mappedResponse;
+            }
+            else if (request != null && request.Status == RequestConst.InProcessStatus)
+            {
+                // update time offline
+                var offlineTime = _timeTableService.GetOfflineTimeOfUser(requestInfo.TutorId);
+                foreach (var time in offlineTime)
+                {
+                    time.Status = TimeTableConst.FreeStatus;
+                    await _timeTableService.UpdateTimeTable(time);
+                }
+
+                // update request status
+                request.Status = RequestConst.CompletedStatus;
+                await _requestRepository.UpdateRequest(request);
+
+                // send message
+                var userNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.OfflineCompletedRequest,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.OfflineCompletedRequest,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = request.FromId,
+                    NotificationId = userNotification.NotificationId
+                });
+
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = requestInfo.TutorId,
+                    NotificationId = tutorNotification.NotificationId
                 });
 
                 var mappedResponse = _mapper.Map<RequestDTO>(request);
@@ -295,7 +388,7 @@ namespace Service.Service
                 if (!requestInfo.IsAccepted)
                 {
                     var onlineTime = _timeTableService.GetOnlineTimeOfUser(requestInfo.TutorId);
-                   
+
                     var user = await _userService.GetUserById(request.FromId);
                     if (user != null)
                     {
@@ -304,7 +397,7 @@ namespace Service.Service
                     }
                     onlineTime.Status = TimeTableConst.FreeStatus;
                     await _timeTableService.UpdateTimeTable(onlineTime);
-                    
+
                 }
 
                 request.Status = RequestConst.AcceptedStatus;
