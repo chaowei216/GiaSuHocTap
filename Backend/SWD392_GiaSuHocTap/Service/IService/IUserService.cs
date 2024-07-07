@@ -120,14 +120,14 @@ namespace Service.IService
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters);
 
         /// <summary>
         /// Get all teaching offline tutor
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(TutorParameters parameters);
 
         /// <summary>
         /// Get tutor by email include all information

@@ -103,14 +103,14 @@ namespace Repository.IRepository
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        IEnumerable<User> GetTutorTeachOnline(UserParameters parameters);
+        IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters);
 
         /// <summary>
         /// Get tutor who teach online
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
+        IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters);
 
         /// <summary>
         /// Get user by email include all infor
