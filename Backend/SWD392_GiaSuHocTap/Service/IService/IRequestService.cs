@@ -49,5 +49,13 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfor);
+
+        /// <summary>
+        /// Get all requests of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters);
     }
 }

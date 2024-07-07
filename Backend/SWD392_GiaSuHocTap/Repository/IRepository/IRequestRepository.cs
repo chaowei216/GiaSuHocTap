@@ -69,5 +69,13 @@ namespace Repository.IRepository
         /// <param name="request"></param>
         /// <returns></returns>
         Task<Request> UpdateRequest(Request request);
+
+        /// <summary>
+        /// Get all request of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Request> GetUserRequest(int userId, RequestParameters parameters);
     }
 }

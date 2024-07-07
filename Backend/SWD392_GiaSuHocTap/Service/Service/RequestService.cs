@@ -225,6 +225,16 @@ namespace Service.Service
             return mappedResponse;
         }
 
+        public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)
+        {
+            var requests = _requestRepository.GetUserRequest(userId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<RequestDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
+
+            return mappedResponse;
+        }
+
         public async Task<RequestDTO?> UpdateOfflineRequest(RequestUpdateDTO requestInfo)
         {
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
