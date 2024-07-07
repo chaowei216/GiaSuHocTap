@@ -53,5 +53,12 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<Notification> GetNotificationsOfUser(int userId);
+
+        /// <summary>
+        /// Get all system notifications
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Notification> GetAllSystemNotifications(NotificationParameters parameters);
     }
 }
