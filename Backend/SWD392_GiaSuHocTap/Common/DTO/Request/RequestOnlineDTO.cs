@@ -8,9 +8,8 @@ namespace Common.DTO.Request
 {
     public class RequestOnlineDTO
     {
-        public string Location { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public int Price { get; set; }
+        public int Coin { get; set; }
         public DateTime CretaeDate { get; set; }
         public int CourseId { get; set; }
         public int ClassId { get; set; }

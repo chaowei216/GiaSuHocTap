@@ -148,5 +148,7 @@ namespace Service.IService
         /// <param name="user"></param>
         /// <returns></returns>
         Task<User> UpdateUser(User user);
+
+        Task<TutorDetail?> GetTutorDetailByUserId(int userId);
     }
 }
