@@ -1,4 +1,5 @@
-﻿using DAO.Model;
+﻿using Common.DTO;
+using DAO.Model;
 using Repository.IRepository;
 using Service.IService;
 
@@ -13,9 +14,10 @@ namespace Service.Services
             _feedbackRepository = feedbackRepository;
         }
 
-        public async Task<Feedback> AddNewFeedback(Feedback feedback)
+        public async Task<ResponseDTO> AddNewFeedback(Feedback feedback)
         {
-            return await _feedbackRepository.AddNewFeedback(feedback);
+            return null;
+            //return await _feedbackRepository.AddNewFeedback(feedback);
         }
 
         public IEnumerable<Feedback> GetAllFeedbacks()

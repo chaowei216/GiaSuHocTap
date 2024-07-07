@@ -845,10 +845,19 @@ namespace Service.Service
                 var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
                 tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
 
-                // Filter the timetables where the StartTime is in the future
-                tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
-                                                                        DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
-                                                                        && t.Status == TimeTableConst.FreeStatus).ToList();
+                foreach(var time in tutorInfoDTO.TimeTables)
+                {
+                    if(time.LearningType == TimeTableConst.Online)
+                    {
+                        // Filter the timetables where the StartTime is in the future
+                        tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                && t.Status == TimeTableConst.FreeStatus
+                                                                                ).ToList();
+                    }
+                    
+                }
+                
 
                 if (tutorInfoDTO.TimeTables.Count > 0)
                 {
