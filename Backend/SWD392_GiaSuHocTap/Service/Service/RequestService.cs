@@ -405,6 +405,7 @@ namespace Service.Service
 
                 }
 
+                request.LinkMeet = requestInfo.LinkMeet;
                 request.Status = RequestConst.AcceptedStatus;
                 await _requestRepository.UpdateRequest(request);
 

@@ -849,15 +849,17 @@ namespace Service.Service
                 {
                     if(time.LearningType == TimeTableConst.Online)
                     {
+                        DateTime today = DateTime.Now;
+                        string dayOfWeek = GetDayOfWeek(today);
                         // Filter the timetables where the StartTime is in the future
-                        tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                        tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                                                                                && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
                                                                                 DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
                                                                                 && t.Status == TimeTableConst.FreeStatus
                                                                                 ).ToList();
                     }
                     
-                }
-                
+                }              
 
                 if (tutorInfoDTO.TimeTables.Count > 0)
                 {
@@ -868,6 +870,28 @@ namespace Service.Service
             var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
             mappedResponse.Data = tutorInfoDTOs;
             return mappedResponse;
+        }
+        private string GetDayOfWeek(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return "Monday";
+                case DayOfWeek.Tuesday:
+                    return "Tuesday";
+                case DayOfWeek.Wednesday:
+                    return "Wednesday";
+                case DayOfWeek.Thursday:
+                    return "Thursday";
+                case DayOfWeek.Friday:
+                    return "Friday";
+                case DayOfWeek.Saturday:
+                    return "Saturday";
+                case DayOfWeek.Sunday:
+                    return "Sunday";
+                default:
+                    return "Unknown";
+            }
         }
 
         public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters)
