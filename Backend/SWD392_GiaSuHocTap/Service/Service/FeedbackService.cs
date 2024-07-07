@@ -1,4 +1,6 @@
-﻿using Common.DTO;
+﻿using AutoMapper;
+using Common.DTO;
+using Common.DTO.Feedback;
 using DAO.Model;
 using Repository.IRepository;
 using Service.IService;
@@ -8,16 +10,24 @@ namespace Service.Services
     public class FeedbackService : IFeedbackService
     {
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IMapper _mapper;
 
-        public FeedbackService(IFeedbackRepository feedbackRepository)
+        public FeedbackService(IFeedbackRepository feedbackRepository, IMapper mapper)
         {
             _feedbackRepository = feedbackRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ResponseDTO> AddNewFeedback(Feedback feedback)
+        public async Task<FeedbackDTO> AddNewFeedback(FeedbackCreateDTO feedback)
         {
+            var feedbackMap = _mapper.Map<Feedback>(feedback);
+            var response = await _feedbackRepository.AddNewFeedback(feedbackMap);
+            var mapperResponse = _mapper.Map<FeedbackDTO>(response);
+            if(response != null)
+            {
+                return mapperResponse;
+            }
             return null;
-            //return await _feedbackRepository.AddNewFeedback(feedback);
         }
 
         public IEnumerable<Feedback> GetAllFeedbacks()
