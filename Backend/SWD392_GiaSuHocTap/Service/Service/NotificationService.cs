@@ -58,6 +58,11 @@ namespace Service.Service
             return await _notificationRepository.AddNewUserNotification(userNotification);
         }
 
+        public async Task<bool> DeleteNotification(int id)
+        {
+            return await _notificationRepository.DeleteNotification(id);
+        }
+
         public IEnumerable<Notification> GetAllNotifications()
         {
             return _notificationRepository.GetAllNotifications().AsEnumerable();

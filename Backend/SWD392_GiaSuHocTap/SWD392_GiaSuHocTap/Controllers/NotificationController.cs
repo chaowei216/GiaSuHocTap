@@ -17,7 +17,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         private readonly INotificationService _notificationService;
         private readonly IUserService _userService;
 
-        public NotificationController(INotificationService notificationService, 
+        public NotificationController(INotificationService notificationService,
                                       IUserService userService)
         {
             _notificationService = notificationService;
@@ -168,6 +168,39 @@ namespace SWD392_GiaSuHocTap.Controllers
             {
                 StatusCode = (int)StatusCodeEnum.InternalServerError,
                 Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteNotification(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _notificationService.DeleteNotification(id);
+
+            if (response)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    Message = GeneralMessage.Success,
+                    Data = null
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
                 Data = null
             });
         }
