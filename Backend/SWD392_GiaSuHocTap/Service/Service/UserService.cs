@@ -8,6 +8,7 @@ using Common.Constant.TimeTable;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Query;
+using Common.DTO.TimeTable;
 using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Crypto.Engines;
 using Repository.IRepository;
 using Service.IService;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Service.Service
@@ -723,14 +725,16 @@ namespace Service.Service
         public async Task<bool> UpdateTutorLastStep(UpdateTutorDTO tutorInfo)
         {
             var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+            var tutorDetail = await _userRepository.GetTutorDetailByTutorId(tutorInfo.TutorId);
 
-            if (user != null && 
+            if (user != null && tutorDetail != null &&
                 tutorInfo.Subjects.Any() && 
                 tutorInfo.Classes.Any() &&
                 tutorInfo.DayOfWeekOnline.Any())
             {
                 // update Youtube link
                 user.YoutubeLink = tutorInfo.YoutubeLink;
+                tutorDetail.TeachingOnline = true;
 
                 // add user class
                 foreach (var c in tutorInfo.Classes)
@@ -757,19 +761,29 @@ namespace Service.Service
                 foreach (var time in tutorInfo.DayOfWeekOnline)
                 {
                     var splitTime = time.Last().Split('-');
-                    string startTime = splitTime[0] + ":00";
-                    string endTime = splitTime[1] + ":00";
+                    int startTime = int.Parse(splitTime[0].ToString());
+                    int endTime = int.Parse(splitTime[1].ToString());
 
-                    await _timeTableService.AddTimeTable(new TimeTable ()
+                    if (startTime > endTime)
                     {
-                        UserId = user.UserId,
-                        DayOfWeek = time.First(),
-                        StartTime = startTime,
-                        EndTime = endTime,           
-                        LearningType = LearningType.Online,
-                        Period = time[1],
-                        Status = TimeTableConst.FreeStatus
-                    });
+                        int temp = startTime;
+                        startTime = endTime;
+                        endTime = temp;
+                    }
+
+                    for (int i = startTime; i < endTime; i++)
+                    {
+                        await _timeTableService.AddTimeTable(new TimeTable()
+                        {
+                            UserId = user.UserId,
+                            DayOfWeek = time.First(),
+                            StartTime = i.ToString() + ":00",
+                            EndTime = (i+1).ToString() + ":00",
+                            LearningType = LearningType.Online,
+                            Period = time[1],
+                            Status = TimeTableConst.FreeStatus
+                        });
+                    }
                 }
 
                 // check if tutor choose offline teaching 
@@ -792,10 +806,13 @@ namespace Service.Service
                             Status = TimeTableConst.FreeStatus,                         
                         });
                     }
+
+                    tutorDetail.TeachingOffline = true;
                 }
 
                 user.Status = UserStatusEnum.Checking;
                 await _userRepository.UpdateUser(user);
+                await _userRepository.UpdateTutorDetail(tutorDetail);
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()
@@ -819,22 +836,78 @@ namespace Service.Service
             return false;
         }
 
-        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var userList = _userRepository.GetTutorTeachOnline(parameters);
+            var userList = _userRepository.GetTutorTeachOnline(parameters).ToList();
+            List<TutorInforDTO> tutorInfoDTOs = new List<TutorInforDTO>();
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            foreach (var user in userList)
+            {
+                var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
+                tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
 
+                foreach(var time in tutorInfoDTO.TimeTables)
+                {
+                    if(time.LearningType == TimeTableConst.Online)
+                    {
+                        DateTime today = DateTime.Now;
+                        string dayOfWeek = GetDayOfWeek(today);
+                        // Filter the timetables where the StartTime is in the future
+                        tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                                                                                && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                && t.Status == TimeTableConst.FreeStatus
+                                                                                ).ToList();
+                    }
+                    
+                }              
+
+                if (tutorInfoDTO.TimeTables.Count > 0)
+                {
+                    tutorInfoDTOs.Add(tutorInfoDTO);
+                }
+            }
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
+            mappedResponse.Data = tutorInfoDTOs;
             return mappedResponse;
         }
+        private string GetDayOfWeek(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return "Monday";
+                case DayOfWeek.Tuesday:
+                    return "Tuesday";
+                case DayOfWeek.Wednesday:
+                    return "Wednesday";
+                case DayOfWeek.Thursday:
+                    return "Thursday";
+                case DayOfWeek.Friday:
+                    return "Friday";
+                case DayOfWeek.Saturday:
+                    return "Saturday";
+                case DayOfWeek.Sunday:
+                    return "Sunday";
+                default:
+                    return "Unknown";
+            }
+        }
 
-        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(TutorParameters parameters)
         {
             var userList = _userRepository.GetTutorTeachOffline(parameters);
+            List<TutorInforDTO> mappedData = new List<TutorInforDTO>();
+
+            foreach (var user in userList)
+            {
+                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline).ToList();
+                mappedData.Add(_mapper.Map<TutorInforDTO>(user));
+            }
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            mappedResponse.Data = mappedData;
 
             return mappedResponse;
         }
@@ -861,6 +934,11 @@ namespace Service.Service
         public async Task<User> UpdateUser(User user)
         {
             return await _userRepository.UpdateUser(user);
+        }
+
+        public async Task<TutorDetail?> GetTutorDetailByUserId(int userId)
+        {
+            return await _userRepository.GetTutorDetailByTutorId(userId);
         }
     }
 }

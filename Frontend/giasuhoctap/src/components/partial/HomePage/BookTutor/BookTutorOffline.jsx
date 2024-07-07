@@ -6,6 +6,7 @@ import { GetTutorTeachOffline } from '../../../../api/TutorManagementApi';
 import emptyPicture from "/img/empty.png"
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
+import HiringTuorOffline from './HiringTuorOffline';
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutorOffline = () => {
@@ -30,6 +31,33 @@ const BookTutorOffline = () => {
         };
         fetchAllTutor();
     }, [page, pageSize]);
+    const [basicModal, setBasicModal] = useState(false);
+    const handleHire = (item) => {
+        setTutorHire(item);
+        setBasicModal(true);
+    }
+    const translateDayOfWeek = (dayOfWeek) => {
+        const daysInVietnamese = {
+            Monday: 'Thứ 2, ',
+            Tuesday: 'Thứ 3, ',
+            Wednesday: 'Thứ 4, ',
+            Thursday: 'Thứ 5, ',
+            Friday: 'Thứ 6',
+            Saturday: 'Thứ 7, ',
+        };
+        console.log([dayOfWeek]);
+        return daysInVietnamese[dayOfWeek] || dayOfWeek;
+    };
+    const getUniqueDays = (timeTables) => {
+        const uniqueDays = new Set();
+        return timeTables.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.dayOfWeek)) {
+                uniqueDays.add(timeTable.dayOfWeek);
+                acc.push(`${translateDayOfWeek(timeTable.dayOfWeek)}`);
+            }
+            return acc;
+        }, []);
+    };
     return (
         <>
             <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
@@ -78,13 +106,11 @@ const BookTutorOffline = () => {
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
-                                                    {tutor.timeTables.map((item) => (
-                                                        item.dayOfWeek
-                                                    ))}
+                                                    {getUniqueDays(tutor.timeTables)}
                                                 </p>
                                             </div>
                                         </div>
-                                        <button className={`button ${styles.button}`}>Đăng ký</button>
+                                        <button onClick={() => handleHire(tutor)} className={`button ${styles.button}`}>Đăng ký</button>
                                     </div>
                                 ))}
                             </div>
@@ -117,6 +143,7 @@ const BookTutorOffline = () => {
                     </div>
                 </>
             )}
+            <HiringTuorOffline basicModal={basicModal} setBasicModal={setBasicModal} data={tutorHire} />
         </>
     );
 };

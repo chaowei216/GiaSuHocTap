@@ -55,9 +55,31 @@ namespace Repository.Repository
             return PagedList<Request>.ToPagedList(_requestDAO.GetAll().Where(p => requestIdsOfTutor.Contains(p.RequestId) && p.RequestType == RequestConst.Online).Include(p => p.Course).Include(p => p.Class).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
         }
 
+        public async Task<RequestTime> GetPendingRequestTimeByRequestId(int requestId)
+        {
+            return await _requestTimeDAO.GetByCondition(t => t.RequestId ==  requestId && t.Status == RequestConst.PendingStatus).FirstOrDefaultAsync();
+        }
+
         public async Task<Request?> GetRequestById(int id)
         {
             return await _requestDAO.GetByIdAsync(id);
+        }
+
+        public PagedList<Request> GetUserRequest(int userId, RequestParameters parameters)
+        {
+            var request = _requestDAO.GetAll();
+
+            if (!string.IsNullOrEmpty(parameters.RequestType))
+            {
+                request = request.Where(p => p.RequestType.ToLower() == parameters.RequestType.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Status))
+            {
+                request = request.Where(p => p.Status.ToLower() == parameters.Status.ToLower());
+            }
+
+            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Request> UpdateRequest(Request request)

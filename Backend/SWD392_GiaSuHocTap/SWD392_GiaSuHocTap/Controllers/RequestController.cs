@@ -158,5 +158,134 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPost("create-online-request")]
+        public async Task<IActionResult> CreateNewOnlineRequest([FromBody] RequestOnlineDTO requestDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.AddOnlineRequest(requestDTO);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.BadRequest,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpPut("update-online-request")]
+        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestUpdateDTO requestInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.UpdateOnlineRequest(requestInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-user-request/{userId}")]
+        public async Task<IActionResult> GetUserRequest(int userId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user != null)
+            {
+                var response = _requestService.GetUserRequests(userId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpPut("update-done-online-request")]
+        public async Task<IActionResult> DoneOnlineRequest([FromBody] DoneRequestDTO requestInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.DoneOnlineRequest(requestInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
     }
 }

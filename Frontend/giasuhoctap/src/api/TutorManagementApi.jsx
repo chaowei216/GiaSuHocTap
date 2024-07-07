@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-
 // Base Url for API
 const baseUrl = import.meta.env.VITE_API_HOST;
 
@@ -147,6 +145,42 @@ export const GetTutorByEmail = async (email) => {
             headers: {
                 "Content-Type": "application/json",
             },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const CreateOfflineRequest = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Request/create-offline-request`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const CreateOnlineRequest = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Request/create-online-request`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify(value)
         };
         const response = await fetch(url, request);
         return response;

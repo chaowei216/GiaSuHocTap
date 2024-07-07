@@ -30,6 +30,7 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<PagedList<User>, PaginationResponseDTO<UserDTO>>().ReverseMap();
             CreateMap<ClassDTO, Class>().ReverseMap();
             CreateMap<CourseDTO, Course>().ReverseMap();
+            CreateMap<List<TutorInforDTO>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<User, TutorInforDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
@@ -51,7 +52,9 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<Request, RequestDTO>().ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.ClassName))
                                             .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Course.CourseName))
                                             .ForMember(dest => dest.RequestUserName, opt => opt.MapFrom(src => src.From.Fullname))
-                                            .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status ? RequestConst.CompletedStatus : RequestConst.PendingStatus)).ReverseMap();
+                                            .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status)).ReverseMap();
+            CreateMap<RequestOnlineDTO, Request>().ReverseMap();
+            CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
             #endregion
         }
     }

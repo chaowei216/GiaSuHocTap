@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
 import styles from "./MiddleContent.module.css"
-export default function MiddleContent() {
-    const [type, setType] = useState("Pending");
-    console.log(type);
+export default function MiddleContent({ type, setType, totalCount }) {
     return (
         <div className={styles.container}>
             <div onClick={() => setType("All")} className={`${styles.item} ${type == "All" ? `${styles.active}` : ""}`}>
                 <div className={styles.item_header}>All</div>
-                <div className={styles.item_content}>49</div>
+                <div className={styles.item_content}>{totalCount}</div>
             </div>
             <div onClick={() => setType("Pending")} className={`${styles.item} ${type == "Pending" ? `${styles.active}` : ""}`}>
                 <div className={styles.item_header}>Pending Request</div>

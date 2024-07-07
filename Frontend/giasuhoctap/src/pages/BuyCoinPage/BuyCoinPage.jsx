@@ -12,10 +12,10 @@ function BuyCoinPage() {
       >
         <Navbar hamActive={hamActive} setHamActive={setHamActive} />
       </div>
-      <div style={{ marginTop: "9rem" }}>
+      <div style={{ marginTop: "11rem" }}>
         <BuyCoin />
       </div>
-      <div style={{ height: "29vh", backgroundColor: "#4DA8DA" }}>
+      <div style={{position: "fixed", bottom: "0px", width: "100%"}}>
         <Footer />
       </div>
     </>

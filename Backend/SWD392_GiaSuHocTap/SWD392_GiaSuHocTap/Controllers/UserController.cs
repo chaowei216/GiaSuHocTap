@@ -151,7 +151,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpGet("get-tutor-teach-online")]
-        public IActionResult GetTutorTeachOnline([FromQuery] UserParameters queries)
+        public IActionResult GetTutorTeachOnline([FromQuery] TutorParameters queries)
         {
             if (!ModelState.IsValid)
             {
@@ -188,7 +188,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpGet("get-tutor-teach-offline")]
-        public IActionResult GetTutorTeachOffline([FromQuery] UserParameters queries)
+        public IActionResult GetTutorTeachOffline([FromQuery] TutorParameters queries)
         {
             if (!ModelState.IsValid)
             {

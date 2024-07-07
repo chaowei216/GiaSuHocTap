@@ -1,4 +1,6 @@
-﻿using Common.DTO.Notification;
+﻿using Common.DTO;
+using Common.DTO.Notification;
+using Common.DTO.Query;
 using DAO.Model;
 
 namespace Service.IService
@@ -28,9 +30,10 @@ namespace Service.IService
         /// <summary>
         /// Update notification
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="notification"></param>
         /// <returns></returns>
-        Task<Notification> UpdateNotification(Notification notification);
+        Task<NotificationDTO?> UpdateNotification(int id, NotificationUpdateDTO notification);
 
         /// <summary>
         /// Add new user notification
@@ -45,5 +48,21 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<NotificationDTO> GetAllNotificationsOfUser(int userId);
+
+        /// <summary>
+        /// Create new system notification
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
+        Task<NotificationDTO?> AddNewSystemNotification(NotificationCreateDTO notification);
+
+        /// <summary>
+        /// Get all system notifications
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<NotificationDTO> GetAllSystemNotifications(NotificationParameters parameters);
+
+        Task<bool> DeleteNotification(int id);
     }
 }

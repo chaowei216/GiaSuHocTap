@@ -27,6 +27,13 @@ namespace Repository.IRepository
         Task<RequestTime> AddNewRequestTime(RequestTime requestTime);
 
         /// <summary>
+        /// Get pending request time
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <returns></returns>
+        Task<RequestTime> GetPendingRequestTimeByRequestId(int requestId);
+
+        /// <summary>
         /// Get all offline requests of tutor
         /// </summary>
         /// <param name="tutorId"></param>
@@ -69,5 +76,13 @@ namespace Repository.IRepository
         /// <param name="request"></param>
         /// <returns></returns>
         Task<Request> UpdateRequest(Request request);
+
+        /// <summary>
+        /// Get all request of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Request> GetUserRequest(int userId, RequestParameters parameters);
     }
 }
