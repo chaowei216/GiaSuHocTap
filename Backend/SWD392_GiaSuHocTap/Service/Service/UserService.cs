@@ -903,5 +903,10 @@ namespace Service.Service
         {
             return await _userRepository.UpdateUser(user);
         }
+
+        public async Task<TutorDetail?> GetTutorDetailByUserId(int userId)
+        {
+            return await _userRepository.GetTutorDetailByTutorId(userId);
+        }
     }
 }

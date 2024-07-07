@@ -126,7 +126,7 @@ namespace Service.Service
             var user = await _userService.GetUserById(requestDto.FromId);
             var timeTable = await _timeTableService.GetTimeTableById(requestDto.TimeTableId);
 
-            if (user == null || (user.CoinBalance) < 10)
+            if (user == null || (user.CoinBalance) < requestDto.Coin)
             {
                 return null;
             }
@@ -154,8 +154,13 @@ namespace Service.Service
                 timeTable.Status = TimeTableConst.BusyStatus;
                 await _timeTableService.UpdateTimeTable(timeTable);
 
-                user.CoinBalance -= 10;
+                user.CoinBalance -= requestDto.Coin;
                 await _userService.UpdateUser(user);
+
+                var tutor = await _userService.GetTutorDetailByUserId(timeTable.UserId);
+                tutor.RentHour += 1;
+                tutor.NumberOfRent += 1;
+                await _userService.UpdateTutorDetail(tutor);
 
                 var userNotification = await _notificationService.AddNewNotification(new Notification()
                 {
