@@ -48,7 +48,7 @@ namespace Service.IService
         /// Accept/deny request
         /// </summary>
         /// <returns></returns>
-        Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfor);
+        Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfo);
 
         /// <summary>
         /// Get all requests of user
@@ -57,5 +57,11 @@ namespace Service.IService
         /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters);
+
+        /// <summary>
+        /// Done request
+        /// </summary>
+        /// <returns></returns>
+        Task<RequestDTO?> DoneOnlineRequest(DoneRequestDTO requestInfo);
     }
 }

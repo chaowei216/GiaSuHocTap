@@ -254,5 +254,38 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPut("update-done-online-request")]
+        public async Task<IActionResult> DoneOnlineRequest([FromBody] DoneRequestDTO requestInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _requestService.DoneOnlineRequest(requestInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
     }
 }

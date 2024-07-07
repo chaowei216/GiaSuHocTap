@@ -214,6 +214,41 @@ namespace Service.Service
             return null;
         }
 
+        public async Task<RequestDTO?> DoneOnlineRequest(DoneRequestDTO requestInfo)
+        {
+            var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
+
+            if (request != null && request.Status == RequestConst.InProcessStatus)
+            {
+                var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);        
+
+                var user = await _userService.GetUserById(requestInfo.TutorId);
+                if (user != null)
+                {
+                    user.CoinBalance += (int)(request.Coin * 70 / 100);
+                    await _userService.UpdateUser(user);
+                }
+
+                request.Status = RequestConst.CompletedStatus;
+                await _requestRepository.UpdateRequest(request);
+
+                foreach (var time in times)
+                {
+                    var onlineTime = await _timeTableService.GetTimeTableById(time.TimeTableId);
+                    onlineTime.Status = TimeTableConst.FreeStatus;
+                    await _timeTableService.UpdateTimeTable(onlineTime);
+
+                    time.Status = RequestConst.CompletedStatus;
+                    await _requestRepository.UpdateRequestTime(time);
+                }
+
+                var mappedCancelResponse = _mapper.Map<RequestDTO>(request);
+
+                return mappedCancelResponse;
+            }
+            return null;
+        }
+
         public PaginationResponseDTO<RequestDTO> GetOfflineRequestsOfTutor(int tutorId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetPagedOfflineRequestsOfTutor(tutorId, parameters);
