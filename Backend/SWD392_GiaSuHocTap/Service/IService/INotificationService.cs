@@ -62,5 +62,7 @@ namespace Service.IService
         /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<NotificationDTO> GetAllSystemNotifications(NotificationParameters parameters);
+
+        Task<bool> DeleteNotification(int id);
     }
 }

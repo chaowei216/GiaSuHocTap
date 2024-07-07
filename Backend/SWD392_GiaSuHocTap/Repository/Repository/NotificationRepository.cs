@@ -29,6 +29,20 @@ namespace Repository.Repository
             return await _userNotificationDAO.AddAsync(userNotification);
         }
 
+        public async Task<bool> DeleteNotification(int id)
+        {
+            var notification = _notificationDAO.GetByCondition(p => p.NotificationId == id).FirstOrDefault();
+
+            if (notification != null)
+            {
+                await _notificationDAO.DeleteAsync(notification);
+
+                return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<Notification> GetAllNotifications()
         {
             return _notificationDAO.GetAll().AsEnumerable();
