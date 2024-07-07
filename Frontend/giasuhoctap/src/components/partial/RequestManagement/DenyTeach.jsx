@@ -12,24 +12,33 @@ import {
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import WarningIcon from '@mui/icons-material/Warning';
+import useAuth from "../../../hooks/useAuth";
+import { AcceptOrDenyRequestOnline } from "../../../api/RequestApi";
 export default function DenyTeach(pros) {
-    const { show, handleClose } = pros;
-    const handleDeleteNews = async () => {
-        // try {
-        //   const id = newsId;
-        //   const response = await fetch(`https://localhost:44352/api/News/${id}`, {
-        //     method: "DELETE",
-        //   });
-        //   if (response.ok) {
-        //     console.log("Success");
-        //     window.location.reload();
-        //   } else {
-        //     toast.error("Error deleting");
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
-    };
+    const { user } = useAuth()
+    const { show, handleClose, data, setIsUpdated, isUpdated } = pros;
+    const handleDeny = async () => {
+        console.log(data);
+        if (user && data) {
+            const dataUpdate = {
+                tutorId: user?.userId,
+                requestId: data,
+                isAccepted: false,
+                linkMeet: null
+            }
+            const response = await AcceptOrDenyRequestOnline(dataUpdate)
+            if (response.ok) {
+                const responseJson = await response.json();
+                if (responseJson.statusCode == 200) {
+                    setIsUpdated(!isUpdated)
+                    toast.success("Từ chối thành công")
+                    handleClose()
+                }
+            } else {
+                toast.error("Error deny")
+            }
+        }
+    }
 
     return (
         <>
@@ -47,7 +56,7 @@ export default function DenyTeach(pros) {
                         <MDBModalBody style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
                             <div className="form-content">
                                 <div style={{ fontSize: "large", color: "#a1a1a1" }}>
-                                    Are you sure want to deny this request
+                                    Bạn có chắc muốn từ chối người này không
                                 </div>
                             </div>
                             <div style={{ display: "flex", marginTop: "20px" }}>
@@ -69,7 +78,7 @@ export default function DenyTeach(pros) {
                                         class="btn btn-outline-danger"
                                         type="submit"
                                         style={{ background: "#f74747", width: "100px", color: "white" }}
-                                        onClick={handleDeleteNews}
+                                        onClick={handleDeny}
                                         data-mdb-dismiss="modal"
                                         active
                                     >

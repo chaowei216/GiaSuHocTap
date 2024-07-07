@@ -46,21 +46,22 @@ export default function RequestTable({
   const TableHeader = [
     "Người yêu cầu",
     "Địa điểm",
-    "Lương (VND)",
+    "Lương",
     "Mô tả",
     "Lớp",
     "Môn",
     "Trạng thái",
     "Hành động",
   ];
-  const StatusType = ["Completed", "Pending"];
+  const StatusType = ["Chờ xác nhận", "Đang tiến hành", "Hoàn thành", "Từ chối", "Đã chấp nhận"];
 
   const handleAccept = async (requestId) => {
     if (user) {
       const dataUpdate = {
         tutorId: user?.userId,
         requestId: requestId,
-        isAccepted: true
+        isAccepted: true,
+        linkMeet: "",
       }
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
@@ -79,7 +80,8 @@ export default function RequestTable({
       const dataUpdate = {
         tutorId: user?.userId,
         requestId: requestId,
-        isAccepted: false
+        isAccepted: false,
+        linkMeet: "",
       }
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
@@ -149,7 +151,7 @@ export default function RequestTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.price}
+                      {row.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
@@ -183,11 +185,20 @@ export default function RequestTable({
                           if (row.requestStatus == type) {
                             let styleName;
                             switch (type) {
-                              case "Completed":
-                                styleName = styles.active;
+                              case "Chờ xác nhận":
+                                styleName = styles.pendingConfirmation;
                                 break;
-                              case "Pending":
-                                styleName = styles.pending;
+                              case "Đang tiến hành":
+                                styleName = styles.inProgress;
+                                break;
+                              case "Hoàn thành":
+                                styleName = styles.completed;
+                                break;
+                              case "Từ chối":
+                                styleName = styles.rejected;
+                                break;
+                              case "Đã chấp nhận":
+                                styleName = styles.accepted;
                                 break;
                               default:
                                 styleName = "";

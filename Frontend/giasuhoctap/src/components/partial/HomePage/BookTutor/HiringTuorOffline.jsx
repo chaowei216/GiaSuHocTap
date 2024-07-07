@@ -36,8 +36,8 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
     location: '',
     description: '',
     price: 1,
-    courseId: 1,
-    classId: 5
+    courseId: null,
+    classId: null
   });
   const handleClicked = async () => {
     if (data && user) {
@@ -45,7 +45,9 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
         ...inputData,
         userId: user?.userId,
         tutorId: data?.userId,
-        price: Number(inputData.price)
+        price: Number(inputData.price),
+        courseId: Number(subjectPicked),
+        classId: Number(classPicked)
       };
       console.log(updatedFormData);
       const response = await CreateOfflineRequest(updatedFormData)
@@ -54,6 +56,7 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
         if (responseJson.statusCode) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
+          window.location.reload();
         } else {
           toast.error(responseJson.message)
         }
@@ -69,6 +72,8 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
       [name]: value
     });
   };
+  const timeTableId = data?.timeTables?.[0]?.timeTableId || null;
+  console.log(timeTableId);
   return (
     <>
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1'>
@@ -103,7 +108,7 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
                           onChange={handleChangeSubject}
                         >
                           {data?.userCourses?.map((item, index) => (
-                            <MenuItem key={index} value={item.course.description}>{item.course.description}</MenuItem>
+                            <MenuItem key={index} value={item.course.courseId}>{item.course.courseName}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -124,7 +129,7 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
                           onChange={handleChangeClass}
                         >
                           {data?.userClasses?.map((item, index) => (
-                            <MenuItem key={index} value={item.class.className}>{item.class.className}</MenuItem>
+                            <MenuItem key={index} value={item.class.classId}>{item.class.className}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>

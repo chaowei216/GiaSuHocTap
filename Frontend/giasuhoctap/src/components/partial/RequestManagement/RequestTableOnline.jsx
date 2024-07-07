@@ -16,7 +16,6 @@ import fakeDate from "../../../data/fakeData.json";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
-import GlobalLoading from "../../global/GlobalLoading";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 export default function RequestTableOnline({
@@ -54,15 +53,14 @@ export default function RequestTableOnline({
     };
     const TableHeader = [
         "Người yêu cầu",
-        "Địa điểm",
-        "Lương (VND)",
+        "Xu",
         "Mô tả",
         "Lớp",
         "Môn",
         "Trạng thái",
         "Hành động",
     ];
-    const StatusType = ["Completed", "Pending"];
+    const StatusType = ["Chờ xác nhận", "Đang tiến hành", "Hoàn thành", "Từ chối", "Đã chấp nhận"];
 
     const handleClickOpenDetail = (data) => {
         setDataDetail(data)
@@ -118,13 +116,7 @@ export default function RequestTableOnline({
                                             align="left"
                                             scope="row"
                                         >
-                                            <span>{row.location}</span>
-                                        </StyledTableCell>
-                                        <StyledTableCell
-                                            style={{ fontWeight: "600" }}
-                                            align="left"
-                                        >
-                                            {row.price}
+                                            <span>{row.coin}</span>
                                         </StyledTableCell>
                                         <StyledTableCell
                                             style={{ fontWeight: "600" }}
@@ -158,11 +150,20 @@ export default function RequestTableOnline({
                                                     if (row.requestStatus == type) {
                                                         let styleName;
                                                         switch (type) {
-                                                            case "Completed":
-                                                                styleName = styles.active;
+                                                            case "Chờ xác nhận":
+                                                                styleName = styles.pendingConfirmation;
                                                                 break;
-                                                            case "Pending":
-                                                                styleName = styles.pending;
+                                                            case "Đang tiến hành":
+                                                                styleName = styles.inProgress;
+                                                                break;
+                                                            case "Hoàn thành":
+                                                                styleName = styles.completed;
+                                                                break;
+                                                            case "Từ chối":
+                                                                styleName = styles.rejected;
+                                                                break;
+                                                            case "Đã chấp nhận":
+                                                                styleName = styles.accepted;
                                                                 break;
                                                             default:
                                                                 styleName = "";
@@ -185,7 +186,7 @@ export default function RequestTableOnline({
                                             <Button
                                                 variant="contained"
                                                 color="success"
-                                                onClick={() => handleHire(row.requestId)}
+                                                onClick={() => handleHire(row)}
                                                 sx={{
                                                     background: "#0b7234",
                                                     color: "white",

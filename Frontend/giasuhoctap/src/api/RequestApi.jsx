@@ -48,3 +48,20 @@ export const GetRequestOnlineApi = async (tutorId, page, pageSize) => {
         console.log(err);
     }
 }
+
+export const AcceptOrDenyRequestOnline = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Request/update-online-request`;
+        const request = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

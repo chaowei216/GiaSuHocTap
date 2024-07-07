@@ -14,11 +14,36 @@ import {
   MDBCol,
   MDBCardText,
 } from 'mdb-react-ui-kit';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import styles from "../../partial/Profile/UserProfile.module.css"
 import useAuth from '../../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import { AcceptOrDenyRequestOnline } from '../../../api/RequestApi';
 
-export default function AcceptTeach({ basicModal, setBasicModal, data }) {
+export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpdated, isUpdated }) {
+  const { user } = useAuth()
+  const [meetUrl, setMeetUrl] = useState("");
+  const handleAccept = async () => {
+    if (user && data) {
+      const dataUpdate = {
+        tutorId: user?.userId,
+        requestId: data?.requestId,
+        isAccepted: true,
+        linkMeet: meetUrl
+      }
+      const response = await AcceptOrDenyRequestOnline(dataUpdate)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode == 200) {
+          setIsUpdated(!isUpdated)
+          toast.success("Chấp nhận thành công")
+        }
+      } else {
+        toast.error("Error accepting")
+      }
+      console.log(dataUpdate)
+    }
+  }
   return (
     <>
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1'>
@@ -35,7 +60,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data }) {
                       <MDBCardText>Tên người yêu cầu: </MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">Lưu Việt Nam</MDBCardText>
+                      <MDBCardText className="text-muted font-bold">{data?.requestUserName}</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
@@ -44,14 +69,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data }) {
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
                       <MDBCardText className="text-muted font-bold">
-                        {/* {data?.userCourses?.map((item, index) => (
-                          <>
-                            <span>{item.course.description}</span>
-                            {index !== data.userCourses.length - 1 && <span>, </span>}
-                          </>
-                        ))}
-                        {data?.userCourses?.length == 0 ? "Chưa đăng ký môn" : null} */}
-                        <span>Toán học</span>
+                        <span>{data?.courseName}</span>
                       </MDBCardText>
                     </MDBCol>
                   </MDBRow>
@@ -61,14 +79,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data }) {
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
                       <MDBCardText className="text-muted font-bold">
-                        {/* {data?.userCourses?.map((item, index) => (
-                          <>
-                            <span>{item.course.description}</span>
-                            {index !== data.userCourses.length - 1 && <span>, </span>}
-                          </>
-                        ))}
-                        {data?.userCourses?.length == 0 ? "Chưa đăng ký môn" : null} */}
-                        <span>Lớp 10</span>
+                        <span>{data?.className}</span>
                       </MDBCardText>
                     </MDBCol>
                   </MDBRow>
@@ -85,17 +96,25 @@ export default function AcceptTeach({ basicModal, setBasicModal, data }) {
                       <MDBCardText>Phí</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">40 Coins</MDBCardText>
+                      <MDBCardText className="text-muted font-bold">40 Xu</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
                     <MDBCol sm="4" className={`${styles.profile} font-bold`}>
-                      <MDBCardText>Ghi chú của người yêu cầu</MDBCardText>
+                      <MDBCardText>Điền link meet</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">Hôm nay tôi buồn lắm nhiều lúc tôi sẽ thành con bò, có đôi lúc 
-                        con bò sẽ thành con heo và từ con heo lalalala
-                      </MDBCardText>
+                      <TextField
+                        sx={{ paddingBottom: "20px" }}
+                        id="standard-basic"
+                        label="Link Meet"
+                        variant="standard"
+                        name="meetUrl"
+                        value={meetUrl}
+                        onChange={(event) => {
+                          setMeetUrl(event.target.value);
+                        }}
+                      />
                     </MDBCol>
                   </MDBRow>
                 </MDBCardBody>
@@ -103,7 +122,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data }) {
             </MDBModalBody>
 
             <MDBModalFooter style={{ gap: "10px" }}>
-              <Button variant='contained' style={{ background: "#f0564a" }}>Chấp nhận</Button>
+              <Button onClick={handleAccept} variant='contained' style={{ background: "#f0564a" }}>Chấp nhận</Button>
               <Button variant='contained' style={{ background: "white", color: "black" }} onClick={() => setBasicModal(false)}>
                 Đóng
               </Button>

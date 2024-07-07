@@ -18,10 +18,12 @@ import {
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import styles from "../../partial/Profile/UserProfile.module.css"
 import useAuth from '../../../hooks/useAuth';
+import { CreateOnlineRequest } from '../../../api/TutorManagementApi';
+import { toast } from 'react-toastify';
 
 export default function HiringTuor({ basicModal, setBasicModal, data }) {
+  const currentDate = new Date().toISOString();
   const { user } = useAuth();
-  console.log(data);
   const [classPicked, setClassPicked] = useState("");
   const handleChangeClass = (event) => {
     setClassPicked(event.target.value);
@@ -30,6 +32,50 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
   const handleChangeSubject = (event) => {
     setSubjectPicked(event.target.value);
   }
+  const timeTableId = data?.timeTables?.[0]?.timeTableId || null;
+  console.log(timeTableId);
+  const [inputData, setInputData] = useState({
+    fromId: null,
+    description: '',
+    coin: 50,
+    courseId: null,
+    classId: null,
+    timeTableId: null,
+    cretaeDate: currentDate
+  });
+  const handleClicked = async () => {
+    if (data && user) {
+      const updatedFormData = {
+        ...inputData,
+        fromId: user?.userId,
+        courseId: Number(subjectPicked),
+        classId: Number(classPicked),
+        timeTableId: timeTableId,
+      };
+      console.log(updatedFormData);
+      const response = await CreateOnlineRequest(updatedFormData)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode) {
+          toast.success("Yêu cầu thành công")
+          setBasicModal(false);
+          window.location.reload();
+        } else {
+          toast.error(responseJson.message)
+        }
+      } else {
+        toast.error("Error when create data")
+      }
+    }
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputData({
+      ...inputData,
+      [name]: value
+    });
+  };
+
   return (
     <>
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1'>
@@ -64,7 +110,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                           onChange={handleChangeSubject}
                         >
                           {data?.userCourses?.map((item, index) => (
-                            <MenuItem key={index} value={item.course.description}>{item.course.description}</MenuItem>
+                            <MenuItem key={index} value={item.course.courseId}>{item.course.courseName}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -85,7 +131,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                           onChange={handleChangeClass}
                         >
                           {data?.userClasses?.map((item, index) => (
-                            <MenuItem key={index} value={item.class.className}>{item.class.className}</MenuItem>
+                            <MenuItem key={index} value={item.class.classId}>{item.class.className}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -104,7 +150,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                       <MDBCardText>Chi phí</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
-                      <MDBCardText className="text-muted font-bold">40 Coins</MDBCardText>
+                      <MDBCardText className="text-muted font-bold">50 xu</MDBCardText>
                     </MDBCol>
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
@@ -117,12 +163,21 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
                   </MDBRow>
                 </MDBCardBody>
               </MDBCard>
-              <MDBTextArea placeholder='Ghi chú thêm ...' style={{ marginLeft: "16px", width: "96%" }} contrast id='textAreaExample' rows={3}></MDBTextArea>
+              <MDBTextArea
+                placeholder="Ghi chú thêm ..."
+                style={{ marginLeft: "16px", width: "96%" }}
+                contrast
+                id="textAreaExample"
+                rows={3}
+                name="description"
+                value={inputData.description}
+                onChange={handleChange}
+              />
 
             </MDBModalBody>
 
             <MDBModalFooter style={{ gap: "10px" }}>
-              <Button variant='contained' style={{ background: "#f0564a" }}>Thuê</Button>
+              <Button onClick={handleClicked} variant='contained' style={{ background: "#f0564a" }}>Thuê</Button>
               <Button variant='contained' style={{ background: "white", color: "black" }} onClick={() => setBasicModal(false)}>
                 Đóng
               </Button>
