@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Crypto.Engines;
 using Repository.IRepository;
 using Service.IService;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Service.Service
@@ -873,9 +874,16 @@ namespace Service.Service
         public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters)
         {
             var userList = _userRepository.GetTutorTeachOffline(parameters);
+            List<TutorInforDTO> mappedData = new List<TutorInforDTO>();
+
+            foreach (var user in userList)
+            {
+                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline).ToList();
+                mappedData.Add(_mapper.Map<TutorInforDTO>(user));
+            }
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
-            mappedResponse.Data = _mapper.Map<List<TutorInforDTO>>(userList);
+            mappedResponse.Data = mappedData;
 
             return mappedResponse;
         }
