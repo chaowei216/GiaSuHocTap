@@ -836,7 +836,7 @@ namespace Service.Service
             return false;
         }
 
-        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters)
         {
             var userList = _userRepository.GetTutorTeachOnline(parameters).ToList();
             List<TutorInforDTO> tutorInfoDTOs = new List<TutorInforDTO>();
@@ -871,7 +871,7 @@ namespace Service.Service
             return mappedResponse;
         }
 
-        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters)
+        public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(TutorParameters parameters)
         {
             var userList = _userRepository.GetTutorTeachOffline(parameters);
             List<TutorInforDTO> mappedData = new List<TutorInforDTO>();

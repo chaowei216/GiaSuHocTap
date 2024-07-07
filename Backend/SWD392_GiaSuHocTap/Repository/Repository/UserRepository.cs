@@ -89,15 +89,49 @@ namespace Repository.Repository
             return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
         }
 
-        public IEnumerable<User> GetTutorTeachOnline(UserParameters parameters)
+        public IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOnline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
+            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true);
+
+            if (!string.IsNullOrEmpty(parameters.Name))
+            {
+                onlineTutors = onlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
+            }
+
+            if (parameters.ClassId != null)
+            {
+                onlineTutors = onlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
+            }
+
+            if (parameters.CourseId != null)
+            {
+                onlineTutors = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
+            }
+
+            return PagedList<User>.ToPagedList(onlineTutors, parameters.PageNumber, parameters.PageSize);
         }
 
-        public IEnumerable<User> GetTutorTeachOffline(UserParameters parameters)
+        public IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
-                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus), parameters.PageNumber, parameters.PageSize);
+            var offlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
+                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus);
+
+            if (!string.IsNullOrEmpty(parameters.Name))
+            {
+                offlineTutors = offlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
+            }
+
+            if (parameters.ClassId != null)
+            {
+                offlineTutors = offlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
+            }
+
+            if (parameters.CourseId != null)
+            {
+                offlineTutors = offlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
+            }
+
+            return PagedList<User>.ToPagedList(offlineTutors, parameters.PageNumber, parameters.PageSize);
         }
 
         public User? GetUserByEmailInclude(string email)
