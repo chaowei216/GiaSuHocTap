@@ -1,7 +1,9 @@
-﻿using Common.DTO;
+﻿using Common.Constant.Notification;
+using Common.DTO;
 using Common.DTO.Query;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -32,6 +34,11 @@ namespace Repository.Repository
             return _notificationDAO.GetAll().AsEnumerable();
         }
 
+        public PagedList<Notification> GetAllSystemNotifications(NotificationParameters parameters)
+        {
+            return PagedList<Notification>.ToPagedList(_notificationDAO.GetAll().Where(p => p.NotificationType == NotificationType.System).Include(p => p.UserNotification).ThenInclude(p => p.User), parameters.PageNumber, parameters.PageSize);
+        }
+
         public async Task<Notification?> GetNotificationById(int id)
         {
             return await _notificationDAO.GetByIdAsync(id);
@@ -41,7 +48,7 @@ namespace Repository.Repository
         {
             var ntfIdOfUser = _userNotificationDAO.GetAll().Where(p => p.UserId == userId).Select(p => p.NotificationId).ToList();
 
-            return _notificationDAO.GetAll().Where(p => ntfIdOfUser.Contains(p.NotificationId)).ToList();
+            return _notificationDAO.GetAll().Where(p => ntfIdOfUser.Contains(p.NotificationId) || p.NotificationType == NotificationType.System).ToList();
         }
 
         public PagedList<Notification> GetPagedNotificationList(NotificationParameters parameters)
