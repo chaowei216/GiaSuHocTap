@@ -27,6 +27,13 @@ namespace Repository.IRepository
         Task<RequestTime> AddNewRequestTime(RequestTime requestTime);
 
         /// <summary>
+        /// Get pending request time
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <returns></returns>
+        Task<RequestTime> GetPendingRequestTimeByRequestId(int requestId);
+
+        /// <summary>
         /// Get all offline requests of tutor
         /// </summary>
         /// <param name="tutorId"></param>

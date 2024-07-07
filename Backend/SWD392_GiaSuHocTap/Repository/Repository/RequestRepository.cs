@@ -55,6 +55,11 @@ namespace Repository.Repository
             return PagedList<Request>.ToPagedList(_requestDAO.GetAll().Where(p => requestIdsOfTutor.Contains(p.RequestId) && p.RequestType == RequestConst.Online).Include(p => p.Course).Include(p => p.Class).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
         }
 
+        public async Task<RequestTime> GetPendingRequestTimeByRequestId(int requestId)
+        {
+            return await _requestTimeDAO.GetByCondition(t => t.RequestId ==  requestId && t.Status == RequestConst.PendingStatus).FirstOrDefaultAsync();
+        }
+
         public async Task<Request?> GetRequestById(int id)
         {
             return await _requestDAO.GetByIdAsync(id);

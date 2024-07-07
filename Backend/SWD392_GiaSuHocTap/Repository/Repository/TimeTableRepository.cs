@@ -4,6 +4,7 @@ using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
+using System;
 
 namespace Repository.Repository
 {
@@ -38,9 +39,10 @@ namespace Repository.Repository
 
         public IEnumerable<TimeTable> GetOnlineTimeOfUser(int userId)
         {
-            return _timeTableDAO.GetAll().Where(t => DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
-                                                                        DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
-                                                                        && t.Status == TimeTableConst.FreeStatus);
+            return _timeTableDAO.GetAll().AsEnumerable().Where(t => t.LearningType == TimeTableConst.Online
+                                                                                && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                );
         }
 
         public async Task<TimeTable?> GetTimeTableById(int id)
