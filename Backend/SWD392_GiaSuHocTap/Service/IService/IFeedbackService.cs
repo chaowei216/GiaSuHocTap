@@ -1,5 +1,6 @@
 ﻿using DAO.Model;
 using Common.DTO;
+using Common.DTO.Feedback;
 
 namespace Service.IService
 {
@@ -23,7 +24,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="feedback"></param>
         /// <returns></returns>
-        Task<ResponseDTO> AddNewFeedback(Feedback feedback);
+        Task<FeedbackDTO> AddNewFeedback(FeedbackCreateDTO feedback);
 
         /// <summary>
         /// Update Feedback

@@ -218,14 +218,14 @@ namespace Service.Service
         {
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
 
-            if (request != null && request.Status == RequestConst.InProcessStatus)
+            if (request != null)
             {
                 var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);        
 
                 var user = await _userService.GetUserById(requestInfo.TutorId);
                 if (user != null)
                 {
-                    user.CoinBalance += (int)(request.Coin * 70 / 100);
+                    user.CoinBalance += (int)Math.Ceiling((decimal)request.Coin * 70 / 100);
                     await _userService.UpdateUser(user);
                 }
 
