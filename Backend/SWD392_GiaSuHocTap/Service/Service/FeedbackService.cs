@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Common.DTO;
 using Common.DTO.Feedback;
+using Common.DTO.Query;
+using Common.DTO.Request;
 using DAO.Model;
+using Firebase.Auth;
 using Repository.IRepository;
+using Repository.Repository;
 using Service.IService;
 
 namespace Service.Services
@@ -38,6 +42,16 @@ namespace Service.Services
         public async Task<Feedback?> GetFeedbackById(int id)
         {
             return await _feedbackRepository.GetFeedbackById(id);
+        }
+
+        public PaginationResponseDTO<FeedbackDTO> GetFeedbacksOfTutor(int tutorId, FeedbackParameters parameters)
+        {
+            var requests = _feedbackRepository.GetPagedFeedbacksOfTutor(tutorId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<FeedbackDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<FeedbackDTO>>(requests);
+
+            return mappedResponse;
         }
 
         public async Task<Feedback> UpdateFeedback(Feedback feedback)

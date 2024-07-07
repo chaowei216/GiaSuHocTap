@@ -34,6 +34,7 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<User, TutorInforDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
+            CreateMap<PagedList<Feedback>, PaginationResponseDTO<FeedbackDTO>>().ReverseMap();
             CreateMap<User, TutorDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<TutorDetailDTO, TutorDetail>().ReverseMap();
             CreateMap<UserClass, UserClassDTO>().ReverseMap();

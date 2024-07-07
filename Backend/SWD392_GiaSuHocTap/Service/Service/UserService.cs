@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Common.Constant;
 using Common.Constant.Firebase;
 using Common.Constant.Message;
 using Common.Constant.Notification;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.DTO;
-using Common.DTO.Auth;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
@@ -15,10 +13,8 @@ using DAO.Model;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Crypto.Engines;
 using Repository.IRepository;
 using Service.IService;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Service.Service
@@ -846,26 +842,28 @@ namespace Service.Service
                 var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
                 tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
 
-                foreach(var time in tutorInfoDTO.TimeTables)
+                if (tutorInfoDTO.TimeTables.All(t => t.Status != (TimeTableConst.BusyStatus)))
                 {
-                    if(time.LearningType == TimeTableConst.Online)
+                    foreach (var time in tutorInfoDTO.TimeTables)
                     {
-                        DateTime today = DateTime.Now;
-                        string dayOfWeek = GetDayOfWeek(today);
-                        // Filter the timetables where the StartTime is in the future
-                        tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
-                                                                                && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
-                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
-                                                                                && t.Status == TimeTableConst.FreeStatus
-                                                                                ).ToList();
-                    }
-                    
-                }              
+                        if (time.LearningType == TimeTableConst.Online)
+                        {
+                            DateTime today = DateTime.Now;
+                            string dayOfWeek = GetDayOfWeek(today);
+                            // Filter the timetables where the StartTime is in the future
+                            tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                                                                                    && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                    DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                    && t.Status == TimeTableConst.FreeStatus).ToList();
+                        }
 
-                if (tutorInfoDTO.TimeTables.Count > 0)
-                {
-                    tutorInfoDTOs.Add(tutorInfoDTO);
+                    }
+                    if (tutorInfoDTO.TimeTables.Count > 0)
+                    {
+                        tutorInfoDTOs.Add(tutorInfoDTO);
+                    }
                 }
+                
             }
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
