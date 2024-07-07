@@ -1,4 +1,4 @@
-.active {
+.accepted {
   background-color: #d6f0e0;
   font-weight: 600;
   color: #0d6832;
@@ -8,11 +8,41 @@
   justify-content: center;
   border-radius: 18px;
 }
-.pending {
+.inProgress {
+  background-color: #4285f4;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.877);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+}
+.completed {
+  background-color: #d6f0e0;
+  font-weight: 600;
+  color: #0d6832;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+}
+.pendingConfirmation {
   font-weight: 600;
   height: 30px;
   background-color: #fbf0da;
   color: #73510d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+}
+.rejected {
+  font-weight: 600;
+  height: 30px;
+  background-color: #e06666;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;

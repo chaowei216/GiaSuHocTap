@@ -36,6 +36,28 @@ const BookTutorOffline = () => {
         setTutorHire(item);
         setBasicModal(true);
     }
+    const translateDayOfWeek = (dayOfWeek) => {
+        const daysInVietnamese = {
+            Monday: 'Thứ 2, ',
+            Tuesday: 'Thứ 3, ',
+            Wednesday: 'Thứ 4, ',
+            Thursday: 'Thứ 5, ',
+            Friday: 'Thứ 6',
+            Saturday: 'Thứ 7, ',
+        };
+        console.log([dayOfWeek]);
+        return daysInVietnamese[dayOfWeek] || dayOfWeek;
+    };
+    const getUniqueDays = (timeTables) => {
+        const uniqueDays = new Set();
+        return timeTables.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.dayOfWeek)) {
+                uniqueDays.add(timeTable.dayOfWeek);
+                acc.push(`${translateDayOfWeek(timeTable.dayOfWeek)}`);
+            }
+            return acc;
+        }, []);
+    };
     return (
         <>
             <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
@@ -84,9 +106,7 @@ const BookTutorOffline = () => {
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
-                                                    {tutor.timeTables.map((item) => (
-                                                        item.dayOfWeek
-                                                    ))}
+                                                    {getUniqueDays(tutor.timeTables)}
                                                 </p>
                                             </div>
                                         </div>

@@ -66,8 +66,9 @@ export default function ViewRequest() {
         setParent(item);
         setBasicModal(true);
     }
-    const handleOpenDeny = (row) => {
+    const handleOpenDeny = (item) => {
         setShowmodalDelete(true);
+        setParent(item);
     }
     return (
         <div style={{
@@ -107,8 +108,8 @@ export default function ViewRequest() {
                     </div>
                 </>
             )}
-            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} />
-            <DenyTeach show={showModalDelete} handleClose={handleClose} />
+            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <DenyTeach show={showModalDelete} handleClose={handleClose} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
         </div>
     )
 }

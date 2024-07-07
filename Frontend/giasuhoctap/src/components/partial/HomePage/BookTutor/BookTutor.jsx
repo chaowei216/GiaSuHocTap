@@ -42,6 +42,18 @@ const BookTutor = () => {
         setTutorHire(item);
         setBasicModal(true);
     }
+    const translateDayOfWeek = (dayOfWeek) => {
+        const daysInVietnamese = {
+            Monday: '2',
+            Tuesday: '3',
+            Wednesday: '4',
+            Thursday: '5',
+            Friday: '6',
+            Saturday: '7',
+        };
+        console.log([dayOfWeek]);
+        return daysInVietnamese[dayOfWeek] || dayOfWeek;
+    };
     return (
         <>
             <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
@@ -105,7 +117,7 @@ const BookTutor = () => {
                                                 <p className={styles.cardTitle}>Ngày dạy trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
                                                     {tutor.timeTables?.map((item) => (
-                                                        `Thứ ${item.dayOfWeek}`
+                                                        `Thứ ${translateDayOfWeek(item.dayOfWeek)}`
                                                     ))}
                                                 </p>
                                             </div>
