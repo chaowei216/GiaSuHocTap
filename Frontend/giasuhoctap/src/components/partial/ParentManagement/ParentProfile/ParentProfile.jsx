@@ -7,9 +7,9 @@ import logo from '../../../../../public/img/logoGiasu2.png';
 import { validationSchema } from './ValidationParentProfile';
 import * as Yup from 'yup'; // Import Yup for validation
 
-const countries = [
-    "Vietnam"
-];
+// const countries = [
+//     "Vietnam"
+// ];
 
 const cities = [
     "An Giang","Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước",
@@ -64,9 +64,9 @@ const ParentProfile = () => {
     return (
         <Formik
             initialValues={{
-                fullName: '',
+                // fullName: '',
                 phone: '',
-                birthdate: null,
+                // birthdate: null,
                 city: '',
                 district: '',
                 address: '',
@@ -108,13 +108,13 @@ const ParentProfile = () => {
                                     onChange={(event) => handleFileChange(event, setFieldValue)}
                                 />
                             </div>
-                            <div className={styles.profileBox}>
+                            {/* <div className={styles.profileBox}>
                                 <div className={styles.notify}>
                                     <label className={styles.label}>HỌ VÀ TÊN</label>
                                     <ErrorMessage name="fullName" component="div" className={styles.error} />
                                 </div>
                                 <Field type="text" name="fullName" placeholder="Nhập họ và tên" className={styles.input} />
-                            </div>
+                            </div> */}
                             <div className={styles.profileBox}>
                                 <div className={styles.notify}>
                                     <label className={styles.label}>SỐ ĐIỆN THOẠI</label>
@@ -122,7 +122,7 @@ const ParentProfile = () => {
                                 </div>
                                 <Field type="text" name="phone" placeholder="Nhập số điện thoại" className={styles.input} />
                             </div>
-                            <div className={styles.profileBoxNIput} style={{ display: 'flex', flexDirection: 'column' }}>
+                            {/* <div className={styles.profileBoxNIput} style={{ display: 'flex', flexDirection: 'column' }}>
                                 <div className={styles.notify}>
                                     <label>NGÀY SINH</label>
                                     <ErrorMessage name="birthdate" component="div" className={styles.error} />
@@ -135,7 +135,7 @@ const ParentProfile = () => {
                                     className="customDatePicker"
                                     showTimeInput={false} // Disable time input
                                 />
-                            </div>
+                            </div> */}
                             <div className={styles.profileBoxNIput}>
                                 <div className={styles.notify}>
                                     <label>THÀNH PHỐ</label>

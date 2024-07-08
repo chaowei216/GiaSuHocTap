@@ -1,9 +1,9 @@
 import React from 'react'
 import SideBar from '../../components/partial/ParentManagement/SideBar/SideBar'
 import Navbar from '../../components/partial/HomePage/Navbar/Navbar'
-import Notification from '../../components/partial/ParentManagement/Notification/Notification'
+import HistoryTransaction from '../../components/partial/ParentManagement/HistoryTransaction/HistoryTransaction'
 
-export default function ParentHistory() {
+export default function ParentHistoryTransaction() {
     return (
         <div >
             <Navbar />
@@ -13,7 +13,7 @@ export default function ParentHistory() {
                 </div>
                 <div style={{ width: '80%', background: 'rgba(202, 234, 243, 0.28)' }}>
                     <div>
-                        <Notification />
+                        <HistoryTransaction />
                     </div>
                 </div>
             </div>

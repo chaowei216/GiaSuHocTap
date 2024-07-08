@@ -38,6 +38,8 @@ import Checkout from "../pages/PaymentPage/CheckOut";
 import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
 import TransactionPage from "../pages/TransactionPage/TransactionPage";
 import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
+import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
+import NewsPage from "../pages/NewsPage/NewsPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -77,6 +79,8 @@ export const router = createBrowserRouter([
   { path: "ParentCompleteOffline", element: <ParentCompleteOffline /> },
   { path: "ParentCancelledOffline", element: <ParentCancelledOffline /> },
   { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> },
-  { path: "NotificationPage", element: <NotificationPage /> }
+  { path: "NotificationPage", element: <NotificationPage /> },
+  { path: "ParentHistoryTransaction", element: <ParentHistoryTransaction /> },
+  { path: "NewsPage", element: <NewsPage /> }
 ]);
 

@@ -87,6 +87,9 @@ const Navbar = () => {
             <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
             </a>
+            <a href="/NewsPage" className={`${styles.nav} ${styles.center}`}>
+              TIN TỨC
+            </a>
           </div>
         </div>
         {(!isAuthenticated) && (
