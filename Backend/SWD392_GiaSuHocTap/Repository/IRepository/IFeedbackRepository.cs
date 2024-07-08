@@ -40,5 +40,13 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Feedback> GetPagedFeedbackList(FeedbackParameters parameters);
+
+        /// <summary>
+        /// Get all online requests of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Feedback> GetPagedFeedbacksOfTutor(int tutorId, FeedbackParameters parameters);
     }
 }

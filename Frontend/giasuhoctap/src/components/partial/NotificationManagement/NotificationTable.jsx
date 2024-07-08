@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -8,13 +9,23 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
+import { useState } from "react";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
 import GlobalLoading from "../../global/GlobalLoading";
-export default function TransactionTable({
-  data,
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
+import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+export default function NotificationTable({
+  data, handleClickUpdate, handleClickDelete
 }) {
+  const [showModalDelete, setShowmodalDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState({});
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -36,14 +47,18 @@ export default function TransactionTable({
   }));
   const TableHeader = [
     "ID",
-    "Số",
-    "Thông tin",
-    "Ngày",
-    "Số lượng",
+    "Mô tả",
+    "Loại",
+    "Ngày tạo",
     "Trạng thái",
-    "Email User",
+    "Hành động",
   ];
-  const StatusType = ["Paid", "Cancel"];
+  const StatusType = [false, true];
+
+  const handleDeleteNews = async (item) => {
+    setDataDelete(item);
+    setShowmodalDelete(true);
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -86,31 +101,25 @@ export default function TransactionTable({
                       component="th"
                       scope="row"
                     >
-                      {row.transactionId}
+                      {row.notificationId}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.transactionNumber}
+                      {row.description}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="middle"
                     >
-                      {row.transactionInfo}
+                      {row.notificationType}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.transactionDate?.split("T")[0]}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="left"
-                    >
-                      {row.amount}
+                      {row.createdTime?.split("T")[0]}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
@@ -126,10 +135,10 @@ export default function TransactionTable({
                           if (row.status == type) {
                             let styleName;
                             switch (type) {
-                              case "Paid":
+                              case true:
                                 styleName = styles.completed;
                                 break;
-                              case "Cancel":
+                              case false:
                                 styleName = styles.rejected;
                                 break;
                               default:
@@ -137,7 +146,7 @@ export default function TransactionTable({
                             }
                             return (
                               <div className={styleName} key={index}>
-                                {type}
+                                {type ? "True" : "False"}
                               </div>
                             );
                           }
@@ -147,7 +156,12 @@ export default function TransactionTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.email}
+                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickUpdate(row)}>
+                        <EditIcon />
+                      </Button>
+                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row)}>
+                        <DeleteIcon />
+                      </Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 );

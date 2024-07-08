@@ -19,13 +19,6 @@ export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
     {
-      title: "Home",
-      path: "/dashboard",
-      icon: <HomeIcon />,
-      id: 0,
-      src: "/dashboard",
-    },
-    {
       title: "User Profile",
       path: "/personal-profile",
       icon: <PersonIcon />,
@@ -54,6 +47,31 @@ export default function Sidebar() {
       src: "/transaction",
     },
   ];
+  if (user?.roleName === 'Moderator') {
+    Menus.push({
+      title: "Notification",
+      path: "/view-notification",
+      icon: <GroupIcon />,
+      id: 3,
+      src: "/view-notification",
+    });
+  }
+  if (user?.roleName === 'Admin') {
+    Menus.push({
+      title: "Home",
+      path: "/dashboard",
+      icon: <HomeIcon />,
+      id: 0,
+      src: "/dashboard",
+    },
+      {
+        title: "User Management",
+        path: "/user-management",
+        icon: <GroupIcon />,
+        id: 3,
+        src: "/user-management",
+      });
+  }
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState('/dashboard');
 

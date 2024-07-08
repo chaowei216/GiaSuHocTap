@@ -41,8 +41,13 @@ namespace Repository.Repository
         {
             return _timeTableDAO.GetAll().AsEnumerable().Where(t => t.LearningType == TimeTableConst.Online
                                                                                 && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
-                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
-                                                                                );
+                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20));
+        }
+
+        public IEnumerable<TimeTable> GetOldOnlineTimeOfUser(int userId)
+        {
+            return _timeTableDAO.GetAll().AsEnumerable().Where(t => t.LearningType == TimeTableConst.Online
+                                                                                && t.Status == TimeTableConst.BusyStatus);
         }
 
         public async Task<TimeTable?> GetTimeTableById(int id)
