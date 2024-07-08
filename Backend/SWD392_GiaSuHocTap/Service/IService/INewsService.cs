@@ -1,4 +1,8 @@
 ﻿using DAO.Model;
+using Common.DTO.News;
+using Common.DTO.Query;
+using Common.DTO.User;
+using Common.DTO;
 
 namespace Service.IService
 {
@@ -22,7 +26,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="news"></param>
         /// <returns></returns>
-        Task<News> AddNewNews(News news);
+        Task<NewsDTO> AddNewNews(NewsCreateDTO news);
 
         /// <summary>
         /// Update News
@@ -30,5 +34,13 @@ namespace Service.IService
         /// <param name="news"></param>
         /// <returns></returns>
         Task<News> UpdateNews(News news);
+
+        /// <summary>
+        /// Get news list with pagination
+        /// Get all users where status is pending
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<NewsDTO> GetPagedNewsList(NewsParameters parameters);
     }
 }
