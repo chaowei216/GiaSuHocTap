@@ -1,4 +1,7 @@
-﻿using DAO.Model;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using Common.DTO.Report;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -22,13 +25,21 @@ namespace Service.IService
         /// </summary>
         /// <param name="report"></param>
         /// <returns></returns>
-        Task<Report> AddNewReport(Report report);
+        Task<ReportDTO?> AddNewReport(ReportCreateDTO report);
 
         /// <summary>
-        /// Update Report
+        /// Get all reports with pagination
         /// </summary>
-        /// <param name="report"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<Report> UpdateReport(Report report);
+        PaginationResponseDTO<ReportDTO> GetReportsWithPagination(ReportParameters parameters);
+
+        /// <summary>
+        /// Get reports of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<ReportDTO> GetPagedReportOfUser(int userId, ReportParameters parameters);
     }
 }
