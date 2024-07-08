@@ -3,6 +3,7 @@ using Common.DTO.News;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.DTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Service.IService
 {
@@ -26,7 +27,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="news"></param>
         /// <returns></returns>
-        Task<NewsDTO> AddNewNews(NewsCreateDTO news);
+        Task<NewsDTO> AddNewNews(NewsCreateDTO news, IFormFile imageFile);
 
         /// <summary>
         /// Update News

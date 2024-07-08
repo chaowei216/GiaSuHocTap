@@ -46,7 +46,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPost("create-news")]
-        public async Task<IActionResult> CreateNews([FromBody] NewsCreateDTO newsInfo)
+        public async Task<IActionResult> CreateNews([FromForm] NewsCreateDTO newsInfo, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var feedback = await _newsService.AddNewNews(newsInfo);
+            var feedback = await _newsService.AddNewNews(newsInfo, imageFile);
 
             if (feedback == null)
             {
