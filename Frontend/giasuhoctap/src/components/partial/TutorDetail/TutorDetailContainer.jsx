@@ -5,13 +5,15 @@ import TutorDetailMiddle from "./TutorDetailMiddle";
 import TutorDetailRight from "./TutorDetailRight";
 import PageNavigation from "../TutorManagement/PageNavigation";
 import { useEffect, useState } from "react";
-import { GetTutorByEmail } from "../../../api/TutorManagementApi";
+import { GetFeedbackTutor, GetTutorByEmail } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
 
 function TutorDetailContainer() {
   let { email } = useParams();
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
   const [data, setData] = useState({});
+  const [dataFeedback, setDataFeedback] = useState([]);
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +29,20 @@ function TutorDetailContainer() {
     }
     fetchData()
   }, [email])
+  useEffect(() => {
+    const fetchFeedback = async () => {
+      const response = await GetFeedbackTutor(email)
+      if (response.ok) {
+        const responseJson = await response.json();
+        const feedback = responseJson.data
+        setDataFeedback(feedback);
+        setTotalPage(feedback.totalPages)
+      } else {
+        toast.error("Error to fetch data feedback")
+      }
+    }
+    fetchFeedback()
+  }, [email])
   return (
     <>
       <div
@@ -35,7 +51,7 @@ function TutorDetailContainer() {
       >
         <TutorDetailMain>
           <TutorDetailLeft image={userImage} />
-          <TutorDetailMiddle data={data} />
+          <TutorDetailMiddle data={data} dataFeedback={dataFeedback} />
           <TutorDetailRight data={data}/>
         </TutorDetailMain>
       </div>
@@ -51,7 +67,7 @@ function TutorDetailContainer() {
           <PageNavigation
             page={page}
             setPage={setPage}
-            totalPages={5}
+            totalPages={totalPage}
           />
         </div>
       </div>

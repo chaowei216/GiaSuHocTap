@@ -205,3 +205,20 @@ export const GetAllUser = async () => {
         console.log(err);
     }
 }
+
+export const GetFeedbackTutor = async (email) => {
+    try {
+        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

@@ -39,5 +39,13 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Report> GetPagedReportList(ReportParameters parameters);
+
+        /// <summary>
+        /// Get report list of user with pagination
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Report> GetPagedReportListOfUser(int userId, ReportParameters parameters);
     }
 }

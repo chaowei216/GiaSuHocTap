@@ -156,6 +156,19 @@ namespace Service.IService
         /// <returns></returns>
         Task<User> UpdateUser(User user);
 
+        /// <summary>
+        /// Get tutor detail by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<TutorDetail?> GetTutorDetailByUserId(int userId);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo);
     }
 }
