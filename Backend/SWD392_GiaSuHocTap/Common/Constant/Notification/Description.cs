@@ -17,5 +17,12 @@
         public const string AcceptedRequest = "Giáo viên đã chập nhận yêu cầu, hy vọng bạn có trải nghiệm tốt";
         public const string OfflineCompletedRequest = "Quá trình dạy và học offline đã hoàn thành";
         public const string OfflineAcceptedChecking = "Vui lòng kiểm tra email để biết thêm thông tin về phụ huynh";
+
+        // report 
+        public const string ReportSuccess = "Cảm ơn vì bài báo cáo của bạn, chúng tôi sẽ xử lý trường hợp này";
+        public const string ReportFail = "Bài báo cáo chưa được xác thực, chúng tôi xin từ chối";
+        public const string TutorWarning1 = "Cảnh báo vi phạm lần 1, vui lòng không tái phạm";
+        public const string TutorWarning2 = "Cảnh báo vi phạm lần 2, nếu tái phạm chúng tôi sẽ khoá tài khoản";
+        public const string TutorBanning = "Tài khoản đã bị khoá, vui lòng liên hệ để mở khoá";
     }
 }

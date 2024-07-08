@@ -41,5 +41,13 @@ namespace Service.IService
         /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<ReportDTO> GetPagedReportOfUser(int userId, ReportParameters parameters);
+
+        /// <summary>
+        /// Handle report
+        /// </summary>
+        /// <param name="report"></param>
+        /// <param name="reportInfo"></param>
+        /// <returns></returns>
+        Task<bool> HandleReport(Report report, ReportUpdateDTO reportInfo);
     }
 }

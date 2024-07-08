@@ -91,7 +91,7 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true);
+            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true && u.Status == UserStatusEnum.Active);
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
@@ -113,7 +113,7 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters)
         {
-            var offlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
+            var offlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true && u.Status == UserStatusEnum.Active).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
                                             .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus);
 
             if (!string.IsNullOrEmpty(parameters.Name))
@@ -141,7 +141,7 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTopTutorByFeedBack(IEnumerable<Feedback> feedbacks)
         {
-            var tutors = _userDAO.GetAll().Where(p => p.RoleId == (int)RoleEnum.Tutor).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).ToList();
+            var tutors = _userDAO.GetAll().Where(p => p.RoleId == (int)RoleEnum.Tutor && p.Status == UserStatusEnum.Active).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).ToList();
 
             var tutorScores = (from t in tutors
                                let ratingCount = feedbacks.Count(r => r.ToId == t.UserId)
