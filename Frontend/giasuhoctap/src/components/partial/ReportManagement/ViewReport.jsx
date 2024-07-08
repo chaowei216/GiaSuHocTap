@@ -4,8 +4,8 @@ import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
 import { GetNotificationTypeSystem } from '../../../api/NotificationApi';
 import { toast } from 'react-toastify';
-import NotificationTable from './FeedbackTable';
-export default function ViewFeedback() {
+import NotificationTable from './ReportTable';
+export default function ViewReport() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);

@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
 
-export default function FeedbackTable({ data }) {
+export default function ReportTable({ data }) {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
