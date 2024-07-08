@@ -1,7 +1,7 @@
 import style from "./TutorDetailMiddle.module.css"
 import ImageWithPreview from "../../global/ImageWithPreview";
 import FeedbackTutor from "./FeedbackTutor";
-function TutorDetailMiddle({ data }) {
+function TutorDetailMiddle({ data, dataFeedback }) {
   const imageList = [
     'https://picsum.photos/200',
     'https://picsum.photos/200/300',
@@ -68,7 +68,7 @@ function TutorDetailMiddle({ data }) {
       <hr style={{ margin: "20px 0px 10px 0px" }} />
       <div>
         <div className={style.title_user_profile}>Đánh giá</div>
-        <FeedbackTutor />
+        <FeedbackTutor dataFeedback={dataFeedback} />
       </div>
     </div>
   );
