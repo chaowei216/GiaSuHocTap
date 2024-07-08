@@ -328,7 +328,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPut("update-online-request")]
-        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestUpdateDTO requestInfo)
+        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestOnlineUpdateDTO requestInfo)
         {
             if (!ModelState.IsValid)
             {
