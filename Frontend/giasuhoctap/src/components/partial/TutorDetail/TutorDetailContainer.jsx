@@ -34,7 +34,7 @@ function TutorDetailContainer() {
       const response = await GetFeedbackTutor(email)
       if (response.ok) {
         const responseJson = await response.json();
-        const feedback = responseJson.data
+        const feedback = responseJson.data.data
         setDataFeedback(feedback);
         setTotalPage(feedback.totalPages)
       } else {
@@ -52,7 +52,7 @@ function TutorDetailContainer() {
         <TutorDetailMain>
           <TutorDetailLeft image={userImage} />
           <TutorDetailMiddle data={data} dataFeedback={dataFeedback} />
-          <TutorDetailRight data={data}/>
+          <TutorDetailRight data={data} />
         </TutorDetailMain>
       </div>
       <div
