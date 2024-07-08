@@ -61,6 +61,9 @@ namespace SWD392_GiaSuHocTap.Profiles
                                             .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status)).ReverseMap();
             CreateMap<RequestOnlineDTO, Request>().ReverseMap();
             CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
+            CreateMap<PagedList<Report>, PaginationResponseDTO<ReportDTO>>().ReverseMap();
+            CreateMap<Report, ReportDTO>().ForMember(dest => dest.ParentsEmail, opt => opt.MapFrom(src => src.From.Email))
+                                          .ForMember(dest => dest.TutorEmail, opt => opt.MapFrom(src => src.To.Email)).ReverseMap();
             #endregion
         }
     }

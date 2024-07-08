@@ -2,6 +2,7 @@
 using Common.DTO.Query;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -27,7 +28,31 @@ namespace Repository.Repository
 
         public PagedList<Report> GetPagedReportList(ReportParameters parameters)
         {
-            return PagedList<Report>.ToPagedList(_reportDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
+            var reports = _reportDAO.GetAll().Include(p => p.From).Include(p => p.To).AsQueryable();
+
+            if (parameters.FromEmail != null)
+            {
+                reports = reports.Where(p => p.From.Email.Contains(parameters.FromEmail));
+            }
+
+            if (parameters.ToEmail != null)
+            {
+                reports = reports.Where(p => p.To.Email.Contains(parameters.ToEmail));
+            }
+
+            return PagedList<Report>.ToPagedList(reports, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public PagedList<Report> GetPagedReportListOfUser(int userId, ReportParameters parameters)
+        {
+            var reports = _reportDAO.GetAll().Include(p => p.From).Include(p => p.To).Where(p => p.FromId == userId);
+
+            if (parameters.ToEmail != null)
+            {
+                reports = reports.Where(p => p.To.Email.Contains(parameters.ToEmail));
+            }
+
+            return PagedList<Report>.ToPagedList(reports, parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Report?> GetReportById(int id)
