@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Common.Constant.Report;
 using Common.Constant.Request;
 using Common.DTO;
 using Common.DTO.Auth;
@@ -64,7 +65,8 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
             CreateMap<PagedList<Report>, PaginationResponseDTO<ReportDTO>>().ReverseMap();
             CreateMap<Report, ReportDTO>().ForMember(dest => dest.ParentsEmail, opt => opt.MapFrom(src => src.From.Email))
-                                          .ForMember(dest => dest.TutorEmail, opt => opt.MapFrom(src => src.To.Email)).ReverseMap();
+                                          .ForMember(dest => dest.TutorEmail, opt => opt.MapFrom(src => src.To.Email))
+                                          .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status ? ReportConst.DoneStatus : ReportConst.PendingStatus)).ReverseMap();
             CreateMap<UserUpdateDTO, User>().ReverseMap();
             #endregion
         }

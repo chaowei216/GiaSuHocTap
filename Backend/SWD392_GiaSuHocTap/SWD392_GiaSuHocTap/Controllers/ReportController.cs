@@ -64,7 +64,9 @@ namespace SWD392_GiaSuHocTap.Controllers
             var user = await _userService.GetUserById(reportInfo.UserId);
             var tutor = await _userService.GetUserById(reportInfo.TutorId);
 
-            if (user == null || tutor == null)
+            if (user == null || tutor == null
+                || user.Status == UserStatusEnum.InActive
+                || tutor.Status == UserStatusEnum.InActive)
             {
                 return BadRequest(new ResponseDTO()
                 {
@@ -126,6 +128,51 @@ namespace SWD392_GiaSuHocTap.Controllers
                 StatusCode = (int)StatusCodeEnum.OK,
                 Message = GeneralMessage.Success,
                 Data = response
+            });
+        }
+
+        [HttpPut("handle-report/{reportId}")]
+        public async Task<IActionResult> HandleReport(int reportId, [FromBody] ReportUpdateDTO reportInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var report = await _reportService.GetReportById(reportId);
+            
+            if (report == null)
+            {
+                return StatusCode(404, new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.NotFound,
+                    Message = GeneralMessage.NotFound,
+                    Data = null
+                });
+            }
+
+            var response = await _reportService.HandleReport(report, reportInfo);
+
+            if (response)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.NoContent,
+                    Message = GeneralMessage.Success,
+                    Data = null
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
             });
         }
     }

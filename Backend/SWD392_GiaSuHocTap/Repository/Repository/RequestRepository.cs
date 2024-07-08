@@ -2,6 +2,7 @@
 using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.Report;
+using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
