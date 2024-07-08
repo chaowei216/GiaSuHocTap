@@ -2,10 +2,11 @@ import { Avatar } from "@mui/material";
 import { Stack } from "react-bootstrap";
 import StarRateIcon from "@mui/icons-material/StarRate";
 export default function FeedbackTutor({ dataFeedback }) {
+  console.log(dataFeedback);
   return (
     <div>
       {dataFeedback &&
-        dataFeedback.map((item, index) => {
+        dataFeedback.map((item, index) => (
           <div key={index}>
             <div style={{ marginTop: "23px", width: "100%", display: "flex" }}>
               <div className="flex" style={{ width: "10%" }}>
@@ -19,7 +20,7 @@ export default function FeedbackTutor({ dataFeedback }) {
                     style={{ color: "#5f67f8", fontWeight: "bold" }}
                     className="name_user"
                   >
-                    Nguyễn Phương Nam
+                    {item.fromName}
                   </p>
                   <p>{item.description}</p>
                 </div>
@@ -44,8 +45,8 @@ export default function FeedbackTutor({ dataFeedback }) {
                 </div>
               </div>
             </div>
-          </div>;
-        })}
+          </div>
+        ))}
     </div>
   );
 }
