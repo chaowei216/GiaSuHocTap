@@ -24,6 +24,38 @@ namespace Service.IService
         PaginationResponseDTO<RequestDTO> GetOnlineRequestsOfTutor(int tutorId, RequestParameters parameters);
 
         /// <summary>
+        /// Get pending online requests of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetPendingRequestsOfTutor(int tutorId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get pending online requests of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfTutor(int tutorId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get pending online requests of parents
+        /// </summary>
+        /// <param name="parentsId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetPendingRequestsOfParents(int parentsId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get pending online requests of parents
+        /// </summary>
+        /// <param name="parentsId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters);
+
+        /// <summary>
         /// Add new offline request
         /// </summary>
         /// <param name="request"></param>
@@ -63,5 +95,11 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         Task<RequestDTO?> DoneOnlineRequest(DoneRequestDTO requestInfo);
+
+        /// <summary>
+        /// Extend request
+        /// </summary>
+        /// <returns></returns>
+        Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo);
     }
 }
