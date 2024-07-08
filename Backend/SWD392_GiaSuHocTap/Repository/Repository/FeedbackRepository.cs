@@ -4,6 +4,7 @@ using Common.DTO.Query;
 using Common.DTO.Request;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -34,13 +35,13 @@ namespace Repository.Repository
 
         public PagedList<Feedback> GetPagedFeedbackList(FeedbackParameters parameters)
         {
-            return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
+            return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll().Include(d => d.From).Include(d => d.To), parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<Feedback> GetPagedFeedbacksOfTutor(int tutorId, FeedbackParameters parameters)
         {
 
-            return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll().Where(p => p.ToId == tutorId), parameters.PageNumber, parameters.PageSize);
+            return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll().Include(d => d.From).Include(d => d.To).Where(p => p.ToId == tutorId), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Feedback> UpdateFeedback(Feedback feedback)

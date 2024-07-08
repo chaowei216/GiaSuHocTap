@@ -38,7 +38,6 @@ namespace Service.IService
 
         /// <summary>
         /// Get news list with pagination
-        /// Get all users where status is pending
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>

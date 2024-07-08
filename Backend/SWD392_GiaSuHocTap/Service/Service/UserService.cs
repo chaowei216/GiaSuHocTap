@@ -938,5 +938,15 @@ namespace Service.Service
         {
             return await _userRepository.GetTutorDetailByTutorId(userId);
         }
+
+        public PaginationResponseDTO<TutorDTO> GetPagedTutorList(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedTutorList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+
+            return mappedResponse;
+        }
     }
 }

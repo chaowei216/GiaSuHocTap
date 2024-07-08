@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.DTO;
 using Common.DTO.Feedback;
+using Common.DTO.News;
 using Common.DTO.Query;
 using Common.DTO.Request;
 using DAO.Model;
@@ -27,7 +28,7 @@ namespace Service.Services
             var feedbackMap = _mapper.Map<Feedback>(feedback);
             var response = await _feedbackRepository.AddNewFeedback(feedbackMap);
             var mapperResponse = _mapper.Map<FeedbackDTO>(response);
-            if(response != null)
+            if (response != null)
             {
                 return mapperResponse;
             }
@@ -52,6 +53,18 @@ namespace Service.Services
             mappedResponse.Data = _mapper.Map<List<FeedbackDTO>>(requests);
 
             return mappedResponse;
+        }
+
+        public PaginationResponseDTO<FeedbackDTO> GetPagedFeedbacksList(FeedbackParameters parameters)
+        {
+
+            var requests = _feedbackRepository.GetPagedFeedbackList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<FeedbackDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<FeedbackDTO>>(requests);
+
+            return mappedResponse;
+
         }
 
         public async Task<Feedback> UpdateFeedback(Feedback feedback)

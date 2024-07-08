@@ -458,7 +458,7 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfo)
+        public async Task<RequestDTO?> UpdateOnlineRequest(RequestOnlineUpdateDTO requestInfo)
         {
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
 
