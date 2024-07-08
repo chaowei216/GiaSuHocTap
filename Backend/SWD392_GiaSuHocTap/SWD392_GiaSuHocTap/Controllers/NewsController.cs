@@ -1,31 +1,29 @@
 ﻿using Common.Constant.Message;
-using Common.DTO.Notification;
+using Common.DTO.Feedback;
 using Common.DTO;
 using Common.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
-using Common.DTO.Feedback;
+using Service.Services;
+using Common.DTO.News;
 using Common.DTO.Query;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedbackController : ControllerBase
+    public class NewsController : ControllerBase
     {
-        private readonly IFeedbackService _feedbackService;
-        private readonly IUserService _userService;
+        private readonly INewsService _newsService;
 
-        public FeedbackController(IFeedbackService feedbackService, IUserService userService)
+        public NewsController(INewsService newsService)
         {
-            _feedbackService = feedbackService;
-            _userService = userService;
+            _newsService = newsService;
         }
 
-        [HttpGet("get-feedbacks-of-tutors/{tutorId}")]
-        public async Task<IActionResult> GetOfflineFeedbacksOfTutor(int tutorId, [FromQuery] FeedbackParameters parameters)
+        [HttpGet("get-news-paging")]
+        public async Task<IActionResult> GetNewsPaging([FromQuery] NewsParameters parameters)
         {
             if (!ModelState.IsValid)
             {
@@ -34,34 +32,21 @@ namespace SWD392_GiaSuHocTap.Controllers
                     StatusCode = (int)StatusCodeEnum.BadRequest,
                     Message = ModelState.ToString()!,
                     Data = null
-                }); 
-            }
-
-            var tutor = await _userService.GetUserById(tutorId);
-
-            if (tutor != null)
-            {
-                var response = _feedbackService.GetFeedbacksOfTutor(tutorId, parameters);
-
-                return Ok(new ResponseDTO()
-                {
-                    StatusCode = (int)StatusCodeEnum.OK,
-                    Message = GeneralMessage.Success,
-                    Data = response
                 });
             }
 
-            return StatusCode(404, new ResponseDTO()
+            var response = _newsService.GetPagedNewsList(parameters);
+
+            return Ok(new ResponseDTO()
             {
-                StatusCode = (int)StatusCodeEnum.NotFound,
-                Message = GeneralMessage.NotFound,
-                Data = null
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
             });
         }
 
-
-        [HttpPost("create-feedback")]
-        public async Task<IActionResult> CreateNewFeedback([FromBody] FeedbackCreateDTO feedbackInfo)
+        [HttpPost("create-news")]
+        public async Task<IActionResult> CreateNews([FromForm] NewsCreateDTO newsInfo, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +58,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var feedback = await _feedbackService.AddNewFeedback(feedbackInfo);
+            var feedback = await _newsService.AddNewNews(newsInfo, imageFile);
 
             if (feedback == null)
             {
@@ -102,5 +87,7 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+
     }
 }
