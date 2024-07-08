@@ -169,5 +169,10 @@ namespace Repository.Repository
         {
             return await _tutorDetailDAO.GetByCondition(p => p.UserId == id).FirstOrDefaultAsync();
         }
+
+        public PagedList<User> GetPagedTutorList(UserParameters parameters)
+        {
+            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(d => d.RoleId == (int)RoleEnum.Tutor && d.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

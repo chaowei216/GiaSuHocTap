@@ -14,7 +14,7 @@ namespace Common.DTO.Feedback
         public string Description { get; set; } = null!;
         [Required]
         public int Rating { get; set; }
-        public int FromId { get; set; }
-        public int ToId { get; set; }
+        public string FromName { get; set; } = null!;
+        public string ToName { get; set; } = null!;
     }
 }

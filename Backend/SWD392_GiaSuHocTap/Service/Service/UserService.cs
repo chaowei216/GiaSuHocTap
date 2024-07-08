@@ -957,5 +957,15 @@ namespace Service.Service
 
             return null;
         }
+
+        public PaginationResponseDTO<TutorDTO> GetPagedTutorList(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedTutorList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+
+            return mappedResponse;
+        }
     }
 }

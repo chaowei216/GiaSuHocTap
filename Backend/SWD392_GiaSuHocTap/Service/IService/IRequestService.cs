@@ -80,7 +80,7 @@ namespace Service.IService
         /// Accept/deny request
         /// </summary>
         /// <returns></returns>
-        Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfo);
+        Task<RequestDTO?> UpdateOnlineRequest(RequestOnlineUpdateDTO requestInfo);
 
         /// <summary>
         /// Get all requests of user
