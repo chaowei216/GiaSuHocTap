@@ -163,6 +163,76 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [HttpGet("get-inprocess-parents-requests/{parentsId}")]
+        public async Task<IActionResult> GetInprocessRequestsOfParents(int parentsId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(parentsId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetInProcessRequestsOfParents(parentsId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-pending-parents-requests/{parentsId}")]
+        public async Task<IActionResult> GetPendingRequestsOfParents(int parentsId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(parentsId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetPendingRequestsOfParents(parentsId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
         [HttpPost("create-offline-request")]
         public async Task<IActionResult> CreateOfflineRequest([FromBody] RequestOfflineCreateDTO request)
         {

@@ -41,6 +41,13 @@ namespace Repository.Repository
             return _requestTimeDAO.GetByCondition(p => p.RequestId == requestId).ToList();
         }
 
+        public PagedList<Request> GetPagedInProcessOnlineRequestsOfParents(int parentsId, RequestParameters parameters)
+        {
+            var requestIdsOfTutor = _requestDAO.GetAll().Include(t => t.RequestTimes).ThenInclude(t => t.TimeTable).Where(p => p.FromId == parentsId).Select(p => p.RequestId).ToList();
+
+            return PagedList<Request>.ToPagedList(_requestDAO.GetAll().Where(p => requestIdsOfTutor.Contains(p.RequestId) && p.RequestType == RequestConst.Online && p.Status == RequestConst.InProcessStatus).Include(p => p.Course).Include(p => p.Class).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
+        }
+
         public PagedList<Request> GetPagedInProcessOnlineRequestsOfTutor(int tutorId, RequestParameters parameters)
         {
             var requestIdsOfTutor = _requestTimeDAO.GetAll().Include(p => p.TimeTable).Where(p => p.TimeTable.UserId == tutorId).Select(p => p.RequestId).ToList();
@@ -62,6 +69,14 @@ namespace Repository.Repository
             return PagedList<Request>.ToPagedList(_requestDAO.GetAll().Where(p => requestIdsOfTutor.Contains(p.RequestId) && p.RequestType == RequestConst.Online).Include(p => p.Course).Include(p => p.Class).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
         }
 
+        public PagedList<Request> GetPagedPendingOnlineRequestsOfParents(int parentsId, RequestParameters parameters)
+        {
+            var requestIdsOfTutor = _requestDAO.GetAll().Include(t => t.RequestTimes).ThenInclude(t => t.TimeTable).Where(p => p.FromId == parentsId).Select(p => p.RequestId).ToList();
+
+            return PagedList<Request>.ToPagedList(_requestDAO.GetAll().Where(p => requestIdsOfTutor.Contains(p.RequestId) && p.RequestType == RequestConst.Online && p.Status == RequestConst.PendingStatus).Include(p => p.Course).Include(p => p.Class).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
+
+        }
+
         public PagedList<Request> GetPagedPendingOnlineRequestsOfTutor(int tutorId, RequestParameters parameters)
         {
             var requestIdsOfTutor = _requestTimeDAO.GetAll().Include(p => p.TimeTable).Where(p => p.TimeTable.UserId == tutorId).Select(p => p.RequestId).ToList();
@@ -71,7 +86,7 @@ namespace Repository.Repository
 
         public async Task<RequestTime> GetPendingRequestTimeByRequestId(int requestId)
         {
-            return await _requestTimeDAO.GetByCondition(t => t.RequestId ==  requestId && t.Status == RequestConst.PendingStatus).FirstOrDefaultAsync();
+            return await _requestTimeDAO.GetByCondition(t => t.RequestId == requestId && t.Status == RequestConst.PendingStatus).FirstOrDefaultAsync();
         }
 
         public async Task<Request?> GetRequestById(int id)

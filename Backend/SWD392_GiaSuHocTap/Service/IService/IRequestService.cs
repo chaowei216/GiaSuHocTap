@@ -40,6 +40,22 @@ namespace Service.IService
         PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfTutor(int tutorId, RequestParameters parameters);
 
         /// <summary>
+        /// Get pending online requests of parents
+        /// </summary>
+        /// <param name="parentsId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetPendingRequestsOfParents(int parentsId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get pending online requests of parents
+        /// </summary>
+        /// <param name="parentsId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters);
+
+        /// <summary>
         /// Add new offline request
         /// </summary>
         /// <param name="request"></param>
