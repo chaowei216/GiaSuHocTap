@@ -260,5 +260,50 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = response
             });
         }
+
+        [HttpPut("update-user/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO userInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null)
+            {
+                return StatusCode(404, new ResponseDTO ()
+                {
+                    StatusCode = (int)StatusCodeEnum.NotFound,
+                    Message = GeneralMessage.NotFound,
+                    Data = null
+                });
+            } 
+
+            var response = await _userService.UpdateUser(user, userInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
     }
 }

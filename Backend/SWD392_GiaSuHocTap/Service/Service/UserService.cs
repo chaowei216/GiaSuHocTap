@@ -938,5 +938,24 @@ namespace Service.Service
         {
             return await _userRepository.GetTutorDetailByTutorId(userId);
         }
+
+        public async Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo)
+        {
+            user.Address = userInfo.Address;
+            user.City = userInfo.City;
+            user.District = userInfo.District;
+            user.Gender = userInfo.Gender;
+            user.UserImage = userInfo.Image;
+
+            var updatedUser = await _userRepository.UpdateUser(user);
+
+            if (updatedUser != null)
+            {
+                var mappedResponse = _mapper.Map<TutorDTO>(updatedUser);
+                return mappedResponse;
+            }
+
+            return null;
+        }
     }
 }
