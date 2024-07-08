@@ -50,6 +50,22 @@ namespace Repository.IRepository
         PagedList<Request> GetPagedOnlineRequestsOfTutor(int tutorId, RequestParameters parameters);
 
         /// <summary>
+        /// Get pending online requests of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Request> GetPagedPendingOnlineRequestsOfTutor(int tutorId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get pending online requests of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<Request> GetPagedInProcessOnlineRequestsOfTutor(int tutorId, RequestParameters parameters);
+
+        /// <summary>
         /// Get request by id
         /// </summary>
         /// <param name="id"></param>

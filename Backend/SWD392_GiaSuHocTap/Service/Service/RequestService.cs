@@ -249,6 +249,22 @@ namespace Service.Service
             return null;
         }
 
+        public Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfTutor(int tutorId, RequestParameters parameters)
+        {
+            var requests = _requestRepository.GetPagedInProcessOnlineRequestsOfTutor(tutorId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<RequestDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
+
+            return mappedResponse;
+        }
+
         public PaginationResponseDTO<RequestDTO> GetOfflineRequestsOfTutor(int tutorId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetPagedOfflineRequestsOfTutor(tutorId, parameters);
@@ -262,6 +278,16 @@ namespace Service.Service
         public PaginationResponseDTO<RequestDTO> GetOnlineRequestsOfTutor(int tutorId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetPagedOnlineRequestsOfTutor(tutorId, parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<RequestDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
+
+            return mappedResponse;
+        }
+
+        public PaginationResponseDTO<RequestDTO> GetPendingRequestsOfTutor(int tutorId, RequestParameters parameters)
+        {
+            var requests = _requestRepository.GetPagedPendingOnlineRequestsOfTutor(tutorId, parameters);
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<RequestDTO>>(requests);
             mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
