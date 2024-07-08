@@ -1,6 +1,10 @@
-﻿using Common.Enum;
+﻿using Common.DTO.Feedback;
+using Common.DTO.Report;
+using Common.DTO.TimeTable;
+using Common.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -27,7 +31,16 @@ namespace Common.DTO.User
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public UserStatusEnum Status { get; set; }
         public int NumberOfReport { get; set; }
+        public string? YoutubeLink { get; set; }
         public string RoleName { get; set; } = null!;
         public TutorDetailDTO TutorDetail { get; set; } = null!;
+        public ICollection<UserClassDTO> UserClasses { get; set; } = null!;
+        public ICollection<UserCourseDTO> UserCourses { get; set; } = null!;
+        public ICollection<TimetableDTO> TimeTables { get; set; } = null!;
+        public ICollection<FeedbackDTO> FromFeedbacks { get; set; } = null!;
+        public ICollection<FeedbackDTO> ToFeedbacks { get; set; } = null!;
+        public ICollection<ReportDTO> FromReports { get; set; } = null!;
+        public ICollection<ReportDTO> ToReports { get; set; } = null!;
+
     }
 }

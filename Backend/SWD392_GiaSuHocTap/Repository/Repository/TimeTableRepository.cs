@@ -1,7 +1,10 @@
-﻿using DAO.DAO;
+﻿using Common.Constant.Teaching;
+using Common.Constant.TimeTable;
+using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
+using System;
 
 namespace Repository.Repository
 {
@@ -27,6 +30,24 @@ namespace Repository.Repository
         public IEnumerable<TimeTable> GetAllTimeTables()
         {
             return _timeTableDAO.GetAll().AsEnumerable();
+        }
+
+        public IEnumerable<TimeTable> GetOfflineTimeOfUser(int userId)
+        {
+            return _timeTableDAO.GetAll().Where(p => p.UserId == userId && p.LearningType == LearningType.Offline).ToList();
+        }
+
+        public IEnumerable<TimeTable> GetOnlineTimeOfUser(int userId)
+        {
+            return _timeTableDAO.GetAll().AsEnumerable().Where(t => t.LearningType == TimeTableConst.Online
+                                                                                && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20));
+        }
+
+        public IEnumerable<TimeTable> GetOldOnlineTimeOfUser(int userId)
+        {
+            return _timeTableDAO.GetAll().AsEnumerable().Where(t => t.LearningType == TimeTableConst.Online
+                                                                                && t.Status == TimeTableConst.BusyStatus);
         }
 
         public async Task<TimeTable?> GetTimeTableById(int id)

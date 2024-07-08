@@ -7,12 +7,13 @@ namespace DAO.Model
     {
         [Key]
         public int RequestId { get; set; }
-        public string Location { get; set; } = null!;
+        public string? Location { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public int Price { get; set; }
+        public double? Price { get; set; }
+        public int? Coin { get; set; }
         public string RequestType { get; set; } = null!;
-        public DateTime CretaeDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Status { get; set; } = null!;
         public string? LinkMeet { get; set; }
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]

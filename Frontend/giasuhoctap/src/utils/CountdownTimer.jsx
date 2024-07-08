@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
-import { useRef, useState } from 'react'
+import { Button } from '@mui/material';
+import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { SendVerifyEmail } from '../api/AuthenApi';
 import { toast } from 'react-toastify';
@@ -10,37 +10,58 @@ export default function CountdownTimer() {
     const [countdown, setCountdown] = useState(0);
     const countdownRef = useRef(null);
     const [canSendOTP, setCanSendOTP] = useState(true);
+
+    // Function to start countdown
+    const startCountdown = (seconds) => {
+        clearInterval(countdownRef.current); // Clear previous interval to prevent multiple intervals
+        countdownRef.current = setInterval(() => {
+            setCountdown(prevCountdown => {
+                if (prevCountdown <= 0) {
+                    clearInterval(countdownRef.current);
+                    setCanSendOTP(true);
+                    localStorage.removeItem('countdown'); // Remove countdown from localStorage
+                    return 0; // Ensure countdown state is reset to 0
+                } else {
+                    localStorage.setItem('countdown', prevCountdown - 1); // Update countdown in localStorage
+                    return prevCountdown - 1; // Return updated countdown state
+                }
+            });
+        }, 1000);
+    };
+
+    // Effect to load countdown from localStorage on component mount
+    useEffect(() => {
+        const savedCountdown = localStorage.getItem('countdown');
+        if (savedCountdown && parseInt(savedCountdown) > 0) {
+            setCountdown(parseInt(savedCountdown));
+            setCanSendOTP(false);
+            startCountdown(parseInt(savedCountdown) - 1); // Start countdown from saved value
+        }
+    }, []);
+
+    // Function to handle sending OTP
     const handleCountdown = () => {
         if (!canSendOTP) {
             return;
         }
 
-        // Gọi API để gửi mã OTP
+        // Call API to send OTP
         SendVerifyEmail(decodedEmail).then(response => {
             if (response.statusCode === 200) {
                 toast.success("Send email success");
-            } else if (response.statusCode !== 200) {
-                toast.error("Send failed please try agian")
+            } else {
+                toast.error("Send failed please try again");
             }
         }).catch(error => {
             console.error("Error:", error.message);
         });
 
-        let seconds = 1 * 60;
+        let seconds = 60; // 60 seconds countdown
         setCountdown(seconds);
-
         setCanSendOTP(false);
-        // Cập nhật giá trị đếm ngược sau mỗi giây
-        countdownRef.current = setInterval(() => {
-            setCountdown(prevCountdown => {
-                if (prevCountdown === 0) {
-                    clearInterval(countdownRef.current);
-                    setCanSendOTP(true);
-                }
-                return prevCountdown - 1;
-            });
-        }, 1000);
+        startCountdown(seconds - 1); // Start countdown from 59 seconds (1 second less due to immediate setCountdown call)
     };
+
     return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
             <Button
@@ -58,5 +79,5 @@ export default function CountdownTimer() {
                 </div>
             )}
         </div>
-    )
+    );
 }

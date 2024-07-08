@@ -133,6 +133,9 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("NotificationId"));
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -229,10 +232,13 @@ namespace DAO.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Coin")
+                        .HasColumnType("int");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CretaeDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
@@ -246,18 +252,18 @@ namespace DAO.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double?>("Price")
+                        .HasColumnType("double");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("RequestId");
 
@@ -277,9 +283,6 @@ namespace DAO.Migrations
 
                     b.Property<int>("TimeTableId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -356,20 +359,26 @@ namespace DAO.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TransactionId"));
 
-                    b.Property<double>("Amout")
+                    b.Property<double>("Amount")
                         .HasColumnType("double");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("TransactionDate")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TransactionInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TransactionNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -566,13 +575,13 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.Feedback", b =>
                 {
                     b.HasOne("DAO.Model.User", "From")
-                        .WithMany()
+                        .WithMany("FromFeedbacks")
                         .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAO.Model.User", "To")
-                        .WithMany()
+                        .WithMany("ToFeedbacks")
                         .HasForeignKey("ToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -607,13 +616,13 @@ namespace DAO.Migrations
             modelBuilder.Entity("DAO.Model.Report", b =>
                 {
                     b.HasOne("DAO.Model.User", "From")
-                        .WithMany()
+                        .WithMany("FromReports")
                         .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAO.Model.User", "To")
-                        .WithMany()
+                        .WithMany("ToReports")
                         .HasForeignKey("ToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -806,11 +815,19 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("DAO.Model.User", b =>
                 {
+                    b.Navigation("FromFeedbacks");
+
+                    b.Navigation("FromReports");
+
                     b.Navigation("News");
 
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("TimeTables");
+
+                    b.Navigation("ToFeedbacks");
+
+                    b.Navigation("ToReports");
 
                     b.Navigation("Transactions");
 

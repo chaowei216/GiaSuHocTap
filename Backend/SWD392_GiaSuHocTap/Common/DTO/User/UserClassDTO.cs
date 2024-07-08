@@ -9,6 +9,6 @@ namespace Common.DTO.User
 {
     public class UserClassDTO
     {
-        public ClassDTO Class { get; set; } = null!;
+        public ClassFullDTO Class { get; set; } = null!;
     }
 }

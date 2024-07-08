@@ -28,10 +28,10 @@ namespace Service.Service
             return await _courseRepository.AddNewUserCourse(userCourse);
         }
 
-        public IEnumerable<CourseDTO> GetAllCourses()
+        public IEnumerable<CourseFullDTO> GetAllCourses()
         {
             var courses = _courseRepository.GetAllCourses();
-            var courseMap = _mapper.Map<List<CourseDTO>>(courses);
+            var courseMap = _mapper.Map<List<CourseFullDTO>>(courses);
             return courseMap;
         }
 

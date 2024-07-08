@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { Avatar, Menu, MenuItem, ListItemIcon, Divider, Box, Typography, Tooltip, IconButton } from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Avatar, Menu, MenuItem, ListItemIcon, Divider, Tooltip, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import avatar from "/img/avatar.png";
 import useAuth from '../../../../hooks/useAuth';
-
+import { green } from '@mui/material/colors';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Logout } from '../../../../api/AuthenApi';
+import { useNavigate } from 'react-router-dom';
+import emptyPicture from "/img/empty.png"
+const baseUrl = import.meta.env.VITE_API_HOST;
 export default function ProfileMenu() {
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     console.log(user);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -19,6 +23,26 @@ export default function ProfileMenu() {
         setAnchorEl(null);
     };
 
+    const handleNavigate = () => {
+        if (user?.roleName == "Admin" || user?.roleName == "Moderator") {
+            setAnchorEl(null);
+            navigate('/dashboard')
+        } else if (user?.roleName == "Tutor") {
+            setAnchorEl(null);
+            navigate('/home-tutor')
+        } else {
+            setAnchorEl(null);
+        }
+    };
+
+    const handleClickLogout = async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const response = await Logout(refreshToken)
+        if (response.ok) {
+            await logout();
+            navigate('/')
+        }
+    }
     return (
         <div>
             <Tooltip title="Account settings">
@@ -30,7 +54,7 @@ export default function ProfileMenu() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar src={avatar} sx={{ width: 60, height: 60 }}></Avatar>
+                    <Avatar alt={user?.fullname} src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`} sx={{ width: 60, height: 60 }}></Avatar>
                 </IconButton>
             </Tooltip>
             <Menu
@@ -67,7 +91,11 @@ export default function ProfileMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <a style={{ display: "flex", borderBottom: ".5px solid #f0f0f0" }}>
-                        <img src={avatar} style={{ width: "55px", height: "55px", marginRight: "10px"}}></img>
+                        <img src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`} style={{ width: "55px", height: "55px", marginRight: "10px" }}
+                            onError={(e) => {
+                                e.currentTarget.src = emptyPicture;
+                            }}>
+                        </img>
                         <div style={{ marginBottom: "5px" }}>
                             <h4>{user.fullname}</h4>
                             <p>ID: {user.email}</p>
@@ -75,8 +103,8 @@ export default function ProfileMenu() {
                         </div>
                     </a>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
+                <MenuItem sx={{ gap: "13px" }} onClick={handleNavigate}>
+                    <Avatar sx={{ bgcolor: green[500] }} style={{ marginLeft: "12px" }}><AssignmentIcon /></Avatar> Trang quản lý của tôi
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleClose}>
@@ -85,7 +113,7 @@ export default function ProfileMenu() {
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClickLogout}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>

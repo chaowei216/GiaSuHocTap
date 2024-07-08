@@ -85,7 +85,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetPagedUserList(UserParameters parameters);
+        PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
         /// Get all pending users
@@ -120,13 +120,48 @@ namespace Service.IService
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters);
 
         /// <summary>
         /// Get all teaching offline tutor
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(UserParameters parameters);
+        PaginationResponseDTO<TutorInforDTO> GetTutorTeachOffline(TutorParameters parameters);
+
+        /// <summary>
+        /// Get tutor by email include all information
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        TutorDTO? GetUserByEmailInclude(string email);
+
+        /// <summary>
+        /// Get top tutor
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<TutorInforDTO> GetTopTutor();
+
+        /// <summary>
+        /// Update user info
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> UpdateUser(User user);
+
+        /// <summary>
+        /// Get tutor detail by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<TutorDetail?> GetTutorDetailByUserId(int userId);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo);
     }
 }

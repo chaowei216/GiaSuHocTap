@@ -36,6 +36,7 @@ export default function ViewTutor() {
           break;
         case 'Pending':
           response = await GetPendingTutor(page, pageSize);
+          console.log("test");
           break;
         case 'Active':
           response = await GetActiveTutor(page, pageSize);
@@ -58,6 +59,13 @@ export default function ViewTutor() {
   const handleAccept = async (email) => {
     console.log(email);
     const response = await AcceptTutor(email);
+    if (response.status == 403) {
+      toast.error("You do not have permission to do this action")
+      return;
+    } else if (!response.ok) {
+      toast.error("Something error")
+      return;
+    }
     const responseJson = await response.json();
     if (responseJson.statusCode == 200) {
       toast.success("Accepted");
@@ -75,7 +83,7 @@ export default function ViewTutor() {
       }}
     >
       <Container>
-        <Title title="Danh sách gia sư" />
+        <Title title="Danh sách gia sư yêu cầu được duyệt" />
         <Header>
           <Search_Input />
         </Header>

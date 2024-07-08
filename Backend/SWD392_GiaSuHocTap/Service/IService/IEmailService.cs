@@ -1,4 +1,5 @@
 ﻿using Common.DTO.Email;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -27,5 +28,13 @@ namespace Service.IService
         /// <param name="userEmail"></param>
         /// <param name="subject"></param>
         void SendRejectEmail(string userEmail, string subject, string reason);
+
+        /// <summary>
+        /// Send parents's infomation to tutor
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="subject"></param>
+        /// <param name="info"></param>
+        void SendInfomationParentsEmail(string userEmail, string subject, User info);
     }
 }

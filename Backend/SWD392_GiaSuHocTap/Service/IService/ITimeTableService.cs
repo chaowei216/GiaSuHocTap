@@ -37,5 +37,19 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<bool> DeleteTimeTable(int userId);
+
+        /// <summary>
+        /// Get offline time of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetOfflineTimeOfUser(int userId);
+
+        /// <summary>
+        /// Get offline time of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        TimeTable? GetOnlineTimeOfUser(int userId);
     }
 }

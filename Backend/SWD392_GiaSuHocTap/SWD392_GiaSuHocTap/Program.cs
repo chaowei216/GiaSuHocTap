@@ -14,12 +14,14 @@ using Service.Services;
 using Swashbuckle.AspNetCore.Filters;
 using SWD392_GiaSuHocTap.Middleware;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -90,6 +92,8 @@ builder.Services.AddScoped<IGenericDAO<RefreshToken>, GenericDAO<RefreshToken>>(
 builder.Services.AddScoped<IGenericDAO<UserClass>, GenericDAO<UserClass>>();
 builder.Services.AddScoped<IGenericDAO<UserCourse>,  GenericDAO<UserCourse>>();
 builder.Services.AddScoped<IGenericDAO<UserNotification>, GenericDAO<UserNotification>>();
+builder.Services.AddScoped<IGenericDAO<Request>, GenericDAO<Request>>();
+builder.Services.AddScoped<IGenericDAO<RequestTime>,  GenericDAO<RequestTime>>();
 
 // Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -103,6 +107,7 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 
 // Service
 builder.Services.AddScoped<IRoleService, RoleService>();
@@ -119,6 +124,10 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IValidateHandleService, ValidateHandleService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 builder.Services.AddTransient<DataSeed>();
 // Db context

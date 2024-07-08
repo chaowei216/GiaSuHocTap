@@ -72,11 +72,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
@@ -107,11 +108,12 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
@@ -149,7 +151,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpGet("get-tutor-teach-online")]
-        public IActionResult GetTutorTeachOnline([FromQuery] UserParameters queries)
+        public IActionResult GetTutorTeachOnline([FromQuery] TutorParameters queries)
         {
             if (!ModelState.IsValid)
             {
@@ -176,16 +178,17 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
         }
 
         [HttpGet("get-tutor-teach-offline")]
-        public IActionResult GetTutorTeachOffline([FromQuery] UserParameters queries)
+        public IActionResult GetTutorTeachOffline([FromQuery] TutorParameters queries)
         {
             if (!ModelState.IsValid)
             {
@@ -213,12 +216,94 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ResponseDTO()
+                return StatusCode(500, new ResponseDTO
                 {
+                    StatusCode = (int)StatusCodeEnum.InternalServerError,
                     Message = ex.Message,
-                };
-                return BadRequest(response);
+                    Data = null
+                });
             }
+        }
+
+        [HttpGet("get-user-by-email")]
+        public IActionResult GetUserByEmail([FromQuery] string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetUserByEmailInclude(email);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
+
+        [HttpGet("get-top-tutor")]
+        public IActionResult GetTopTutor()
+        {
+            var response = _userService.GetTopTutor();
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
+
+        [HttpPut("update-user/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO userInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null)
+            {
+                return StatusCode(404, new ResponseDTO ()
+                {
+                    StatusCode = (int)StatusCodeEnum.NotFound,
+                    Message = GeneralMessage.NotFound,
+                    Data = null
+                });
+            } 
+
+            var response = await _userService.UpdateUser(user, userInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
         }
     }
 }

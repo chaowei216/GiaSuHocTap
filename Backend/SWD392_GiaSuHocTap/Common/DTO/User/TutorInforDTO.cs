@@ -25,6 +25,7 @@ namespace Common.DTO.User
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public UserStatusEnum Status { get; set; }
         public int NumberOfReport { get; set; }
+        public string? YoutubeLink { get; set; }
         public string RoleName { get; set; } = null!;
         public TutorDetailDTO TutorDetail { get; set; } = null!;
         public ICollection<UserClassDTO> UserClasses { get; set; } = null!;

@@ -38,6 +38,16 @@ namespace Service.Service
             return _timeTableRepository.GetAllTimeTables();
         }
 
+        public IEnumerable<TimeTable> GetOfflineTimeOfUser(int userId)
+        {
+            return _timeTableRepository.GetOfflineTimeOfUser(userId).ToList();
+        }
+
+        public TimeTable? GetOnlineTimeOfUser(int userId)
+        {
+            return _timeTableRepository.GetOnlineTimeOfUser(userId).FirstOrDefault();
+        }
+
         public async Task<TimeTable?> GetTimeTableById(int id)
         {
             return await _timeTableRepository.GetTimeTableById(id);

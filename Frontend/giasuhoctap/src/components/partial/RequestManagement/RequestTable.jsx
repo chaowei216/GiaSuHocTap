@@ -9,22 +9,20 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
-import { Navigate } from "react-router-dom";
-import FormatDate from "../../../utils/format-date";
-import { useEffect, useState } from "react";
-import fakeDate from "../../../data/fakeData.json";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
-import GlobalLoading from "../../global/GlobalLoading";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
+import useAuth from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
+import { AcceptOrDenyRequestOFfline } from "../../../api/RequestApi";
 export default function RequestTable({
   data,
-  handleClickOpen,
+  setIsUpdated,
+  isUpdated
 }) {
-  const [dataDetail, setDataDetail] = useState();
-  const [openDetail, setOpenDetail] = useState(false);
+  const { user } = useAuth()
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -44,33 +42,63 @@ export default function RequestTable({
       border: 0,
     },
   }));
-  const styleHeader = {
-    gap: "6px",
-    display: "flex",
-    marginTop: "4px",
-    witdh: "150px",
-    justifyContent: "center",
-  };
-  const TableHeader = [
-    "Request",
-    "From",
-    "To",
-    "Destination",
-    "Reason",
-    "Reason",
-    "Reason",
-    "Trạng thái",
-  ];
-  const StatusType = ["Active", "Pending"];
 
-  const handleClickOpenDetail = (data) => {
-    setDataDetail(data)
-    setOpenDetail(true);
+  const TableHeader = [
+    "Người yêu cầu",
+    "Địa điểm",
+    "Lương",
+    "Mô tả",
+    "Lớp",
+    "Môn",
+    "Trạng thái",
+    "Hành động",
+  ];
+  const StatusType = ["Chờ xác nhận", "Đang tiến hành", "Hoàn thành", "Từ chối", "Đã chấp nhận"];
+
+  const handleAccept = async (requestId) => {
+    if (user) {
+      const dataUpdate = {
+        tutorId: user?.userId,
+        requestId: requestId,
+        isAccepted: true,
+        linkMeet: "",
+      }
+      const response = await AcceptOrDenyRequestOFfline(dataUpdate)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode == 200) {
+          setIsUpdated(!isUpdated)
+          toast.success("Chấp nhận thành công")
+        }
+      } else {
+        toast.error("Error accepting")
+      }
+    }
   };
+  const handleDeny = async (requestId) => {
+    if (user) {
+      const dataUpdate = {
+        tutorId: user?.userId,
+        requestId: requestId,
+        isAccepted: false,
+        linkMeet: "",
+      }
+      const response = await AcceptOrDenyRequestOFfline(dataUpdate)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode == 200) {
+          setIsUpdated(!isUpdated)
+          toast.success("Chấp nhận thành công")
+        }
+      } else {
+        toast.error("Error accepting")
+      }
+    }
+  }
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table  aria-label="simple table" size="small">
+        <Table aria-label="simple table" size="small">
           <TableHead style={{ backgroundColor: "#000000" }}>
             <TableRow>
               {TableHeader.map((row, index) => (
@@ -95,24 +123,7 @@ export default function RequestTable({
           </TableHead>
           <TableBody>
             {!data && <NoDataPage />}
-            {
-              data && data.length === 0 && (
-                <StyledTableCell
-                  sx={{ fontWeight: "600", width: "220px" }}
-                  component="th"
-                  align="left"
-                  scope="row"
-                >
-                  <Button
-                    sx={{ paddingLeft: "0px", textTransform: "none" }}
-                    onClick={() => setOpenDetail(true)}
-                  >
-                    <span>Test</span>
-                  </Button>
-                </StyledTableCell>
-              )
-              /* <NoDataPage />*/
-            }
+            {data && data.length === 0 && <NoDataPage />}
             {data &&
               data.map((row, index) => {
                 return (
@@ -122,48 +133,43 @@ export default function RequestTable({
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "100px" }}
+                      style={{ fontWeight: "600" }}
                       component="th"
                       scope="row"
                     >
-                      Ảnh
+                      {row.requestUserName}
                     </StyledTableCell>
                     <StyledTableCell
-                      sx={{ fontWeight: "600", width: "220px" }}
+                      sx={{ fontWeight: "600" }}
                       component="th"
                       align="left"
                       scope="row"
                     >
-                      <Button
-                        sx={{ paddingLeft: "0px", textTransform: "none" }}
-                        onClick={() => handleClickOpenDetail(row)}
-                      >
-                        <span>{row.fullname}</span>
-                      </Button>
+                      <span>{row.location}</span>
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {/* {FormatDate(row.dateOfBirth)} */}
+                      {row.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "200px" }}
+                      style={{ fontWeight: "600" }}
                       align="middle"
                     >
-                      {row.identityNumber}
+                      {row.description}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "170px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.phonenumber}
+                      {row.className}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600", width: "140px" }}
+                      style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.gender}
+                      {row.courseName}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
@@ -176,14 +182,23 @@ export default function RequestTable({
                     >
                       {StatusType &&
                         StatusType.map((type, index) => {
-                          if (row.status == type) {
+                          if (row.requestStatus == type) {
                             let styleName;
                             switch (type) {
-                              case "Active":
-                                styleName = styles.active;
+                              case "Chờ xác nhận":
+                                styleName = styles.pendingConfirmation;
                                 break;
-                              case "Pending":
-                                styleName = styles.pending;
+                              case "Đang tiến hành":
+                                styleName = styles.inProgress;
+                                break;
+                              case "Hoàn thành":
+                                styleName = styles.completed;
+                                break;
+                              case "Từ chối":
+                                styleName = styles.rejected;
+                                break;
+                              case "Đã chấp nhận":
+                                styleName = styles.accepted;
                                 break;
                               default:
                                 styleName = "";
@@ -199,7 +214,6 @@ export default function RequestTable({
                     <StyledTableCell
                       style={{
                         fontWeight: "600",
-                        width: "270px",
                         padding: "0px",
                       }}
                       align="left"
@@ -207,6 +221,7 @@ export default function RequestTable({
                       <Button
                         variant="contained"
                         color="success"
+                        onClick={() => handleAccept(row.requestId)}
                         sx={{
                           background: "#0b7234",
                           color: "white",
@@ -219,8 +234,8 @@ export default function RequestTable({
                       </Button>
                       <Button
                         variant="contained"
+                        onClick={() => handleDeny(row.requestId)}
                         color="error"
-                        onClick={() => handleClickOpen()}
                         sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                       >
                         <div>

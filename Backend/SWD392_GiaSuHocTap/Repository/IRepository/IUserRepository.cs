@@ -1,5 +1,6 @@
 ﻿using Common.DTO;
 using Common.DTO.Query;
+using Common.DTO.User;
 using Common.Enum;
 using DAO.Model;
 
@@ -102,13 +103,34 @@ namespace Repository.IRepository
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        IEnumerable<User> GetTutorTeachOnline(UserParameters parameters);
+        IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters);
 
         /// <summary>
         /// Get tutor who teach online
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        IEnumerable<User> GetTutorTeachOffline(UserParameters parameters);
+        IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters);
+
+        /// <summary>
+        /// Get user by email include all infor
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User? GetUserByEmailInclude(string email);
+
+        /// <summary>
+        /// Get top tutor by feedback
+        /// </summary>
+        /// <param name="feedbacks"></param>
+        /// <returns></returns>
+        IEnumerable<User> GetTopTutorByFeedBack(IEnumerable<Feedback> feedbacks);
+
+        /// <summary>
+        /// Get tutor detail by tutorId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TutorDetail?> GetTutorDetailByTutorId(int id); 
     }
 }
