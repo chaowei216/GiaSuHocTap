@@ -30,6 +30,7 @@
     "boxicons": "^2.1.4",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
+    "debounce": "^2.1.0",
     "dotenv": "^16.4.5",
     "emailjs-com": "^3.2.0",
     "formik": "^2.4.6",

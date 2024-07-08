@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../TutorManagement/Header'
 import MiddleContent from './MiddleContent'
-import data from "../../../data/fakeData.json"
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
 import AcceptTeach from './AcceptTeach';
 import DenyTeach from './DenyTeach';
 import RequestTableOnline from './RequestTableOnline';
 import useAuth from '../../../hooks/useAuth';
-import { GetRequestOnlineApi } from '../../../api/RequestApi';
+import { GetActiveOnlineApi, GetPendingOnlineApi, GetRequestOnlineApi } from '../../../api/RequestApi';
 import { toast } from 'react-toastify';
 export default function ViewRequest() {
     const { user } = useAuth()
@@ -34,10 +33,10 @@ export default function ViewRequest() {
                             response = await GetRequestOnlineApi(user.userId, page, pageSize);
                             break;
                         case 'Pending':
-                            response = "zz";
+                            response = await GetPendingOnlineApi(user.userId, page, pageSize);
                             break;
                         case 'Active':
-                            response = "zz";
+                            response = await GetActiveOnlineApi(user.userId, page, pageSize);
                             break;
                         default:
                             throw new Error(`Unknown type: ${type}`);

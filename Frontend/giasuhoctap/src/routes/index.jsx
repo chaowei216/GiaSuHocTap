@@ -30,6 +30,9 @@ import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
 import TransactionPage from "../pages/TransactionPage/TransactionPage";
 import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
+import FeedbackPage from "../pages/FeedbackPage/FeedbackPage";
+import ViewReport from "../components/partial/ReportManagement/ViewReport";
+import ReportPage from "../pages/ReportPage/ReportPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,5 +64,7 @@ export const router = createBrowserRouter([
   { path: "waiting-checkout", element: <WaitingCheckout /> },
   { path: "transaction", element: <TransactionPage /> },
   { path: "transaction-user", element: <TransactionPageByUser /> },
-  { path: "view-notification", element: <NotificationPage /> }
+  { path: "view-notification", element: <NotificationPage /> },
+  { path: "view-feedback", element: <FeedbackPage /> },
+  { path: "view-report", element: <ReportPage /> }
 ]);

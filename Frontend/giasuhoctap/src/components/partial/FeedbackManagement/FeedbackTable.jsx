@@ -90,7 +90,7 @@ export default function FeedbackTable({ data }) {
                       {row.toName}
                     </StyledTableCell>
                     <StyledTableCell style={{ fontWeight: "600" }} align="left">
-                      {row.rating}
+                      {row.rating || "0"} Sao
                     </StyledTableCell>
                   </StyledTableRow>
                 );

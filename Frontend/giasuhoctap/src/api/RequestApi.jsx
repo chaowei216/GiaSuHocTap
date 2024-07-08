@@ -35,7 +35,7 @@ export const AcceptOrDenyRequestOFfline = async (value) => {
 
 export const GetRequestOnlineApi = async (tutorId, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Request/get-tutor-online-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Request/get-all-tutor-online-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -58,6 +58,38 @@ export const AcceptOrDenyRequestOnline = async (value) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetPendingOnlineApi = async (tutorId, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/Request/get-pending-tutor-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetActiveOnlineApi = async (tutorId, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/Request/get-inprocess-tutor-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
         };
         const response = await fetch(url, request);
         return response;
