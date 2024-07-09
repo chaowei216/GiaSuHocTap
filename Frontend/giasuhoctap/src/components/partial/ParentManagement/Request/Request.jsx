@@ -1,52 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Request.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import PageNavigation from '../../TutorManagement/PageNavigation';
+import PageSize from '../../TutorManagement/PageSize';
+import { GetParentRequest } from '../../../../api/ParentHistory';
+import { toast } from 'react-toastify';
+import useAuth from '../../../../hooks/useAuth';
+import NoDataPage from '../../../global/NoDataPage';
+import InventoryIcon from "@mui/icons-material/Inventory";
+import { Link } from '@mui/material';
 
 const Request = () => {
-    // Dữ liệu mẫu các card
-    const cardsData = [
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Toán',
-            grade: 'Lớp 9',
-            teachingMethod: 'Online',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Hóa',
-            grade: 'Lớp 9',
-            teachingMethod: 'Online',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 16
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Anh',
-            grade: 'Lớp 9',
-            teachingMethod: 'Online',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 17
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Toán',
-            grade: 'Lớp 9',
-            teachingMethod: 'Online',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 18
+    const { user } = useAuth()
+    const [totalPages, setTotalPages] = useState();
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(5);
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const getAllNotification = async () => {
+            const response = await GetParentRequest("Online", "Đã chấp nhận", page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const data = responseJson.data.data;
+                setData(data);
+                setTotalPages(responseJson.data.totalPages)
+            } else {
+                toast.error("Lỗi sever")
+            }
         }
-    ];
+        getAllNotification();
+    }, [page, totalPages, pageSize])
+    // Dữ liệu mẫu các card
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,9 +76,13 @@ const Request = () => {
         setSelectedCoins(0); // Reset số coin hiện tại
     };
 
+    const handleLinkClick = (event, url) => {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+        window.open(url, '_blank'); // Mở liên kết trong tab mới
+    };
     return (
-        <div>
-            {cardsData.map((card, index) => (
+        <>
+            {data && data.map((card, index) => (
                 <div key={index}>
                     <div className={styles.Body}>
                         <div className='container'>
@@ -108,30 +97,41 @@ const Request = () => {
                                         <FontAwesomeIcon icon={faCircleQuestion} className={styles.icon} />
                                     </div>
                                     <div className={styles.statusName}>
-                                        <p>{card.status}</p>
+                                        <p>{card.requestStatus}</p>
                                     </div>
                                 </div>
                             </div>
                             <hr style={{ width: '97%', marginLeft: '20px' }} />
                             <div className={styles.historyContent}>
                                 <div className={styles.historyImg}>
-                                    <img src={card.imgSrc} alt="Profile" />
+                                    <img src="/img/tutor.jpg" alt="Profile" />
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        <h1>{card.name}</h1>
+                                        <h1>Tên nè</h1>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Link meet url:</p>
+                                        <Link href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
+                                            underline="always">
+                                            {card.linkMeet}
+                                        </Link>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
-                                        <p style={{ color: '#0000FF' }}>{card.subject}</p>
+                                        <p style={{ color: '#0000FF' }}>{card.courseName}</p>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Lớp học:</p>
-                                        <p style={{ color: '#0000FF' }}>{card.grade}</p>
+                                        <p style={{ color: '#0000FF' }}>{card.className}</p>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p>Ngày yêu cầu:</p>
+                                        <p>{card.createdDate.split("T")[0]}</p>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Ngày dạy:</p>
-                                        <p>{card.teachingDays}</p>
+                                        <p>Thứ 2, thứ 3</p>
                                     </div>
                                 </div>
                             </div>
@@ -140,13 +140,13 @@ const Request = () => {
                                 <div className={styles.coinIcon}>
                                     <FontAwesomeIcon icon={faCoins} className={styles.icon} />
                                     <p>Thành coin:</p>
-                                    <h1>{card.coins}</h1>
+                                    <h1>{card.coin}</h1>
                                 </div>
                             </div>
                             <div className={styles.historyFeedback}>
                                 <div className={styles.feedbackButton}>
-                                    <div className={styles.evaluate}>
-                                        <button onClick={() => handleEvaluateClick(card)}>THÊM GIỜ</button>
+                                    <div onClick={() => handleEvaluateClick(card)} className={styles.evaluate}>
+                                        <button>THÊM GIỜ</button>
                                     </div>
                                 </div>
                             </div>
@@ -154,49 +154,50 @@ const Request = () => {
                     </div>
                 </div>
             ))}
-
+            {data && data.length === 0 &&
+                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "90%", height: "100px", background: "white" }}>
+                    <InventoryIcon />
+                    Không có dữ liệu
+                </div>
+            }
             {isModalOpen && selectedCard && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <span className={styles.close} onClick={handleCloseModal}>&times;</span>
                         <div className={styles.titleEvaluate}>
-                            <h1>Đánh Giá Gia Sư</h1>
+                            <h1>Thuê thêm giờ</h1>
                         </div>
-                        <div className={styles.historyContentEvaluate} style={{marginLeft: '50px'}}>
+                        <div className={styles.historyContentEvaluate} style={{ marginLeft: '50px' }}>
                             <div className={styles.historyImgEvaluate}>
-                                <img src={selectedCard.imgSrc} alt="Profile" />
+                                <img src="/img/tutor.jpg" alt="Profile" />
                             </div>
                             <div className={styles.historyDetail}>
                                 <div className={styles.detailItem}>
-                                    <h1>{selectedCard.name}</h1>
+                                    <h1>Tên nè</h1>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Môn học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.subject}</p>
+                                    <p style={{ color: '#0000FF' }}>{selectedCard.courseName}</p>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Lớp học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.grade}</p>
+                                    <p style={{ color: '#0000FF' }}>{selectedCard.className}</p>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Ngày dạy:</p>
-                                    <p>{selectedCard.teachingDays}</p>
+                                    <p>Thứ 2, thứ 3</p>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.extendBox}>
                             <select className={styles.extendSelect} onChange={handleAdditionalHoursChange} value={additionalHours}>
-                                <option >Chọn Số Giờ Thêm</option>
-                                <option value="1">1 giờ</option>
-                                {/* <option value="2">2 giờ</option>
-                                <option value="3">3 giờ</option>
-                                <option value="4">4 giờ</option> */}
+                                <option selected value="1">1 giờ</option>
                             </select>
                             <div className={styles.additionalCoins}>
                                 <FontAwesomeIcon icon={faCoins} className={styles.icon} />
                                 <p> Số coin cần trả: </p>
                                 <div style={{ fontSize: '25px', marginLeft: '10px', color: '#4dccda' }}>
-                                    {additionalHours > 0 ? <p>{selectedCoins}</p> : <p>0</p>}
+                                    50
                                 </div>
                             </div>
                         </div>
@@ -207,7 +208,31 @@ const Request = () => {
                     </div>
                 </div>
             )}
-        </div>
+            {data && data.length > 0 && (
+                <>
+                    <div
+                        style={{
+                            minHeight: "80px", position: "relative"
+                        }}
+                    >
+                        <ul style={{
+                            marginTop: "28px", marginBottom: "10px", position: "absolute",
+                            left: "45%",
+                            transform: "translate(-50%)",
+                        }}>
+                            <PageNavigation
+                                page={page}
+                                setPage={setPage}
+                                totalPages={totalPages}
+                            />
+                        </ul>
+                        <ul style={{ float: "right", marginTop: "12px", position: "absolute", right: "5%" }} >
+                            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+                        </ul>
+                    </div>
+                </>
+            )}
+        </>
     );
 };
 
