@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.DTO.Request
 {
-    public class RequestDTO
+    public class RequestUserDTO
     {
         public int RequestId { get; set; }
         public string? Location { get; set; } = null!;
@@ -16,7 +19,8 @@ namespace Common.DTO.Request
         public string RequestUserName { get; set; } = null!;
         public string ClassName { get; set; } = null!;
         public string CourseName { get; set; } = null!;
-        public ICollection<RequestTimeDTO> RequestTimes { get; set; } = null!;
+        public ICollection<RequestTimeDTO>? Time { get; set; } = new List<RequestTimeDTO>();
         public string RequestStatus { get; set; } = null!;
+        public string Fullname { get; set; } = null!;
     }
 }
