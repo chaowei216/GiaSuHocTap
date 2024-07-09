@@ -6,6 +6,7 @@
         public string ReportTitle { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
+        public string Status { get; set; }
         public string ParentsEmail { get; set; }
         public string TutorEmail { get; set; }
     }

@@ -1,44 +1,28 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./Features.module.css";
-import imgTutor from "../../../../../public/img/tutor.jpg";
+import { GetAllTopTutor } from "../../../../api/TopTutorApi";
+const baseUrl = import.meta.env.VITE_API_HOST;
+
 
 const Features = () => {
-  const features = [
-    {
-      name: "Hà Thanh Tùng 1",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",
-      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-    {
-      name: "Hà Thanh Tùng 2",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-    {
-      name: "Hà Thanh Tùng 3",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-    {
-      name: "Hà Thanh Tùng 4",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-    {
-      name: "Hà Thanh Tùng 5",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-    {
-      name: "Hà Thanh Tùng 6",
-      description: "Tôi chỉ qua trung tâm làm việc trực tiếp 1 lần, còn những lần sau đều được gửi lớp qua điện thoại. Cách làm rất hay giúp tôi nhận lớp rất nhanh gọn lẹ.",      subject: 'Toán, Lý, Hóa',
-      image: imgTutor,
-    },
-  ];
+  const [features, setFeatures] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await GetAllTopTutor();
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setFeatures(result.data);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const sliderRef = useRef();
 
@@ -70,7 +54,9 @@ const Features = () => {
     ]
   };
 
-
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className={`${styles.featuresWrapper} center`}>
@@ -85,15 +71,16 @@ const Features = () => {
                   <div className={`swiper-slide ${styles.card}`}>
                     <div className={styles.cardContent}>
                       <div className={styles.image}>
-                        <img src={feature.image} alt="Profile" />
+                      
+                        <img src={`${baseUrl}/api/Auth/user-image?fileName=${feature.userImage}`} />
                       </div>
                       <div className={styles.cardBody}>
-                        <h5 className="card-title" style={{textAlign: 'center', fontSize: '18px', fontWeight: '600'}}>{feature.name}</h5>
+                        <h5 className="card-title" style={{textAlign: 'center', fontSize: '18px', fontWeight: '600'}}>{feature.fullname}</h5>
                         <div style={{display: 'flex', marginTop: '10px'}}>
                           <p>Môn dạy:</p>
-                          <p className="card-text" style={{color: '#0000FF', marginLeft: '5px', marginTop: '5px', fontWeight: 'bold'}}>{feature.subject}</p>
+                          {/* <p className="card-text" style={{color: '#0000FF', marginLeft: '5px', marginTop: '5px', fontWeight: 'bold'}}>{feature.subject || 'Chưa cập nhật'}</p> */}
                         </div>
-                        <p className="card-text" style={{ fontWeight: '600', marginTop: '15px'}}>{feature.description}</p>
+                        {/* <p className="card-text" style={{ fontWeight: '600', marginTop: '15px'}}>{feature.description || 'Chưa có mô tả'}</p> */}
                       </div>
                     </div>
                   </div>
@@ -107,11 +94,3 @@ const Features = () => {
 };
 
 export default Features;
-
-
-
-
-
-
-
-

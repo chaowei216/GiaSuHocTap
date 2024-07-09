@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,23 +8,10 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
-import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
-import GlobalLoading from "../../global/GlobalLoading";
-import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
-import ClearIcon from "@mui/icons-material/Clear";
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function FeedbackTable({
-  data, handleClickUpdate, handleClickDelete
-}) {
-  const [showModalDelete, setShowmodalDelete] = useState(false);
-  const [dataDelete, setDataDelete] = useState({});
-
+export default function FeedbackTable({ data }) {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -45,20 +31,8 @@ export default function FeedbackTable({
       border: 0,
     },
   }));
-  const TableHeader = [
-    "ID",
-    "Mô tả",
-    "Loại",
-    "Ngày tạo",
-    "Trạng thái",
-    "Hành động",
-  ];
-  const StatusType = [false, true];
+  const TableHeader = ["ID", "Mô tả", "Người tạo", "Người gửi", "Đánh giá"];
 
-  const handleDeleteNews = async (item) => {
-    setDataDelete(item);
-    setShowmodalDelete(true);
-  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -101,67 +75,22 @@ export default function FeedbackTable({
                       component="th"
                       scope="row"
                     >
-                      {row.notificationId}
+                      {row.feedbackId}
                     </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="left"
-                    >
+                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
                       {row.description}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="middle"
                     >
-                      {row.notificationType}
+                      {row.fromName}
                     </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="left"
-                    >
-                      {row.createdTime?.split("T")[0]}
+                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
+                      {row.toName}
                     </StyledTableCell>
-                    <StyledTableCell
-                      sx={{
-                        width: "150px",
-                        paddingLeft: "0px",
-                        paddingRight: "20px",
-                      }}
-                      style={{ fontWeight: "600" }}
-                      align="left"
-                    >
-                      {StatusType &&
-                        StatusType.map((type, index) => {
-                          if (row.status == type) {
-                            let styleName;
-                            switch (type) {
-                              case true:
-                                styleName = styles.completed;
-                                break;
-                              case false:
-                                styleName = styles.rejected;
-                                break;
-                              default:
-                                styleName = "";
-                            }
-                            return (
-                              <div className={styleName} key={index}>
-                                {type ? "True" : "False"}
-                              </div>
-                            );
-                          }
-                        })}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="left"
-                    >
-                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickUpdate(row)}>
-                        <EditIcon />
-                      </Button>
-                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row)}>
-                        <DeleteIcon />
-                      </Button>
+                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
+                      {row.rating}
                     </StyledTableCell>
                   </StyledTableRow>
                 );

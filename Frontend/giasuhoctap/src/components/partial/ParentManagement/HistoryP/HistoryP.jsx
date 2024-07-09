@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import styles from './HistoryP.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faCircleQuestion, faCoins, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
 
 const HistoryP = () => {
     // Dữ liệu mẫu các card
     const cardsData = [
         {
             name: 'Trần Hồ Nam',
-            status: 'HOÀN THÀNH',
+            status: 'ĐANG CHỜ',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
@@ -18,59 +18,51 @@ const HistoryP = () => {
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'HOÀN THÀNH',
+            status: 'ĐANG CHỜ',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
-            teachingMethod: 'Offline',
+            teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
+            coins: 16
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'HOÀN THÀNH',
+            status: 'ĐANG CHỜ',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Anh',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
+            coins: 17
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'HOÀN THÀNH',
+            status: 'ĐANG CHỜ',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
+            coins: 18
         }
     ];
 
-    const [rating, setRating] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [selectedCard, setSelectedCard] = useState(null);
-    const [message, setMessage] = useState('');
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
 
-    const messages = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
 
-    const handleStarClick = (index) => {
-        setRating(index + 1);
-        setMessage(messages[index]);
-    };
-
-    const handleEvaluateClick = (card) => {
+    const handleReportClick = (card) => {
         setSelectedCard(card);
-        setIsModalOpen(true);
+        setIsReportModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setRating(0);
+    const handleCloseReportModal = () => {
+        setIsReportModalOpen(false);
         setSelectedCard(null);
-        setMessage('');
     };
+
 
     return (
         <div>
@@ -126,9 +118,12 @@ const HistoryP = () => {
                             </div>
                             <div className={styles.historyFeedback}>
                                 <div className={styles.feedbackButton}>
-                                    <div className={styles.evaluate}>
-                                        <button onClick={() => handleEvaluateClick(card)}>Đánh Giá</button>
+                                    <div className={styles.report}>
+                                        <button onClick={() => handleReportClick(card)}>HỦY</button>
                                     </div>
+                                    {/* <div className={styles.evaluate}>
+                                        <button onClick={() => handleEvaluateClick(card)}>THÊM GIỜ</button>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -136,14 +131,12 @@ const HistoryP = () => {
                 </div>
             ))}
 
-            {isModalOpen && selectedCard && (
+            {isReportModalOpen && selectedCard && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={handleCloseModal}>&times;</span>
-                        <div className={styles.titleEvaluate}>
-                            <h1>
-                                Đánh Giá Gia Sư
-                            </h1>
+                        <span className={styles.close} onClick={handleCloseReportModal}>&times;</span>
+                        <div className={styles.titleReport}>
+                            <h1>Hủy Môn Học Đã Đặt</h1>
                         </div>
                         <div className={styles.historyContentEvaluate}>
                             <div className={styles.historyImgEvaluate}>
@@ -167,28 +160,18 @@ const HistoryP = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.starContainer}>
-                            <div className={styles.starTitle}>
-                                <h3>Bạn có hài lòng về gia sư</h3>
-                            </div>
-                            <div>
-                                {[...Array(5)].map((star, index) => (
-                                    <FontAwesomeIcon
-                                        key={index}
-                                        icon={faStar}
-                                        className={`${styles.star} ${index < rating ? styles.checked : ''}`}
-                                        onClick={() => handleStarClick(index)}
-                                    />
-                                ))}
-                            </div>
-                            <div className={styles.ratingMessage}>
-                                {message}
-                            </div>
+                        <div className={styles.reportSelect}>
+                            <select className={styles.selectReason} style={{width: '40%'}}>
+                                <option value="">Lý do Hủy</option>
+                                <option value="">Thay đổi giờ</option>
+                                <option value="">Muốn chọn gia sư khác</option>
+                                <option value="">Lý do khác</option>
+                            </select>
                         </div>
-                        <textarea className={styles.reviewTextarea} placeholder="Viết đánh giá của bạn tại đây..." />
+                        <textarea className={styles.reportTextarea} placeholder="Chi tiết lý do..." />
                         <div className={styles.reviewButtonGroup}>
-                            <button onClick={handleCloseModal}>Trở Lại</button>
-                            <button onClick={handleCloseModal}>Hoàn Thành</button>
+                            <button onClick={handleCloseReportModal}>Trở Lại</button>
+                            <button onClick={handleCloseReportModal}>Xác Nhận Hủy</button>
                         </div>
                     </div>
                 </div>

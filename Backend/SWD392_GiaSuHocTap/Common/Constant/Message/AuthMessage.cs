@@ -25,5 +25,6 @@
         public const string Accepted = "Accept success";
 
         public const string Rejected = "Reject tutor";
+        public const string Banned = "Your account is banned";
     }
 }
