@@ -140,7 +140,7 @@
     background-color: #4dccda;
     border-color: #4DA8DA;
     color: white;
-    padding: 12px 0 0 55px;
+    padding: 12px 0 0 60px;
     font-size: 18px;
     border-radius: 5px;
     transition: all 1s;
@@ -278,24 +278,27 @@
     margin: 10px 0 10px 10px;
 }
 
-
 .ratingMessage{
     color: #FFBA1D;
     margin-left: 10px;
 }
 
 .report{
-    width: 150px;
+    width: 200px;
     height: 50px;
-    background-color: #f5f5f5b5;
-    border: 1px solid rgba(0,0,0,.09);
-    color: #555;
-    padding: 12px 0 0 53px;
+    background-color: #c70e0e8f;
+    border: 1px solid #c70e0ec2;
+    color: white;
+    padding: 12px 0 0 60px;
     font-size: 18px;
     border-radius: 5px;
     transition: all 1s;
     cursor: pointer;
     margin-right: 10px;
+}
+
+.report:hover{
+    background: #c70e0ec2;
 }
 
 .titleReport{
@@ -321,59 +324,4 @@
     border-radius: 4px;
     margin-bottom: 15px;
     margin-top: 5px;
-}
-
-.additionalCoins {
-    display: flex;
-    align-items: center;
-    margin-left: 40px;
-}
-
-.additionalCoins .icon{
-    margin-right: 10px;
-}
-
-.extendSelect{
-    width: 35%;
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    margin: 15px 10px 15px 10px;
-}
-
-.additionalCoins .icon{
-    color: #4dccda;
-    font-size: 18px;
-}
-
-.extendBox{
-     display: flex;
-     margin-left: 10px;
-}
-
-.reviewButtonGroupExtend .closeHoursButton{
-    width: 110px;
-}
-
-.reviewButtonGroupExtend {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.reviewButtonGroupExtend button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #4dccda;
-    color: #ffffff;
-    transition: background-color 0.3s ease;
-}
-
-.reviewButtonGroup button:hover {
-    background-color: #4DA8DA;
 }

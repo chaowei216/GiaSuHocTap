@@ -3,7 +3,7 @@ import styles from './HistoryP.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
 
-const HistoryP = () => {
+const HistoryPOffline = () => {
     // Dữ liệu mẫu các card
     const cardsData = [
         {
@@ -12,9 +12,9 @@ const HistoryP = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 15
+            coins: 154
         },
         {
             name: 'Trần Hồ Nam',
@@ -22,7 +22,7 @@ const HistoryP = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 16
         },
@@ -32,7 +32,7 @@ const HistoryP = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Anh',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 17
         },
@@ -42,7 +42,7 @@ const HistoryP = () => {
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
-            teachingMethod: 'Online',
+            teachingMethod: 'Offline',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
             coins: 18
         }
@@ -180,4 +180,4 @@ const HistoryP = () => {
     );
 };
 
-export default HistoryP;
+export default HistoryPOffline;

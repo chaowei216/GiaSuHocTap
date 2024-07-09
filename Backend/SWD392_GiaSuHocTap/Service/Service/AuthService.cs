@@ -68,7 +68,7 @@ namespace Service.Service
                 // check password & create token
                 if (user != null && VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
                 {
-                    if (user.Status != UserStatusEnum.Active)
+                    if (user.Status == UserStatusEnum.InActive)
                     {
                         return new LoginResponseDTO()
                         {

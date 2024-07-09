@@ -1,0 +1,41 @@
+.pageWrapper{
+    margin: 50px 0;
+}
+
+.blogMeta h4{
+    margin-left: -20%;
+    margin-top: 1rem;
+    background-color: #ffffff;
+    padding: 1rem 1.5rem 1rem;
+    font-size: 25px;
+    font-weight: bold;
+    color: #4DA8DA;
+}
+
+.blogMeta p{
+    color: #5e5e5e;
+}
+
+.blogMeta small{
+    font-size: 11px;
+    display: inline-block;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
+}
+
+.firstSmall{
+    background-color: #FF6347;
+    color: #ffffff !important;
+    padding: 0 0.8rem;
+    border-radius: 3px;
+}
+
+.pullLeft{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
