@@ -21,6 +21,14 @@ namespace Repository.IRepository
         Task<Feedback?> GetFeedbackById(int id);
 
         /// <summary>
+        /// Get Feedback by tutorid and userid
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="toId"></param>
+        /// <returns></returns>
+        Feedback? GetFeedbackByTwoId(int fromId, int toId);
+
+        /// <summary>
         /// Add new Feedback
         /// </summary>
         /// <param name="feedback"></param>

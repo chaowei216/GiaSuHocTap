@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO.TimeTable;
+using Common.DTO.User;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -51,5 +53,28 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         TimeTable? GetOnlineTimeOfUser(int userId);
+
+        /// <summary>
+        /// Get timetable of tutor by tutorId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime);
+
+        /// <summary>
+        /// Update timetable
+        /// </summary>
+        /// <param name="timetableId"></param>
+        /// <param name="timetableInfo"></param>
+        /// <returns></returns>
+        Task<TimetableDTO?> UpdateTimeTable(int timetableId, UpdateTimeTableDTO timetableInfo);
+
+        /// <summary>
+        /// delete timetable
+        /// </summary>
+        /// <param name="timetableId"></param>
+        /// <returns></returns>
+        Task<bool> DeleteTimetable(int timetableId);
     }
 }
