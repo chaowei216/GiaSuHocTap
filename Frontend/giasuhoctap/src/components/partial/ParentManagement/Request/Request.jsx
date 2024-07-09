@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
-import { GetParentRequest } from '../../../../api/ParentHistory';
+import { GetParentRequest, HireTutorMore } from '../../../../api/ParentHistory';
 import { toast } from 'react-toastify';
 import useAuth from '../../../../hooks/useAuth';
 import NoDataPage from '../../../global/NoDataPage';
@@ -63,22 +63,43 @@ const Request = () => {
         setSelectedCoins(selectedCoins);
     };
 
-    const handleAddHours = () => {
-        // Logic tính số coin khi thêm giờ vào đây
-        const selectedCardCopy = { ...selectedCard };
-        const newCoins = selectedCardCopy.coins * (additionalHours); // Tính số coin mới sau khi thêm giờ
-        selectedCardCopy.coins = newCoins;
-
-        // Cập nhật lại selectedCard và đóng modal
-        setSelectedCard(selectedCardCopy);
+    const handleAddHours = async (value) => {
+        const timeTable = value?.requestTimes[0]?.timeTable
+        if (timeTable) {
+            let endTime = timeTable.endTime;
+            let date = new Date("2000-01-01T" + endTime);
+            date.setSeconds(date.getSeconds() + 3600);
+            let hours = date.getHours().toString().padStart(2, "0");
+            let minutes = date.getMinutes().toString().padStart(2, "0");
+            // let seconds = date.getSeconds().toString().padStart(2, "0");
+            let newEndTime = `${hours}:${minutes}`;
+            const dataUpdate = {
+                dayOfWeek: timeTable.dayOfWeek,
+                startTime: timeTable.startTime,
+                endTime: newEndTime,
+                period: timeTable.period
+            }
+            const response = await HireTutorMore(timeTable.timeTableId, dataUpdate)
+            if (response.ok) {
+                const reponseJson = await response.json();
+                if (reponseJson.statusCode == 200) {
+                    toast.success("Thuê gia sư thêm 1 tiếng thành công")
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2500);
+                } else {
+                    toast.error(response.message)
+                }
+            } else {
+                toast.error("Lỗi sever")
+            }
+        }
         setIsModalOpen(false);
-        setAdditionalHours(0); // Reset số giờ thêm vào
-        setSelectedCoins(0); // Reset số coin hiện tại
     };
 
     const handleLinkClick = (event, url) => {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
-        window.open(url, '_blank'); // Mở liên kết trong tab mới
+        event.preventDefault();
+        window.open(url, '_blank');
     };
     return (
         <>
@@ -108,14 +129,9 @@ const Request = () => {
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        <h1>Tên nè</h1>
-                                    </div>
-                                    <div className={styles.detailItem}>
-                                        <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Link meet url:</p>
-                                        <Link href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
-                                            underline="always">
-                                            {card.linkMeet}
-                                        </Link>
+                                        {card.requestTimes?.map((item, index) => (
+                                            <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                        ))}
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
@@ -130,8 +146,23 @@ const Request = () => {
                                         <p>{card.createdDate.split("T")[0]}</p>
                                     </div>
                                     <div className={styles.detailItem}>
-                                        <p>Ngày dạy:</p>
-                                        <p>Thứ 2, thứ 3</p>
+                                        <p>Giờ học:</p>
+                                        {card.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                        ))}
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p>Buổi:</p>
+                                        {card.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.period}</p>
+                                        ))}
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Link meet url:</p>
+                                        <Link href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
+                                            underline="always">
+                                            {card.linkMeet || "Chưa có link meet"}
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -139,8 +170,8 @@ const Request = () => {
                             <div className={styles.historyCoin}>
                                 <div className={styles.coinIcon}>
                                     <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                    <p>Thành coin:</p>
-                                    <h1>{card.coin}</h1>
+                                    <p>Giá tiền:</p>
+                                    <h1>{card.coin} xu</h1>
                                 </div>
                             </div>
                             <div className={styles.historyFeedback}>
@@ -173,7 +204,9 @@ const Request = () => {
                             </div>
                             <div className={styles.historyDetail}>
                                 <div className={styles.detailItem}>
-                                    <h1>Tên nè</h1>
+                                    {selectedCard.requestTimes?.map((item, index) => (
+                                        <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                    ))}
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Môn học:</p>
@@ -184,18 +217,30 @@ const Request = () => {
                                     <p style={{ color: '#0000FF' }}>{selectedCard.className}</p>
                                 </div>
                                 <div className={styles.detailItem}>
-                                    <p>Ngày dạy:</p>
-                                    <p>Thứ 2, thứ 3</p>
+                                    <p>Giờ học:</p>
+                                    {selectedCard.requestTimes?.map((item, index) => (
+                                        <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                    ))}
+                                </div>
+                                <div className={styles.detailItem}>
+                                    <p>Buổi:</p>
+                                    {selectedCard.requestTimes?.map((item, index) => (
+                                        <p key={index}>{item.timeTable.period}</p>
+                                    ))}
+                                </div>
+                                <div className={styles.detailItem}>
+                                    <p>Số xu dư:</p>
+                                    <p>{user?.coinBalance}</p>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.extendBox}>
                             <select className={styles.extendSelect} onChange={handleAdditionalHoursChange} value={additionalHours}>
-                                <option selected value="1">1 giờ</option>
+                                <option value="1">1 giờ</option>
                             </select>
                             <div className={styles.additionalCoins}>
                                 <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                <p> Số coin cần trả: </p>
+                                <p> Số xu cần trả: </p>
                                 <div style={{ fontSize: '25px', marginLeft: '10px', color: '#4dccda' }}>
                                     50
                                 </div>
@@ -203,7 +248,7 @@ const Request = () => {
                         </div>
                         <div className={styles.reviewButtonGroupExtend}>
                             <button className={styles.closeHoursButton} onClick={handleCloseModal}>Hủy</button>
-                            <button className={styles.addHoursButton} onClick={handleAddHours}>Thêm Giờ</button>
+                            <button className={styles.addHoursButton} onClick={() => handleAddHours(selectedCard)}>Thêm Giờ</button>
                         </div>
                     </div>
                 </div>

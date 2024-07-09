@@ -1,7 +1,5 @@
-import React from 'react'
 import SideBar from '../../components/partial/ParentManagement/SideBar/SideBar'
 import NavbarHistoryP from '../../components/partial/ParentManagement/NavbarHistoryP/NavbarHistoryP'
-import Navbar from '../../components/partial/HomePage/Navbar/Navbar'
 import Request from '../../components/partial/ParentManagement/Request/Request'
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
@@ -16,7 +14,7 @@ export default function ParentHistory() {
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
                 position: "fixed", top: "0", height: "100%", bottom: "0", width: "255px", left: "0",
-                zIndex: "1030", borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
+                borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
             }}>
                 <SideBar />
             </div>

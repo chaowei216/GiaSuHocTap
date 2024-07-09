@@ -29,7 +29,7 @@ const Cancelled = () => {
         }
         getAllNotification();
     }, [page, totalPages, pageSize])
-
+    console.log(data);
 
     return (
         <>
@@ -60,7 +60,9 @@ const Cancelled = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            <h1>Tên nè</h1>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                            ))}
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>
@@ -71,8 +73,20 @@ const Cancelled = () => {
                                             <p style={{ color: '#0000FF' }}>{card.className}</p>
                                         </div>
                                         <div className={styles.detailItem}>
-                                            <p>Ngày dạy:</p>
-                                            <p>Thứ 2, thứ 3</p>
+                                            <p>Ngày yêu cầu:</p>
+                                            <p>{card.createdDate.split("T")[0]}</p>
+                                        </div>
+                                        <div className={styles.detailItem}>
+                                            <p>Giờ học:</p>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                            ))}
+                                        </div>
+                                        <div className={styles.detailItem}>
+                                            <p>Buổi:</p>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <p key={index}>{item.timeTable.period}</p>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -80,8 +94,8 @@ const Cancelled = () => {
                                 <div className={styles.historyCoin}>
                                     <div className={styles.coinIcon}>
                                         <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                        <p>Thành coin:</p>
-                                        <h1>{card.coin}</h1>
+                                        <p>Giá tiền:</p>
+                                        <h1>{card.coin} xu</h1>
                                     </div>
                                 </div>
                             </div>

@@ -16,3 +16,20 @@ export const GetParentRequest = async (requestType, status, page, pageSize) => {
         console.log(err);
     }
 }
+
+export const HireTutorMore = async (timeTableId, value) => {
+    try {
+        const url = `${baseUrl}/api/TimeTable/update-timetable/${timeTableId}`;
+        const request = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

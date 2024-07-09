@@ -76,7 +76,9 @@ const HistoryP = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            <h1>Tên nè</h1>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                            ))}
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>
@@ -91,8 +93,8 @@ const HistoryP = () => {
                                             <p>{card.createdDate.split("T")[0]}</p>
                                         </div>
                                         <div className={styles.detailItem}>
-                                            <p>Ngày dạy:</p>
-                                            <p>Thứ 2, thứ 3</p>
+                                            <p>Mô tả:</p>
+                                            <p>{card.description || "Không có mô tả"}</p>
                                         </div>
                                     </div>
                                 </div>

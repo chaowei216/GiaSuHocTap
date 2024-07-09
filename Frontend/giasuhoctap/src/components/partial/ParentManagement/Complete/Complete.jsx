@@ -15,6 +15,16 @@ const Complete = () => {
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
+    const [formData, setFormData] = useState({
+        reason: '', // Lý do báo cáo
+        details: '', // Chi tiết về báo cáo
+    });
+    const [rating, setRating] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [message, setMessage] = useState('');
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [feedbackMsg, setFeedbackMsg] = useState('');
     useEffect(() => {
         const getAllNotification = async () => {
             const response = await GetParentRequest("Online", "Hoàn thành", page, pageSize);
@@ -29,12 +39,6 @@ const Complete = () => {
         }
         getAllNotification();
     }, [page, totalPages, pageSize])
-
-    const [rating, setRating] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [message, setMessage] = useState('');
-    const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
 
     const messages = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
 
@@ -64,7 +68,21 @@ const Complete = () => {
         setIsReportModalOpen(false);
         setSelectedCard(null);
     };
-
+    const handleSubmitReport = async (value) => {
+        console.log(formData);
+        setIsReportModalOpen(false);
+        setSelectedCard(null);
+    };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+    const handleSubmitFeedback = async (value) => {
+        console.log(feedbackMsg);
+        console.log(rating);
+        setIsReportModalOpen(false);
+        setSelectedCard(null);
+    };
     return (
         <>
             <div>
@@ -94,7 +112,9 @@ const Complete = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            <h1>Tên nè</h1>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                            ))}
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>
@@ -109,8 +129,16 @@ const Complete = () => {
                                             <p>{card.createdDate.split("T")[0]}</p>
                                         </div>
                                         <div className={styles.detailItem}>
-                                            <p>Ngày dạy:</p>
-                                            <p>Thứ 2, thứ 3</p>
+                                            <p>Giờ học:</p>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                            ))}
+                                        </div>
+                                        <div className={styles.detailItem}>
+                                            <p>Buổi:</p>
+                                            {card.requestTimes?.map((item, index) => (
+                                                <p key={index}>{item.timeTable.period}</p>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -118,8 +146,8 @@ const Complete = () => {
                                 <div className={styles.historyCoin}>
                                     <div className={styles.coinIcon}>
                                         <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                        <p>Thành coin:</p>
-                                        <h1>{card.coin}</h1>
+                                        <p>Giá tiền:</p>
+                                        <h1>{card.coin} xu</h1>
                                     </div>
                                 </div>
                                 <div className={styles.historyFeedback}>
@@ -157,7 +185,9 @@ const Complete = () => {
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        <h1>Tên nè</h1>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                        ))}
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
@@ -168,8 +198,16 @@ const Complete = () => {
                                         <p style={{ color: '#0000FF' }}>{selectedCard.className}</p>
                                     </div>
                                     <div className={styles.detailItem}>
-                                        <p>Ngày dạy:</p>
-                                        <p>Thứ 2, thứ tư</p>
+                                        <p>Giờ học:</p>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                        ))}
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p>Buổi:</p>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.period}</p>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -191,10 +229,10 @@ const Complete = () => {
                                     {message}
                                 </div>
                             </div>
-                            <textarea className={styles.reviewTextarea} placeholder="Viết đánh giá của bạn tại đây..." />
+                            <textarea value={feedbackMsg} onChange={(event) => setFeedbackMsg(event.target.value)} className={styles.reviewTextarea} placeholder="Viết đánh giá của bạn tại đây..." />
                             <div className={styles.reviewButtonGroup}>
                                 <button onClick={handleCloseModal}>Trở Lại</button>
-                                <button onClick={handleCloseModal}>Hoàn Thành</button>
+                                <button onClick={() => handleSubmitFeedback(selectedCard)}>Hoàn Thành</button>
                             </div>
                         </div>
                     </div>
@@ -213,7 +251,9 @@ const Complete = () => {
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        <h1>{selectedCard.name}</h1>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                        ))}
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
@@ -224,24 +264,45 @@ const Complete = () => {
                                         <p style={{ color: '#0000FF' }}>{selectedCard.className}</p>
                                     </div>
                                     <div className={styles.detailItem}>
-                                        <p>Ngày dạy:</p>
-                                        <p>Thứ 2, 3, 4</p>
+                                        <p>Giờ học:</p>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                        ))}
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p>Buổi:</p>
+                                        {selectedCard.requestTimes?.map((item, index) => (
+                                            <p key={index}>{item.timeTable.period}</p>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.reportSelect}>
-                                <select className={styles.selectReason}>
+                                <select
+                                    className={styles.selectReason}
+                                    value={formData.reason}
+                                    onChange={handleChange}
+                                    name="reason"
+                                >
                                     <option value="">Chọn lý do báo cáo</option>
                                     <option value="Nội dung không đúng yêu cầu">Nội dung không đúng yêu cầu</option>
                                     <option value="Gia sư không đúng giờ">Gia sư không đúng giờ</option>
-                                    <option value="Thái độ không phù hợp của gia sư/học sinh">Thái độ không phù hợp của gia sư/học sinh</option>
+                                    <option value="Thái độ không phù hợp của gia sư/học sinh">
+                                        Thái độ không phù hợp của gia sư/học sinh
+                                    </option>
                                     <option value="Phản hồi không thỏa đáng">Phản hồi không thỏa đáng</option>
                                 </select>
                             </div>
-                            <textarea className={styles.reportTextarea} placeholder="Chi tiết về báo cáo..." />
+                            <textarea
+                                className={styles.reportTextarea}
+                                value={formData.details}
+                                onChange={handleChange}
+                                name="details"
+                                placeholder="Chi tiết về báo cáo..."
+                            />
                             <div className={styles.reviewButtonGroup}>
                                 <button onClick={handleCloseReportModal}>Trở Lại</button>
-                                <button onClick={handleCloseReportModal}>Gửi Báo Cáo</button>
+                                <button onClick={() => handleSubmitReport(selectedCard)}>Gửi Báo Cáo</button>
                             </div>
                         </div>
                     </div>

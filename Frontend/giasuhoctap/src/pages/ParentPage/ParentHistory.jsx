@@ -14,7 +14,7 @@ export default function ParentHistory() {
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
                 position: "fixed", top: "0", height: "100%", bottom: "0", width: "255px", left: "0",
-                zIndex: "1030", borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
+                borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
             }}>
                 <SideBar />
             </div>
