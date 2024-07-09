@@ -1,4 +1,9 @@
 ﻿using DAO.Model;
+using Common.DTO.News;
+using Common.DTO.Query;
+using Common.DTO.User;
+using Common.DTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Service.IService
 {
@@ -22,7 +27,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="news"></param>
         /// <returns></returns>
-        Task<News> AddNewNews(News news);
+        Task<NewsDTO> AddNewNews(NewsCreateDTO news, IFormFile imageFile);
 
         /// <summary>
         /// Update News
@@ -30,5 +35,12 @@ namespace Service.IService
         /// <param name="news"></param>
         /// <returns></returns>
         Task<News> UpdateNews(News news);
+
+        /// <summary>
+        /// Get news list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<NewsDTO> GetPagedNewsList(NewsParameters parameters);
     }
 }

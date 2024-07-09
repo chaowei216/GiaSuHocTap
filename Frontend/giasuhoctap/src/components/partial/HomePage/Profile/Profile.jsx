@@ -6,6 +6,7 @@ import { GetAllClass, GetAllCourse } from '../../../../api/ResigerTutorApi';
 import useAuth from '../../../../hooks/useAuth'
 import { UpdateTutor } from '../../../../api/UpdateTutorApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
 const Profile = () => {
@@ -17,8 +18,8 @@ const Profile = () => {
     const [selectedDayOfWeekOffline, setSelectedDayOfWeekOffline] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedClasses, setSelectedClasses] = useState([]);
-    const { user } = useAuth()
-
+    const { user } = useAuth();
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchClasses = async () => {
             try {
@@ -126,10 +127,11 @@ const Profile = () => {
             if (responseJson.statusCode === 400) {
                 toast.error(responseJson.message);
             } else {
-                toast.success('Update successful');
+                toast.success('Cập nhật thành công');
+                navigate("/")
             }
         } else {
-            toast.error('Error');
+            toast.error('Lỗi sever');
         }
     };
 
@@ -199,7 +201,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    {teachingMode && (
+                    {/* {teachingMode && ( */}
                         <div className={styles.profileDayOfWeek}>
                             <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày dạy offline:</div>
                             <div className={`form-check ${styles.subjectGrid}`}>
@@ -222,14 +224,14 @@ const Profile = () => {
                                 ))}
                             </div>
                         </div>
-                    )}
+                    {/* )} */}
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <div className={styles.profileTime}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Chọn môn học:</div>
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {courses.map((course, index) => (
                                 <div key={index} className="mb-4">
-                                    <input className="form-check-input" type="checkbox" value={course.courseId} id={`course-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
+                                    <input className="form-check-input" type="checkbox" value={course.courseId}  onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
                                     <label className="form-check-label" htmlFor={`course-${index}`}>
                                         {course.courseName}
                                     </label>
@@ -243,7 +245,7 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {classes.map((item, index) => (
                                 <div key={index} className="mb-4">
-                                    <input className="form-check-input" type="checkbox" value={item.classId} id={`class-${index}`} onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)} />
+                                    <input className="form-check-input" type="checkbox" value={item.classId} onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)} />
                                     <label className="form-check-label" htmlFor={`class-${index}`}>
                                         {item.className}
                                     </label>

@@ -209,6 +209,9 @@ namespace DAO.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("ToId")
                         .HasColumnType("int");
 

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 using System.Security.Cryptography;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace Service.Service
 {
@@ -67,6 +68,15 @@ namespace Service.Service
                 // check password & create token
                 if (user != null && VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
                 {
+                    if (user.Status == UserStatusEnum.InActive)
+                    {
+                        return new LoginResponseDTO()
+                        {
+                            User = _mapper.Map<UserDTO>(user),
+                            Token = null
+                        };
+                    }
+
                     // write token
                     var response = await _tokenService.CreateJWTToken(user, "");
 

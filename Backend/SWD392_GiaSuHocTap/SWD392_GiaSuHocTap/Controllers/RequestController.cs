@@ -58,7 +58,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
-        [HttpGet("get-tutor-online-requests/{tutorId}")]
+        [HttpGet("get-all-tutor-online-requests/{tutorId}")]
         public async Task<IActionResult> GetOnlineRequestsOfTutor(int tutorId, [FromQuery] RequestParameters parameters)
         {
             if (!ModelState.IsValid)
@@ -76,6 +76,146 @@ namespace SWD392_GiaSuHocTap.Controllers
             if (tutor != null)
             {
                 var response = _requestService.GetOnlineRequestsOfTutor(tutorId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-pending-tutor-requests/{tutorId}")]
+        public async Task<IActionResult> GetPendingRequestsOfTutor(int tutorId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(tutorId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetPendingRequestsOfTutor(tutorId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-inprocess-tutor-requests/{tutorId}")]
+        public async Task<IActionResult> GetInprocessRequestsOfTutor(int tutorId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(tutorId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetInProcessRequestsOfTutor(tutorId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-inprocess-parents-requests/{parentsId}")]
+        public async Task<IActionResult> GetInprocessRequestsOfParents(int parentsId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(parentsId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetInProcessRequestsOfParents(parentsId, parameters);
+
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-pending-parents-requests/{parentsId}")]
+        public async Task<IActionResult> GetPendingRequestsOfParents(int parentsId, [FromQuery] RequestParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = await _userService.GetUserById(parentsId);
+
+            if (tutor != null)
+            {
+                var response = _requestService.GetPendingRequestsOfParents(parentsId, parameters);
 
                 return Ok(new ResponseDTO()
                 {
@@ -188,7 +328,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpPut("update-online-request")]
-        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestUpdateDTO requestInfo)
+        public async Task<IActionResult> UpdateOnlineRequest([FromBody] RequestOnlineUpdateDTO requestInfo)
         {
             if (!ModelState.IsValid)
             {

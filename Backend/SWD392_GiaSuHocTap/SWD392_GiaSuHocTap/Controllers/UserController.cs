@@ -44,6 +44,29 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [HttpGet("get-all-tutors")]
+        public IActionResult GetAllTutors([FromQuery] UserParameters queries)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetPagedTutorList(queries);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
+
         [HttpGet("get-pending-tutor")]
         public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
@@ -258,6 +281,51 @@ namespace SWD392_GiaSuHocTap.Controllers
                 StatusCode = (int)StatusCodeEnum.OK,
                 Message = GeneralMessage.Success,
                 Data = response
+            });
+        }
+
+        [HttpPut("update-user/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO userInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(userId);
+
+            if (user == null)
+            {
+                return StatusCode(404, new ResponseDTO ()
+                {
+                    StatusCode = (int)StatusCodeEnum.NotFound,
+                    Message = GeneralMessage.NotFound,
+                    Data = null
+                });
+            } 
+
+            var response = await _userService.UpdateUser(user, userInfo);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO
+                {
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            }
+
+            return StatusCode(500, new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
             });
         }
     }

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.DTO.Report
+﻿namespace Common.DTO.Report
 {
     public class ReportDTO
     {
+        public int ReportId { get; set; }
+        public string ReportTitle { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public DateTime CreatedDate { get; set; }
+        public string Status { get; set; }
+        public string ParentsEmail { get; set; }
+        public string TutorEmail { get; set; }
     }
 }

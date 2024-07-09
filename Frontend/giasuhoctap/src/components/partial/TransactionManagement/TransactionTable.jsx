@@ -8,13 +8,10 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
 import GlobalLoading from "../../global/GlobalLoading";
-import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
-import ClearIcon from "@mui/icons-material/Clear";
 export default function TransactionTable({
   data,
 }) {
@@ -38,16 +35,15 @@ export default function TransactionTable({
     },
   }));
   const TableHeader = [
-    "Giao dịch ID",
-    "Giao dịch bằng",
-    "Số giao dịch",
+    "ID",
+    "Số",
     "Thông tin",
-    "Ngày giao dịch",
+    "Ngày",
     "Số lượng",
     "Trạng thái",
     "Email User",
   ];
-  const StatusType = ["Cancel", "Paid"];
+  const StatusType = ["Paid", "Cancel"];
   return (
     <div>
       <TableContainer component={Paper}>
@@ -93,14 +89,6 @@ export default function TransactionTable({
                       {row.transactionId}
                     </StyledTableCell>
                     <StyledTableCell
-                      sx={{ fontWeight: "600" }}
-                      component="th"
-                      align="left"
-                      scope="row"
-                    >
-                      <span>{row.paymentMethod}</span>
-                    </StyledTableCell>
-                    <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
@@ -139,10 +127,10 @@ export default function TransactionTable({
                             let styleName;
                             switch (type) {
                               case "Paid":
-                                styleName = styles.active;
+                                styleName = styles.completed;
                                 break;
                               case "Cancel":
-                                styleName = styles.pending;
+                                styleName = styles.rejected;
                                 break;
                               default:
                                 styleName = "";

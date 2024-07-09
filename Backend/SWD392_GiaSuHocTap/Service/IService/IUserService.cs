@@ -88,6 +88,13 @@ namespace Service.IService
         PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
+        /// Get tutor list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TutorDTO> GetPagedTutorList(UserParameters parameters);
+
+        /// <summary>
         /// Get all pending users
         /// </summary>
         /// <param name="parameters"></param>
@@ -149,6 +156,19 @@ namespace Service.IService
         /// <returns></returns>
         Task<User> UpdateUser(User user);
 
+        /// <summary>
+        /// Get tutor detail by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<TutorDetail?> GetTutorDetailByUserId(int userId);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo);
     }
 }

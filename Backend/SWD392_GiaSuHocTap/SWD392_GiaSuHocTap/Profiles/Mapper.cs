@@ -1,11 +1,13 @@
 ﻿
 using AutoMapper;
+using Common.Constant.Report;
 using Common.Constant.Request;
 using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Class;
 using Common.DTO.Course;
 using Common.DTO.Feedback;
+using Common.DTO.News;
 using Common.DTO.Notification;
 using Common.DTO.Payment;
 using Common.DTO.Report;
@@ -34,6 +36,10 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<User, TutorInforDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
+            CreateMap<PagedList<Feedback>, PaginationResponseDTO<FeedbackDTO>>().ReverseMap();
+            CreateMap<PagedList<News>, PaginationResponseDTO<NewsDTO>>().ReverseMap();
+            CreateMap<News, NewsDTO>().ReverseMap();
+            CreateMap<News, NewsCreateDTO>().ReverseMap();
             CreateMap<User, TutorDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<TutorDetailDTO, TutorDetail>().ReverseMap();
             CreateMap<UserClass, UserClassDTO>().ReverseMap();
@@ -41,7 +47,9 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<TimeTable, TimetableDTO>().ReverseMap();
             CreateMap<DeleteUserClassDTO, UserClass>().ReverseMap();
             CreateMap<DeleteUserCourseDTO, UserCourse>().ReverseMap();
-            CreateMap<Feedback, FeedbackDTO>().ReverseMap();
+            CreateMap<Feedback, FeedbackDTO>().ForMember(dest => dest.FromName, otp => otp.MapFrom(src => src.From.Fullname))
+                                              .ForMember(dest => dest.ToName, otp => otp.MapFrom(src => src.To.Fullname)).ReverseMap();
+            CreateMap<FeedbackCreateDTO, Feedback>().ReverseMap();
             CreateMap<Report, ReportDTO>().ReverseMap();
             CreateMap<Class, ClassFullDTO>().ReverseMap();
             CreateMap<Course, CourseFullDTO>().ReverseMap();
@@ -55,6 +63,11 @@ namespace SWD392_GiaSuHocTap.Profiles
                                             .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status)).ReverseMap();
             CreateMap<RequestOnlineDTO, Request>().ReverseMap();
             CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
+            CreateMap<PagedList<Report>, PaginationResponseDTO<ReportDTO>>().ReverseMap();
+            CreateMap<Report, ReportDTO>().ForMember(dest => dest.ParentsEmail, opt => opt.MapFrom(src => src.From.Email))
+                                          .ForMember(dest => dest.TutorEmail, opt => opt.MapFrom(src => src.To.Email))
+                                          .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status ? ReportConst.DoneStatus : ReportConst.PendingStatus)).ReverseMap();
+            CreateMap<UserUpdateDTO, User>().ReverseMap();
             #endregion
         }
     }

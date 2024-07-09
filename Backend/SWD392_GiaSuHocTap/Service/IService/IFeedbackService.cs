@@ -1,5 +1,9 @@
 ﻿using DAO.Model;
 using Common.DTO;
+using Common.DTO.Feedback;
+using Common.DTO.Query;
+using Common.DTO.Request;
+using Common.DTO.News;
 
 namespace Service.IService
 {
@@ -23,7 +27,7 @@ namespace Service.IService
         /// </summary>
         /// <param name="feedback"></param>
         /// <returns></returns>
-        Task<ResponseDTO> AddNewFeedback(Feedback feedback);
+        Task<FeedbackDTO> AddNewFeedback(FeedbackCreateDTO feedback);
 
         /// <summary>
         /// Update Feedback
@@ -31,5 +35,20 @@ namespace Service.IService
         /// <param name="feedback"></param>
         /// <returns></returns>
         Task<Feedback> UpdateFeedback(Feedback feedback);
+
+        /// <summary>
+        /// Get all feedbacks of tutor
+        /// </summary>
+        /// <param name="tutorId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<FeedbackDTO> GetFeedbacksOfTutor(int tutorId, FeedbackParameters parameters);
+
+        /// <summary>
+        /// Get feedback list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<FeedbackDTO> GetPagedFeedbacksList(FeedbackParameters parameters);
     }
 }

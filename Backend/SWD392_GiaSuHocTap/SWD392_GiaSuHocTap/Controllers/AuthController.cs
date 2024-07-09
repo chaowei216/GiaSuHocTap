@@ -51,12 +51,24 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             if (response != null)
             {
-                return Ok(new ResponseDTO()
+                if (response.Token == null)
                 {
-                    StatusCode = (int)StatusCodeEnum.OK,
-                    Message = AuthMessage.LoginSuccess,
-                    Data = response
-                });
+                    return Ok(new ResponseDTO()
+                    {
+                        StatusCode = (int)StatusCodeEnum.InternalServerError,
+                        Message = AuthMessage.Banned,
+                        Data = null
+                    });
+                } else
+                {
+
+                    return Ok(new ResponseDTO()
+                    {
+                        StatusCode = (int)StatusCodeEnum.OK,
+                        Message = AuthMessage.LoginSuccess,
+                        Data = response
+                    });
+                }
             }
 
             return BadRequest(new ResponseDTO()

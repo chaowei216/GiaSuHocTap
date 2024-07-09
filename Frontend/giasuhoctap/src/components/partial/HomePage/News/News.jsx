@@ -1,29 +1,36 @@
 import React from "react";
 import styles from "./News.module.css";
 import carousel3 from "../../../../../public/img/Carousel3.jpg";
+import carousel1 from "../../../../../public/img/Carousel1.jpg";
+import carousel2 from "../../../../../public/img/Carousel2.jpg";
 
 const News = () => {
   // Dữ liệu của các tin tức (đây là ví dụ, bạn có thể thay đổi nội dung và ảnh)
   const newsData = [
     {
-      title: "Top 10 phone applications and 2017 mobile design awards",
-      description: "Aenean interdum arcu blandit, vehicula magna non, placerat elit. Mauris et pharetratortor.",
-      category: "Gadgets",
+      title: "Top 10 gia sư được nhiều người tin tưởng",
+      description: "Trong thế giới hiện đại ngày nay, nhu cầu về giáo dục ngày càng tăng cao, đặc biệt là trong việc tối ưu hóa sự phát triển học tập của các em học sinh. Gia sư đóng vai trò quan trọng như một người hỗ trợ đắc lực, giúp các em vượt qua những thử thách trong học tập, củng cố kiến thức và nâng cao năng lực. Dịch vụ gia sư không chỉ đơn thuần là cung cấp kiến thức mà còn là một quá trình tương tác giữa gia sư và học sinh, được xây dựng trên nền tảng sự hiểu biết, tâm huyết và kinh nghiệm giảng dạy. Gia sư không chỉ giúp học sinh nắm bắt và áp dụng kiến thức một cách hiệu quả mà còn giúp họ phát triển các kỹ năng quan trọng như tự tin, sự tự chủ và khả năng giải quyết vấn đề.Với đội ngũ gia sư chuyên môn cao, có kinh nghiệm dạy và hướng dẫn từng học sinh theo nhu cầu cụ thể, chúng tôi cam kết mang đến cho các gia đình dịch vụ gia sư chất lượng. Chúng tôi cung cấp các môn học từ cấp tiểu học đến cấp đại học, đảm bảo đáp ứng được mọi nhu cầu học tập và rèn luyện kỹ năng của học sinh. Hãy đồng hành cùng chúng tôi để con em bạn có một môi trường học tập tối ưu, từng bước phát triển và thành công trong tương lai. Với dịch vụ gia sư chuyên nghiệp của chúng tôi, chắc chắn bạn sẽ tìm thấy sự hài lòng và niềm tin vào giáo dục của con mình.",
       date: "21 July, 2017",
-      author: "Matilda",
-      views: 1114,
+      image: carousel1,
+    },
+    {
+      title: "5 Lợi ích khi thuê gia sư cho con em bạn ",
+      description: "Trong thế giới hiện đại ngày nay, nhu cầu về giáo dục ngày càng tăng cao, đặc biệt là trong việc tối ưu hóa sự phát triển học tập của các em học sinh. Gia sư đóng vai trò quan trọng như một người hỗ trợ đắc lực, giúp các em vượt qua những thử thách trong học tập, củng cố kiến thức và nâng cao năng lực. Dịch vụ gia sư không chỉ đơn thuần là cung cấp kiến thức mà còn là một quá trình tương tác giữa gia sư và học sinh, được xây dựng trên nền tảng sự hiểu biết, tâm huyết và kinh nghiệm giảng dạy. Gia sư không chỉ giúp học sinh nắm bắt và áp dụng kiến thức một cách hiệu quả mà còn giúp họ phát triển các kỹ năng quan trọng như tự tin, sự tự chủ và khả năng giải quyết vấn đề.Với đội ngũ gia sư chuyên môn cao, có kinh nghiệm dạy và hướng dẫn từng học sinh theo nhu cầu cụ thể, chúng tôi cam kết mang đến cho các gia đình dịch vụ gia sư chất lượng. Chúng tôi cung cấp các môn học từ cấp tiểu học đến cấp đại học, đảm bảo đáp ứng được mọi nhu cầu học tập và rèn luyện kỹ năng của học sinh. Hãy đồng hành cùng chúng tôi để con em bạn có một môi trường học tập tối ưu, từng bước phát triển và thành công trong tương lai. Với dịch vụ gia sư chuyên nghiệp của chúng tôi, chắc chắn bạn sẽ tìm thấy sự hài lòng và niềm tin vào giáo dục của con mình.",
+      date: "21 July, 2017",
+      image: carousel2,
+    },
+    {
+      title: "Những lưu ý khi tìm gia sư online cho học sinh cấp 3",
+      description: "Trong thế giới hiện đại ngày nay, nhu cầu về giáo dục ngày càng tăng cao, đặc biệt là trong việc tối ưu hóa sự phát triển học tập của các em học sinh. Gia sư đóng vai trò quan trọng như một người hỗ trợ đắc lực, giúp các em vượt qua những thử thách trong học tập, củng cố kiến thức và nâng cao năng lực. Dịch vụ gia sư không chỉ đơn thuần là cung cấp kiến thức mà còn là một quá trình tương tác giữa gia sư và học sinh, được xây dựng trên nền tảng sự hiểu biết, tâm huyết và kinh nghiệm giảng dạy. Gia sư không chỉ giúp học sinh nắm bắt và áp dụng kiến thức một cách hiệu quả mà còn giúp họ phát triển các kỹ năng quan trọng như tự tin, sự tự chủ và khả năng giải quyết vấn đề.Với đội ngũ gia sư chuyên môn cao, có kinh nghiệm dạy và hướng dẫn từng học sinh theo nhu cầu cụ thể, chúng tôi cam kết mang đến cho các gia đình dịch vụ gia sư chất lượng. Chúng tôi cung cấp các môn học từ cấp tiểu học đến cấp đại học, đảm bảo đáp ứng được mọi nhu cầu học tập và rèn luyện kỹ năng của học sinh. Hãy đồng hành cùng chúng tôi để con em bạn có một môi trường học tập tối ưu, từng bước phát triển và thành công trong tương lai. Với dịch vụ gia sư chuyên nghiệp của chúng tôi, chắc chắn bạn sẽ tìm thấy sự hài lòng và niềm tin vào giáo dục của con mình.",
+      date: "21 July, 2017",
       image: carousel3,
     },
     {
-      title: "New technology trends in 2023",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan eros id libero consectetur.",
-      category: "Technology",
-      date: "10 August, 2023",
-      author: "John Doe",
-      views: 865,
-      image: carousel3, // Thay đổi đường dẫn ảnh cho mỗi tin tức
+      title: "Gia sư toán lý hóa giỏi giúp con em vượt khó trong học tập",
+      description: "Trong thế giới hiện đại ngày nay, nhu cầu về giáo dục ngày càng tăng cao, đặc biệt là trong việc tối ưu hóa sự phát triển học tập của các em học sinh. Gia sư đóng vai trò quan trọng như một người hỗ trợ đắc lực, giúp các em vượt qua những thử thách trong học tập, củng cố kiến thức và nâng cao năng lực. Dịch vụ gia sư không chỉ đơn thuần là cung cấp kiến thức mà còn là một quá trình tương tác giữa gia sư và học sinh, được xây dựng trên nền tảng sự hiểu biết, tâm huyết và kinh nghiệm giảng dạy. Gia sư không chỉ giúp học sinh nắm bắt và áp dụng kiến thức một cách hiệu quả mà còn giúp họ phát triển các kỹ năng quan trọng như tự tin, sự tự chủ và khả năng giải quyết vấn đề.Với đội ngũ gia sư chuyên môn cao, có kinh nghiệm dạy và hướng dẫn từng học sinh theo nhu cầu cụ thể, chúng tôi cam kết mang đến cho các gia đình dịch vụ gia sư chất lượng. Chúng tôi cung cấp các môn học từ cấp tiểu học đến cấp đại học, đảm bảo đáp ứng được mọi nhu cầu học tập và rèn luyện kỹ năng của học sinh. Hãy đồng hành cùng chúng tôi để con em bạn có một môi trường học tập tối ưu, từng bước phát triển và thành công trong tương lai. Với dịch vụ gia sư chuyên nghiệp của chúng tôi, chắc chắn bạn sẽ tìm thấy sự hài lòng và niềm tin vào giáo dục của con mình.",
+      date: "21 July, 2017",
+      image: carousel1,
     },
-    // Thêm các tin tức khác tương tự ở đây
   ];
 
   return (
@@ -52,8 +59,8 @@ const News = () => {
                   <a className={`${styles.bgOrange}`} href="tech-category-01.html" title="">{news.category}</a>
                 </small>
                 <small><a href="tech-single.html" title="">{news.date}</a></small>
-                <small><a href="tech-author.html" title="">by {news.author}</a></small>
-                <small><a href="tech-single.html" title=""><i className="fa fa-eye"></i> {news.views}</a></small>
+                {/* <small><a href="tech-author.html" title="">by {news.author}</a></small>
+                <small><a href="tech-single.html" title=""><i className="fa fa-eye"></i> {news.views}</a></small> */}
               </div>
               <hr className={`${styles.invis}`} />
             </div>

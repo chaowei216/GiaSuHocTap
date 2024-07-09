@@ -32,12 +32,12 @@ import ParentRequestOffline from "../pages/ParentPage/ParentRequestOffline";
 import ParentCompleteOffline from "../pages/ParentPage/ParentCompleteOffline";
 import ParentCancelledOffline from "../pages/ParentPage/ParentCancelledOffline";
 import ParentHistoryOffline from "../pages/ParentPage/ParentHistoryOffline";
-import NotificationPage from "../pages/ParentPage/NotificationPage";
-
+// import NotificationPage from "../pages/ParentPage/NotificationPage";
 import Checkout from "../pages/PaymentPage/CheckOut";
 import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
 import TransactionPage from "../pages/TransactionPage/TransactionPage";
 import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
+import NotificationPage from "../pages/NotificationPage/NotificationPage";
 import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
 import NewsPage from "../pages/NewsPage/NewsPage";
 export const router = createBrowserRouter([
@@ -79,8 +79,9 @@ export const router = createBrowserRouter([
   { path: "ParentCompleteOffline", element: <ParentCompleteOffline /> },
   { path: "ParentCancelledOffline", element: <ParentCancelledOffline /> },
   { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> },
-  { path: "NotificationPage", element: <NotificationPage /> },
+  // { path: "NotificationPage", element: <NotificationPage /> },
   { path: "ParentHistoryTransaction", element: <ParentHistoryTransaction /> },
-  { path: "NewsPage", element: <NewsPage /> }
+  { path: "NewsPage", element: <NewsPage /> },
+  { path: "view-notification", element: <NotificationPage /> }
 ]);
 

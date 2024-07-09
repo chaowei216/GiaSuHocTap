@@ -72,7 +72,7 @@ const Features = () => {
                     <div className={styles.cardContent}>
                       <div className={styles.image}>
                       
-                        <img src={feature.userImage} alt="Profile" />
+                        <img src={`${baseUrl}/api/Auth/user-image?fileName=${feature.userImage}`} />
                       </div>
                       <div className={styles.cardBody}>
                         <h5 className="card-title" style={{textAlign: 'center', fontSize: '18px', fontWeight: '600'}}>{feature.fullname}</h5>
