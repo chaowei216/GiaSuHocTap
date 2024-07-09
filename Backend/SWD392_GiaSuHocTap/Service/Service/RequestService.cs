@@ -249,10 +249,47 @@ namespace Service.Service
             return null;
         }
 
-        public Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo)
+        public async Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo)
         {
+            var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
+            var requestTime = _requestRepository.GetAllTimeOfRequest(requestInfo.RequestId);
+            var lastTime = requestTime.Last();
 
-            throw new NotImplementedException();
+            var timetable = await _timeTableService.GetTimeTableById(lastTime.TimeTableId);
+
+            if(timetable != null)
+            {
+                var splitTime = timetable.StartTime.Split(':');
+                var thisTime = int.Parse(splitTime[0]);
+                var nextTime = thisTime + 1;
+                var timeInDB = nextTime.ToString() + ":00";
+
+                var nextTimetable = await _timeTableService.GetTimeTableByUserIdAndStartTime(requestInfo.TutorId, timeInDB);
+
+                if(nextTimetable != null)
+                {
+                    timetable.Status = TimeTableConst.FreeStatus;
+                    await _timeTableService.UpdateTimeTable(timetable);
+
+                    nextTimetable.Status = TimeTableConst.BusyStatus;
+                    await _timeTableService.UpdateTimeTable(nextTimetable);
+
+                    lastTime.Status = RequestConst.CompletedStatus;
+                    await _requestRepository.UpdateRequestTime(lastTime);
+
+                    await _requestRepository.AddNewRequestTime(new RequestTime
+                    {
+                        RequestId = requestInfo.RequestId,
+                        TimeTableId = nextTimetable.TimeTableId,
+                        Status = RequestConst.PendingStatus,
+                    });
+
+                    request.Status = RequestConst.PendingStatus;
+                    await _requestRepository.UpdateRequest(request);
+                    return _mapper.Map<RequestDTO>(request);
+                }
+            }
+            return null;
         }
 
         public PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters)

@@ -46,6 +46,14 @@ namespace Repository.IRepository
         IEnumerable<TimeTable> GetTimeTableByUserId(int userId);
 
         /// <summary>
+        /// Get timetable of tutor by start time and userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime);
+
+        /// <summary>
         /// Get all offline time of user
         /// </summary>
         /// <param name="userId"></param>

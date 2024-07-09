@@ -33,6 +33,11 @@ namespace Repository.Repository
             return await _feedbackDAO.GetByIdAsync(id);
         }
 
+        public Feedback? GetFeedbackByTwoId(int fromId, int toId)
+        {
+            return _feedbackDAO.GetAll().Where(d => d.ToId == toId && d.FromId == fromId).FirstOrDefault();
+        }
+
         public PagedList<Feedback> GetPagedFeedbackList(FeedbackParameters parameters)
         {
             return PagedList<Feedback>.ToPagedList(_feedbackDAO.GetAll().Include(d => d.From).Include(d => d.To), parameters.PageNumber, parameters.PageSize);
