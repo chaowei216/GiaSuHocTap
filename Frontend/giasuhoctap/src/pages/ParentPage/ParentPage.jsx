@@ -7,7 +7,7 @@ import Navbar from '../../components/partial/HomePage/Navbar/Navbar'
 export default function ParentPage() {
     return (
         <div>
-            {/* <Navbar /> */}
+            <Navbar />
             <div style={{ display: 'flex', height: '100%', width: '100%' }}>
                 <div style={{ width: '20%' }}>
                     <SideBar />

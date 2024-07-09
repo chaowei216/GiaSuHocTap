@@ -1,8 +1,8 @@
 import React from 'react'
 import SideBar from '../../components/partial/ParentManagement/SideBar/SideBar'
-import HistoryP from '../../components/partial/ParentManagement/HistoryP/HistoryP'
-import NavbarHistoryP from '../../components/partial/ParentManagement/NavbarHistoryP/NavbarHistoryP'
+import NavbarHistoryPOffline from '../../components/partial/ParentManagement/NavbarHistoryP/NavbarHistoryPOffline'
 import Navbar from '../../components/partial/HomePage/Navbar/Navbar'
+import CancelledOffline from '../../components/partial/ParentManagement/Cancelled/CancelledOffline'
 
 export default function ParentHistory() {
     return (
@@ -14,8 +14,8 @@ export default function ParentHistory() {
                 </div>
                 <div style={{ width: '80%', background: 'rgba(202, 234, 243, 0.28)' }}>
                     <div>
-                        <NavbarHistoryP />
-                        <HistoryP />
+                        <NavbarHistoryPOffline />
+                        <CancelledOffline />
                     </div>
                 </div>
             </div>

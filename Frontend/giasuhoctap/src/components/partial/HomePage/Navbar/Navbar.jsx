@@ -8,6 +8,9 @@ import { Badge, Button, Stack } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ProfileMenu from './ProfileMenu';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import NotifyBell from '../Notification/Notification';
+
+
 import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate()
@@ -84,6 +87,9 @@ const Navbar = () => {
             <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
             </a>
+            <a href="/NewsPage" className={`${styles.nav} ${styles.center}`}>
+              TIN TỨC
+            </a>
           </div>
         </div>
         {(!isAuthenticated) && (
@@ -95,9 +101,7 @@ const Navbar = () => {
         {(user && isAuthenticated) && (
           <div className={styles.nav_info}>
             <Stack sx={{ marginRight: "20px" }} spacing={2} direction="row">
-              <Badge badgeContent={10} color="default" showZero>
-                <NotificationsNoneOutlinedIcon color="white" />
-              </Badge>
+              <NotifyBell />
             </Stack>
             <Button onClick={handleClickCoin} variant='text' sx={buttonStyles} style={{ textTransform: "none" }}>
               {user?.coinBalance || "0"} Coin

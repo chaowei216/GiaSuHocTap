@@ -25,11 +25,21 @@ import UserPage from "../pages/UserPage/UserPage";
 import HomeTutorPage from "../pages/TutorPage/HomeTutorPage"
 import TutorProfilePage from "../pages/TutorPage/TutorProfilePage";
 import RequestTutorOfflinePage from "../pages/RequestPage/RequestTutorOfflinePage";
+import ParentRequest from "../pages/ParentPage/ParentRequest";
+import ParentComplete from "../pages/ParentPage/ParentComplete";
+import ParentCancelled from "../pages/ParentPage/ParentCancelled";
+import ParentRequestOffline from "../pages/ParentPage/ParentRequestOffline";
+import ParentCompleteOffline from "../pages/ParentPage/ParentCompleteOffline";
+import ParentCancelledOffline from "../pages/ParentPage/ParentCancelledOffline";
+import ParentHistoryOffline from "../pages/ParentPage/ParentHistoryOffline";
+// import NotificationPage from "../pages/ParentPage/NotificationPage";
 import Checkout from "../pages/PaymentPage/CheckOut";
 import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
 import TransactionPage from "../pages/TransactionPage/TransactionPage";
 import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
+import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
+import NewsPage from "../pages/NewsPage/NewsPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,5 +71,17 @@ export const router = createBrowserRouter([
   { path: "waiting-checkout", element: <WaitingCheckout /> },
   { path: "transaction", element: <TransactionPage /> },
   { path: "transaction-user", element: <TransactionPageByUser /> },
+  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
+  { path: "ParentRequest", element: <ParentRequest /> },
+  { path: "ParentComplete", element: <ParentComplete /> },
+  { path: "ParentCancelled", element: <ParentCancelled /> },
+  { path: "ParentRequestOffline", element: <ParentRequestOffline /> },
+  { path: "ParentCompleteOffline", element: <ParentCompleteOffline /> },
+  { path: "ParentCancelledOffline", element: <ParentCancelledOffline /> },
+  { path: "ParentHistoryOffline", element: <ParentHistoryOffline /> },
+  // { path: "NotificationPage", element: <NotificationPage /> },
+  { path: "ParentHistoryTransaction", element: <ParentHistoryTransaction /> },
+  { path: "NewsPage", element: <NewsPage /> },
   { path: "view-notification", element: <NotificationPage /> }
 ]);
+

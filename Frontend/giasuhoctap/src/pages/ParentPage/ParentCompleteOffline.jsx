@@ -1,10 +1,10 @@
 import React from 'react'
 import SideBar from '../../components/partial/ParentManagement/SideBar/SideBar'
-import HistoryP from '../../components/partial/ParentManagement/HistoryP/HistoryP'
-import NavbarHistoryP from '../../components/partial/ParentManagement/NavbarHistoryP/NavbarHistoryP'
+import NavbarHistoryPOffline from '../../components/partial/ParentManagement/NavbarHistoryP/NavbarHistoryPOffline'
 import Navbar from '../../components/partial/HomePage/Navbar/Navbar'
+import CompleteOffline from '../../components/partial/ParentManagement/Complete/CompleteOffline'
 
-export default function ParentHistory() {
+export default function ParentCompleteOffline() {
     return (
         <div >
             <Navbar />
@@ -14,8 +14,8 @@ export default function ParentHistory() {
                 </div>
                 <div style={{ width: '80%', background: 'rgba(202, 234, 243, 0.28)' }}>
                     <div>
-                        <NavbarHistoryP />
-                        <HistoryP />
+                        <NavbarHistoryPOffline />
+                        <CompleteOffline />
                     </div>
                 </div>
             </div>

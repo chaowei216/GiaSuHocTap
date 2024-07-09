@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import styles from './HistoryP.module.css';
+import styles from './Cancelled.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faCircleQuestion, faCoins, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const HistoryP = () => {
+const Cancelled = () => {
     // Dữ liệu mẫu các card
     const cardsData = [
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'ĐÃ HỦY',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
@@ -18,52 +18,37 @@ const HistoryP = () => {
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'ĐÃ HỦY',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Hóa',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 16
+            coins: 15
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'ĐÃ HỦY',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Anh',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 17
+            coins: 15
         },
         {
             name: 'Trần Hồ Nam',
-            status: 'ĐANG CHỜ',
+            status: 'ĐÃ HỦY',
             imgSrc: '../../../../../public/img/tutor.jpg',
             subject: 'Toán',
             grade: 'Lớp 9',
             teachingMethod: 'Online',
             teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 18
+            coins: 15
         }
     ];
 
-
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
-
-
-    const handleReportClick = (card) => {
-        setSelectedCard(card);
-        setIsReportModalOpen(true);
-    };
-
-    const handleCloseReportModal = () => {
-        setIsReportModalOpen(false);
-        setSelectedCard(null);
-    };
-
-
+    
     return (
         <div>
             {cardsData.map((card, index) => (
@@ -116,68 +101,12 @@ const HistoryP = () => {
                                     <h1>{card.coins}</h1>
                                 </div>
                             </div>
-                            <div className={styles.historyFeedback}>
-                                <div className={styles.feedbackButton}>
-                                    <div className={styles.report}>
-                                        <button onClick={() => handleReportClick(card)}>HỦY</button>
-                                    </div>
-                                    {/* <div className={styles.evaluate}>
-                                        <button onClick={() => handleEvaluateClick(card)}>THÊM GIỜ</button>
-                                    </div> */}
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             ))}
-
-            {isReportModalOpen && selectedCard && (
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={handleCloseReportModal}>&times;</span>
-                        <div className={styles.titleReport}>
-                            <h1>Hủy Môn Học Đã Đặt</h1>
-                        </div>
-                        <div className={styles.historyContentEvaluate}>
-                            <div className={styles.historyImgEvaluate}>
-                                <img src={selectedCard.imgSrc} alt="Profile" />
-                            </div>
-                            <div className={styles.historyDetail}>
-                                <div className={styles.detailItem}>
-                                    <h1>{selectedCard.name}</h1>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Môn học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.subject}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Lớp học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.grade}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Ngày dạy:</p>
-                                    <p>{selectedCard.teachingDays}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.reportSelect}>
-                            <select className={styles.selectReason} style={{width: '40%'}}>
-                                <option value="">Lý do Hủy</option>
-                                <option value="">Thay đổi giờ</option>
-                                <option value="">Muốn chọn gia sư khác</option>
-                                <option value="">Lý do khác</option>
-                            </select>
-                        </div>
-                        <textarea className={styles.reportTextarea} placeholder="Chi tiết lý do..." />
-                        <div className={styles.reviewButtonGroup}>
-                            <button onClick={handleCloseReportModal}>Trở Lại</button>
-                            <button onClick={handleCloseReportModal}>Xác Nhận Hủy</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
 
-export default HistoryP;
+export default Cancelled;
