@@ -30,7 +30,7 @@ export default function ParentRequestOffline() {
                             Gia Sư Học Tập
                         </Typography>
                         <Box sx={{ display: 'flex', gap: '15px' }}>
-                            <Link href="/" color="inherit" underline="none" sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Link onClick={handleClick} color="inherit" underline="none" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <HomeIcon sx={{ mr: 0.5 }} /> Home
                             </Link>
                         </Box>
