@@ -6,6 +6,7 @@ import style from './style.module.css';
 
 export default function HomeTutorPage() {
     const { user } = useAuth()
+    console.log(user?.status );
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{

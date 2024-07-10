@@ -52,7 +52,7 @@ export default function ViewRequestOffline() {
                 setTotalPages(responseJson.data.totalPages);
                 setTotalCount(responseJson.data.totalCount)
             } else {
-                toast.warning("Error getting request");
+                toast.error("Lỗi sever");
                 setData(null);
             }
         } catch (error) {

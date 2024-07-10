@@ -39,7 +39,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpda
           toast.success("Chấp nhận thành công")
         }
       } else {
-        toast.error("Error accepting")
+        toast.error("Lỗi sever")
       }
       console.log(dataUpdate)
     }
