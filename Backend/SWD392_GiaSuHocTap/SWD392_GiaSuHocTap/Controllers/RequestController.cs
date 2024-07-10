@@ -281,6 +281,16 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             var response = await _requestService.ExtendOnlineRequest(request);
 
+            if(response == null)
+            {
+                return Ok(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.NotFound,
+                    Message = GeneralMessage.Fail,
+                    Data = null
+                });
+            }
+
             if (response != null)
             {
                 return Ok(new ResponseDTO()

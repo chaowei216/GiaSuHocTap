@@ -22,5 +22,6 @@ namespace Common.DTO.TimeTable
         public string Status { get; set; } = null!;
         public string LearningType { get; set; } = null!;
         public string Fullname { get; set; } = null!;
+        public int TutorId { get; set; }
     }
 }
