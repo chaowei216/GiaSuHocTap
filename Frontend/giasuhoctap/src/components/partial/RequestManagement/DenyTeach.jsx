@@ -24,7 +24,7 @@ export default function DenyTeach(pros) {
                 tutorId: user?.userId,
                 requestId: data,
                 isAccepted: false,
-                linkMeet: null
+                linkMeet: ""
             }
             const response = await AcceptOrDenyRequestOnline(dataUpdate)
             if (response.ok) {

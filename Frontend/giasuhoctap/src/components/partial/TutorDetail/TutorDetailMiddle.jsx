@@ -7,7 +7,42 @@ function TutorDetailMiddle({ data, dataFeedback }) {
     'https://picsum.photos/200/300',
     'https://picsum.photos/seed/picsum/200/300',
   ];
+  const getTimeFormat = (requestTimes) => {
+    if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
+    const sortedTimes = requestTimes.sort((a, b) => {
+      const aStartTime = new Date(`1970-01-01T${a.startTime}:00Z`);
+      const bStartTime = new Date(`1970-01-01T${b.startTime}:00Z`);
+      return aStartTime - bStartTime;
+    });
+
+    const startTime = sortedTimes[0].startTime;
+    const endTime = sortedTimes[sortedTimes.length - 1].endTime;
+
+    return `${startTime} - ${endTime}`;
+  };
+
+  const translateDayOfWeek = (dayOfWeek) => {
+    const daysInVietnamese = {
+      Monday: '2',
+      Tuesday: '3',
+      Wednesday: '4',
+      Thursday: '5',
+      Friday: '6',
+      Saturday: '7',
+    };
+    return daysInVietnamese[dayOfWeek] || dayOfWeek;
+  };
+  const getUniqueDays = (timeTables) => {
+    const uniqueDays = new Set();
+    return timeTables.reduce((acc, timeTable) => {
+      if (!uniqueDays.has(timeTable.dayOfWeek)) {
+        uniqueDays.add(timeTable.dayOfWeek);
+        acc.push(` Thứ ${translateDayOfWeek(timeTable.dayOfWeek)}`);
+      }
+      return acc;
+    }, []);
+  };
   return (
     <div style={{ width: "70%" }}>
       <div className="flex gap-3 align-middle">
@@ -50,8 +85,8 @@ function TutorDetailMiddle({ data, dataFeedback }) {
               </>
             ))}
           </p>
-          <p><b>Ngày dạy:</b> {data && data?.timeTables?.map((item) => `Thứ ${item.dayOfWeek}`)}</p>
-          <p><b>Thời gian:</b> {data && data?.timeTables?.map((item) => `${item.startTime} - ${item.endTime}`)}</p>
+          <p><b>Ngày dạy:</b>{getUniqueDays(data?.timeTables)}</p>
+          <p><b>Thời gian:</b> {getTimeFormat(data?.timeTables)}</p>
           <div className={style.album_of_player}>
             <ImageWithPreview imageList={imageList} />
           </div>

@@ -18,6 +18,10 @@ export default function MiddleContent({ type, setType, totalCount }) {
                 <div className={styles.item_header}>Hoàn thành</div>
                 <div className={styles.item_content}>12</div>
             </div>
+            <div onClick={() => setType("Deny")} className={`${styles.item} ${type == "Deny" ? `${styles.active}` : ""}`}>
+                <div className={styles.item_header}>Từ chối</div>
+                <div className={styles.item_content}>12</div>
+            </div>
         </div>
     )
 }

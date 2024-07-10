@@ -212,7 +212,7 @@ export default function RequestTable({
                           }
                         })}
                     </StyledTableCell>
-                    {(type == "All" || type == "Done") && (
+                    {(type == "All" || type == "Done" || type == "Deny") && (
                       <StyledTableCell
                         style={{ fontWeight: "600" }}
                         align="left"

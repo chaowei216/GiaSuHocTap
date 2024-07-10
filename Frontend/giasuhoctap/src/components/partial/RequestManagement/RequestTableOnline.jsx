@@ -191,7 +191,7 @@ export default function RequestTableOnline({
                                                     }
                                                 })}
                                         </StyledTableCell>
-                                        {(type == "All" || type == "Done") && (
+                                        {(type == "All" || type == "Done" || type == "Deny") && (
                                             <StyledTableCell
                                                 style={{ fontWeight: "600" }}
                                                 align="left"
@@ -253,7 +253,7 @@ export default function RequestTableOnline({
                                                         fontSize: "12px"
                                                     }}
                                                 >
-                                                    <DoneOutlineIcon /> Click để hoàn thành
+                                                    <DoneOutlineIcon /> Đã dạy xong
                                                 </Button>
                                             </StyledTableCell>
                                         )}

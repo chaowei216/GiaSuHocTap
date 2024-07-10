@@ -32,6 +32,9 @@ export default function ViewRequestOffline() {
                 case 'Done':
                     response = await GetRequestById(user.userId, "Offline", "Hoàn thành", page, pageSize);
                     break;
+                case 'Deny':
+                    response = await GetRequestById(user.userId, "Offline", "Từ chối", page, pageSize);
+                    break;
                 default:
                     throw new Error(`Unknown type: ${type}`);
             }

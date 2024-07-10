@@ -51,7 +51,6 @@ const BookTutor = () => {
             Friday: '6',
             Saturday: '7',
         };
-        console.log([dayOfWeek]);
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
     return (

@@ -39,6 +39,9 @@ export default function ViewRequest() {
                 case 'Done':
                     response = await GetRequestById(user.userId, "Online", "Hoàn thành", page, pageSize);
                     break;
+                case 'Deny':
+                    response = await GetRequestById(user.userId, "Online", "Từ chối", page, pageSize);
+                    break;
                 default:
                     throw new Error(`Unknown type: ${type}`);
             }

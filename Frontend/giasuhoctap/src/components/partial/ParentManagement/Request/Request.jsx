@@ -71,7 +71,7 @@ const Request = () => {
             const response = await HireTutorMore(dataUpdate)
             if (response.ok) {
                 const reponseJson = await response.json();
-                if (reponseJson.statusCode == 200) {
+                if (reponseJson.statusCode == 201) {
                     toast.success("Thuê gia sư thêm 1 tiếng thành công")
                     setTimeout(() => {
                         window.location.reload();
@@ -189,8 +189,8 @@ const Request = () => {
                                         <p>{getPeriod(card?.requestTimes)}</p>
                                     </div>
                                     <div className={styles.detailItem}>
-                                        <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Link meet url:</p>
-                                        <Link href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
+                                        <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Google Meet:</p>
+                                        <Link sx={{fontSize: "large"}} href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
                                             underline="always">
                                             {card.linkMeet || "Chưa có link meet"}
                                         </Link>
