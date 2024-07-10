@@ -35,7 +35,6 @@ const ParentProfile = () => {
                 setSelectedImage(reader.result); // Lưu base64 string vào state selectedImage để hiển thị hình ảnh
             };
             reader.readAsDataURL(file);
-            setSelectedImage(file.name);
             setFieldValue('image', file.name); // Bạn có thể comment hoặc xóa dòng này vì không cần thiết nếu chỉ muốn hiển thị hình ảnh
         }
     };

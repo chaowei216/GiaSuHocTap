@@ -21,18 +21,17 @@
     display: inline-block;
     margin-bottom: 0;
     padding-bottom: 0;
-    color: #999;
     font-weight: bold;
     text-transform: uppercase;
     margin-right: 0.5rem;
-}
-
-.firstSmall{
     background-color: #FF6347;
     color: #ffffff !important;
     padding: 0 0.8rem;
     border-radius: 3px;
 }
+
+
+
 
 .pullLeft{
     font-size: 30px;

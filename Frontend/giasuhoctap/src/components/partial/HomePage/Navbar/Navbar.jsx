@@ -78,12 +78,9 @@ const Navbar = () => {
                 <a href="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</a>
               </div>
             </div>
-            <a href="/" className={`${styles.nav} ${styles.center}`}>
+            {/* <a href="/" className={`${styles.nav} ${styles.center}`}>
               LỚP MỚI
-            </a>
-            <a href="/" className={`${styles.nav} ${styles.center}`}>
-              TUYỂN DỤNG
-            </a>
+            </a> */}
             <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
             </a>

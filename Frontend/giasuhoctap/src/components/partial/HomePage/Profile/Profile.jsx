@@ -201,7 +201,7 @@ const Profile = () => {
                         </div>
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
-                    {/* {teachingMode && ( */}
+                    {teachingMode && (
                         <div className={styles.profileDayOfWeek}>
                             <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Ngày dạy offline:</div>
                             <div className={`form-check ${styles.subjectGrid}`}>
@@ -224,7 +224,7 @@ const Profile = () => {
                                 ))}
                             </div>
                         </div>
-                    {/* )} */}
+                    )}
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <div className={styles.profileTime}>
                         <div className='boxNameSubject mb-2' style={{ width: '20%', fontWeight: '600', paddingLeft: '30px' }}>Chọn môn học:</div>
