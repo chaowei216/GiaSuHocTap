@@ -82,14 +82,31 @@ export const GetPendingOnlineApi = async (tutorId, page, pageSize) => {
     }
 }
 
-export const GetActiveOnlineApi = async (tutorId, page, pageSize) => {
+export const GetRequestById = async (tutorId, type, status, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Request/get-inprocess-tutor-requests/${tutorId}?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Request/get-user-request/${tutorId}?RequestType=${type}&Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const CompleteTeaching = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Request/update-done-online-request`;
+        const request = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value)
         };
         const response = await fetch(url, request);
         return response;

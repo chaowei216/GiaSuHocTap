@@ -5,7 +5,7 @@ import RequestTable from './RequestTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
-import { GetRequestOfflineApi } from '../../../api/RequestApi';
+import { GetRequestById, GetRequestOfflineApi } from '../../../api/RequestApi';
 import useAuth from '../../../hooks/useAuth';
 export default function ViewRequestOffline() {
     const { user } = useAuth()
@@ -16,42 +16,52 @@ export default function ViewRequestOffline() {
     const [isUpdated, setIsUpdated] = useState(false);
     const [type, setType] = useState("All");
     const [totalCount, setTotalCount] = useState("")
-    useEffect(() => {
-        if (user && type) {
-            const getAllTrans = async () => {
-                try {
-                    let response;
-                    switch (type) {
-                        case 'All':
-                            response = await GetRequestOfflineApi(user.userId, page, pageSize);
-                            break;
-                        case 'Pending':
-                            response = "zz";
-                            break;
-                        case 'Active':
-                            response = "zz";
-                            break;
-                        default:
-                            throw new Error(`Unknown type: ${type}`);
-                    }
-                    // Kiểm tra response có hợp lệ
-                    if (response && response.ok) {
-                        const responseJson = await response.json();
-                        const data = responseJson.data.data;
-                        setData(data);
-                        setTotalPages(responseJson.data.totalPages);
-                        setTotalCount(responseJson.data.totalCount)
-                    } else {
-                        toast.warning("Error getting request");
-                        setData(null);
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            };
-            getAllTrans();
+    const fetchDataByType = async (type) => {
+        try {
+            let response;
+            switch (type) {
+                case 'All':
+                    response = await GetRequestOfflineApi(user.userId, page, pageSize);
+                    break;
+                case 'Pending':
+                    response = await GetRequestById(user.userId, "Offline", "Chờ xác nhận", page, pageSize);
+                    break;
+                case 'Teaching':
+                    response = await GetRequestById(user.userId, "Offline", "Đang tiến hành", page, pageSize);
+                    break;
+                case 'Done':
+                    response = await GetRequestById(user.userId, "Offline", "Hoàn thành", page, pageSize);
+                    break;
+                default:
+                    throw new Error(`Unknown type: ${type}`);
+            }
+            handleApiResponse(response);
+        } catch (error) {
+            console.log(error);
         }
-    }, [page, totalPages, pageSize, user, isUpdated, type])
+    };
+    const handleApiResponse = async (response) => {
+        try {
+            if (response && response.ok) {
+                const responseJson = await response.json();
+                const data = responseJson.data.data;
+                setData(data);
+                setTotalPages(responseJson.data.totalPages);
+                setTotalCount(responseJson.data.totalCount)
+            } else {
+                toast.warning("Error getting request");
+                setData(null);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        if (user) {
+            fetchDataByType(type);
+        }
+    }, [type, user, page, pageSize, isUpdated]);
+
 
     return (
         <div style={{
@@ -65,7 +75,7 @@ export default function ViewRequestOffline() {
                 </div>
             </Header>
             <MiddleContent type={type} setType={setType} totalCount={totalCount} />
-            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} type={type} />
             {data && data.length > 0 && (
                 <>
                     <div
