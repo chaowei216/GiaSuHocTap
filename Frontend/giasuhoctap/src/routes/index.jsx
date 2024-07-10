@@ -42,6 +42,7 @@ import FeedbackPage from "../pages/FeedbackPage/FeedbackPage";
 import ReportPage from "../pages/ReportPage/ReportPage";
 import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
 import NewsPage from "../pages/NewsPage/NewsPage";
+import RoleBasedGuard from "../components/partial/Authen/RoleBaseGuard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,22 +52,22 @@ export const router = createBrowserRouter([
   { path: "login", element: <GuestAuth><LoginPage /></GuestAuth> },
   { path: "registerParents", element: <RegisterPage /> },//<RequireAuth></RequireAuth> },
   { path: "registerTutors", element: <RegisterTutorPage /> },
-  { path: "dashboard", element: <DashboardPage /> },
-  { path: "tutor", element: <TutorPage /> },
+  { path: "dashboard", element: <RoleBasedGuard accessibleRoles={['Admin']} status="Active"><DashboardPage /></RoleBasedGuard> },
+  { path: "tutor", element: <RoleBasedGuard accessibleRoles={['Admin']} status="Active"><TutorPage /></RoleBasedGuard> },
   { path: "forgot-password", element: <ForgotPasswordPage /> },
   { path: "RegisterTutor", element: <RegisterTutor /> },
-  { path: "BookTutorOnline", element: <BookTutorPage /> },
-  { path: "BookTutorOffline", element: <BookTutorOfflinePage /> },
-  { path: "Profile", element: <Profile /> },
+  { path: "BookTutorOnline", element: <RequireAuth><BookTutorPage /></RequireAuth> },
+  { path: "BookTutorOffline", element: <RequireAuth><BookTutorOfflinePage /></RequireAuth> },
+  { path: "Profile", element: <RequireAuth><Profile /></RequireAuth> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
-  { path: "ParentPage", element: <ParentPage /> },
+  { path: "ParentPage", element: <RequireAuth><ParentPage /></RequireAuth> },
   { path: "tutor-detail/:email", element: <TutorDetailPage /> },
   { path: "request-tutor", element: <RequestTutorPage /> },
   { path: "personal-profile", element: <UserProfilePage /> },
-  { path: "buycoin", element: <BuyCoinPage /> },
-  { path: "ParentHistory", element: <ParentHistory /> },
-  { path: "user-management", element: <UserPage /> },
-  { path: "home-tutor", element: <HomeTutorPage /> },
+  { path: "buycoin", element: <RequireAuth><BuyCoinPage /></RequireAuth> },
+  { path: "ParentHistory", element: <RequireAuth><ParentHistory /></RequireAuth> },
+  { path: "user-management", element: <RequireAuth><UserPage /></RequireAuth> },
+  { path: "home-tutor", element: <RoleBasedGuard accessibleRoles={['Tutor']} status="Active"><HomeTutorPage /></RoleBasedGuard> },
   { path: "tutor-profile", element: <TutorProfilePage /> },
   { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
   { path: "payment", element: <Checkout /> },

@@ -219,7 +219,7 @@ export default function RequestTableOnline({
                                                         fontSize: "12px"
                                                     }}
                                                 >
-                                                    <DoneOutlineIcon /> Accept
+                                                    <DoneOutlineIcon /> Đồng ý
                                                 </Button>
                                                 <Button
                                                     variant="contained"
@@ -228,7 +228,7 @@ export default function RequestTableOnline({
                                                     sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                                                 >
                                                     <div>
-                                                        <ClearIcon /> Deny
+                                                        <ClearIcon /> Từ chối
                                                     </div>
                                                 </Button>
                                             </StyledTableCell>

@@ -35,7 +35,7 @@ export default function DenyTeach(pros) {
                     handleClose()
                 }
             } else {
-                toast.error("Error deny")
+                toast.error("Lỗi sever")
             }
         }
     }

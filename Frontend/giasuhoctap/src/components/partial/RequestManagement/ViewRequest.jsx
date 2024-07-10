@@ -59,7 +59,7 @@ export default function ViewRequest() {
                 setTotalPages(responseJson.data.totalPages);
                 setTotalCount(responseJson.data.totalCount)
             } else {
-                toast.warning("Error getting request");
+                toast.warning("Lỗi sever");
                 setData(null);
             }
         } catch (error) {
