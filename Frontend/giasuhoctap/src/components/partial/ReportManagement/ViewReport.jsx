@@ -2,28 +2,94 @@ import React, { useEffect, useState } from 'react'
 import Header from '../TutorManagement/Header'
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
-import { GetNotificationTypeSystem } from '../../../api/NotificationApi';
 import { toast } from 'react-toastify';
 import NotificationTable from './ReportTable';
+import { GetAllReport, GetAllReportByCondition } from '../../../api/ReportApi';
+import { Button, TextField } from '@mui/material';
 export default function ViewReport() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
-    useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetNotificationTypeSystem(page, pageSize);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [isSearch, setIsSearch] = useState(false);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+
+    const handleFilter = async () => {
+        setPage(1)
+        if ((from || to) != "") {
+            const response = await GetAllReportByCondition(from.trim(), to.trim(), page, pageSize);
             if (response.ok) {
                 const responseJson = await response.json();
                 const data = responseJson.data.data;
+                if (data.length == 1) console.log("true");
                 setData(data);
                 setTotalPages(responseJson.data.totalPages)
+                setIsSearch(true)
             } else {
-                toast.error("Error getting transaction")
+                toast.error("Error getting report")
+            }
+        } else {
+            setIsSearch(false)
+        }
+    }
+    const handleReset = async () => {
+        setPage(1)
+        setFrom("")
+        setTo("")
+        const response = await GetAllReport(page, pageSize);
+        if (response.ok) {
+            const responseJson = await response.json();
+            const data = responseJson.data.data;
+            setData(data);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(false)
+        } else {
+            toast.error("Error getting report")
+        }
+    }
+
+    useEffect(() => {
+        const getAllNotification = async () => {
+            if (isSearch) {
+                if ((from || to) != "") {
+                    const response = await GetAllReportByCondition(from.trim(), to.trim(), page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const data = responseJson.data.data;
+                        setData(data);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(true)
+                    } else {
+                        toast.error("Error getting report")
+                    }
+                } else {
+                    const response = await GetAllReport(page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const data = responseJson.data.data;
+                        setData(data);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(false)
+                    } else {
+                        toast.error("Error getting report")
+                    }
+                }
+            } else {
+                const response = await GetAllReport(page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Error getting report")
+                }
             }
         }
         getAllNotification();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, isUpdate, isSearch])
 
     return (
         <div style={{
@@ -33,10 +99,16 @@ export default function ViewReport() {
         }}>
             <Header>
                 <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "20px" }}>
-                    Thông báo hệ thống
+                    Danh sách báo cáo
                 </div>
             </Header>
-            <NotificationTable data={data} />
+            <div style={{ marginBottom: "20px" }}>
+                <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email từ" variant="standard" value={from} onChange={(event) => setFrom(event.target.value)} />
+                <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email đến" variant="standard" value={to} onChange={(event) => setTo(event.target.value)} />
+                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Filter</Button>
+                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Reset</Button>
+            </div>
+            <NotificationTable data={data} setIsUpdate={setIsUpdate} isUpdate={isUpdate} />
             {data && data.length > 0 && (
                 <>
                     <div

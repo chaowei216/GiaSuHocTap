@@ -1,6 +1,6 @@
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import Sidebar from '../../components/layouts/Sidebar/Sidebar'
-import ViewTransaction from '../../components/partial/TransactionManagement/ViewTransaction'
+import ViewReport from '../../components/partial/ReportManagement/ViewReport'
 export default function ReportPage() {
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
@@ -18,7 +18,7 @@ export default function ReportPage() {
                 position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
             }}
                 className="p-4 overflow-y-auto">
-                <ViewTransaction />
+                <ViewReport />
             </div>
         </div>
     )

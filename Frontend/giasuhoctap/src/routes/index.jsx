@@ -38,6 +38,8 @@ import WaitingCheckout from "../pages/PaymentPage/WaitingCheckout";
 import TransactionPage from "../pages/TransactionPage/TransactionPage";
 import TransactionPageByUser from "../pages/TransactionPage/TransactionPageByUser";
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
+import FeedbackPage from "../pages/FeedbackPage/FeedbackPage";
+import ReportPage from "../pages/ReportPage/ReportPage";
 import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
 import NewsPage from "../pages/NewsPage/NewsPage";
 export const router = createBrowserRouter([
@@ -71,7 +73,9 @@ export const router = createBrowserRouter([
   { path: "waiting-checkout", element: <WaitingCheckout /> },
   { path: "transaction", element: <TransactionPage /> },
   { path: "transaction-user", element: <TransactionPageByUser /> },
-  { path: "request-tutor-offline", element: <RequestTutorOfflinePage /> },
+  { path: "view-notification", element: <NotificationPage /> },
+  { path: "view-feedback", element: <FeedbackPage /> },
+  { path: "view-report", element: <ReportPage /> },
   { path: "ParentRequest", element: <ParentRequest /> },
   { path: "ParentComplete", element: <ParentComplete /> },
   { path: "ParentCancelled", element: <ParentCancelled /> },
@@ -82,6 +86,5 @@ export const router = createBrowserRouter([
   // { path: "NotificationPage", element: <NotificationPage /> },
   { path: "ParentHistoryTransaction", element: <ParentHistoryTransaction /> },
   { path: "NewsPage", element: <NewsPage /> },
-  { path: "view-notification", element: <NotificationPage /> }
 ]);
 

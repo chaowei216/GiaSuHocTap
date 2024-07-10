@@ -1,8 +1,8 @@
 const baseUrl = import.meta.env.VITE_API_HOST;
 
-export const GetNotificationTypeSystem = async (page, pageSize) => {
+export const GetParentRequest = async (requestType, status, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Notification/get-system-notifications?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Request/get-user-request/6?RequestType=${requestType}&Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -17,14 +17,13 @@ export const GetNotificationTypeSystem = async (page, pageSize) => {
     }
 }
 
-export const CreateNotification = async (value) => {
+export const HireTutorMore = async (value) => {
     try {
-        const url = `${baseUrl}/api/Notification/create-system-notification`;
+        const url = `${baseUrl}/api/Request/extend-more-request`;
         const request = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -33,16 +32,15 @@ export const CreateNotification = async (value) => {
     } catch (err) {
         console.log(err);
     }
-};
+}
 
-export const UpdateNotification = async (nontificationId, value) => {
+export const FeedbackTutor = async (value) => {
     try {
-        const url = `${baseUrl}/api/Notification/update-notification/${nontificationId}`;
+        const url = `${baseUrl}/api/Feedback/create-feedback`;
         const request = {
-            method: "PUT",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -51,21 +49,21 @@ export const UpdateNotification = async (nontificationId, value) => {
     } catch (err) {
         console.log(err);
     }
-};
+}
 
-export const DeleteNotification = async (nontificationId) => {
+export const ReportTutor = async (value) => {
     try {
-        const url = `${baseUrl}/api/Notification/${nontificationId}`;
+        const url = `${baseUrl}/api/Report/create-new-report`;
         const request = {
-            method: "DELETE",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
+            body: JSON.stringify(value)
         };
         const response = await fetch(url, request);
         return response;
     } catch (err) {
         console.log(err);
     }
-};
+}

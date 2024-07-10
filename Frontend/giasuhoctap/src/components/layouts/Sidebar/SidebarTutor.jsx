@@ -14,28 +14,28 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 export default function SidebarTutor() {
   const Menus = [
     {
-      title: "Home",
+      title: "Trang gia sư",
       path: "/home-tutor",
       icon: <HomeIcon />,
       id: 0,
       src: "/home-tutor",
     },
     {
-      title: "User Profile",
+      title: "Hồ sơ cá nhân",
       path: "/tutor-profile",
       icon: <PersonIcon />,
       id: 1,
       src: "/tutor-profile",
     },
     {
-      title: "Online Request",
+      title: "Yêu cầu trực tuyến",
       path: "/request-tutor",
       icon: <WorkHistoryIcon />,
       id: 2,
       src: "/request-tutor",
     },
     {
-      title: "Offline Request",
+      title: "Yêu cầu ngoại tuyến",
       path: "/request-tutor-offline",
       icon: <WorkOffIcon />,
       id: 3,
@@ -78,7 +78,7 @@ export default function SidebarTutor() {
             to="/"
             className={`${styles['sidebar-nav-link']}`}
           >
-            <p><ExitToAppIcon /> Back to homepage</p>
+            <p><ExitToAppIcon /> Trở về trang chủ</p>
           </NavLink>
         </li>
       </div>

@@ -1,8 +1,9 @@
+// Base Url for API
 const baseUrl = import.meta.env.VITE_API_HOST;
 
-export const GetNotificationTypeSystem = async (page, pageSize) => {
+export const GetAllReport = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Notification/get-system-notifications?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Report/get-all-reports?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -17,27 +18,9 @@ export const GetNotificationTypeSystem = async (page, pageSize) => {
     }
 }
 
-export const CreateNotification = async (value) => {
+export const AcceptOrDenyReport = async (reportId, value) => {
     try {
-        const url = `${baseUrl}/api/Notification/create-system-notification`;
-        const request = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            },
-            body: JSON.stringify(value)
-        };
-        const response = await fetch(url, request);
-        return response;
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-export const UpdateNotification = async (nontificationId, value) => {
-    try {
-        const url = `${baseUrl}/api/Notification/update-notification/${nontificationId}`;
+        const url = `${baseUrl}/api/Report/handle-report/${reportId}`;
         const request = {
             method: "PUT",
             headers: {
@@ -51,13 +34,13 @@ export const UpdateNotification = async (nontificationId, value) => {
     } catch (err) {
         console.log(err);
     }
-};
+}
 
-export const DeleteNotification = async (nontificationId) => {
+export const GetAllReportByCondition = async (from, to, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Notification/${nontificationId}`;
+        const url = `${baseUrl}/api/Report/get-all-reports?FromEmail=${from}&ToEmail=${to}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
-            method: "DELETE",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
@@ -68,4 +51,4 @@ export const DeleteNotification = async (nontificationId) => {
     } catch (err) {
         console.log(err);
     }
-};
+}
