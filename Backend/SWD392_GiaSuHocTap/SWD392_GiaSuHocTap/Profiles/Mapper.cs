@@ -68,7 +68,8 @@ namespace SWD392_GiaSuHocTap.Profiles
                                             .ReverseMap();
             CreateMap<RequestOnlineDTO, Request>().ReverseMap();
             CreateMap<RequestTimeDTO, RequestTime>().ReverseMap();
-            CreateMap<TimeTable, RequestTimetableDTO>().ForMember(dest => dest.Fullname, otp => otp.MapFrom(src => src.User.Fullname)).ReverseMap();
+            CreateMap<TimeTable, RequestTimetableDTO>().ForMember(dest => dest.Fullname, otp => otp.MapFrom(src => src.User.Fullname))
+                                                       .ForMember(dest => dest.TutorId, otp => otp.MapFrom(src => src.User.UserId)).ReverseMap();
             CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
             CreateMap<PagedList<Report>, PaginationResponseDTO<ReportDTO>>().ReverseMap();
             CreateMap<Report, ReportDTO>().ForMember(dest => dest.ParentsEmail, opt => opt.MapFrom(src => src.From.Email))
