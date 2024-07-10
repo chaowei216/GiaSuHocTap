@@ -220,17 +220,18 @@ namespace Service.Service
 
             if (request != null)
             {
-                var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);        
+                var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
+
+                request.Coin = request.Coin * times.Count();
+                request.Status = RequestConst.CompletedStatus;
+                await _requestRepository.UpdateRequest(request);
 
                 var user = await _userService.GetUserById(requestInfo.TutorId);
                 if (user != null)
                 {
                     user.CoinBalance += (int)Math.Ceiling((decimal)request.Coin * 70 / 100);
                     await _userService.UpdateUser(user);
-                }
-
-                request.Status = RequestConst.CompletedStatus;
-                await _requestRepository.UpdateRequest(request);
+                }    
 
                 foreach (var time in times)
                 {
