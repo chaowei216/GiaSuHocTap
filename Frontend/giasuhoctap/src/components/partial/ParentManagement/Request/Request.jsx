@@ -31,8 +31,6 @@ const Request = () => {
         }
         getAllNotification();
     }, [page, totalPages, pageSize])
-    // Dữ liệu mẫu các card
-
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
@@ -66,20 +64,11 @@ const Request = () => {
     const handleAddHours = async (value) => {
         const timeTable = value?.requestTimes[0]?.timeTable
         if (timeTable) {
-            let endTime = timeTable.endTime;
-            let date = new Date("2000-01-01T" + endTime);
-            date.setSeconds(date.getSeconds() + 3600);
-            let hours = date.getHours().toString().padStart(2, "0");
-            let minutes = date.getMinutes().toString().padStart(2, "0");
-            // let seconds = date.getSeconds().toString().padStart(2, "0");
-            let newEndTime = `${hours}:${minutes}`;
             const dataUpdate = {
-                dayOfWeek: timeTable.dayOfWeek,
-                startTime: timeTable.startTime,
-                endTime: newEndTime,
-                period: timeTable.period
+                tutorId: timeTable.tutorId,
+                requestId: value.requestId
             }
-            const response = await HireTutorMore(timeTable.timeTableId, dataUpdate)
+            const response = await HireTutorMore(dataUpdate)
             if (response.ok) {
                 const reponseJson = await response.json();
                 if (reponseJson.statusCode == 200) {
@@ -101,6 +90,54 @@ const Request = () => {
         event.preventDefault();
         window.open(url, '_blank');
     };
+
+    const getUniqueName = (requestTimes) => {
+        console.log(requestTimes);
+        // const test = []
+        // test.push(requestTimes)
+        // console.log(test);
+        const uniqueDays = new Set();
+        return requestTimes.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.timeTable.fullname)) {
+                uniqueDays.add(timeTable.timeTable.fullname);
+                acc.push(`${timeTable.timeTable.fullname}`);
+            }
+            console.log(acc);
+            return acc;
+        }, []);
+    };
+
+    const getTimeFormat = (requestTimes) => {
+        if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
+
+        // Sort the time ranges by startTime
+        const sortedTimes = requestTimes.sort((a, b) => {
+            const aStartTime = new Date(`1970-01-01T${a.timeTable.startTime}:00Z`);
+            const bStartTime = new Date(`1970-01-01T${b.timeTable.startTime}:00Z`);
+            return aStartTime - bStartTime;
+        });
+
+        // Get the startTime of the first range and endTime of the last range
+        const startTime = sortedTimes[0].timeTable.startTime;
+        const endTime = sortedTimes[sortedTimes.length - 1].timeTable.endTime;
+
+        return `${startTime} - ${endTime}`;
+    };
+
+    const getPeriod = (requestTimes) => {
+        if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
+
+        // Lấy danh sách các khoảng thời gian (period) từ requestTimes
+        const periods = requestTimes.map(item => item.timeTable.period);
+
+        // Loại bỏ các giá trị trùng lặp
+        const uniquePeriods = [...new Set(periods)];
+
+        // Ghép các khoảng thời gian lại thành một chuỗi với dấu phẩy và dấu cách
+        return uniquePeriods.join(', ');
+    };
+
+
     return (
         <>
             {data && data.map((card, index) => (
@@ -129,9 +166,7 @@ const Request = () => {
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        {card.requestTimes?.map((item, index) => (
-                                            <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
-                                        ))}
+                                        <h1 key={index}>Gia sư: {getUniqueName(card?.requestTimes)}</h1>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
@@ -147,15 +182,11 @@ const Request = () => {
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Giờ học:</p>
-                                        {card.requestTimes?.map((item, index) => (
-                                            <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
-                                        ))}
+                                        <p>{getTimeFormat(card?.requestTimes)}</p>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Buổi:</p>
-                                        {card.requestTimes?.map((item, index) => (
-                                            <p key={index}>{item.timeTable.period}</p>
-                                        ))}
+                                        <p>{getPeriod(card?.requestTimes)}</p>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Link meet url:</p>
@@ -186,7 +217,7 @@ const Request = () => {
                 </div>
             ))}
             {data && data.length === 0 &&
-                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "90%", height: "100px", background: "white" }}>
+                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "100%", height: "100px", background: "white" }}>
                     <InventoryIcon />
                     Không có dữ liệu
                 </div>
@@ -204,9 +235,7 @@ const Request = () => {
                             </div>
                             <div className={styles.historyDetail}>
                                 <div className={styles.detailItem}>
-                                    {selectedCard.requestTimes?.map((item, index) => (
-                                        <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
-                                    ))}
+                                    <h1>Gia sư: {getUniqueName(selectedCard?.requestTimes)}</h1>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Môn học:</p>
@@ -218,15 +247,11 @@ const Request = () => {
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Giờ học:</p>
-                                    {selectedCard.requestTimes?.map((item, index) => (
-                                        <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
-                                    ))}
+                                    <p>{getTimeFormat(selectedCard?.requestTimes)}</p>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Buổi:</p>
-                                    {selectedCard.requestTimes?.map((item, index) => (
-                                        <p key={index}>{item.timeTable.period}</p>
-                                    ))}
+                                    <p>{getPeriod(selectedCard?.requestTimes)}</p>
                                 </div>
                                 <div className={styles.detailItem}>
                                     <p>Số xu dư:</p>

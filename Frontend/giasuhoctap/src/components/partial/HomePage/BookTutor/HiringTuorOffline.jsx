@@ -72,8 +72,6 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
       [name]: value
     });
   };
-  const timeTableId = data?.timeTables?.[0]?.timeTableId || null;
-  console.log(timeTableId);
   return (
     <>
       <MDBModal open={basicModal} onClose={() => setBasicModal(false)} tabIndex='-1'>

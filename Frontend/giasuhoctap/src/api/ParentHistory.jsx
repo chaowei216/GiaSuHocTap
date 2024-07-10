@@ -17,11 +17,45 @@ export const GetParentRequest = async (requestType, status, page, pageSize) => {
     }
 }
 
-export const HireTutorMore = async (timeTableId, value) => {
+export const HireTutorMore = async (value) => {
     try {
-        const url = `${baseUrl}/api/TimeTable/update-timetable/${timeTableId}`;
+        const url = `${baseUrl}/api/Request/extend-more-request`;
         const request = {
-            method: "PUT",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const FeedbackTutor = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Feedback/create-feedback`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const ReportTutor = async (value) => {
+    try {
+        const url = `${baseUrl}/api/Report/create-new-report`;
+        const request = {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },

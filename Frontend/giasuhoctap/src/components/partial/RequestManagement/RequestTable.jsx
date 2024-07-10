@@ -151,7 +151,7 @@ export default function RequestTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                      {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.price)}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}

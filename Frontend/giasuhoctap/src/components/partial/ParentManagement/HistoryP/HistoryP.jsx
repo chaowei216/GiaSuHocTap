@@ -31,7 +31,6 @@ const HistoryP = () => {
         getAllNotification();
     }, [page, totalPages, pageSize])
 
-
     const [selectedCard, setSelectedCard] = useState(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
 
@@ -77,7 +76,9 @@ const HistoryP = () => {
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
                                             {card.requestTimes?.map((item, index) => (
-                                                <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                                (item.status == "Chờ xác nhận" && (
+                                                    <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
+                                                ))
                                             ))}
                                         </div>
                                         <div className={styles.detailItem}>
@@ -92,6 +93,17 @@ const HistoryP = () => {
                                             <p>Ngày tạo:</p>
                                             <p>{card.createdDate.split("T")[0]}</p>
                                         </div>
+                                        {card.requestTimes?.map((item, index) => (
+                                            (item.status == "Chờ xác nhận" && (
+                                                <div key={index} className={styles.detailItem}>
+                                                    <React.Fragment key={index + 1}>
+                                                        <p>Thời gian:</p>
+                                                        <p key={index}>{item.timeTable.startTime} - {item.timeTable.endTime}</p>
+                                                    </React.Fragment>
+
+                                                </div>
+                                            ))
+                                        ))}
                                         <div className={styles.detailItem}>
                                             <p>Mô tả:</p>
                                             <p>{card.description || "Không có mô tả"}</p>
@@ -112,7 +124,7 @@ const HistoryP = () => {
                 ))}
             </div>
             {data && data.length === 0 &&
-                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "90%", height: "100px", background: "white" }}>
+                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "100%", height: "100px", background: "white" }}>
                     <InventoryIcon />
                     Không có dữ liệu
                 </div>
