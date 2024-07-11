@@ -13,13 +13,11 @@ const RequireAuth = ({ children }) => {
         return <GlobalLoading isLoading={!isInitialized} />
     }
 
-    console.log(isInitialized, isAuthenticated);
-
     if (!isAuthenticated) {
         if (pathname !== requestedLocation) {
             setRequestedLocation(pathname);
         }
-        return <LoginPage/>;
+        return <LoginPage />;
     }
 
     if (requestedLocation && pathname !== requestedLocation) {
