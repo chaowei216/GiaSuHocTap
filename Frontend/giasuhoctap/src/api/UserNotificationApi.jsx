@@ -23,3 +23,28 @@ export const GetUserNotification = async (userId) => {
         throw err;
     }
 }
+
+export const UpdateNotificationStatus = async (notificationId) => {
+    try {
+      const url = `${baseUrl}/api/Notification/get-user-notification/${notificationId}`;
+      const request = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        },
+        body: JSON.stringify({ status: true }) // Assuming you update the status here
+      };
+      const response = await fetch(url, request);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(`Failed to update notification status for ID ${notificationId}:`, err);
+      throw err;
+    }
+  };
