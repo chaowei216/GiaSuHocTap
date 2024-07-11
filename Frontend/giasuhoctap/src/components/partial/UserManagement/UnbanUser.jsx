@@ -12,7 +12,7 @@ import {
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 
-export default function DeleteUser(pros) {
+export default function UnbanUser(pros) {
   const { show, handleClose, dataDelete } = pros;
 
   const [newsId, setNewsId] = useState("");
@@ -53,13 +53,13 @@ export default function DeleteUser(pros) {
               style={{ background: "#DC4C64" }}
             >
               <MDBModalTitle className="text-xl" style={{ textAlign: "center" }}>
-                Do you want to delete this user
+                Bạn có muốn gỡ cấm cho tài khoản này
               </MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody style={{ height: "90px", display: "flex", alignItems: "center" }}>
               <div className="form-content">
                 <div style={{ fontSize: "large", fontWeight: "bolder" }}>
-                  Delete User: {" " + newsTitle}{" "}
+                  Mở khóa tài khoản: {" " + newsTitle}{" "}
                 </div>
               </div>
             </MDBModalBody>
@@ -76,7 +76,7 @@ export default function DeleteUser(pros) {
                   }}
                   active
                 >
-                  Xóa
+                  Mở khóa
                 </Button>
               </div>
               <div

@@ -21,6 +21,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import TutorDetail from "../TutorManagement/TutorDetail";
 import DeleteUser from "./DeleteUser";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import UnbanUser from "./UnbanUser";
 export default function UserTable({
   data,
   handleClickOpen,
@@ -28,6 +30,7 @@ export default function UserTable({
   const [dataDetail, setDataDetail] = useState();
   const [openDetail, setOpenDetail] = useState(false);
   const [showModalDelete, setShowmodalDelete] = useState(false);
+  const [showModalUnban, setShowmodalUnban] = useState(false);
   const [dataDelete, setDataDelete] = useState({});
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -54,10 +57,11 @@ export default function UserTable({
     "CCCD/CMND",
     "Điện thoại",
     "Giới tính",
+    "Vai trò",
     "Trạng thái",
     "Hành động"
   ];
-  const StatusType = ["Active", "Pending"];
+  const StatusType = ["Active", "Pending", "InActive"];
 
   const handleClickOpenDetail = (data) => {
     setDataDetail(data)
@@ -66,12 +70,17 @@ export default function UserTable({
 
   const handleDeleteNews = async (item) => {
     setDataDelete(item);
-    console.log("aa");
     setShowmodalDelete(true);
+  }
+
+  const handleUnban = async (item) => {
+    setDataDelete(item);
+    setShowmodalUnban(true);
   }
 
   const handleClose = () => {
     setShowmodalDelete(false);
+    setShowmodalUnban(false)
   };
   return (
     <>
@@ -148,6 +157,12 @@ export default function UserTable({
                         {row.gender}
                       </StyledTableCell>
                       <StyledTableCell
+                        style={{ fontWeight: "600" }}
+                        align="left"
+                      >
+                        {row.roleName}
+                      </StyledTableCell>
+                      <StyledTableCell
                         sx={{
                           width: "150px",
                           paddingLeft: "0px",
@@ -162,10 +177,13 @@ export default function UserTable({
                               let styleName;
                               switch (type) {
                                 case "Active":
-                                  styleName = styles.active;
+                                  styleName = styles.accepted;
                                   break;
                                 case "Pending":
-                                  styleName = styles.pending;
+                                  styleName = styles.pendingConfirmation;
+                                  break;
+                                case 'InActive':
+                                  styleName = styles.rejected;
                                   break;
                                 default:
                                   styleName = "";
@@ -188,12 +206,14 @@ export default function UserTable({
                         <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>
                           <VisibilityIcon />
                         </Button>
-                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>
-                          <EditIcon />
-                        </Button>
                         <Button variant="text" sx={{ color: "black" }} onClick={() => handleDeleteNews(row)}>
                           <DeleteIcon />
                         </Button>
+                        {row.status == "InActive" && (
+                          <Button variant="text" sx={{ color: "black" }} onClick={() => handleUnban(row)}>
+                            <LockOpenIcon />
+                          </Button>
+                        )}
                       </StyledTableCell>
                     </StyledTableRow>
                   );
@@ -210,6 +230,11 @@ export default function UserTable({
       </div>
       <DeleteUser
         show={showModalDelete}
+        handleClose={handleClose}
+        dataDelete={dataDelete}
+      />
+      <UnbanUser
+        show={showModalUnban}
         handleClose={handleClose}
         dataDelete={dataDelete}
       />

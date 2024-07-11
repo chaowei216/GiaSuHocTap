@@ -113,7 +113,7 @@ export default function ReportTable(pros) {
                       {row.reportTitle}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600" }}
+                      style={{ fontWeight: "600", width: "180px" }}
                       align="middle"
                     >
                       {row.description}
