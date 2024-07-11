@@ -13,6 +13,7 @@ using DAO.Model;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Repository.IRepository;
 using Service.IService;
 using System.Security.Cryptography;
@@ -30,6 +31,7 @@ namespace Service.Service
         private readonly IFeedbackService _feedbackService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
@@ -38,7 +40,8 @@ namespace Service.Service
                             ICourseService courseService,
                             ITimeTableService timeTableService,
                             INotificationService notificationService,
-                            IFeedbackService feedbackService)
+                            IFeedbackService feedbackService,
+                            IConfiguration configuration)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -48,6 +51,7 @@ namespace Service.Service
             _timeTableService = timeTableService;
             _notificationService = notificationService;
             _feedbackService = feedbackService;
+            _configuration = configuration;
 
             string pathToJsonFile = "firebase.json";
 
@@ -914,8 +918,39 @@ namespace Service.Service
         {
             var user = _userRepository.GetUserByEmailInclude(email);
 
+            var adminEmail = _configuration["AdminAccount:Email"];
+            var adminPassword = _configuration["AdminAccount:Password"];
+
+            var admin = CheckAdminAccount(adminEmail, adminPassword);
+
+            if (admin != null)
+            {
+                var response = _mapper.Map<TutorDTO>(admin);
+                return response;
+            }
+
             var userMap = _mapper.Map<TutorDTO>(user);
             return userMap;
+        }
+
+        private User? CheckAdminAccount(string username, string password)
+        {
+            var adminEmail = _configuration["AdminAccount:Email"];
+            var adminPassword = _configuration["AdminAccount:Password"];
+
+            if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
+            {
+                if (adminEmail == username && adminPassword == password)
+                {
+                    return new User
+                    {
+                        Email = adminEmail,
+                        RoleId = (int)RoleEnum.Admin
+                    };
+                }
+            }
+
+            return null;
         }
 
         public IEnumerable<TutorInforDTO> GetTopTutor()
