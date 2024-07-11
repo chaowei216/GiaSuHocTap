@@ -61,7 +61,15 @@ namespace SWD392_GiaSuHocTap.Profiles
                                             .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Course.CourseName))
                                             .ForMember(dest => dest.RequestUserName, opt => opt.MapFrom(src => src.From.Fullname))
                                             .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status)).ReverseMap();
+            CreateMap<Request, RequestUserDTO>().ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.ClassName))
+                                            .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Course.CourseName))
+                                            .ForMember(dest => dest.RequestUserName, opt => opt.MapFrom(src => src.From.Fullname))
+                                            .ForMember(dest => dest.RequestStatus, opt => opt.MapFrom(src => src.Status))
+                                            .ReverseMap();
             CreateMap<RequestOnlineDTO, Request>().ReverseMap();
+            CreateMap<RequestTimeDTO, RequestTime>().ReverseMap();
+            CreateMap<TimeTable, RequestTimetableDTO>().ForMember(dest => dest.Fullname, otp => otp.MapFrom(src => src.User.Fullname))
+                                                       .ForMember(dest => dest.TutorId, otp => otp.MapFrom(src => src.User.UserId)).ReverseMap();
             CreateMap<PagedList<Notification>, PaginationResponseDTO<NotificationDTO>>().ReverseMap();
             CreateMap<PagedList<Report>, PaginationResponseDTO<ReportDTO>>().ReverseMap();
             CreateMap<Report, ReportDTO>().ForMember(dest => dest.ParentsEmail, opt => opt.MapFrom(src => src.From.Email))

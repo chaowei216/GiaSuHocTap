@@ -20,7 +20,8 @@ import { AcceptOrDenyRequestOFfline } from "../../../api/RequestApi";
 export default function RequestTable({
   data,
   setIsUpdated,
-  isUpdated
+  isUpdated,
+  type
 }) {
   const { user } = useAuth()
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -151,7 +152,7 @@ export default function RequestTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                      {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.price)}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
@@ -211,38 +212,72 @@ export default function RequestTable({
                           }
                         })}
                     </StyledTableCell>
-                    <StyledTableCell
-                      style={{
-                        fontWeight: "600",
-                        padding: "0px",
-                      }}
-                      align="left"
-                    >
-                      <Button
-                        variant="contained"
-                        color="success"
-                        onClick={() => handleAccept(row.requestId)}
-                        sx={{
-                          background: "#0b7234",
-                          color: "white",
-                          borderRadius: "18px",
-                          marginRight: "15px",
-                          fontSize: "12px"
+                    {(type == "All" || type == "Done" || type == "Deny") && (
+                      <StyledTableCell
+                        style={{ fontWeight: "600" }}
+                        align="left"
+                      >
+                        Không có gì
+                      </StyledTableCell>
+                    )}
+                    {type == "Pending" && (
+                      <StyledTableCell
+                        style={{
+                          fontWeight: "600",
+                          padding: "0px",
                         }}
+                        align="left"
                       >
-                        <DoneOutlineIcon /> Accept
-                      </Button>
-                      <Button
-                        variant="contained"
-                        onClick={() => handleDeny(row.requestId)}
-                        color="error"
-                        sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => handleAccept(row.requestId)}
+                          sx={{
+                            background: "#0b7234",
+                            color: "white",
+                            borderRadius: "18px",
+                            marginRight: "15px",
+                            fontSize: "12px"
+                          }}
+                        >
+                          <DoneOutlineIcon /> Chấp nhận
+                        </Button>
+                        <Button
+                          variant="contained"
+                          onClick={() => handleDeny(row.requestId)}
+                          color="error"
+                          sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
+                        >
+                          <div>
+                            <ClearIcon /> Từ chối
+                          </div>
+                        </Button>
+                      </StyledTableCell>
+                    )}
+                    {type == "Teaching" && (
+                      <StyledTableCell
+                        style={{
+                          fontWeight: "600",
+                          padding: "0px",
+                        }}
+                        align="left"
                       >
-                        <div>
-                          <ClearIcon /> Deny
-                        </div>
-                      </Button>
-                    </StyledTableCell>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => handleAccept(row.requestId)}
+                          sx={{
+                            background: "#0b7234",
+                            color: "white",
+                            borderRadius: "18px",
+                            marginRight: "15px",
+                            fontSize: "12px"
+                          }}
+                        >
+                          <DoneOutlineIcon /> Đã dạy xong
+                        </Button>
+                      </StyledTableCell>
+                    )}
                   </StyledTableRow>
                 );
               })}

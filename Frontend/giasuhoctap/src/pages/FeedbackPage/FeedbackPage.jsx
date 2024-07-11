@@ -1,5 +1,6 @@
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import Sidebar from '../../components/layouts/Sidebar/Sidebar'
+import ViewFeedback from '../../components/partial/FeedbackManagement/ViewFeedback'
 import ViewTransaction from '../../components/partial/TransactionManagement/ViewTransaction'
 export default function FeedbackPage() {
     return (
@@ -18,7 +19,7 @@ export default function FeedbackPage() {
                 position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
             }}
                 className="p-4 overflow-y-auto">
-                <ViewTransaction />
+                <ViewFeedback />
             </div>
         </div>
     )

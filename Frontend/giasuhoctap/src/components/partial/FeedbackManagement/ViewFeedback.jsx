@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Header from '../TutorManagement/Header'
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
-import { GetNotificationTypeSystem } from '../../../api/NotificationApi';
 import { toast } from 'react-toastify';
 import NotificationTable from './FeedbackTable';
+import { GetAllFeedback } from '../../../api/FeedbackApi';
 export default function ViewFeedback() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -12,14 +12,14 @@ export default function ViewFeedback() {
     const [data, setData] = useState([]);
     useEffect(() => {
         const getAllNotification = async () => {
-            const response = await GetNotificationTypeSystem(page, pageSize);
+            const response = await GetAllFeedback(page, pageSize);
             if (response.ok) {
                 const responseJson = await response.json();
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages)
             } else {
-                toast.error("Error getting transaction")
+                toast.error("Error getting feedback")
             }
         }
         getAllNotification();
@@ -33,7 +33,7 @@ export default function ViewFeedback() {
         }}>
             <Header>
                 <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "20px" }}>
-                    Thông báo hệ thống
+                    Danh sách đánh giá của người dùng
                 </div>
             </Header>
             <NotificationTable data={data} />

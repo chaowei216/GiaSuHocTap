@@ -64,5 +64,10 @@ namespace Repository.Repository
         {
             return _timeTableDAO.UpdateAsync(timeTable);
         }
+
+        public async Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime)
+        {
+            return await _timeTableDAO.GetAll().Where(t => t.StartTime == startTime && t.UserId == userId).FirstOrDefaultAsync();
+        }
     }
 }

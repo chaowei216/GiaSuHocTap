@@ -1,99 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Request.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import PageNavigation from '../../TutorManagement/PageNavigation';
+import PageSize from '../../TutorManagement/PageSize';
+import { toast } from 'react-toastify';
+import { GetParentRequest } from '../../../../api/ParentHistory';
+import useAuth from '../../../../hooks/useAuth';
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const RequestOffline = () => {
-    // Dữ liệu mẫu các card
-    const cardsData = [
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Toán',
-            grade: 'Lớp 9',
-            teachingMethod: 'Offline',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 156
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Hóa',
-            grade: 'Lớp 9',
-            teachingMethod: 'Offline',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 16
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Anh',
-            grade: 'Lớp 9',
-            teachingMethod: 'Offline',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 17
-        },
-        {
-            name: 'Trần Hồ Nam',
-            status: 'ĐANG HỌC',
-            imgSrc: '../../../../../public/img/tutor.jpg',
-            subject: 'Toán',
-            grade: 'Lớp 9',
-            teachingMethod: 'Offline',
-            teachingDays: 'Thứ 2, buổi chiều, 8-12h',
-            coins: 18
+    const { user } = useAuth()
+    const [totalPages, setTotalPages] = useState();
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(5);
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const getAllNotification = async () => {
+            const response = await GetParentRequest("Offline", "Đang tiến hành", page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const data = responseJson.data.data;
+                setData(data);
+                setTotalPages(responseJson.data.totalPages)
+            } else {
+                toast.error("Lỗi sever")
+            }
         }
-    ];
+        getAllNotification();
+    }, [page, totalPages, pageSize])
 
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [additionalHours, setAdditionalHours] = useState(0); // State để lưu số giờ thêm vào
-    const [selectedCoins, setSelectedCoins] = useState(0); // State để lưu số coin hiện tại của selectedCard
-
-
-
-    const handleEvaluateClick = (card) => {
-        setSelectedCard(card);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedCard(null);
-        setAdditionalHours(0); // Reset số giờ thêm vào khi đóng modal
-        setSelectedCoins(0); // Reset số coin hiện tại khi đóng modal
-    };
-
-
-
-
-    const handleAdditionalHoursChange = (event) => {
-        const hours = parseInt(event.target.value, 10);
-        setAdditionalHours(hours);
-        const selectedCoins = selectedCard.coins * (hours); // Tính số coin mới khi thêm giờ
-        setSelectedCoins(selectedCoins);
-    };
-
-    const handleAddHours = () => {
-        // Logic tính số coin khi thêm giờ vào đây
-        const selectedCardCopy = { ...selectedCard };
-        const newCoins = selectedCardCopy.coins * (additionalHours); // Tính số coin mới sau khi thêm giờ
-        selectedCardCopy.coins = newCoins;
-
-        // Cập nhật lại selectedCard và đóng modal
-        setSelectedCard(selectedCardCopy);
-        setIsModalOpen(false);
-        setAdditionalHours(0); // Reset số giờ thêm vào
-        setSelectedCoins(0); // Reset số coin hiện tại
+    const getUniqueName = (requestTimes) => {
+        console.log(requestTimes);
+        // const test = []
+        // test.push(requestTimes)
+        // console.log(test);
+        const uniqueDays = new Set();
+        return requestTimes.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.timeTable.fullname)) {
+                uniqueDays.add(timeTable.timeTable.fullname);
+                acc.push(`${timeTable.timeTable.fullname}`);
+            }
+            console.log(acc);
+            return acc;
+        }, []);
     };
 
     return (
-        <div>
-            {cardsData.map((card, index) => (
+        <>
+            {data && data.map((card, index) => (
                 <div key={index}>
                     <div className={styles.Body}>
                         <div className='container'>
@@ -108,30 +63,37 @@ const RequestOffline = () => {
                                         <FontAwesomeIcon icon={faCircleQuestion} className={styles.icon} />
                                     </div>
                                     <div className={styles.statusName}>
-                                        <p>{card.status}</p>
+                                        <p>{card.requestStatus}</p>
                                     </div>
                                 </div>
                             </div>
                             <hr style={{ width: '97%', marginLeft: '20px' }} />
                             <div className={styles.historyContent}>
                                 <div className={styles.historyImg}>
-                                    <img src={card.imgSrc} alt="Profile" />
+                                    <img src="/img/tutor.jpg" alt="Profile" />
                                 </div>
                                 <div className={styles.historyDetail}>
                                     <div className={styles.detailItem}>
-                                        <h1>{card.name}</h1>
+                                        <h1 key={index}>Gia sư: {getUniqueName(card?.requestTimes)}</h1>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Môn học:</p>
-                                        <p style={{ color: '#0000FF' }}>{card.subject}</p>
+                                        <p style={{ color: '#0000FF' }}>{card.courseName}</p>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p>Lớp học:</p>
-                                        <p style={{ color: '#0000FF' }}>{card.grade}</p>
+                                        <p style={{ color: '#0000FF' }}>{card.className}</p>
                                     </div>
                                     <div className={styles.detailItem}>
-                                        <p>Ngày dạy:</p>
-                                        <p>{card.teachingDays}</p>
+                                        <p>Ngày yêu cầu:</p>
+                                        <p>{card.createdDate.split("T")[0]}</p>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p>Lương đề xuất:</p>
+                                        <p>{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(card.price)}</p>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <p style={{ fontWeight: "bold", fontSize: "large" }}>Gia sư sẽ sớm liên hệ với bạn qua điện thoại hoặc mail</p>
                                     </div>
                                 </div>
                             </div>
@@ -139,75 +101,46 @@ const RequestOffline = () => {
                             <div className={styles.historyCoin}>
                                 <div className={styles.coinIcon}>
                                     <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                    <p>Thành coin:</p>
-                                    <h1>{card.coins}</h1>
-                                </div>
-                            </div>
-                            <div className={styles.historyFeedback}>
-                                <div className={styles.feedbackButton}>
-                                    <div className={styles.evaluate}>
-                                        <button onClick={() => handleEvaluateClick(card)}>THÊM GIỜ</button>
-                                    </div>
+                                    <p>Phí dịch vụ:</p>
+                                    <h1>10 xu</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             ))}
-
-            {isModalOpen && selectedCard && (
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={handleCloseModal}>&times;</span>
-                        <div className={styles.titleEvaluate}>
-                            <h1>Đánh Giá Gia Sư</h1>
-                        </div>
-                        <div className={styles.historyContentEvaluate} style={{marginLeft: '50px'}}>
-                            <div className={styles.historyImgEvaluate}>
-                                <img src={selectedCard.imgSrc} alt="Profile" />
-                            </div>
-                            <div className={styles.historyDetail}>
-                                <div className={styles.detailItem}>
-                                    <h1>{selectedCard.name}</h1>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Môn học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.subject}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Lớp học:</p>
-                                    <p style={{ color: '#0000FF' }}>{selectedCard.grade}</p>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <p>Ngày dạy:</p>
-                                    <p>{selectedCard.teachingDays}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.extendBox}>
-                            <select className={styles.extendSelect} onChange={handleAdditionalHoursChange} value={additionalHours}>
-                                <option >Chọn Số Giờ Thêm</option>
-                                <option value="1">1 giờ</option>
-                                {/* <option value="2">2 giờ</option>
-                                <option value="3">3 giờ</option>
-                                <option value="4">4 giờ</option> */}
-                            </select>
-                            <div className={styles.additionalCoins}>
-                                <FontAwesomeIcon icon={faCoins} className={styles.icon} />
-                                <p> Số coin cần trả: </p>
-                                <div style={{ fontSize: '25px', marginLeft: '10px', color: '#4dccda' }}>
-                                    {additionalHours > 0 ? <p>{selectedCoins}</p> : <p>0</p>}
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.reviewButtonGroupExtend}>
-                            <button className={styles.closeHoursButton} onClick={handleCloseModal}>Hủy</button>
-                            <button className={styles.addHoursButton} onClick={handleAddHours}>Thêm Giờ</button>
-                        </div>
-                    </div>
+            {data && data.length === 0 &&
+                <div className='flex justify-center items-center' style={{ marginTop: "20px", width: "100%", height: "100px", background: "white" }}>
+                    <InventoryIcon />
+                    Không có dữ liệu
                 </div>
+            }
+
+            {data && data.length > 0 && (
+                <>
+                    <div
+                        style={{
+                            minHeight: "80px", position: "relative"
+                        }}
+                    >
+                        <ul style={{
+                            marginTop: "28px", marginBottom: "10px", position: "absolute",
+                            left: "45%",
+                            transform: "translate(-50%)",
+                        }}>
+                            <PageNavigation
+                                page={page}
+                                setPage={setPage}
+                                totalPages={totalPages}
+                            />
+                        </ul>
+                        <ul style={{ float: "right", marginTop: "12px", position: "absolute", right: "5%" }} >
+                            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+                        </ul>
+                    </div>
+                </>
             )}
-        </div>
+        </>
     );
 };
 

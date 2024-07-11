@@ -9,6 +9,7 @@ using Firebase.Auth;
 using Repository.IRepository;
 using Repository.Repository;
 using Service.IService;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace Service.Services
 {
@@ -26,12 +27,32 @@ namespace Service.Services
         public async Task<FeedbackDTO> AddNewFeedback(FeedbackCreateDTO feedback)
         {
             var feedbackMap = _mapper.Map<Feedback>(feedback);
-            var response = await _feedbackRepository.AddNewFeedback(feedbackMap);
-            var mapperResponse = _mapper.Map<FeedbackDTO>(response);
-            if (response != null)
+
+            var getFeedback = _feedbackRepository.GetFeedbackByTwoId(feedbackMap.FromId, feedbackMap.ToId);
+            if (getFeedback == null)
             {
-                return mapperResponse;
+                feedbackMap = await _feedbackRepository.AddNewFeedback(feedbackMap);
+                var mapperResponse = _mapper.Map<FeedbackDTO>(feedbackMap);
+
+                if (feedbackMap != null)
+                {
+                    return mapperResponse;
+                }
+            } else
+            {
+                getFeedback.Description = feedbackMap.Description;
+                getFeedback.FromId = feedbackMap.FromId;
+                getFeedback.ToId = feedbackMap.ToId;
+                getFeedback.Rating = feedbackMap.Rating;
+                getFeedback = await _feedbackRepository.UpdateFeedback(getFeedback);
+                var mapperResponseTwo = _mapper.Map<FeedbackDTO>(getFeedback);
+
+                if (getFeedback != null)
+                {
+                    return mapperResponseTwo;
+                }
             }
+
             return null;
         }
 
