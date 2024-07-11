@@ -63,7 +63,7 @@ const Navbar = () => {
               </a>
               <div className={styles.dropdownMenu}>
                 <a href="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</a>
-                <a href="/" className={styles.dropdownItem}>Dịch vụ gia sư</a>
+                <a href="/ParentPage" className={styles.dropdownItem}>Cập nhật hồ sơ</a>
                 <a href="/" className={styles.dropdownItem}>Gia sư tiêu biểu</a>
               </div>
             </div>
@@ -72,8 +72,7 @@ const Navbar = () => {
                 GIA SƯ
               </a>
               <div className={styles.dropdownMenu}>
-                <a href="RegisterTutor" className={styles.dropdownItem}>Đăng ký làm gia sư</a>
-                <a href="/" className={styles.dropdownItem}>Hướng dẫn nhận lớp</a>
+                <a href="RegisterTutor" className={styles.dropdownItem}>Cập nhật hồ sơ</a>
                 <a href="BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</a>
                 <a href="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</a>
               </div>

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './News.module.css';
 import { GetNewsPaging } from '../../../../api/NewsApi';
 import { toast } from 'react-toastify';
 import PageNavigation from '../../TutorManagement/PageNavigation';
-import PageSize from '../../TutorManagement/PageSize'; // Ensure you import PageSize component if used
+import PageSize from '../../TutorManagement/PageSize';
 const baseUrl = import.meta.env.VITE_API_HOST;
 
-import styles from './News.module.css';
-
 const News = () => {
-  const [totalPages, setTotalPages] = useState(1); // Initialize totalPages with 1
+  const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(8);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -21,54 +21,49 @@ const News = () => {
           const responseData = await response.json();
           const formattedData = responseData.data.data.map((item) => ({
             ...item,
-            createDate: new Date(item.createDate).toLocaleString(), // Format createDate to local string
+            createDate: new Date(item.createDate).toLocaleString(),
           }));
           setData(formattedData);
           setTotalPages(responseData.data.totalPages);
         } else {
-          toast.error('Error getting news');
+          toast.error('Lỗi khi lấy tin tức');
         }
       } catch (error) {
-        console.error('Error fetching news:', error);
-        toast.error('Failed to fetch news');
+        console.error('Lỗi khi fetch tin tức:', error);
+        toast.error('Không thể lấy tin tức');
       }
     };
 
     fetchNews();
-  }, [page, pageSize]); // Trigger useEffect on page or pageSize change
+  }, [page, pageSize]);
 
   return (
     <div className="container">
       <div className={styles.pageWrapper}>
         <div className={`${styles.blogTop} clearfix`}>
-          <h4 className={`${styles.pullLeft}`}>Recent News <a href="#"><i className="fa fa-rss"></i></a></h4>
+          <h2 className={`${styles.pullLeft}`}>TIN TỨC MỚI NHẤT</h2>
         </div>
-
         <div className={`${styles.blogList} clearfix`}>
-          {/* Mapping through the fetched news data */}
           {data.map((news) => (
-            <div key={news.newsId} className={`${styles.blogBox} row`} style={{marginBottom: '15px'}}>
-              <div className="col-md-4">
-                <div className={styles.postMedia}>
-                    <img src={`${baseUrl}/api/Auth/user-image?fileName=${news.image}`} className="img-fluid" />
-                    <div className={styles.hoverEffect}></div>
-                </div>
+            <div key={news.newsId} className={`${styles.blogBox} column`}>
+              <div className={styles.postMedia}>
+                <Link to={`/news/${news.newsId}`}>
+                  <img src={`${baseUrl}/api/Auth/user-image?fileName=${news.image}`} className="img-fluid" alt={news.title} />
+                  <div className={styles.hoverEffect}></div>
+                </Link>
               </div>
-              <div className={`${styles.blogMeta} big-meta col-md-8`}>
-                <h4>{news.title}</h4>
-                <p>{news.description}</p>
-                <small>{news.createDate}</small>
+              <div className={styles.blogMeta}>
+                <h4>
+                  <Link to={`/news/${news.newsId}`}>{news.title}</Link>
+                </h4>
               </div>
-              <hr className={`${styles.invis}`} />
             </div>
           ))}
-
-          {/* Pagination and page size options */}
-          <div className={styles.paginationWrapper} style={{marginTop: '20px'}}>
-            <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
-            {/* Include PageSize component for changing page size */}
-            {/* <PageSize pageSize={pageSize} setPageSize={setPageSize} /> */}
-          </div>
+        </div>
+        <div className={styles.paginationWrapper} style={{marginTop: '20px'}}>
+          <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
+          {/* Bao gồm thành phần PageSize để thay đổi kích thước trang */}
+          {/* <PageSize pageSize={pageSize} setPageSize={setPageSize} /> */}
         </div>
       </div>
     </div>
