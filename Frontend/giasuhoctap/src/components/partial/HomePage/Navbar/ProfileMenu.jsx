@@ -36,6 +36,10 @@ export default function ProfileMenu() {
     };
 
     const handleClickLogout = async () => {
+        if (user?.roleName == "Admin") {
+            await logout();
+            navigate("/")
+        }
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await Logout(refreshToken)
         if (response.ok) {

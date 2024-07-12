@@ -918,10 +918,9 @@ namespace Service.Service
         {
             var user = _userRepository.GetUserByEmailInclude(email);
 
-            var adminEmail = _configuration["AdminAccount:Email"];
             var adminPassword = _configuration["AdminAccount:Password"];
 
-            var admin = CheckAdminAccount(adminEmail, adminPassword);
+            var admin = CheckAdminAccount(email, adminPassword);
 
             if (admin != null)
             {

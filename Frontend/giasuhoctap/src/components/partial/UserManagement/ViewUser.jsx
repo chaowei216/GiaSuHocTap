@@ -10,6 +10,8 @@ import PageSize from "../TutorManagement/PageSize";
 import { GetActiveTutor } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
 import WaitingModal from "../../global/WaitingModal";
+import CreateUser from "./CreateUser";
+import { Button } from "@mui/material";
 
 export default function ViewUser() {
   const [data, setData] = useState([]);
@@ -20,6 +22,7 @@ export default function ViewUser() {
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [centredModal, setCentredModal] = useState(false);
   const handleClickOpen = (email) => {
     setOpen(true);
     setEmail(email);
@@ -32,14 +35,13 @@ export default function ViewUser() {
         const user = responseJson.data.data
         setData(user);
         setTotalPages(responseJson.data.totalPages)
-        console.log(responseJson);
       } else {
         toast.error("Error fetching data")
       }
     };
     fetchAllTutor();
   }, [page, pageSize, isUpdate]);
-
+  console.log(data);
   return (
     <div
       style={{
@@ -49,10 +51,11 @@ export default function ViewUser() {
       }}
     >
       <Container>
-        <Title title="Danh sách user" />
-        <Header>
-          <Search_Input />
-        </Header>
+        <Title title="Danh sách tài khoản" />
+
+        <div style={{ marginTop: "20px" }}>
+          <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo tài khoản</Button>
+        </div>
         <Body>
           <UserTable data={data} handleClickOpen={handleClickOpen} />
         </Body>
@@ -65,7 +68,7 @@ export default function ViewUser() {
               }}
             >
               <ul style={{
-                marginTop: "28px", marginBottom: "10px", position: "absolute",
+                marginTop: "25px", marginBottom: "10px", position: "absolute",
                 left: "50%",
                 transform: "translate(-50%)",
               }}>
@@ -83,6 +86,7 @@ export default function ViewUser() {
         )}
       </Container>
       <WaitingModal open={false} setOpen={setIsModalOpen} />
+      <CreateUser centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isUpdate} setIsCreated={setIsUpdate} />
     </div>
   );
 }

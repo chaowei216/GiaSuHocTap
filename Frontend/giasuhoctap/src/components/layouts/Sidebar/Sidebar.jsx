@@ -17,18 +17,18 @@ export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
     {
+      title: "Thống kê",
+      path: "/dashboard",
+      icon: <HomeIcon />,
+      id: 12,
+      src: "/dashboard",
+    },
+    {
       title: "Trang cá nhân",
       path: "/personal-profile",
       icon: <PersonIcon />,
       id: 1,
       src: "/personal-profile",
-    },
-    {
-      title: "Quản lý người dùng",
-      path: "/user-management",
-      icon: <GroupIcon />,
-      id: 3,
-      src: "/user-management",
     },
     {
       title: "Giao dịch",
@@ -62,13 +62,7 @@ export default function Sidebar() {
       });
   }
   if (user?.roleName === 'Admin') {
-    Menus.push({
-      title: "Thống kê",
-      path: "/dashboard",
-      icon: <HomeIcon />,
-      id: 12,
-      src: "/dashboard",
-    },
+    Menus.push(
       {
         title: "Quản lý người dùng",
         path: "/user-management",

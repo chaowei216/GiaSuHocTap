@@ -14,8 +14,8 @@ const isValidToken = (accessToken) => {
 
   const decoded = jwtDecode(accessToken);
   const currentTime = Date.now() / 1000;
-  console.log(decoded.exp * 1000);
-  console.log(currentTime);
+  // console.log(decoded.exp * 1000);
+  // console.log(currentTime);
 
   return decoded.exp > currentTime;
 };
@@ -25,7 +25,7 @@ const handleTokenExpired = (exp, refreshToken, accessToken) => {
   const timeLeft = exp * 1000 - currentTime;
   // const refreshTimeLeft = timeLeft + 3000; // 5 second after expiration
   const refreshDelay = 1000;
-  console.log(exp * 1000 - currentTime);
+  // console.log(exp * 1000 - currentTime);
   console.log("Token will refresh in:", (exp * 1000 - currentTime + refreshDelay) / 1000 , "min");
 
   const refreshAndScheduleNext = () => {
@@ -73,7 +73,7 @@ const setSession = (accessToken, refreshToken) => {
     localStorage.setItem("refreshToken", refreshToken);
     // This function below will handle when token is expired
     const { exp } = jwtDecode(accessToken);
-    console.log(exp);
+    // console.log(exp);
     handleTokenExpired(exp, refreshToken, accessToken);
   } else {
     localStorage.removeItem("accessToken");

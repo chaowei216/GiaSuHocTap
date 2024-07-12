@@ -4,22 +4,28 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Logout } from '../../../api/AuthenApi';
 import useAuth from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export default function BasicMenu({ anchorEl, handleClick, handleClose, children }) {
+    const navigate = useNavigate()
     const { logout, user } = useAuth()
     const handleClickProfile = () => {
         if (user?.roleName == "Tutor") {
-            window.location.href = "/tutor-profile"
+            navigate("/tutor-profile")
         } else {
-            window.location.href = "/personal-profile"
+            navigate("/personal-profile")
         }
     }
     const handleClickLogout = async () => {
+        if (user?.roleName == "Admin") {
+            await logout();
+            navigate("/")
+        }
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await Logout(refreshToken)
         if (response.ok) {
             await logout();
-            window.location.href = "/";
+            navigate("/")
         }
     }
     const open = Boolean(anchorEl);
