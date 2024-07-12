@@ -1001,5 +1001,18 @@ namespace Service.Service
 
             return mappedResponse;
         }
+
+        public PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters)
+        {
+            var user = GetUserByEmail(email);
+
+            if (user != null)
+            {
+                var timetable = _timeTableService.GetTimeTableByUserId(user.UserId, parameters);
+
+                return timetable;
+            }
+            return null;
+        }
     }
 }

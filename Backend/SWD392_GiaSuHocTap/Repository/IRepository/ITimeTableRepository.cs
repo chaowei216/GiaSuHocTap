@@ -1,4 +1,6 @@
-﻿using DAO.Model;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using DAO.Model;
 
 namespace Repository.IRepository
 {
@@ -73,5 +75,12 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<TimeTable> GetOldOnlineTimeOfUser(int userId);
+
+        /// <summary>
+        /// Get timetable of tutor by tutorId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        PagedList<TimeTable> GetTimeTableByUserIdPaging(int userId, TimeTableParameters parameters);
     }
 }
