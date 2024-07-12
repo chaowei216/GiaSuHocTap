@@ -60,10 +60,11 @@ const News = () => {
             </div>
           ))}
         </div>
-        <div className={styles.paginationWrapper} style={{marginTop: '20px'}}>
+        <div className={styles.paginationWrapper} style={{ marginTop: '20px', display: 'flex', alignItems: 'center', marginLeft: '500px' }}>
           <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
-          {/* Bao gồm thành phần PageSize để thay đổi kích thước trang */}
-          {/* <PageSize pageSize={pageSize} setPageSize={setPageSize} /> */}
+          <div style={{ marginLeft: '200px' }}>
+            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+          </div>
         </div>
       </div>
     </div>
