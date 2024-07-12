@@ -28,22 +28,9 @@ export default function TutorDetail({
   setOpenDetail,
   dataDetail
 }) {
-  const getImageUrl = async (fileName) => {
-    try {
-      const response = await fetch(`https://localhost:7019/api/Auth/user-image?fileName=${fileName}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-      return await response.text();
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return null;
-    }
-  };
   const handleClose = () => {
     setOpenDetail(false);
   };
-  console.log(dataDetail);
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -94,23 +81,23 @@ export default function TutorDetail({
               </div>
             </div>
             <div className="project-info-box w-2/3">
-              <p style={{height: "40px"}}>
+              <p style={{ height: "40px" }}>
                 <b>Mã số:</b> {dataDetail?.userId}
               </p>
               <hr />
-              <p style={{height: "40px", marginTop: "15px"}}>
+              <p style={{ height: "40px", marginTop: "15px" }}>
                 <b>Họ và tên:</b> {dataDetail?.fullname}
               </p>
               <hr />
-              <p style={{height: "40px", marginTop: "15px"}}>
+              <p style={{ height: "40px", marginTop: "15px" }}>
                 <b>Năm sinh:</b> {dataDetail?.dateOfBirth}
               </p>
               <hr />
-              <p style={{height: "40px", marginTop: "15px"}}>
+              <p style={{ height: "40px", marginTop: "15px" }}>
                 <b>Địa chỉ</b> {dataDetail?.address}
               </p>
               <hr />
-              <p style={{height: "40px", marginTop: "15px"}} className="mb-0">
+              <p style={{ height: "40px", marginTop: "15px" }} className="mb-0">
                 <b>Chuyên ngành:</b> Công nghệ thông tin
               </p>
             </div>
@@ -156,30 +143,29 @@ export default function TutorDetail({
             className="flex mt-3"
             style={{ flexWrap: "wrap", justifyContent: "center" }}
           >
-            <div className="col-md-7" style={{ width: "40%" }}>
-              <img
-                style={{ width: "90%", height: "200px"  }}
-                src={cmnd2}
-                alt="project-image"
-                className="rounded"
-              />
-            </div>
-            <div className="col-md-7" style={{ width: "40%" }}>
-              <img
-                style={{ width: "90%" }}
-                src={cmnd1}
-                alt="project-image"
-                className="rounded"
-              />
-            </div>
-            <div className="col-md-7" style={{ width: "40%" }}>
-              <img
-                style={{ width: "90%" }}
-                src={cmnd1}
-                alt="project-image"
-                className="rounded mt-3"
-              />
-            </div>
+            {dataDetail?.tutorDetail?.certificateImage.map((fileName, index) => (
+              <div key={index} className="col-md-7" style={{ width: "40%" }}>
+                <img
+                  style={{ width: "90%", height: "230px" }}
+                  src={`${baseUrl}/api/Auth/user-image?fileName=${fileName}`}
+                  onError={(e) => {
+                    e.currentTarget.src = emptyPicture;
+                  }}
+                  alt="project-image"
+                  className="rounded"
+                />
+              </div>
+            ))}
+            {(dataDetail == undefined || dataDetail?.tutorDetail?.certificateImage.length == 0) && (
+              <div className="col-md-7" style={{ width: "40%" }}>
+                <img
+                  style={{ width: "90%", height: "200px" }}
+                  src={emptyPicture}
+                  alt="project-image"
+                  className="rounded"
+                />
+              </div>
+            )}
           </div>
         </DialogContent>
       </BootstrapDialog>

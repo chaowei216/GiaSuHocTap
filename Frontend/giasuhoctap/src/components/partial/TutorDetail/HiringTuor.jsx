@@ -33,7 +33,6 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
     setSubjectPicked(event.target.value);
   }
   const timeTableId = data?.timeTables?.[0]?.timeTableId || null;
-  console.log(timeTableId);
   const [inputData, setInputData] = useState({
     fromId: null,
     description: '',

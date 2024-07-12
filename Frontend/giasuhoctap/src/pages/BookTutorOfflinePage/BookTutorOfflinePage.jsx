@@ -6,8 +6,8 @@ import Hero from "../../components/partial/HomePage/Hero/Hero";
 
 const BookTutorOfflinePage = () => {
   return (
-    <div style={{background: '#F0F9FC'}}>
-      <Navbar  />
+    <div style={{ background: '#F0F9FC' }}>
+      <Navbar />
       <Hero />
       <BookTutorOffline />
       <Footer />
