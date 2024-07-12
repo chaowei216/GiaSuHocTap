@@ -43,6 +43,7 @@ import ReportPage from "../pages/ReportPage/ReportPage";
 import ParentHistoryTransaction from "../pages/ParentPage/ParentHistoryTransaction";
 import NewsPage from "../pages/NewsPage/NewsPage";
 import RoleBasedGuard from "../components/partial/Authen/RoleBaseGuard";
+import NewDetailPage from "../pages/NewsPage/NewDetailPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -87,5 +88,6 @@ export const router = createBrowserRouter([
   // { path: "NotificationPage", element: <NotificationPage /> },
   { path: "ParentHistoryTransaction", element: <ParentHistoryTransaction /> },
   { path: "NewsPage", element: <NewsPage /> },
+  { path: "/news/:newsId", element: <NewDetailPage /> },
 ]);
 

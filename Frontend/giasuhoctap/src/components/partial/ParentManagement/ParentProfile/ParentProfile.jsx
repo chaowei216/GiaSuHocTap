@@ -35,7 +35,6 @@ const ParentProfile = () => {
                 setSelectedImage(reader.result); // Lưu base64 string vào state selectedImage để hiển thị hình ảnh
             };
             reader.readAsDataURL(file);
-            setSelectedImage(file.name);
             setFieldValue('image', file.name); // Bạn có thể comment hoặc xóa dòng này vì không cần thiết nếu chỉ muốn hiển thị hình ảnh
         }
     };
@@ -70,7 +69,7 @@ const ParentProfile = () => {
                 district: '',
                 address: '',
                 gender: '',
-                image: null,
+                // image: null,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -82,7 +81,7 @@ const ParentProfile = () => {
                             <div className={styles.profile}>
                                 <h1>Thông tin cá nhân</h1>
                             </div>
-                            <div className={styles.cropimgAvatar}>
+                            {/* <div className={styles.cropimgAvatar}>
                                 <img src={selectedImage || logo} alt="avatar" className={styles.brand} />
                                 <button type="button" onClick={handleButtonClick} style={{ marginLeft: '20px' }}>
                                     <span style={{ color: '#4dccda', fontWeight: 'bold' }}>
@@ -98,7 +97,7 @@ const ParentProfile = () => {
                                     accept="image/png, image/jpeg, image/gif"
                                     onChange={(event) => handleFileChange(event, setFieldValue)}
                                 />
-                            </div>
+                            </div> */}
                             <div className={styles.profileBoxNIput}>
                                 <div className={styles.notify}>
                                     <label>THÀNH PHỐ</label>
