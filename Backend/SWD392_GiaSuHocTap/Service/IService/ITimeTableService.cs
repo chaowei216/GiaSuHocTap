@@ -1,4 +1,6 @@
-﻿using Common.DTO.TimeTable;
+﻿using Common.DTO;
+using Common.DTO.Query;
+using Common.DTO.TimeTable;
 using Common.DTO.User;
 using DAO.Model;
 
@@ -75,6 +77,20 @@ namespace Service.IService
         /// </summary>
         /// <param name="timetableId"></param>
         /// <returns></returns>
-        Task<bool> DeleteTimetable(int timetableId);
+        Task<TimetableDTO> DeleteTimetable(int timetableId);
+
+        /// <summary>
+        /// enable timetable
+        /// </summary>
+        /// <param name="timetableId"></param>
+        /// <returns></returns>
+        Task<TimetableDTO> EnableTimetable(int timetableId);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TimetableDTO> GetTimeTableByUserId(int userId, TimeTableParameters parameters);
     }
 }

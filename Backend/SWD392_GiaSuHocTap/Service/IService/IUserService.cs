@@ -4,6 +4,7 @@ using Common.DTO;
 using Common.DTO.Query;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
+using Common.DTO.TimeTable;
 
 namespace Service.IService
 {
@@ -170,5 +171,13 @@ namespace Service.IService
         /// <param name="userInfo"></param>
         /// <returns></returns>
         Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters);
     }
 }

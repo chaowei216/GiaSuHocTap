@@ -33,10 +33,12 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<ClassDTO, Class>().ReverseMap();
             CreateMap<CourseDTO, Course>().ReverseMap();
             CreateMap<List<TutorInforDTO>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
+            CreateMap<List<TimetableDTO>, PaginationResponseDTO<TimetableDTO>>().ReverseMap();
             CreateMap<User, TutorInforDTO>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => RoleHelper.GetRoleName((RoleEnum)Enum.ToObject(typeof(RoleEnum), src.RoleId))));
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorInforDTO>>().ReverseMap();
             CreateMap<PagedList<User>, PaginationResponseDTO<TutorDTO>>().ReverseMap();
             CreateMap<PagedList<Feedback>, PaginationResponseDTO<FeedbackDTO>>().ReverseMap();
+            CreateMap<PagedList<TimeTable>, PaginationResponseDTO<TimetableDTO>>().ReverseMap();
             CreateMap<PagedList<News>, PaginationResponseDTO<NewsDTO>>().ReverseMap();
             CreateMap<News, NewsDTO>().ReverseMap();
             CreateMap<News, NewsCreateDTO>().ReverseMap();

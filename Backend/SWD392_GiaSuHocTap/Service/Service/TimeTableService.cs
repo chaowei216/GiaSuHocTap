@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Common.Constant.TimeTable;
+using Common.DTO.Query;
+using Common.DTO;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
 using DAO.Model;
@@ -75,8 +77,8 @@ namespace Service.Service
 
             if(timetable != null)
             {
-                timetable.StartTime = timetableInfo.StartTime + ":00";
-                timetable.EndTime = timetableInfo.EndTime + ":00";
+                timetable.StartTime = timetableInfo.StartTime ;
+                timetable.EndTime = timetableInfo.EndTime ;
                 timetable.DayOfWeek = timetableInfo.DayOfWeek;
                 timetable.Period = timetableInfo.Period;
                 timetable.Status = TimeTableConst.FreeStatus;
@@ -90,18 +92,43 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<bool> DeleteTimetable(int timetableId)
+        public async Task<TimetableDTO> DeleteTimetable(int timetableId)
         {
             var timetable = await _timeTableRepository.GetTimeTableById(timetableId);
 
             if(timetable != null)
             {
-                var response = await _timeTableRepository.DeleteTimeTable(timetable);
-
-                return response;
+                timetable.Status = TimeTableConst.DeleteStatus;
+                var response = await _timeTableRepository.UpdateTimeTable(timetable);
+                var map = _mapper.Map<TimetableDTO>(timetable);
+                return map;
             }
 
-            return false;
+            return null;
+        }
+
+        public async Task<TimetableDTO> EnableTimetable(int timetableId)
+        {
+            var timetable = await _timeTableRepository.GetTimeTableById(timetableId);
+
+            if (timetable != null)
+            {
+                timetable.Status = TimeTableConst.FreeStatus;
+                var response = await _timeTableRepository.UpdateTimeTable(timetable);
+                var map = _mapper.Map<TimetableDTO>(timetable);
+                return map;
+            }
+
+            return null;
+        }
+
+        public PaginationResponseDTO<TimetableDTO> GetTimeTableByUserId(int userId, TimeTableParameters parameters)
+        {
+            var timetable = _timeTableRepository.GetTimeTableByUserIdPaging(userId, parameters);
+
+            var respone = _mapper.Map<PaginationResponseDTO<TimetableDTO>>(timetable);
+            respone.Data = _mapper.Map<List<TimetableDTO>>(timetable);
+            return respone;
         }
     }
 }
