@@ -43,7 +43,7 @@ export default function TransactionTable({
     "Trạng thái",
     "Email User",
   ];
-  const StatusType = ["Paid", "Cancel"];
+  const StatusType = ["Paid", "Cancel", "Pending"];
   return (
     <div>
       <TableContainer component={Paper}>
@@ -131,6 +131,9 @@ export default function TransactionTable({
                                 break;
                               case "Cancel":
                                 styleName = styles.rejected;
+                                break;
+                              case "Pending":
+                                styleName = styles.pendingConfirmation;
                                 break;
                               default:
                                 styleName = "";

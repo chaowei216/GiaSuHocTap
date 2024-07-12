@@ -11,7 +11,10 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import logoEdu from "/img/logoGiasu.png";
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import useAuth from "../../../hooks/useAuth";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function SidebarTutor() {
+  const { user } = useAuth()
   const Menus = [
     {
       title: "Trang gia sư",
@@ -40,6 +43,13 @@ export default function SidebarTutor() {
       icon: <WorkOffIcon />,
       id: 3,
       src: "/request-tutor-offline",
+    },
+    {
+      title: "Thời gian biểu",
+      path: `/time-table/${user?.email}`,
+      icon: <CalendarMonthIcon />,
+      id: 4,
+      src: "/time-table/${user?.email}",
     },
   ];
   const location = useLocation();

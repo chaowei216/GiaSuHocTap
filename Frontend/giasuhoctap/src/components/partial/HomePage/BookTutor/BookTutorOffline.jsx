@@ -9,6 +9,7 @@ import PageSize from '../../TutorManagement/PageSize';
 import HiringTuorOffline from './HiringTuorOffline';
 import { GetAllClass, GetAllCourse } from '../../../../api/ResigerTutorApi';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutorOffline = () => {
@@ -161,9 +162,6 @@ const BookTutorOffline = () => {
                                     onChange={(event) => setClassId(event.target.value)}
                                     label="Lớp học"
                                 >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
                                     {classList && classList.map((item, index) => (
                                         <MenuItem key={index} value={item.classId}>
                                             {item.className}
@@ -180,9 +178,6 @@ const BookTutorOffline = () => {
                                     onChange={(event) => setCourseId(event.target.value)}
                                     label="Môn học"
                                 >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
                                     {courseList && courseList.map((item, index) => (
                                         <MenuItem key={index} value={item.courseId}>
                                             {item.courseName}
@@ -197,6 +192,16 @@ const BookTutorOffline = () => {
                     <div className={`slide-container ${styles.slideContainer}`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutorList && tutorList.length <= 0 && (
+                                    <div style={{ widows: "100%", marginTop: "70px", position: "relative", left: "130%" }}>
+                                        <div
+                                            style={{ fontWeight: "600"}}
+                                        >
+                                            <InventoryIcon />
+                                            Không có dữ liệu
+                                        </div>
+                                    </div>
+                                )}
                                 {tutorList && tutorList.map((tutor, index) => (
                                     <div key={index} className={`card ${styles.card}`}>
                                         <div className={`image-content ${styles.imageContent}`}>

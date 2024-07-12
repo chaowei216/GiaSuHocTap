@@ -6,42 +6,68 @@ import { GetNotificationTypeSystem } from '../../../api/NotificationApi';
 import { toast } from 'react-toastify';
 import TimeTable from './TimeTable';
 import UpdateTimeTable from './UpdateTimeTable';
+import { ActiveTimeTable, DeActiveTimeTable, GetTimeTableByEmail } from '../../../api/TimetableApi';
+import { useParams } from 'react-router-dom';
 export default function ViewTimeTable() {
+    let { email } = useParams();
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
-    const [pageSize, setPageSize] = React.useState(5);
+    const [pageSize, setPageSize] = React.useState(6);
     const [data, setData] = useState([]);
-    const [centredModal, setCentredModal] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
     const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetNotificationTypeSystem(page, pageSize);
+        const getAllTimetable = async () => {
+            const response = await GetTimeTableByEmail(email, page, pageSize);
             if (response.ok) {
                 const responseJson = await response.json();
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages)
             } else {
-                toast.error("Error getting transaction")
+                toast.error("Lỗi sever")
             }
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize, isCreated])
+        getAllTimetable();
+    }, [page, totalPages, pageSize, isCreated, email])
 
     const handleClickUpdate = (data) => {
         setDataDetail(data)
         setOpenDetail(true);
     };
-    const handleClickDelete = (data) => {
-        setDataDetail(data)
-        setOpenDelete(true);
+    const handleClickDelete = async (data) => {
+        if (data) {
+            const response = await DeActiveTimeTable(data)
+            if (response.ok) {
+                const responseJson = await response.json();
+                if (responseJson.statusCode == 200) {
+                    toast.success("Hủy thời gian biểu thành công")
+                    setIsCreated(!isCreated)
+                } else {
+                    toast.error(responseJson.message)
+                }
+            } else {
+                toast.error("Lỗi sever")
+            }
+        }
     };
-    const handleClose = () => {
-        setOpenDelete(false);
-    }
+    const handleActive = async (data) => {
+        if (data) {
+            const response = await ActiveTimeTable(data)
+            if (response.ok) {
+                const responseJson = await response.json();
+                if (responseJson.statusCode == 200) {
+                    toast.success("Kích hoạt lại thời gian biểu thành công")
+                    setIsCreated(!isCreated)
+                } else {
+                    toast.error(responseJson.message)
+                }
+            } else {
+                toast.error("Lỗi sever")
+            }
+        }
+    };
     return (
         <div style={{
             padding: "25px 25px 5px 25px",
@@ -53,7 +79,7 @@ export default function ViewTimeTable() {
                     Thời gian của gia sư
                 </div>
             </Header>
-            <TimeTable data={data} handleClickUpdate={handleClickUpdate} handleClickDelete={handleClickDelete} />
+            <TimeTable data={data} handleClickUpdate={handleClickUpdate} handleClickDelete={handleClickDelete} handleActive={handleActive} />
             {data && data.length > 0 && (
                 <>
                     <div
@@ -79,7 +105,7 @@ export default function ViewTimeTable() {
                     </div>
                 </>
             )}
-            <UpdateTimeTable openDetail={openDetail} setOpenDetail={setOpenDetail} dataDetail={dataDetail} isCreated={isCreated} setIsCreated={setIsCreated} />
+            <UpdateTimeTable openDetail={openDetail} setOpenDetail={setOpenDetail} dataDetail={dataDetail} isCreated={isCreated} setIsCreated={setIsCreated} email={email} />
         </div>
     )
 }

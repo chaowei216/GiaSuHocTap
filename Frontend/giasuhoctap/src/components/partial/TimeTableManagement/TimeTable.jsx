@@ -18,10 +18,11 @@ import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
+import BlockIcon from '@mui/icons-material/Block';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 export default function TimeTable({
-  data, handleClickUpdate, handleClickDelete
+  data, handleClickUpdate, handleClickDelete, handleActive
 }) {
   const [showModalDelete, setShowmodalDelete] = useState(false);
   const [dataDelete, setDataDelete] = useState({});
@@ -46,19 +47,16 @@ export default function TimeTable({
     },
   }));
   const TableHeader = [
-    "ID",
-    "Mô tả",
-    "Loại",
-    "Ngày tạo",
+    "Ngày trong tuần",
+    "Từ",
+    "Đến",
+    "Buổi",
+    "Kiểu",
     "Trạng thái",
     "Hành động",
   ];
-  const StatusType = [false, true];
+  const StatusType = ["Đã hủy", "Rảnh", "Bận"];
 
-  const handleDeleteNews = async (item) => {
-    setDataDelete(item);
-    setShowmodalDelete(true);
-  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -101,25 +99,31 @@ export default function TimeTable({
                       component="th"
                       scope="row"
                     >
-                      {row.notificationId}
+                      {row.dayOfWeek}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.description}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="middle"
-                    >
-                      {row.notificationType}
+                      {row.startTime}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.createdTime?.split("T")[0]}
+                      {row.endTime}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ fontWeight: "600" }}
+                      align="left"
+                    >
+                      {row.period}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ fontWeight: "600" }}
+                      align="left"
+                    >
+                      {row.learningType}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
@@ -135,18 +139,21 @@ export default function TimeTable({
                           if (row.status == type) {
                             let styleName;
                             switch (type) {
-                              case true:
+                              case "Rảnh":
                                 styleName = styles.completed;
                                 break;
-                              case false:
+                              case "Đã hủy":
                                 styleName = styles.rejected;
+                                break;
+                              case "Bận":
+                                styleName = styles.inProgress;
                                 break;
                               default:
                                 styleName = "";
                             }
                             return (
                               <div className={styleName} key={index}>
-                                {type ? "True" : "False"}
+                                {type}
                               </div>
                             );
                           }
@@ -159,9 +166,17 @@ export default function TimeTable({
                       <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickUpdate(row)}>
                         <EditIcon />
                       </Button>
-                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row)}>
-                        <DeleteIcon />
-                      </Button>
+                      {console.log(row.status == "Rảnh")}
+                      {row.status == "Rảnh" && (
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row.timeTableId)}>
+                          <BlockIcon />
+                        </Button>
+                      )}
+                      {row.status == "Đã hủy" && (
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleActive(row.timeTableId)}>
+                          <LockOpenIcon />
+                        </Button>
+                      )}
                     </StyledTableCell>
                   </StyledTableRow>
                 );

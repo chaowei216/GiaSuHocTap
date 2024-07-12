@@ -72,7 +72,7 @@ export default function RequestTable({
           toast.success("Chấp nhận thành công")
         }
       } else {
-        toast.error("Error accepting")
+        toast.error("Lỗi sever")
       }
     }
   };
