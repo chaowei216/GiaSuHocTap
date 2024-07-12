@@ -54,23 +54,45 @@ const Profile = () => {
     }, []);
 
     const DayOfWeekOnline = [
-        { label: 'Sáng Thứ 2', value: ['Monday', 'Morning', '8-12'] },
+        { label: 'Sáng Thứ 2', value: ['Monday', 'Afternoon', '13-17'] },
         { label: 'Chiều Thứ 2', value: ['Monday', 'Afternoon', '13-17'] },
         { label: 'Tối Thứ 2', value: ['Monday', 'Evening', '18-21'] },
         { label: 'Sáng Thứ 3', value: ['Tuesday', 'Morning', '8-12'] },
         { label: 'Chiều Thứ 3', value: ['Tuesday', 'Afternoon', '13-17'] },
         { label: 'Tối Thứ 3', value: ['Tuesday', 'Evening', '18-21'] },
-        // Tiếp tục cho các ngày khác...
+        { label: 'Sáng Thứ 4', value: ['Wednesday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 4', value: ['Wednesday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 4', value: ['Wednesday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 5', value: ['Thursday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 5', value: ['Thursday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 5', value: ['Thursday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 6', value: ['Friday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 6', value: ['Friday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 6', value: ['Friday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 7', value: ['Saturday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 7', value: ['Saturday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 7', value: ['Saturday', 'Evening', '18-21'] },
     ];
 
     const DayOfWeekOffline = [
-        { label: 'Sáng Thứ 2', value: ['Monday', 'Morning', '8-12'] },
+        { label: 'Sáng Thứ 2', value: ['Monday', 'Afternoon', '13-17'] },
         { label: 'Chiều Thứ 2', value: ['Monday', 'Afternoon', '13-17'] },
         { label: 'Tối Thứ 2', value: ['Monday', 'Evening', '18-21'] },
         { label: 'Sáng Thứ 3', value: ['Tuesday', 'Morning', '8-12'] },
         { label: 'Chiều Thứ 3', value: ['Tuesday', 'Afternoon', '13-17'] },
         { label: 'Tối Thứ 3', value: ['Tuesday', 'Evening', '18-21'] },
-        // Tiếp tục cho các ngày khác...
+        { label: 'Sáng Thứ 4', value: ['Wednesday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 4', value: ['Wednesday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 4', value: ['Wednesday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 5', value: ['Thursday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 5', value: ['Thursday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 5', value: ['Thursday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 6', value: ['Friday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 6', value: ['Friday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 6', value: ['Friday', 'Evening', '18-21'] },
+        { label: 'Sáng Thứ 7', value: ['Saturday', 'Morning', '8-12'] },
+        { label: 'Chiều Thứ 7', value: ['Saturday', 'Afternoon', '13-17'] },
+        { label: 'Tối Thứ 7', value: ['Saturday', 'Evening', '18-21'] },
     ];
 
     const handleYoutubeLinkChange = (event) => {
