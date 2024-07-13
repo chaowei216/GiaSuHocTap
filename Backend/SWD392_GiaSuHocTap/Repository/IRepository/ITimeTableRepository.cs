@@ -82,5 +82,23 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         PagedList<TimeTable> GetTimeTableByUserIdPaging(int userId, TimeTableParameters parameters);
+
+        /// <summary>
+        /// Get all time of user by day and start, end time online
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="day"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOnline(int userId, string day, string start, string end);
+
+        /// <summary>
+        /// Get all time of user by day and period offline
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="day"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOffline(int userId, string day, string period);
     }
 }

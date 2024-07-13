@@ -54,5 +54,10 @@ namespace Repository.Repository
         {
             return _userClassDAO.GetAll().Where(d => d.UserId == userId).AsEnumerable();
         }
+
+        public async Task<UserClass?> GetUserClassByUserIdAndClassId(int userId, int classId)
+        {
+            return await _userClassDAO.GetAll().Where(d => d.UserId == userId && d.ClassId == classId).FirstOrDefaultAsync();
+        }
     }
 }

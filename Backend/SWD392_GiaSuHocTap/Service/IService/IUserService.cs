@@ -179,5 +179,12 @@ namespace Service.IService
         /// <param name="userInfo"></param>
         /// <returns></returns>
         PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters);
+
+        /// <summary>
+        /// Update timetable
+        /// </summary>
+        /// <param name="tutorInfo"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo);
     }
 }

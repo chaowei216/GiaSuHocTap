@@ -64,5 +64,10 @@ namespace Service.Service
         {
             return await _classRepository.GetClassById(id);
         }
+
+        public async Task<UserClass?> GetUserClassByUserIdAndClassId(int userId, int classId)
+        {
+            return await _classRepository.GetUserClassByUserIdAndClassId(userId, classId);
+        }
     }
 }
