@@ -131,7 +131,6 @@ const BookTutorOffline = () => {
             Friday: 'Thứ 6',
             Saturday: 'Thứ 7, ',
         };
-        console.log([dayOfWeek]);
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
     const getUniqueDays = (timeTables) => {
@@ -151,7 +150,7 @@ const BookTutorOffline = () => {
                     <div className={styles.slideBgTu}>
                         <h1>DANH SÁCH GIA SƯ OFFLINE</h1>
                     </div>
-                    <div style={{ position: "absolute", left: "20%" }}>
+                    <div style={{ position: "absolute", left: "37%" }}>
                         <div style={{ marginBottom: "20px" }}>
                             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                                 <InputLabel id="demo-simple-select-standard-label">Lớp học</InputLabel>
@@ -189,13 +188,13 @@ const BookTutorOffline = () => {
                             <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
                         </div>
                     </div>
-                    <div className={`slide-container ${styles.slideContainer}`}>
+                    <div className={`slide-container ${styles.slideContainer} mt-16`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
                                 {tutorList && tutorList.length <= 0 && (
                                     <div style={{ widows: "100%", marginTop: "70px", position: "relative", left: "130%" }}>
                                         <div
-                                            style={{ fontWeight: "600"}}
+                                            style={{ fontWeight: "600" }}
                                         >
                                             <InventoryIcon />
                                             Không có dữ liệu

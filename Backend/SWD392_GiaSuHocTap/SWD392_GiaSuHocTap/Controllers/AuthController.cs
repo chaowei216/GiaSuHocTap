@@ -364,7 +364,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             
         }
 
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("accept-tutor")]
         public IActionResult AcceptTutor([FromBody] EmailDTO email)
         {

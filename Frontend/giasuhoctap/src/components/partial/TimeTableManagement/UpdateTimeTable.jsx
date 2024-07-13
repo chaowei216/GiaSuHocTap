@@ -17,12 +17,11 @@ import UpdateIcon from '@mui/icons-material/Update';
 import { useEffect, useState } from 'react';
 import BookingTimePicker from './BookingTimePicker';
 export default function UpdateTimeTable(pros) {
-    const { openDetail, setOpenDetail, isCreated, setIsCreated, dataDetail, email } = pros
-    if (dataDetail == undefined) return <WaitingModal />
+    const { openDetail, setOpenDetail, isCreated, setIsCreated } = pros
     return (
         <>
             <MDBModal tabIndex='-1' open={openDetail} onClose={() => setOpenDetail(false)}>
-                <MDBModalDialog centered>
+                <MDBModalDialog size="lg" centered>
                     <MDBModalContent>
                         <MDBModalHeader>
                             <MDBModalTitle className="text-xl" style={{ textAlign: "left", color: "#3295cf" }}>
@@ -31,7 +30,7 @@ export default function UpdateTimeTable(pros) {
                             <MDBBtn className='btn-close' color='none' onClick={() => setOpenDetail(false)}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>
-                            <BookingTimePicker isCreated={isCreated} setIsCreated={setIsCreated} dataDetail={dataDetail} email={email} setOpenDetail={setOpenDetail} />
+                            <BookingTimePicker isCreated={isCreated} setIsCreated={setIsCreated} setOpenDetail={setOpenDetail} />
                         </MDBModalBody>
                     </MDBModalContent>
                 </MDBModalDialog>

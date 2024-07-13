@@ -31,7 +31,7 @@ export default function FeedbackTable({ data }) {
       border: 0,
     },
   }));
-  const TableHeader = ["ID", "Mô tả", "Người tạo", "Người gửi", "Đánh giá"];
+  const TableHeader = ["ID", "Mô tả", "Người tạo", "Gửi tới", "Đánh giá"];
 
   return (
     <div>

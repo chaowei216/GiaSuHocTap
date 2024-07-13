@@ -10,7 +10,7 @@ const HistoryTransaction = () => {
   const [transactions, setTransactions] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState(5);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -18,8 +18,8 @@ const HistoryTransaction = () => {
       try {
         const data = await GetAllTransaction(user?.userId, page, pageSize);
         if (data) {
-          setTransactions(data.data);
-          setTotalPages(data.totalPages);
+          setTransactions(data.data.data);
+          setTotalPages(data.data.totalPages);
         }
       } catch (error) {
         toast.error('Lỗi khi lấy dữ liệu giao dịch.');
@@ -36,17 +36,21 @@ const HistoryTransaction = () => {
         <thead>
           <tr>
             <th>Ngày</th>
-            <th>Số tiền</th>
+            <th>Xu</th>
             <th>Loại giao dịch</th>
+            <th>Thông tin</th>
+            <th>Trạng thái</th>
           </tr>
         </thead>
         <tbody>
           {transactions.length > 0 ? (
             transactions.map(transaction => (
-              <tr key={transaction.id}>
-                <td>{transaction.date}</td>
-                <td>{transaction.amount}</td>
-                <td>{transaction.type}</td>
+              <tr key={transaction.transactionId}>
+                <td>{transaction.transactionDate.split("T")[0]}</td>
+                <td>{transaction.amount} xu</td>
+                <td>{transaction.paymentMethod}</td>
+                <td>{transaction.transactionInfo}</td>
+                <td>{transaction.status == "Paid" ? "Đã thanh toán" : "Đang chờ"}</td>
               </tr>
             ))
           ) : (
@@ -56,12 +60,31 @@ const HistoryTransaction = () => {
           )}
         </tbody>
       </table>
-      <div className={styles.paginationWrapper} style={{ marginTop: '20px', display: 'flex', alignItems: 'center', marginLeft: '500px' }}>
-        <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
-        <div style={{marginLeft: '500px'}}>
-        <PageSize pageSize={pageSize} setPageSize={setPageSize}/>
-        </div>
-      </div>
+      {transactions && transactions.length > 0 && (
+        <>
+          <div
+            style={{
+              position: "relative",
+              minHeight: "80px"
+            }}
+          >
+            <ul style={{
+              marginTop: "28px", marginBottom: "10px", position: "absolute",
+              left: "50%",
+              transform: "translate(-50%)",
+            }}>
+              <PageNavigation
+                page={page}
+                setPage={setPage}
+                totalPages={totalPages}
+              />
+            </ul>
+            <ul style={{ float: "right", marginTop: "12px" }} >
+              <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -36,7 +36,7 @@ export default function CreateModal(pros) {
                 const data = responseJson.data.data;
                 setListUser(data);
             } else {
-                toast.error("Error getting user")
+                toast.error("Lỗi sever")
             }
         }
         getAllUser();
@@ -63,14 +63,14 @@ export default function CreateModal(pros) {
                 if (response.ok) {
                     const responseJson = await response.json();
                     if (responseJson.statusCode == 200) {
-                        toast.success("Created notification successfully")
+                        toast.success("Tạo thông báo thành công")
                         setIsCreated(!isCreated)
                         setCentredModal(false)
                     } else {
                         toast.error(responseJson.message)
                     }
                 } else {
-                    toast.success("Fail to create notification")
+                    toast.success("Lỗi sever")
                 }
             }
         }

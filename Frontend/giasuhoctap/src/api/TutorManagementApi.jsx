@@ -3,7 +3,7 @@ const baseUrl = import.meta.env.VITE_API_HOST;
 
 export const GetAllTutor = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/User?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/User/get-all-tutors?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -247,6 +247,24 @@ export const GetFeedbackTutor = async (email) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const UpdateNewTimeTable = async (value) => {
+    try {
+        const url = `${baseUrl}/api/TimeTable/add-new-timetable`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify(value)
         };
         const response = await fetch(url, request);
         return response;

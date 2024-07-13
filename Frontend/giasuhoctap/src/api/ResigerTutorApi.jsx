@@ -1,6 +1,8 @@
+const baseUrl = import.meta.env.VITE_API_HOST;
+
 export const GetAllClass = async () => {
     try {
-        const url = 'https://localhost:7019/api/Class/get-all-classes';
+        const url = `${baseUrl}/api/Class/get-all-classes`;
         const response = await fetch(url, {
             method: "GET",
             headers: {
@@ -28,7 +30,7 @@ export const GetAllClass = async () => {
 
 export const GetAllCourse = async () => {
     try {
-        const url = 'https://localhost:7019/api/Course/get-all-courses';
+        const url = `${baseUrl}/api/Course/get-all-courses`;
         const response = await fetch(url, {
             method: "GET",
             headers: {

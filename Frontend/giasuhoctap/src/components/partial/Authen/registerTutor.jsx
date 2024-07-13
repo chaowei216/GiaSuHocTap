@@ -96,13 +96,13 @@ export default function RegisterTutor() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
+                  sx={{ width: "85%" }}
                   name="firstName"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
                     formik.handleBlur(e);
                   }}
                   required
-                  fullWidth
                   id="firstName"
                   label="Tên"
                   onblur={formik.handleBlur}
@@ -110,10 +110,10 @@ export default function RegisterTutor() {
                   helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "85%" }}
                   id="lastName"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
@@ -176,33 +176,20 @@ export default function RegisterTutor() {
                 />
               </Grid>
               <Grid item xs={12} sm={4} mt={1}>
-                <FormControl style={{ width: "100%" }}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Hiện là
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="job"
-                    name="job"
-                    value={formik.values.job}
-                    onBlur={(e) => {
-                      formik.handleBlur(e);
-                    }}
-                    label="Hiện là"
-                    // error={(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender}
-                    onChange={formik.handleChange}
-                  >
-                    <MenuItem value="Giáo viên">Giáo viên</MenuItem>
-                    <MenuItem value="Sinh viên">Sinh viên</MenuItem>
-                    <MenuItem value="Sinh viên sư phạm">Sinh viên sư phạm</MenuItem>
-                    <MenuItem value="Cử nhân">Cử nhân</MenuItem>
-                    <MenuItem value="Kỹ sư">Kỹ sư</MenuItem>
-                    <MenuItem value="Thạc sỹ">Thạc sỹ</MenuItem>
-                    <MenuItem value="Tiến sỹ">Tiến sỹ</MenuItem>
-                    <MenuItem value="Giảng viên">Giảng viên</MenuItem>
-                    <MenuItem value="Bằng cấp khác">Bằng cấp khác</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  required
+                  fullWidth
+                  id="idCart"
+                  onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Chứng minh nhân dân"
+                  name="idCart"
+                  autoComplete="idCart"
+                  error={formik.touched.idCart && !!formik.errors.idCart}
+                  helperText={formik.touched.idCart && formik.errors.idCart}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <DatePickerValue setFieldValue={formik.setFieldValue} formik={formik} />
@@ -293,25 +280,39 @@ export default function RegisterTutor() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="idCart"
-                  onChange={formik.handleChange}
-                  onBlur={(e) => {
-                    formik.handleBlur(e);
-                  }}
-                  label="Chứng minh nhân dân"
-                  name="idCart"
-                  autoComplete="idCart"
-                  error={formik.touched.idCart && !!formik.errors.idCart}
-                  helperText={formik.touched.idCart && formik.errors.idCart}
-                />
+                <FormControl style={{ width: "85%" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Hiện là
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="job"
+                    name="job"
+                    value={formik.values.job}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                    }}
+                    label="Hiện là"
+                    error={(formik.touched.job !== undefined && formik.touched.job == true) && !!formik.errors.job}
+                    onChange={formik.handleChange}
+                  >
+                    <MenuItem value="Giáo viên">Giáo viên</MenuItem>
+                    <MenuItem value="Sinh viên">Sinh viên</MenuItem>
+                    <MenuItem value="Sinh viên sư phạm">Sinh viên sư phạm</MenuItem>
+                    <MenuItem value="Cử nhân">Cử nhân</MenuItem>
+                    <MenuItem value="Kỹ sư">Kỹ sư</MenuItem>
+                    <MenuItem value="Thạc sỹ">Thạc sỹ</MenuItem>
+                    <MenuItem value="Tiến sỹ">Tiến sỹ</MenuItem>
+                    <MenuItem value="Giảng viên">Giảng viên</MenuItem>
+                    <MenuItem value="Bằng cấp khác">Bằng cấp khác</MenuItem>
+                  </Select>
+                </FormControl>
+                {(formik.touched.job !== undefined && formik.touched.job == true) && !!formik.errors.job && <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.job}</FormHelperText>}
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "85%" }}
                   id="major"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
@@ -320,8 +321,8 @@ export default function RegisterTutor() {
                   label="Ngành học"
                   name="major"
                   autoComplete="major"
-                // error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
-                // helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                  error={formik.touched.major && !!formik.errors.major}
+                  helperText={formik.touched.major && formik.errors.major}
                 />
               </Grid>
               <Grid item xs={12} className="flex">
