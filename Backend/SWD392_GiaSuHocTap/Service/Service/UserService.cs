@@ -1044,6 +1044,21 @@ namespace Service.Service
 
                 if (userMap != null)
                 {
+                    // add notification
+                    var userNotification = await _notificationService.AddNewNotification(new Notification()
+                    {
+                        NotificationType = NotificationType.Infomation,
+                        Description = Description.CreateModeratorSuccess,
+                        CreatedTime = DateTime.Now,
+                        Status = false,
+                    });
+
+                    // add user notification
+                    await _notificationService.AddNewUserNotification(new UserNotification
+                    {
+                        UserId = userMap.UserId,
+                        NotificationId = userNotification.NotificationId
+                    });
                     return _mapper.Map<ModeratorDTO>(userMap);
                 }
                 else
@@ -1051,6 +1066,35 @@ namespace Service.Service
                     return null;
                 }
             }
+        }
+
+        public async Task<bool> UnBlockAccount(User user)
+        {
+            user.Status = UserStatusEnum.Active;
+            var updatedUser = await _userRepository.UpdateUser(user);
+
+            if (updatedUser != null)
+            {
+                // add notification
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UnBlockAccount,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = user.UserId,
+                    NotificationId = tutorNotification.NotificationId
+                });
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

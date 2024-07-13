@@ -186,5 +186,12 @@ namespace Service.IService
         /// <param name="request"></param>
         /// <returns></returns>
         Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request);
+
+        /// <summary>
+        /// UnBlock account of tutor
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UnBlockAccount(User user);
     }
 }

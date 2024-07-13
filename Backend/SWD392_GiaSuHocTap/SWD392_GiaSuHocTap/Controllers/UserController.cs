@@ -6,6 +6,7 @@ using Common.DTO.User;
 using Common.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -361,6 +362,49 @@ namespace SWD392_GiaSuHocTap.Controllers
                     Data = null
                 });
             }
+        }
+
+        [HttpPut("unblock-account/{id}")]
+        public async Task<IActionResult> UnBlockAccount(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            } else if (user.RoleId != (int)RoleEnum.Tutor && user.Status != UserStatusEnum.InActive)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = GeneralMessage.Fail,
+                    Data = null
+                });
+            }
+
+            var resposne = await _userService.UnBlockAccount(user);
+
+            if (resposne)
+            {
+                return NoContent();
+            }
+
+            return StatusCode(500, new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
         }
     }
 }
