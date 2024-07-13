@@ -62,7 +62,7 @@ export default function PersonalProfile() {
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
                                             <MDBCardText>CCCD: {user?.identityNumber}</MDBCardText>
-                                            <FingerprintIcon/>
+                                            <FingerprintIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
                                             <MDBCardText>Số của report: {user?.numberOfReport}</MDBCardText>
@@ -77,7 +77,7 @@ export default function PersonalProfile() {
                                 <MDBCardBody>
                                     <MDBRow className={styles.profile_container}>
                                         <MDBCol sm="3" className={styles.profile}>
-                                            <MDBCardText>Full Name</MDBCardText>
+                                            <MDBCardText>Họ và tên</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
                                             <MDBCardText className="text-muted">{user?.fullname}</MDBCardText>
@@ -95,7 +95,7 @@ export default function PersonalProfile() {
                                     <hr />
                                     <MDBRow className={styles.profile_container}>
                                         <MDBCol sm="3" className={styles.profile}>
-                                            <MDBCardText>Phone</MDBCardText>
+                                            <MDBCardText>Số điện thoại</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
                                             <MDBCardText className="text-muted">{user?.phonenumber}</MDBCardText>
@@ -104,7 +104,7 @@ export default function PersonalProfile() {
                                     <hr />
                                     <MDBRow className={styles.profile_container}>
                                         <MDBCol sm="3" className={styles.profile}>
-                                            <MDBCardText>Gender</MDBCardText>
+                                            <MDBCardText>Giới tính</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
                                             <MDBCardText className="text-muted">{user?.gender}</MDBCardText>
@@ -113,7 +113,7 @@ export default function PersonalProfile() {
                                     <hr />
                                     <MDBRow className={styles.profile_container}>
                                         <MDBCol sm="3" className={styles.profile}>
-                                            <MDBCardText>Address</MDBCardText>
+                                            <MDBCardText>Địa chỉ</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
                                             <MDBCardText className="text-muted">{user?.address}</MDBCardText>
@@ -121,35 +121,24 @@ export default function PersonalProfile() {
                                     </MDBRow>
                                 </MDBCardBody>
                             </MDBCard>
-
                             <MDBRow>
                                 <MDBCol>
                                     <MDBCard className="mb-4 mb-md-0">
                                         <MDBCardBody>
-                                            <MDBCardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</MDBCardText>
-                                            <MDBCardText className="mb-1" style={{ fontSize: '.77rem' }}>Web Design</MDBCardText>
+                                            <MDBCardText className="mb-4"><span className="text-primary font-italic me-1">Tiến trình</span></MDBCardText>
+                                            <MDBCardText className="mb-1" style={{ fontSize: '.77rem' }}>Xuyên suốt</MDBCardText>
                                             <MDBProgress className="rounded">
                                                 <MDBProgressBar width={80} valuemin={0} valuemax={100} />
                                             </MDBProgress>
 
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Website Markup</MDBCardText>
+                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Khả năng</MDBCardText>
                                             <MDBProgress className="rounded">
                                                 <MDBProgressBar width={72} valuemin={0} valuemax={100} />
                                             </MDBProgress>
 
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>One Page</MDBCardText>
+                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Ổn định</MDBCardText>
                                             <MDBProgress className="rounded">
-                                                <MDBProgressBar width={89} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Mobile Template</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={55} valuemin={0} valuemax={100} />
-                                            </MDBProgress>
-
-                                            <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Backend API</MDBCardText>
-                                            <MDBProgress className="rounded">
-                                                <MDBProgressBar width={66} valuemin={0} valuemax={100} />
+                                                <MDBProgressBar width={69} valuemin={0} valuemax={100} />
                                             </MDBProgress>
                                         </MDBCardBody>
                                     </MDBCard>

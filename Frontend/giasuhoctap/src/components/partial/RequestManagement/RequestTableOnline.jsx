@@ -57,11 +57,6 @@ export default function RequestTableOnline({
     ];
     const StatusType = ["Chờ xác nhận", "Đang tiến hành", "Hoàn thành", "Từ chối", "Đã chấp nhận"];
 
-    const handleClickOpenDetail = (data) => {
-        setDataDetail(data)
-        setOpenDetail(true);
-    };
-
     const handleComplete = async (row) => {
         if (row) {
             const dataUpdate = {
@@ -80,7 +75,6 @@ export default function RequestTableOnline({
             }
         }
     }
-    console.log(type);
     return (
         <div>
             <TableContainer component={Paper}>

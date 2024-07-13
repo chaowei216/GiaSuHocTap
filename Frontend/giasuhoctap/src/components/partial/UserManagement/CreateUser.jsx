@@ -85,7 +85,6 @@ export default function CreateUser(pros) {
             [name]: value
         });
     };
-    console.log(inputData);
     return (
         <>
             <MDBModal tabIndex='-1' open={centredModal} onClose={() => setCentredModal(false)}>

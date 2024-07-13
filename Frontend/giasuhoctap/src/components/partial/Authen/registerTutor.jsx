@@ -1,8 +1,6 @@
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -86,7 +84,7 @@ export default function RegisterTutor() {
           }}
         >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
-            Gia sư đăng ký
+            Đăng ký làm gia sư
           </Typography>
           <Box
             component="form"
@@ -128,7 +126,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -144,7 +142,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -161,7 +159,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -177,7 +175,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4} mt={1}>
                 <FormControl style={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Hiện là
@@ -206,10 +204,10 @@ export default function RegisterTutor() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <DatePickerValue setFieldValue={formik.setFieldValue} formik={formik} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Giới tính
@@ -232,8 +230,8 @@ export default function RegisterTutor() {
                   {(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender && <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.gender}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "8px" }}>
+              <Grid item xs={12} sm={4}>
+                <FormControl style={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Thành phố
                   </InputLabel>
@@ -262,7 +260,7 @@ export default function RegisterTutor() {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} mt={1}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   requiredc
                   fullWidth
@@ -278,7 +276,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.district && formik.errors.district}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={4}>
                 <TextField
                   required
                   fullWidth
@@ -380,9 +378,9 @@ export default function RegisterTutor() {
             </Grid>
             <Button
               type="submit"
-              fullWidth
+              style={{ width: "30rem", position: "relative", left: "30%", backgroundColor: "#a83a3b", height: "40px" }}
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 2 }}
             >
               Đăng ký
             </Button>

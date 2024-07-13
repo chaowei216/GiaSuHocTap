@@ -47,6 +47,13 @@ export default function ProfileMenu() {
             navigate('/')
         }
     }
+    const handleMove = () => {
+        if (user?.roleName == "Parents") {
+            navigate('/ParentHistory')
+        } else {
+            setAnchorEl(null);
+        }
+    };
     return (
         <div>
             <Tooltip title="Account settings">
@@ -103,7 +110,7 @@ export default function ProfileMenu() {
                         <div style={{ marginBottom: "5px" }}>
                             <h4>{user.fullname}</h4>
                             <p>ID: {user.email}</p>
-                            <p>Xem trang cá nhân của bạn</p>
+                            <p>Vai trò: {user.roleName}</p>
                         </div>
                     </a>
                 </MenuItem>
@@ -111,17 +118,19 @@ export default function ProfileMenu() {
                     <Avatar sx={{ bgcolor: green[500] }} style={{ marginLeft: "12px" }}><AssignmentIcon /></Avatar> Trang quản lý của tôi
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
+                {user?.roleName == "Parents" && (
+                    <MenuItem onClick={handleMove}>
+                        <ListItemIcon>
+                            <SettingsIcon fontSize="small" />
+                        </ListItemIcon>
+                        Lịch sử giao dịch
+                    </MenuItem>
+                )}
                 <MenuItem onClick={handleClickLogout}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    Đăng xuất
                 </MenuItem>
             </Menu>
         </div>

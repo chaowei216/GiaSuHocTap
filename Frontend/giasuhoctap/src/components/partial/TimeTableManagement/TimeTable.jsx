@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -8,13 +9,24 @@ import {
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
+import { useState } from "react";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
 import GlobalLoading from "../../global/GlobalLoading";
-export default function TransactionTable({
-  data,
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
+import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import BlockIcon from '@mui/icons-material/Block';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+
+export default function TimeTable({
+  data, handleClickUpdate, handleClickDelete, handleActive
 }) {
+  const [showModalDelete, setShowmodalDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState({});
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -35,15 +47,16 @@ export default function TransactionTable({
     },
   }));
   const TableHeader = [
-    "ID",
-    "Số",
-    "Thông tin",
-    "Ngày",
-    "Số lượng",
+    "Ngày trong tuần",
+    "Từ",
+    "Đến",
+    "Buổi",
+    "Kiểu",
     "Trạng thái",
-    "Email User",
+    "Hành động",
   ];
-  const StatusType = ["Paid", "Cancel", "Pending"];
+  const StatusType = ["Đã hủy", "Rảnh", "Bận"];
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -86,31 +99,31 @@ export default function TransactionTable({
                       component="th"
                       scope="row"
                     >
-                      {row.transactionId}
+                      {row.dayOfWeek}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.transactionNumber}
-                    </StyledTableCell>
-                    <StyledTableCell
-                      style={{ fontWeight: "600" }}
-                      align="middle"
-                    >
-                      {row.transactionInfo}
+                      {row.startTime}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.transactionDate?.split("T")[0]}
+                      {row.endTime}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.amount}
+                      {row.period}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ fontWeight: "600" }}
+                      align="left"
+                    >
+                      {row.learningType}
                     </StyledTableCell>
                     <StyledTableCell
                       sx={{
@@ -126,14 +139,14 @@ export default function TransactionTable({
                           if (row.status == type) {
                             let styleName;
                             switch (type) {
-                              case "Paid":
+                              case "Rảnh":
                                 styleName = styles.completed;
                                 break;
-                              case "Cancel":
+                              case "Đã hủy":
                                 styleName = styles.rejected;
                                 break;
-                              case "Pending":
-                                styleName = styles.pendingConfirmation;
+                              case "Bận":
+                                styleName = styles.inProgress;
                                 break;
                               default:
                                 styleName = "";
@@ -150,7 +163,20 @@ export default function TransactionTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.email}
+                      <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickUpdate(row)}>
+                        <EditIcon />
+                      </Button>
+                      {console.log(row.status == "Rảnh")}
+                      {row.status == "Rảnh" && (
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row.timeTableId)}>
+                          <BlockIcon />
+                        </Button>
+                      )}
+                      {row.status == "Đã hủy" && (
+                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleActive(row.timeTableId)}>
+                          <LockOpenIcon />
+                        </Button>
+                      )}
                     </StyledTableCell>
                   </StyledTableRow>
                 );
