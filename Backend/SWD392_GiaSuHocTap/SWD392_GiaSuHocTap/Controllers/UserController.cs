@@ -328,5 +328,39 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = null
             });
         }
+
+        [HttpPost("add-new-moderator")]
+        public async Task<IActionResult> AddNewModerator([FromBody] ModeratorCreateRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _userService.AddNewModerator(request);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO
+                {
+                    StatusCode = (int)StatusCodeEnum.Created,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            } else
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+        }
     }
 }
