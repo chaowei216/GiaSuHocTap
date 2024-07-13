@@ -65,14 +65,6 @@ namespace Service.IService
         Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime);
 
         /// <summary>
-        /// Update timetable
-        /// </summary>
-        /// <param name="timetableId"></param>
-        /// <param name="timetableInfo"></param>
-        /// <returns></returns>
-        Task<TimetableDTO?> UpdateTimeTable(int timetableId, UpdateTimeTableDTO timetableInfo);
-
-        /// <summary>
         /// delete timetable
         /// </summary>
         /// <param name="timetableId"></param>
@@ -92,5 +84,23 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         PaginationResponseDTO<TimetableDTO> GetTimeTableByUserId(int userId, TimeTableParameters parameters);
+
+        /// <summary>
+        /// Get all time of user by day and start time, end time online
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="day"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOnline(int userId, string day, string start, string end);
+
+        /// <summary>
+        /// Get all time of user by day and start time, endtime offline
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="day"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOffline(int userId, string day, string period);
     }
 }

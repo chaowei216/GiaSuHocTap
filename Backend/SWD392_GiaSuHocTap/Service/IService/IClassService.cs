@@ -45,5 +45,13 @@ namespace Service.IService
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<UserClass> AddNewUserClass(UserClass entity);
+
+        /// <summary>
+        /// Get user classes by user Id and classId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        Task<UserClass?> GetUserClassByUserIdAndClassId(int userId, int classId);
     }
 }

@@ -193,5 +193,12 @@ namespace Service.IService
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> UnBlockAccount(User user);
+
+        /// <summary>
+        /// Update timetable
+        /// </summary>
+        /// <param name="tutorInfo"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo);
     }
 }

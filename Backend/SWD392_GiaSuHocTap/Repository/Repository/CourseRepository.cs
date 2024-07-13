@@ -3,6 +3,7 @@ using Common.DTO.Query;
 using Common.DTO.User;
 using DAO.DAO;
 using DAO.Model;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -50,6 +51,11 @@ namespace Repository.Repository
         public PagedList<Course> GetPagedCourseList(CourseParameters parameters)
         {
             return PagedList<Course>.ToPagedList(_courseDAO.GetAll(), parameters.PageNumber, parameters.PageSize);
+        }
+
+        public async Task<UserCourse?> GetUserClassByUserIdAndCourseId(int userId, int courseId)
+        {
+            return await _userCourseDAO.GetAll().Where(d => d.UserId == userId && d.CourseId == courseId).FirstOrDefaultAsync();
         }
     }
 }
