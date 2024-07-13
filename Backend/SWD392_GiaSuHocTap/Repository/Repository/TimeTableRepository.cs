@@ -78,5 +78,15 @@ namespace Repository.Repository
         {
             return PagedList<TimeTable>.ToPagedList(_timeTableDAO.GetAll().Where(t => t.UserId == userId), parameters.PageNumber, parameters.PageSize);
         }
+
+        public IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOnline(int userId, string day, string start, string end)
+        {
+            return _timeTableDAO.GetAll().Where(t => t.UserId == userId && t.DayOfWeek == day && t.StartTime == start && t.EndTime == end && t.LearningType == TimeTableConst.Online).AsEnumerable();
+        }
+
+        public IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOffline(int userId, string day, string period)
+        {
+            return _timeTableDAO.GetAll().Where(t => t.UserId == userId && t.DayOfWeek == day && t.Period == period && t.LearningType == TimeTableConst.Offline).AsEnumerable();
+        }
     }
 }

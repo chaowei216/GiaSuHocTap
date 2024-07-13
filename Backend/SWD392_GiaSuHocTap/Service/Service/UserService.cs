@@ -1098,3 +1098,134 @@ namespace Service.Service
         }
     }
 }
+            return null;
+        }
+
+        public async Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo)
+        {
+            var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+            var tutorDetail = await _userRepository.GetTutorDetailByTutorId(tutorInfo.TutorId);
+
+            if (user != null && tutorDetail != null &&
+                tutorInfo.Subjects.Any() &&
+                tutorInfo.Classes.Any() &&
+                tutorInfo.DayOfWeekOnline.Any())
+            {
+
+                // add user class
+                foreach (var c in tutorInfo.Classes)
+                {
+                    var userclass = await _classService.GetUserClassByUserIdAndClassId(user.UserId, c);
+                    if (userclass == null)
+                    {
+                        await _classService.AddNewUserClass(new UserClass()
+                        {
+                            ClassId = c,
+                            UserId = user.UserId
+                        });
+                    }
+                }
+
+                // add user course
+                foreach (var c in tutorInfo.Subjects)
+                {
+                    var usercourse = await _courseService.GetUserClassByUserIdAndCourseId(user.UserId, c);
+                    if (usercourse == null)
+                    {
+                        await _courseService.AddNewUserCourse(new UserCourse()
+                        {
+                            CourseId = c,
+                            UserId = user.UserId
+                        });
+                    }
+                }
+
+                // add time table
+                // online
+                foreach (var time in tutorInfo.DayOfWeekOnline)
+                {
+                    var splitTime = time.Last().Split('-');
+                    int startTime = int.Parse(splitTime[0].ToString());
+                    int endTime = int.Parse(splitTime[1].ToString());
+
+                    if (startTime > endTime)
+                    {
+                        int temp = startTime;
+                        startTime = endTime;
+                        endTime = temp;
+                    }
+
+                    for (int i = startTime; i < endTime; i++)
+                    {
+                        var timetable = _timeTableService.GetTimetableByDayAndPeriodAndUserIdOnline(user.UserId, time.First(), i.ToString() + ":00", (i + 1).ToString() + ":00").FirstOrDefault();
+                        if (timetable == null)
+                        {
+                            await _timeTableService.AddTimeTable(new TimeTable()
+                            {
+                                UserId = user.UserId,
+                                DayOfWeek = time.First(),
+                                StartTime = i.ToString() + ":00",
+                                EndTime = (i + 1).ToString() + ":00",
+                                LearningType = LearningType.Online,
+                                Period = time[1],
+                                Status = TimeTableConst.FreeStatus
+                            });
+                        }
+                    }
+                }
+
+                // check if tutor choose offline teaching 
+                if (tutorInfo.IsOfflineTeaching)
+                {
+                    foreach (var time in tutorInfo.DayOfWeekOffline!)
+                    {
+                        var splitTime = time.Last().Split('-');
+                        string startTime = splitTime[0] + ":00";
+                        string endTime = splitTime[1] + ":00";
+
+                        var timetableOff = _timeTableService.GetTimetableByDayAndPeriodAndUserIdOffline(user.UserId, time.First(), time[1]).FirstOrDefault();
+                        if (timetableOff == null)
+                        {
+                            await _timeTableService.AddTimeTable(new TimeTable()
+                            {
+                                UserId = user.UserId,
+                                DayOfWeek = time.First(),
+                                StartTime = startTime,
+                                EndTime = endTime,
+                                LearningType = LearningType.Offline,
+                                Period = time[1],
+                                Status = TimeTableConst.FreeStatus,
+                            });
+                        }
+                    }
+
+                    tutorDetail.TeachingOffline = true;
+                }
+
+                user.Status = UserStatusEnum.Checking;
+                await _userRepository.UpdateUser(user);
+                await _userRepository.UpdateTutorDetail(tutorDetail);
+
+                // add notification
+                var notification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UpdateTutorDetailSuccess,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = user.UserId,
+                    NotificationId = notification.NotificationId
+                });
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+}

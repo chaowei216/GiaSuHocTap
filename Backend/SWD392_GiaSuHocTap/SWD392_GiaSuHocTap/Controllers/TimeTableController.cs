@@ -23,8 +23,8 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
-        [HttpPut("update-timetable/{timetableId}")]
-        public async Task<IActionResult> UpdateTimeTable(int timetableId, [FromBody] UpdateTimeTableDTO timetableInfo)
+        [HttpPost("add-new-timetable")]
+        public async Task<IActionResult> AddTimeTable([FromBody] UpdateTimeTableDTO timetableInfo)
         {
             if (!ModelState.IsValid)
             {
@@ -36,33 +36,21 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
 
-            var timetable = await _timetableService.GetTimeTableById(timetableId);
+            var response = await _userService.UpdateTimetable(timetableInfo);
 
-            if (timetable == null)
+            if (response)
             {
-                return StatusCode(404, new ResponseDTO()
+                return Ok(new ResponseDTO()
                 {
-                    StatusCode = (int)StatusCodeEnum.NotFound,
-                    Message = GeneralMessage.NotFound,
+                    StatusCode = (int)StatusCodeEnum.OK,
+                    Message = GeneralMessage.Success,
                     Data = null
                 });
             }
 
-            var response = await _timetableService.UpdateTimeTable(timetableId, timetableInfo);
-
-            if (response != null)
+            return BadRequest(new ResponseDTO()
             {
-                return Ok(new ResponseDTO
-                {
-                    StatusCode = (int)StatusCodeEnum.OK,
-                    Message = GeneralMessage.Success,
-                    Data = response
-                });
-            }
-
-            return StatusCode(500, new ResponseDTO
-            {
-                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                StatusCode = (int)StatusCodeEnum.BadRequest,
                 Message = GeneralMessage.Fail,
                 Data = null
             });

@@ -71,27 +71,6 @@ namespace Service.Service
             return await _timeTableRepository.UpdateTimeTable(timeTable);
         }
 
-        public async Task<TimetableDTO?> UpdateTimeTable(int timetableId, UpdateTimeTableDTO timetableInfo)
-        {
-            var timetable = await _timeTableRepository.GetTimeTableById(timetableId);
-
-            if(timetable != null)
-            {
-                timetable.StartTime = timetableInfo.StartTime ;
-                timetable.EndTime = timetableInfo.EndTime ;
-                timetable.DayOfWeek = timetableInfo.DayOfWeek;
-                timetable.Period = timetableInfo.Period;
-                timetable.Status = TimeTableConst.FreeStatus;
-                timetable.LearningType = timetable.LearningType;
-                timetable.UserId = timetable.UserId;
-
-                var response = await _timeTableRepository.UpdateTimeTable(timetable);
-                var responseMapper = _mapper.Map<TimetableDTO>(response);
-                return responseMapper;
-            }
-            return null;
-        }
-
         public async Task<TimetableDTO> DeleteTimetable(int timetableId)
         {
             var timetable = await _timeTableRepository.GetTimeTableById(timetableId);
@@ -129,6 +108,16 @@ namespace Service.Service
             var respone = _mapper.Map<PaginationResponseDTO<TimetableDTO>>(timetable);
             respone.Data = _mapper.Map<List<TimetableDTO>>(timetable);
             return respone;
+        }
+
+        public IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOnline(int userId, string day, string start, string end)
+        {
+            return _timeTableRepository.GetTimetableByDayAndPeriodAndUserIdOnline(userId, day, start, end);
+        }
+
+        public IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOffline(int userId, string day, string period)
+        {
+            return _timeTableRepository.GetTimetableByDayAndPeriodAndUserIdOffline(userId, day, period);
         }
     }
 }

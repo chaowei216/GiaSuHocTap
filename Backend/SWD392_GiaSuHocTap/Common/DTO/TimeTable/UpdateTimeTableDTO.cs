@@ -9,12 +9,11 @@ namespace Common.DTO.TimeTable
 {
     public class UpdateTimeTableDTO
     {
-        public string DayOfWeek { get; set; } = null!;
-        [AllowNull]
-        public string? StartTime { get; set; }
-        [AllowNull]
-        public string? EndTime { get; set; }
-        [AllowNull]
-        public string? Period { get; set; } = null!;
+        public int TutorId { get; set; }
+        public List<int> Subjects { get; set; } = null!;
+        public List<int> Classes { get; set; } = null!;
+        public bool IsOfflineTeaching { get; set; } = false;
+        public List<List<string>> DayOfWeekOnline { get; set; } = null!;
+        public List<List<string>>? DayOfWeekOffline { get; set; }
     }
 }
