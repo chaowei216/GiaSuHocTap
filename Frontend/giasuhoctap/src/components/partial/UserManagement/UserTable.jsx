@@ -142,7 +142,7 @@ export default function UserTable({
                         style={{ fontWeight: "600" }}
                         align="middle"
                       >
-                        {row.identityNumber}
+                        {row.identityNumber || "Không có"}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ fontWeight: "600" }}

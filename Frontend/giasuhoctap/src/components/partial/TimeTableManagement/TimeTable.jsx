@@ -166,7 +166,6 @@ export default function TimeTable({
                       <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickUpdate(row)}>
                         <EditIcon />
                       </Button>
-                      {console.log(row.status == "Rảnh")}
                       {row.status == "Rảnh" && (
                         <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickDelete(row.timeTableId)}>
                           <BlockIcon />

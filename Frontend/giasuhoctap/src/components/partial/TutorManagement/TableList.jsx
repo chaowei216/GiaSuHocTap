@@ -64,7 +64,7 @@ export default function TableList({
     "Trạng thái",
     "Hành động"
   ];
-  const StatusType = ["Active", "Pending"];
+  const StatusType = ["Active", "Pending", "Checking"];
 
   const handleClickOpenDetail = (data) => {
     setDataDetail(data)
@@ -157,10 +157,13 @@ export default function TableList({
                             let styleName;
                             switch (type) {
                               case "Active":
-                                styleName = styles.active;
+                                styleName = styles.completed;
                                 break;
                               case "Pending":
-                                styleName = styles.pending;
+                                styleName = styles.pendingConfirmation;
+                                break;
+                              case "Checking":
+                                styleName = styles.pendingConfirmation;
                                 break;
                               default:
                                 styleName = "";
@@ -203,7 +206,7 @@ export default function TableList({
                             fontSize: "12px"
                           }}
                         >
-                          <DoneOutlineIcon /> Accept
+                          <DoneOutlineIcon /> Đồng ý
                         </Button>
                         <Button
                           variant="contained"
@@ -212,7 +215,7 @@ export default function TableList({
                           sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
                         >
                           <div>
-                            <ClearIcon /> Deny
+                            <ClearIcon /> Từ chối
                           </div>
                         </Button>
                         <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>

@@ -1,4 +1,3 @@
-import React from "react";
 function Error() {
   return (
     <div className="w-full h-screen grid grid-cols-12 lg:flex-row items-center justify-center space-y-16 lg:space-y-0 space-x-8 2xl:space-x-0 bg-slate-100">
@@ -30,13 +29,13 @@ function Error() {
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span>Return Home</span>
+            <span>Quay về trang chủ</span>
           </a>
         </div>
       </div>
       <div className="col-span-5">
         <div className="w-full lg:h-full flex lg:items-center justify-start">
-          <img />
+          <img src="/img/hinhRobo.png" />
         </div>
       </div>
     </div>

@@ -31,6 +31,7 @@ export default function TutorDetail({
   const handleClose = () => {
     setOpenDetail(false);
   };
+  console.log(dataDetail);
   return (
     <React.Fragment>
       <BootstrapDialog
@@ -156,7 +157,7 @@ export default function TutorDetail({
                 />
               </div>
             ))}
-            {(dataDetail == undefined || dataDetail?.tutorDetail?.certificateImage.length == 0) && (
+            {(dataDetail?.tutorDetail == undefined || dataDetail?.tutorDetail?.certificateImage.length == 0) && (
               <div className="col-md-7" style={{ width: "40%" }}>
                 <img
                   style={{ width: "90%", height: "200px" }}

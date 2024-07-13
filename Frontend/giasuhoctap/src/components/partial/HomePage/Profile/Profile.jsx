@@ -7,6 +7,8 @@ import useAuth from '../../../../hooks/useAuth'
 import { UpdateTutor } from '../../../../api/UpdateTutorApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { Button } from '@mui/material';
+import { Logout } from '../../../../api/AuthenApi';
 
 
 const Profile = () => {
@@ -18,7 +20,7 @@ const Profile = () => {
     const [selectedDayOfWeekOffline, setSelectedDayOfWeekOffline] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedClasses, setSelectedClasses] = useState([]);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
         const fetchClasses = async () => {
@@ -150,12 +152,26 @@ const Profile = () => {
                 toast.error(responseJson.message);
             } else {
                 toast.success('Cập nhật thành công');
-                navigate("/")
+                navigate("/checking-page")
             }
         } else {
             toast.error('Lỗi sever');
         }
     };
+
+    const handleClickLogout = async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (refreshToken == null || refreshToken == undefined) {
+            await logout();
+            navigate("/login")
+            return;
+        }
+        const response = await Logout(refreshToken)
+        if (response.ok) {
+            await logout();
+            navigate("/login")
+        }
+    }
 
     return (
         <div className={`profileBox ${styles.profileBox}`} style={{ width: '100%', height: '100%', backgroundColor: '#F0F9FC' }}>
@@ -173,9 +189,6 @@ const Profile = () => {
                                 <strong> tránh </strong>
                                 các sự cố phát sinh khi nhận lớp.
                             </p>
-                            <button className={styles.profileButtonRe}>
-                                <a href="">XEM VIDEO HD</a>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -253,7 +266,7 @@ const Profile = () => {
                         <div className={`form-check ${styles.subjectGrid}`}>
                             {courses.map((course, index) => (
                                 <div key={index} className="mb-4">
-                                    <input className="form-check-input" type="checkbox" value={course.courseId}  onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
+                                    <input className="form-check-input" type="checkbox" value={course.courseId} onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)} />
                                     <label className="form-check-label" htmlFor={`course-${index}`}>
                                         {course.courseName}
                                     </label>
@@ -277,6 +290,7 @@ const Profile = () => {
                     </div>
                     <hr style={{ width: '95%', marginLeft: '20px' }} />
                     <button className={styles.buttonProfile} onClick={handleSubmit}>Cập nhật thông tin gia sư</button>
+                    <Button style={{ display: "flex", marginLeft: "10px", fontSize: "15px", marginBottom: "10px" }} onClick={handleClickLogout}>Trở về trang đăng nhập</Button>
                 </div>
             </div>
         </div>

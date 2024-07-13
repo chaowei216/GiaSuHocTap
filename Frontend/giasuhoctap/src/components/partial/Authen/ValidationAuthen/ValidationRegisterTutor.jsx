@@ -58,5 +58,11 @@ export const validationRegisterTutor = yup.object().shape({
     .matches(
       /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.0-9]*$/,
       "Vui lòng nhập số không nhập ký tự"
-    )
+    ),
+  major: yup
+    .string()
+    .required("Vui lòng nhập chuyên ngành"),
+  job: yup
+    .string()
+    .required("Vui lòng chọn nghề nghiệp")
 });
