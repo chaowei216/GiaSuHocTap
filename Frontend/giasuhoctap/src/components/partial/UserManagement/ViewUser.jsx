@@ -41,7 +41,6 @@ export default function ViewUser() {
     };
     fetchAllTutor();
   }, [page, pageSize, isUpdate]);
-  console.log(data);
   return (
     <div
       style={{

@@ -15,7 +15,7 @@ export default function WaitingModal({ open: propOpen, setOpen }) {
             setIsOpen(true);
             const timer = setTimeout(() => {
                 setIsOpen(false);
-            }, 1500); // 3000 milliseconds = 3 seconds
+            }, 1000); // 3000 milliseconds = 3 seconds
 
             // Clear timeout khi component bị unmount
             return () => clearTimeout(timer);
@@ -39,7 +39,7 @@ export default function WaitingModal({ open: propOpen, setOpen }) {
             <DialogTitle id="alert-dialog-title">
                 <span className="flex items-center text-indigo-800">
                     <AutorenewIcon />
-                    <span style={{ marginLeft: "10px" }}>Please wait a moment</span>
+                    <span style={{ marginLeft: "10px" }}>Vui lòng chờ xíu</span>
                 </span>
                 <hr></hr>
             </DialogTitle>

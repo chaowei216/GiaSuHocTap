@@ -9,6 +9,7 @@ import RequestTableOnline from './RequestTableOnline';
 import useAuth from '../../../hooks/useAuth';
 import { GetPendingOnlineApi, GetRequestById, GetRequestOnlineApi } from '../../../api/RequestApi';
 import { toast } from 'react-toastify';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewRequest() {
     const { user } = useAuth()
     const [type, setType] = useState("All");
@@ -19,7 +20,6 @@ export default function ViewRequest() {
     const [parent, setParent] = useState({});
     const [showModalDelete, setShowmodalDelete] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
-    const [totalCount, setTotalCount] = useState("")
     const handleClose = () => {
         setShowmodalDelete(false);
     };
@@ -57,7 +57,6 @@ export default function ViewRequest() {
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages);
-                setTotalCount(responseJson.data.totalCount)
             } else {
                 toast.warning("Lỗi sever");
                 setData(null);
@@ -92,7 +91,7 @@ export default function ViewRequest() {
                     Danh sách học sinh yêu cầu online
                 </div>
             </Header>
-            <MiddleContent totalCount={totalCount} type={type} setType={setType} />
+            <MiddleContent type={type} setType={setType} online={true} isUpdated={isUpdated} />
             <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} />
             {data && data.length > 0 && (
                 <>

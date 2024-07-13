@@ -11,7 +11,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import NotifyBell from '../Notification/Notification';
 
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate()
   const handleClickLogin = () => {
@@ -54,38 +54,39 @@ const Navbar = () => {
       <div className={styles.navRight}>
         <div className={styles.navLinksWrapper}>
           <div className={styles.teal}>
-            <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+            <Link to="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
               TRANG CHỦ
-            </a>
+            </Link>
             <div className={`${styles.dropdown} ${styles.dropdownWrapper}`} style={{ width: "175px" }}>
-              <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+              <a className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
                 PHỤ HUYNH
               </a>
               <div className={styles.dropdownMenu}>
-                <a href="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</a>
-                <a href="/ParentPage" className={styles.dropdownItem}>Cập nhật hồ sơ</a>
-                <a href="/" className={styles.dropdownItem}>Gia sư tiêu biểu</a>
+                <Link to="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</Link>
+                <Link to="/ParentPage" className={styles.dropdownItem}>Cập nhật hồ sơ</Link>
+                <Link to="/" className={styles.dropdownItem}>Gia sư tiêu biểu</Link>
               </div>
             </div>
             <div className={`${styles.dropdown} ${styles.dropdownMenuWrapper}`} style={{ width: "130px" }}>
-              <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+              <a className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
                 GIA SƯ
               </a>
               <div className={styles.dropdownMenu}>
-                <a href="RegisterTutor" className={styles.dropdownItem}>Cập nhật hồ sơ</a>
-                <a href="BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</a>
-                <a href="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</a>
+                <Link to="RegisterTutor" className={styles.dropdownItem}>Cập nhật hồ sơ khi đã đăng ký</Link>
+                <Link to="registerTutors" className={styles.dropdownItem}>Đăng ký làm gia sư</Link>
+                <Link to="BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</Link>
+                <Link to="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</Link>
               </div>
             </div>
             {/* <a href="/" className={`${styles.nav} ${styles.center}`}>
               LỚP MỚI
             </a> */}
-            <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
+            <Link to="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
-            </a>
-            <a href="/NewsPage" className={`${styles.nav} ${styles.center}`}>
+            </Link>
+            <Link to="/NewsPage" className={`${styles.nav} ${styles.center}`}>
               TIN TỨC
-            </a>
+            </Link>
           </div>
         </div>
         {(!isAuthenticated) && (

@@ -4,6 +4,7 @@ using Common.Constant.Message;
 using Common.Constant.Notification;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
+using Common.Constant.User;
 using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
@@ -1012,6 +1013,91 @@ namespace Service.Service
 
                 return timetable;
             }
+            return null;
+        }
+
+        public async Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request)
+        {
+            var userList = _userRepository.GetAllUsers().ToList();
+
+            if (!_validateHandleService.CheckFormatPhoneNumber(request.Phonenumber) ||
+                !_validateHandleService.CheckPhoneNumberAlreadyExists(request.Phonenumber, userList) ||
+                !_validateHandleService.CheckFormatEmail(request.Email) ||
+                !_validateHandleService.CheckEmailAlreadyExists(request.Email, userList)
+                )
+            {
+                return null;
+            }
+            else
+            {
+                var userMap = _mapper.Map<User>(request);
+
+                CreatePasswordHash(UserConst.ModeratorPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                userMap.PasswordHash = passwordHash;
+                userMap.PasswordSalt = passwordSalt;
+                userMap.CoinBalance = 0;
+                userMap.RoleId = (int)RoleEnum.Moderator;
+                userMap.Status = UserStatusEnum.Active;
+                userMap.IsVerified = true;
+
+                userMap = await _userRepository.AddNewModerator(userMap);
+
+                if (userMap != null)
+                {
+                    // add notification
+                    var userNotification = await _notificationService.AddNewNotification(new Notification()
+                    {
+                        NotificationType = NotificationType.Infomation,
+                        Description = Description.CreateModeratorSuccess,
+                        CreatedTime = DateTime.Now,
+                        Status = false,
+                    });
+
+                    // add user notification
+                    await _notificationService.AddNewUserNotification(new UserNotification
+                    {
+                        UserId = userMap.UserId,
+                        NotificationId = userNotification.NotificationId
+                    });
+                    return _mapper.Map<ModeratorDTO>(userMap);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<bool> UnBlockAccount(User user)
+        {
+            user.Status = UserStatusEnum.Active;
+            var updatedUser = await _userRepository.UpdateUser(user);
+
+            if (updatedUser != null)
+            {
+                // add notification
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UnBlockAccount,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = user.UserId,
+                    NotificationId = tutorNotification.NotificationId
+                });
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+}
             return null;
         }
 

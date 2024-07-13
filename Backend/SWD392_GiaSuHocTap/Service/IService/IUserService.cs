@@ -181,6 +181,20 @@ namespace Service.IService
         PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters);
 
         /// <summary>
+        /// Add new moderator
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request);
+
+        /// <summary>
+        /// UnBlock account of tutor
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UnBlockAccount(User user);
+
+        /// <summary>
         /// Update timetable
         /// </summary>
         /// <param name="tutorInfo"></param>

@@ -174,5 +174,10 @@ namespace Repository.Repository
         {
             return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(d => d.RoleId == (int)RoleEnum.Tutor && d.Status == UserStatusEnum.Active), parameters.PageNumber, parameters.PageSize);
         }
+
+        public async Task<User> AddNewModerator(User user)
+        {
+            return await _userDAO.AddAsync(user);
+        }
     }
 }

@@ -49,9 +49,8 @@ export default function BasicMenu({ anchorEl, handleClick, handleClose, children
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={() => handleClickProfile()}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={() => handleClickLogout()}>Logout</MenuItem>
+                <MenuItem onClick={() => handleClickProfile()}>Trang cá nhân</MenuItem>
+                <MenuItem onClick={() => handleClickLogout()}>Đăng xuất</MenuItem>
             </Menu>
         </div>
     );
