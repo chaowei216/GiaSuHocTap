@@ -26,6 +26,8 @@ import UnbanUser from "./UnbanUser";
 export default function UserTable({
   data,
   handleClickOpen,
+  isUpdate,
+  setIsUpdate
 }) {
   const [dataDetail, setDataDetail] = useState();
   const [openDetail, setOpenDetail] = useState(false);
@@ -61,7 +63,7 @@ export default function UserTable({
     "Trạng thái",
     "Hành động"
   ];
-  const StatusType = ["Active", "Pending", "InActive"];
+  const StatusType = ["Active", "Pending", "InActive", "Checking"];
 
   const handleClickOpenDetail = (data) => {
     setDataDetail(data)
@@ -185,6 +187,9 @@ export default function UserTable({
                                 case 'InActive':
                                   styleName = styles.rejected;
                                   break;
+                                case 'Checking':
+                                  styleName = styles.inProgress;
+                                  break;
                                 default:
                                   styleName = "";
                               }
@@ -206,9 +211,6 @@ export default function UserTable({
                         <Button variant="text" sx={{ color: "black" }} onClick={() => handleClickOpenDetail(row)}>
                           <VisibilityIcon />
                         </Button>
-                        <Button variant="text" sx={{ color: "black" }} onClick={() => handleDeleteNews(row)}>
-                          <DeleteIcon />
-                        </Button>
                         {row.status == "InActive" && (
                           <Button variant="text" sx={{ color: "black" }} onClick={() => handleUnban(row)}>
                             <LockOpenIcon />
@@ -228,15 +230,17 @@ export default function UserTable({
           dataDetail={dataDetail}
         />
       </div>
-      <DeleteUser
+      {/* <DeleteUser
         show={showModalDelete}
         handleClose={handleClose}
         dataDelete={dataDelete}
-      />
+      /> */}
       <UnbanUser
         show={showModalUnban}
         handleClose={handleClose}
         dataDelete={dataDelete}
+        isUpdate={isUpdate}
+        setIsUpdate={setIsUpdate}
       />
     </>
   );

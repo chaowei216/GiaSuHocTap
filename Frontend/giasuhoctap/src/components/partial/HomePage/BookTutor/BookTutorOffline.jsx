@@ -131,7 +131,6 @@ const BookTutorOffline = () => {
             Friday: 'Thứ 6',
             Saturday: 'Thứ 7, ',
         };
-        console.log([dayOfWeek]);
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
     const getUniqueDays = (timeTables) => {

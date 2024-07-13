@@ -13,12 +13,15 @@ import {
     FormControl,
     InputLabel,
     FormControlLabel,
-    Checkbox
+    Checkbox,
+    Alert
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import { GetAllClass, GetAllCourse } from '../../../api/ResigerTutorApi';
+import { UpdateNewTimeTable } from '../../../api/TutorManagementApi';
+import { Logout } from '../../../api/AuthenApi';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,7 +64,8 @@ function getStyles(day, selectedDays, theme) {
     };
 }
 
-const BookingTimePicker = () => {
+const BookingTimePicker = (pros) => {
+    const { isCreated, setIsCreated, setOpenDetail } = pros;
     const theme = useTheme();
     const [teachingMode, setTeachingMode] = useState(false);
     const [classes, setClasses] = useState([]);
@@ -70,7 +74,7 @@ const BookingTimePicker = () => {
     const [selectedDayOfWeekOffline, setSelectedDayOfWeekOffline] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [selectedClasses, setSelectedClasses] = useState([]);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const [formErrors, setFormErrors] = useState({
         teachingMode: '',
         selectedDayOfWeekOnline: '',
@@ -166,7 +170,7 @@ const BookingTimePicker = () => {
 
     const handleSubmit = async () => {
         if (validateForm()) {
-            const updateTutor = {
+            const updateTimeTable = {
                 tutorId: user?.userId,
                 subjects: selectedSubjects,
                 classes: selectedClasses,
@@ -174,30 +178,42 @@ const BookingTimePicker = () => {
                 dayOfWeekOnline: selectedDayOfWeekOnline,
                 dayOfWeekOffline: selectedDayOfWeekOffline,
             };
-            console.log(updateTutor);
-            // try {
-            //     const response = await UpdateTutor(updateTutor);
-            //     if (response.ok) {
-            //         const responseJson = await response.json();
-            //         if (responseJson.statusCode === 400) {
-            //             setFormErrors({ ...formErrors, global: responseJson.message });
-            //         } else {
-            //             toast.success('Cập nhật thành công');
-            //             navigate("/");
-            //         }
-            //     } else {
-            //         toast.error('Lỗi server');
-            //     }
-            // } catch (error) {
-            //     toast.error('Lỗi server');
-            // }
+            console.log(updateTimeTable);
+            try {
+                const response = await UpdateNewTimeTable(updateTimeTable);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    if (responseJson.statusCode === 400) {
+                        toast.error("Cập nhật không thành công vui lòng kiểm tra lại !")
+                    } else {
+                        toast.success('Cập nhật thành công');
+                        setIsCreated(!isCreated)
+                        setOpenDetail(false)
+                        window.setTimeout(async () => {
+                            const refreshToken = localStorage.getItem("refreshToken");
+                            const response = await Logout(refreshToken)
+                            if (response.ok) {
+                                await logout();
+                                navigate("/checking-page")
+                            }
+                        }, 1500)
+                    }
+                } else {
+                    toast.error('Lỗi server');
+                }
+            } catch (error) {
+                toast.error('Lỗi server');
+            }
         }
     };
 
     return (
         <Box sx={{ width: '100%', height: '100%' }}>
-            <Box sx={{ backgroundColor: 'white', p: 3, borderRadius: 2 }}>
-                <Typography variant="h5" gutterBottom>Cập nhật thông tin gia sư</Typography>
+            <Box sx={{ backgroundColor: 'white', p: 2, borderRadius: 2 }}>
+                <Alert severity="warning" className='mb-4'>Lưu ý: Khi cập nhật xong bạn sẽ bị về trang
+                    kiểm tra và phải chờ admin kiểm duyệt và khi xong sẽ thông báo đến bạn
+                </Alert>
+                <Typography variant="h5" gutterBottom>Cập nhật lịch dạy gia sư</Typography>
                 <Divider sx={{ mb: 3 }} />
                 <Box>
                     <FormControl fullWidth sx={{ mb: 2 }}>

@@ -12,7 +12,7 @@ export default function ViewTimeTable() {
     let { email } = useParams();
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
-    const [pageSize, setPageSize] = React.useState(6);
+    const [pageSize, setPageSize] = React.useState(20);
     const [data, setData] = useState([]);
     const [isCreated, setIsCreated] = useState(false);
     const [dataDetail, setDataDetail] = useState();
@@ -32,8 +32,7 @@ export default function ViewTimeTable() {
         getAllTimetable();
     }, [page, totalPages, pageSize, isCreated, email])
 
-    const handleClickUpdate = (data) => {
-        setDataDetail(data)
+    const handleClickUpdate = () => {
         setOpenDetail(true);
     };
     const handleClickDelete = async (data) => {
@@ -105,7 +104,7 @@ export default function ViewTimeTable() {
                     </div>
                 </>
             )}
-            <UpdateTimeTable openDetail={openDetail} setOpenDetail={setOpenDetail} dataDetail={dataDetail} isCreated={isCreated} setIsCreated={setIsCreated} email={email} />
+            <UpdateTimeTable openDetail={openDetail} setOpenDetail={setOpenDetail} isCreated={isCreated} setIsCreated={setIsCreated} />
         </div>
     )
 }

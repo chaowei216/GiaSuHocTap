@@ -18,3 +18,21 @@ export const CreateModerator = async (value) => {
         throw err;
     }
 }
+
+export const UnblockUser = async (userId) => {
+    try {
+        const url = `${baseUrl}/api/User/unblock-account/${userId}`;
+        const request = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.error('Failed');
+        throw err;
+    }
+}
