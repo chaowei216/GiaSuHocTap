@@ -1096,10 +1096,6 @@ namespace Service.Service
 
             return false;
         }
-    }
-}
-            return null;
-        }
 
         public async Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo)
         {
