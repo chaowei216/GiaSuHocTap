@@ -4,6 +4,7 @@ using Common.Constant.Message;
 using Common.Constant.Notification;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
+using Common.Constant.User;
 using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
@@ -1013,6 +1014,43 @@ namespace Service.Service
                 return timetable;
             }
             return null;
+        }
+
+        public async Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request)
+        {
+            var userList = _userRepository.GetAllUsers().ToList();
+
+            if (!_validateHandleService.CheckFormatPhoneNumber(request.Phonenumber) ||
+                !_validateHandleService.CheckPhoneNumberAlreadyExists(request.Phonenumber, userList) ||
+                !_validateHandleService.CheckFormatEmail(request.Email) ||
+                !_validateHandleService.CheckEmailAlreadyExists(request.Email, userList)
+                )
+            {
+                return null;
+            }
+            else
+            {
+                var userMap = _mapper.Map<User>(request);
+
+                CreatePasswordHash(UserConst.ModeratorPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                userMap.PasswordHash = passwordHash;
+                userMap.PasswordSalt = passwordSalt;
+                userMap.CoinBalance = 0;
+                userMap.RoleId = (int)RoleEnum.Moderator;
+                userMap.Status = UserStatusEnum.Active;
+                userMap.IsVerified = true;
+
+                userMap = await _userRepository.AddNewModerator(userMap);
+
+                if (userMap != null)
+                {
+                    return _mapper.Map<ModeratorDTO>(userMap);
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

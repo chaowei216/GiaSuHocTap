@@ -179,5 +179,12 @@ namespace Service.IService
         /// <param name="userInfo"></param>
         /// <returns></returns>
         PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters);
+
+        /// <summary>
+        /// Add new moderator
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request);
     }
 }

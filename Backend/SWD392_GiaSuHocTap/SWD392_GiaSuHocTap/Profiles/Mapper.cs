@@ -78,6 +78,8 @@ namespace SWD392_GiaSuHocTap.Profiles
                                           .ForMember(dest => dest.TutorEmail, opt => opt.MapFrom(src => src.To.Email))
                                           .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status ? ReportConst.DoneStatus : ReportConst.PendingStatus)).ReverseMap();
             CreateMap<UserUpdateDTO, User>().ReverseMap();
+            CreateMap<ModeratorCreateRequestDTO, User>().ReverseMap();
+            CreateMap<User, ModeratorDTO>().ReverseMap();
             #endregion
         }
     }
