@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './ImagePreview.module.css';
+import emptyPicture from "/img/empty.png";
+const baseUrl = import.meta.env.VITE_API_HOST;
 
 const ImageWithPreview = ({ imageList }) => {
     const [showPreviewButton, setShowPreviewButton] = useState(false);
@@ -17,7 +19,7 @@ const ImageWithPreview = ({ imageList }) => {
 
     return (
         <div className={styles.imageContainer}>
-            {imageList.map((imageSrc, index) => (
+            {imageList && imageList.map((imageSrc, index) => (
                 <div
                     key={index}
                     className={styles.imageWrapper}
@@ -25,7 +27,10 @@ const ImageWithPreview = ({ imageList }) => {
                     onMouseLeave={togglePreviewButton}
                     onClick={() => toggleFullImage(imageSrc)}
                 >
-                    <img className={styles.image} src={imageSrc} alt={`Preview ${index}`} />
+                    <img className={styles.image} src={`${baseUrl}/api/Auth/user-image?fileName=${imageSrc}`} alt={`Preview ${index}`}
+                        onError={(e) => {
+                            e.currentTarget.src = emptyPicture;
+                        }} />
                     {showPreviewButton && (
                         <div className={styles.previewButton}>
                             <span className={styles.eyeIcon}>👁️</span>
@@ -36,7 +41,10 @@ const ImageWithPreview = ({ imageList }) => {
             ))}
             {showFullImage && (
                 <div className={styles.fullImageOverlay} onClick={() => toggleFullImage('')}>
-                    <img className={styles.fullImage} src={selectedImage} alt="Full Preview" />
+                    <img className={styles.fullImage} src={`${baseUrl}/api/Auth/user-image?fileName=${selectedImage}`} alt="Full Preview"
+                        onError={(e) => {
+                            e.currentTarget.src = emptyPicture;
+                        }} />
                 </div>
             )}
         </div>

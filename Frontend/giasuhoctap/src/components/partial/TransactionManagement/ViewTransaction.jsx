@@ -5,11 +5,13 @@ import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
 import { GetAllTransaction } from '../../../api/TransactionApi';
 import { toast } from 'react-toastify';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewTransaction() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     useEffect(() => {
         const getAllTrans = async () => {
             const response = await GetAllTransaction(page, pageSize);
@@ -37,6 +39,7 @@ export default function ViewTransaction() {
                 </div>
             </Header>
             <TransactionTable data={data} />
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
             {data && data.length > 0 && (
                 <>
                     <div

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import NotificationTable from './ReportTable';
 import { GetAllReport, GetAllReportByCondition } from '../../../api/ReportApi';
 import { Button, TextField } from '@mui/material';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewReport() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -15,7 +16,7 @@ export default function ViewReport() {
     const [isSearch, setIsSearch] = useState(false);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
-
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     const handleFilter = async () => {
         setPage(1)
         if ((from || to) != "") {
@@ -134,6 +135,7 @@ export default function ViewReport() {
                     </div>
                 </>
             )}
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
         </div>
     )
 }

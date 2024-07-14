@@ -238,9 +238,9 @@ export const GetAllUser = async () => {
     }
 }
 
-export const GetFeedbackTutor = async (email) => {
+export const GetFeedbackTutor = async (email, page) => {
     try {
-        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}`;
+        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}&PageNumber=${page}&PageSize=4`;
         const request = {
             method: "GET",
             headers: {

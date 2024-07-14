@@ -31,18 +31,18 @@ function TutorDetailContainer() {
   }, [email])
   useEffect(() => {
     const fetchFeedback = async () => {
-      const response = await GetFeedbackTutor(email)
+      const response = await GetFeedbackTutor(email, page)
       if (response.ok) {
         const responseJson = await response.json();
         const feedback = responseJson.data.data
         setDataFeedback(feedback);
-        setTotalPage(feedback.totalPages)
+        setTotalPage(responseJson.data.totalPages)
       } else {
         toast.error("Error to fetch data feedback")
       }
     }
     fetchFeedback()
-  }, [email])
+  }, [email, page])
   return (
     <>
       <div

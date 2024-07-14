@@ -245,7 +245,7 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm phụ huynh thành công")
       const timeout = setTimeout(() => {
         window.location.replace('/login');
-      }, 4000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
   };
@@ -311,16 +311,16 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm gia sư thành công")
       const timeout = setTimeout(() => {
         window.location.replace('/login');
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
   }
   const sendOtp = (otp, email) => {
     VerifyUser(otp, email).then(response => {
       if (response.statusCode === 200) {
-        toast.success(response.message);
+        toast.success("Mã OTP đã được gửi đến mail của bạn");
       } else {
-        toast.error("Verify failed please try agian")
+        toast.error("Xác thực không thành công vui lòng thử lại")
         return;
       }
     }).catch(error => {
@@ -330,13 +330,12 @@ function AuthProvider1({ children }) {
       const refreshToken = localStorage.getItem("refreshToken");
       let user = null;
       GetUserByToken(refreshToken).then(response => {
-        console.log();
         if (response.statusCode === 200) {
           user = response.data
         }
       }).catch(error => {
         console.error("Error:", error.message);
-        toast.error("Verify failed please try agian")
+        toast.error("Xác thực không thành công vui lòng thử lại")
       }).finally(() => {
         console.log(user);
         if (user == null) {
@@ -354,19 +353,21 @@ function AuthProvider1({ children }) {
   };
 
   return (
-    <AuthContext1.Provider
-      value={{
-        ...state,
-        method: "jwt",
-        login,
-        logout,
-        register,
-        register_tutor,
-        sendOtp
-      }}
-    >
-      {children}
-    </AuthContext1.Provider>
+    <>
+      <AuthContext1.Provider
+        value={{
+          ...state,
+          method: "jwt",
+          login,
+          logout,
+          register,
+          register_tutor,
+          sendOtp
+        }}
+      >
+        {children}
+      </AuthContext1.Provider>
+    </>
   );
 }
 export { AuthContext1, AuthProvider1 };

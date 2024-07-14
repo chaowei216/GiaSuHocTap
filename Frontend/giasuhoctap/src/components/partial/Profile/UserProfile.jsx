@@ -19,9 +19,11 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CheckIcon from '@mui/icons-material/Check';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import ReportIcon from '@mui/icons-material/Report';
+import WaitingModal from '../../global/WaitingModal';
+import { useState } from 'react';
 export default function PersonalProfile() {
     const { user } = useAuth();
-    console.log(user);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <>
             <section style={{ backgroundColor: '#eee' }}>
@@ -149,6 +151,7 @@ export default function PersonalProfile() {
                     </MDBRow>
                 </MDBContainer>
             </section>
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
         </>
     );
 }
