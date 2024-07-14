@@ -48,6 +48,12 @@ namespace Service.IService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IEnumerable<Transaction> GetPaidTransOfUser(int userId); 
+        IEnumerable<Transaction> GetPaidTransOfUser(int userId);
+
+        /// <summary>
+        /// Get all paid transactions
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Transaction> GetAllPaidTransactions();
     }
 }

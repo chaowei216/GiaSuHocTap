@@ -27,6 +27,11 @@ namespace Service.Service
             return await _transactionRepository.AddNewTransaction(transaction);
         }
 
+        public IEnumerable<Transaction> GetAllPaidTransactions()
+        {
+            return _transactionRepository.GetAllTransactions().Where(p => p.Status == PaymentConstant.PaidStatus).ToList();
+        }
+
         public PaginationResponseDTO<TransactionDTO> GetAllTransactions(TransactionParameters parameters)
         {
             var transactions = _transactionRepository.GetPagedTransactionList(parameters);
