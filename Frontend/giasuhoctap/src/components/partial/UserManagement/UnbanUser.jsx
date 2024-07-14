@@ -11,36 +11,27 @@ import {
 } from "mdb-react-ui-kit";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
+import { UnblockUser } from "../../../api/UserApi";
 
 export default function UnbanUser(pros) {
-  const { show, handleClose, dataDelete } = pros;
-
-  const [newsId, setNewsId] = useState("");
+  const { show, handleClose, dataDelete, isUpdate, setIsUpdate } = pros;
+  const [userId, setUserId] = useState("");
   const [newsTitle, setNewsTitle] = useState("");
   useEffect(() => {
     if (show) {
-      //   setNewsId(dataDelete.newsId);
+      setUserId(dataDelete.userId);
       setNewsTitle(dataDelete.fullname);
     }
   }, [dataDelete]);
-  const handleSave = () => {
-    console.log("haha");
-  };
   const handleDeleteNews = async () => {
-    // try {
-    //   const id = newsId;
-    //   const response = await fetch(`https://localhost:44352/api/News/${id}`, {
-    //     method: "DELETE",
-    //   });
-    //   if (response.ok) {
-    //     console.log("Success");
-    //     window.location.reload();
-    //   } else {
-    //     toast.error("Error deleting");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const response = await UnblockUser(userId);
+    if (response.status == 204) {
+      toast.success("Mở khóa thành công")
+      setIsUpdate(!isUpdate)
+      handleClose()
+    } else {
+      toast.error("Lỗi sever")
+    }
   };
 
   return (

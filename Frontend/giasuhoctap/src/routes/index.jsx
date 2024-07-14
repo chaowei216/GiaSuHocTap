@@ -45,6 +45,7 @@ import NewsPage from "../pages/NewsPage/NewsPage";
 import RoleBasedGuard from "../components/partial/Authen/RoleBaseGuard";
 import NewDetailPage from "../pages/NewsPage/NewDetailPage";
 import TimetablePage from "../pages/TimeTable/TimetablePage";
+import CheckingPageTutor from "../pages/Public/CheckingPageTutor";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -91,5 +92,6 @@ export const router = createBrowserRouter([
   { path: "NewsPage", element: <NewsPage /> },
   { path: "/news/:newsId", element: <NewDetailPage /> },
   { path: "/time-table/:email", element: <TimetablePage /> },
+  { path: "checking-page", element: <CheckingPageTutor /> },
 ]);
 

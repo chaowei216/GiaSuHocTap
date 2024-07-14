@@ -145,7 +145,7 @@ const BookTutor = () => {
                     <div className={styles.slideBgTu}>
                         <h1>DANH SÁCH GIA SƯ ONLINE</h1>
                     </div>
-                    <div style={{ position: "absolute", left: "20%" }}>
+                    <div style={{ position: "absolute", left: "37%" }}>
                         <div style={{ marginBottom: "20px" }}>
                             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                                 <InputLabel id="demo-simple-select-standard-label">Lớp học</InputLabel>

@@ -56,7 +56,7 @@ export default function ViewUser() {
           <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo tài khoản</Button>
         </div>
         <Body>
-          <UserTable data={data} handleClickOpen={handleClickOpen} />
+          <UserTable data={data} handleClickOpen={handleClickOpen} isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
         </Body>
         {data && data.length > 0 && (
           <>

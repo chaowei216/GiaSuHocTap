@@ -106,17 +106,6 @@ export default function Sidebar() {
           ))}
         </ul>
       </div>
-      <div style={{ position: "fixed", bottom: "0%", padding: "18px 18px 0px 18px" }}>
-        <li className={styles['sidebar-nav-item']}>
-          <NavLink
-            exact
-            to="/"
-            className={`${styles['sidebar-nav-link']}`}
-          >
-            <p><ExitToAppIcon /> Trở về trang chủ</p>
-          </NavLink>
-        </li>
-      </div>
     </>
   );
 }

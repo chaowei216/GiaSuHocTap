@@ -32,6 +32,11 @@ namespace Repository.Repository
             return await _requestTimeDAO.AddAsync(requestTime);
         }
 
+        public IEnumerable<Request> GetAllRequestOfUser(int userId)
+        {
+            return _requestDAO.GetByCondition(p => p.FromId == userId).Include(p => p.From).Include(p => p.RequestTimes).ToList();
+        }
+
         public IEnumerable<Request> GetAllRequests()
         {
             return _requestDAO.GetAll();

@@ -116,5 +116,12 @@ namespace Repository.IRepository
         /// <param name="parameters"></param>
         /// <returns></returns>
         PagedList<Request> GetUserRequest(int userId, RequestParameters parameters);
+
+        /// <summary>
+        /// Get all requests of user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<Request> GetAllRequestOfUser(int userId);
     }
 }

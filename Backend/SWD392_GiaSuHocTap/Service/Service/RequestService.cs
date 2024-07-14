@@ -293,6 +293,11 @@ namespace Service.Service
             return null;
         }
 
+        public IEnumerable<Request> GetAllRequests()
+        {
+            return _requestRepository.GetAllRequests();
+        }
+
         public PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetPagedInProcessOnlineRequestsOfParents(parentsId, parameters);
@@ -351,6 +356,13 @@ namespace Service.Service
             mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
 
             return mappedResponse;
+        }
+
+        public IEnumerable<Request> GetRequestsOfUser(int userId)
+        {
+            var allRequests = _requestRepository.GetAllRequestOfUser(userId);
+
+            return allRequests.Where(p => p.Status == RequestConst.CompletedStatus).ToList();
         }
 
         public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)

@@ -48,12 +48,12 @@ export default function CountdownTimer() {
         // Call API to send OTP
         SendVerifyEmail(decodedEmail).then(response => {
             if (response.statusCode === 200) {
-                toast.success("Send email success");
+                toast.success("Gửi email thành công");
             } else {
-                toast.error("Send failed please try again");
+                toast.error("Gửi email không thành công");
             }
         }).catch(error => {
-            console.error("Error:", error.message);
+            console.error("Lỗi sever:", error.message);
         });
 
         let seconds = 60; // 60 seconds countdown
@@ -75,7 +75,7 @@ export default function CountdownTimer() {
             </Button>
             {countdown > 0 && (
                 <div style={{ fontWeight: "bold", marginTop: "5px" }}>
-                    OTP sẽ bị hết hạn sau: {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? '0' : ''}{countdown % 60}
+                    OTP sẽ được gửi lại sau: {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? '0' : ''}{countdown % 60}
                 </div>
             )}
         </div>

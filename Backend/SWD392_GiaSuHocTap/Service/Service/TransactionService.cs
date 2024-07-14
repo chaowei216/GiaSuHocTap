@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Constant.Payment;
 using Common.DTO;
 using Common.DTO.Payment;
 using Common.DTO.Query;
@@ -26,6 +27,11 @@ namespace Service.Service
             return await _transactionRepository.AddNewTransaction(transaction);
         }
 
+        public IEnumerable<Transaction> GetAllPaidTransactions()
+        {
+            return _transactionRepository.GetAllTransactions().Where(p => p.Status == PaymentConstant.PaidStatus).ToList();
+        }
+
         public PaginationResponseDTO<TransactionDTO> GetAllTransactions(TransactionParameters parameters)
         {
             var transactions = _transactionRepository.GetPagedTransactionList(parameters);
@@ -39,6 +45,18 @@ namespace Service.Service
         public Transaction? GetLastTransOfUser(int userId)
         {
             return _transactionRepository.GetLastTransactionOfUser(userId);
+        }
+
+        public IEnumerable<Transaction> GetPaidTransOfUser(int userId)
+        {
+            var trans = _transactionRepository.GetAllTransactions();
+
+            if (trans.Any())
+            {
+                return trans.Where(p => p.UserId == userId && p.Status == PaymentConstant.PaidStatus).ToList();
+            }
+
+            return trans;
         }
 
         public PaginationResponseDTO<TransactionDTO> GetTransOfUser(int userId, TransactionParameters parameters)

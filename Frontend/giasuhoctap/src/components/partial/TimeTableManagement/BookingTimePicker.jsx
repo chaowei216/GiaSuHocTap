@@ -1,198 +1,338 @@
-import React, { useEffect, useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
-import { GetAllTimeTableByEmail, UpdateTimetable } from '../../../api/TimetableApi';
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '@mui/material/styles';
+import {
+    TextField,
+    Select,
+    MenuItem,
+    Button,
+    Box,
+    Typography,
+    Divider,
+    Chip,
+    OutlinedInput,
+    FormControl,
+    InputLabel,
+    FormControlLabel,
+    Checkbox,
+    Alert
+} from '@mui/material';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import { GetAllClass, GetAllCourse } from '../../../api/ResigerTutorApi';
+import { UpdateNewTimeTable } from '../../../api/TutorManagementApi';
+import { Logout } from '../../../api/AuthenApi';
 
-const timeSlots = [
-    "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"
-];
-const daysOfWeek = [
-    { label: "Thứ Hai", value: "Monday" },
-    { label: "Thứ Ba", value: "Tuesday" },
-    { label: "Thứ Tư", value: "Wednesday" },
-    { label: "Thứ Năm", value: "Thursday" },
-    { label: "Thứ Sáu", value: "Friday" },
-    { label: "Thứ Bảy", value: "Saturday" }
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+const DayOfWeekOptions = [
+    { label: 'Sáng Thứ 2', value: ['Monday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 2', value: ['Monday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 2', value: ['Monday', 'Evening', '18-21'] },
+    { label: 'Sáng Thứ 3', value: ['Tuesday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 3', value: ['Tuesday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 3', value: ['Tuesday', 'Evening', '18-21'] },
+    { label: 'Sáng Thứ 4', value: ['Wednesday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 4', value: ['Wednesday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 4', value: ['Wednesday', 'Evening', '18-21'] },
+    { label: 'Sáng Thứ 5', value: ['Thursday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 5', value: ['Thursday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 5', value: ['Thursday', 'Evening', '18-21'] },
+    { label: 'Sáng Thứ 6', value: ['Friday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 6', value: ['Friday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 6', value: ['Friday', 'Evening', '18-21'] },
+    { label: 'Sáng Thứ 7', value: ['Saturday', 'Morning', '8-12'] },
+    { label: 'Chiều Thứ 7', value: ['Saturday', 'Afternoon', '13-17'] },
+    { label: 'Tối Thứ 7', value: ['Saturday', 'Evening', '18-21'] },
 ];
 
-const BookingTimePicker = ({ dataDetail, email, setIsCreated, isCreated, setOpenDetail }) => {
-    const [data, setData] = useState([]);
-    const [list, setList] = useState({});
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [dayOfWeek, setDayOfWeek] = useState('');
-    const [period, setPeriod] = useState('');
+function getStyles(day, selectedDays, theme) {
+    return {
+        fontWeight:
+            selectedDays.indexOf(day) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
+
+const BookingTimePicker = (pros) => {
+    const { isCreated, setIsCreated, setOpenDetail } = pros;
+    const theme = useTheme();
+    const [teachingMode, setTeachingMode] = useState(false);
+    const [classes, setClasses] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [selectedDayOfWeekOnline, setSelectedDayOfWeekOnline] = useState([]);
+    const [selectedDayOfWeekOffline, setSelectedDayOfWeekOffline] = useState([]);
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
+    const [selectedClasses, setSelectedClasses] = useState([]);
+    const { user, logout } = useAuth();
+    const [formErrors, setFormErrors] = useState({
+        teachingMode: '',
+        selectedDayOfWeekOnline: '',
+        selectedDayOfWeekOffline: '',
+        selectedSubjects: '',
+        selectedClasses: ''
+    });
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (email) {
-            const getAllTimetable = async () => {
-                const response = await GetAllTimeTableByEmail(email);
-                if (response.ok) {
-                    const responseJson = await response.json();
-                    const data = responseJson.data.data;
-                    setData(data);
-                } else {
-                    toast.error("Lỗi server");
-                }
-            };
-            getAllTimetable();
+        const fetchClasses = async () => {
+            try {
+                const data = await GetAllClass();
+                if (data.statusCode == 200) setClasses(data.data);
+            } catch (error) {
+                console.error('Lỗi sever');
+            }
+        };
+
+        const fetchCourses = async () => {
+            try {
+                const data = await GetAllCourse();
+                if (data.statusCode == 200) setCourses(data.data);
+            } catch (error) {
+                console.error('Lỗi sever:');
+            }
+        };
+
+        fetchClasses();
+        fetchCourses();
+    }, []);
+
+    const handleTeachingModeChange = (event) => {
+        setTeachingMode(event.target.value === 'both');
+    };
+
+    const handleDayChange = (event, setState) => {
+        const { target: { value } } = event;
+        const filteredValues = value.filter(val => val !== null && val !== undefined && val !== '');
+        setState(filteredValues);
+        setFormErrors({
+            ...formErrors,
+            selectedDayOfWeekOnline: '',
+            selectedDayOfWeekOffline: ''
+        })
+    };
+
+    const handleCheckboxChange = (event, setState, state) => {
+        const value = parseInt(event.target.value, 10);
+        if (!isNaN(value)) { // Kiểm tra xem giá trị có phải là số hợp lệ không
+            setState(event.target.checked ? [...state, value] : state.filter(item => item !== value));
         }
-    }, [email]);
-
-    useEffect(() => {
-        setList(dataDetail);
-        setDayOfWeek(dataDetail.dayOfWeek);
-        setStartTime(dataDetail.startTime);
-        setEndTime(dataDetail.endTime);
-        setPeriod(dataDetail.period);
-    }, [dataDetail]);
-
-    const handleDayOfWeekChange = (event) => {
-        setDayOfWeek(event.target.value);
-        setStartTime('');
-        setEndTime('');
-        setPeriod('');
+        setFormErrors({
+            ...formErrors,
+            selectedClasses: '',
+            selectedSubjects: ''
+        })
     };
 
-    const handleStartTimeChange = (event) => {
-        setStartTime(event.target.value);
-        setEndTime('');
-    };
+    const validateForm = () => {
+        let valid = true;
+        const errors = {
+            teachingMode: '',
+            selectedDayOfWeekOnline: '',
+            selectedDayOfWeekOffline: '',
+            selectedSubjects: '',
+            selectedClasses: ''
+        };
 
-    const handleEndTimeChange = (event) => {
-        setEndTime(event.target.value);
-    };
-
-    const getAvailableStartTimes = () => {
-        return timeSlots.filter((time) => {
-            return !data.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === time && slot.startTime !== list.startTime);
-        });
-    };
-
-    const getAvailableEndTimes = () => {
-        const startTimeIndex = timeSlots.indexOf(startTime);
-
-        let availableEndTimes = timeSlots.slice(startTimeIndex + 1).filter((time) => {
-            return !data.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime && slot.endTime === time);
-        });
-
-        if (dataDetail.endTime && !availableEndTimes.includes(dataDetail.endTime)) {
-            availableEndTimes.push(dataDetail.endTime);
-            availableEndTimes = availableEndTimes.sort((a, b) => timeSlots.indexOf(a) - timeSlots.indexOf(b));
+        if (selectedDayOfWeekOnline.length === 0) {
+            errors.selectedDayOfWeekOnline = 'Vui lòng chọn ít nhất một ngày dạy online.';
+            valid = false;
         }
 
-        return availableEndTimes;
+        if (teachingMode && selectedDayOfWeekOffline.length === 0) {
+            errors.selectedDayOfWeekOffline = 'Vui lòng chọn ít nhất một ngày dạy offline.';
+            valid = false;
+        }
+
+        if (selectedSubjects.length === 0) {
+            errors.selectedSubjects = 'Vui lòng chọn ít nhất một môn dạy.';
+            valid = false;
+        }
+
+        if (selectedClasses.length === 0) {
+            errors.selectedClasses = 'Vui lòng chọn ít nhất một lớp dạy.';
+            valid = false;
+        }
+
+        setFormErrors(errors);
+        return valid;
     };
 
     const handleSubmit = async () => {
-        // if (!isTimeSlotTaken(startTime, endTime)) {
-        //     alert(`Booked from ${startTime} to ${endTime}`);
-        // } else {
-        //     alert('Time slot is not available');
-        // }
-        console.log(dataDetail);
-        if (dataDetail) {
-            const dataUpdate = {
-                dayOfWeek: dayOfWeek,
-                startTime: startTime,
-                endTime: endTime,
-                period: period
-            }
-            const response = await UpdateTimetable(dataDetail?.timeTableId, dataUpdate)
-            if (response.ok) {
-                const responseJson = await response.json();
-                if (responseJson.statusCode == 200) {
-                    toast.success("Thay đổi thành công")
-                    setIsCreated(!isCreated)
-                    setOpenDetail(false)
+        if (validateForm()) {
+            const updateTimeTable = {
+                tutorId: user?.userId,
+                subjects: selectedSubjects,
+                classes: selectedClasses,
+                isOfflineTeaching: teachingMode,
+                dayOfWeekOnline: selectedDayOfWeekOnline,
+                dayOfWeekOffline: selectedDayOfWeekOffline,
+            };
+            console.log(updateTimeTable);
+            try {
+                const response = await UpdateNewTimeTable(updateTimeTable);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    if (responseJson.statusCode === 400) {
+                        toast.error("Cập nhật không thành công vui lòng kiểm tra lại !")
+                    } else {
+                        toast.success('Cập nhật thành công');
+                        setIsCreated(!isCreated)
+                        setOpenDetail(false)
+                        window.setTimeout(async () => {
+                            const refreshToken = localStorage.getItem("refreshToken");
+                            const response = await Logout(refreshToken)
+                            if (response.ok) {
+                                await logout();
+                                navigate("/checking-page")
+                            }
+                        }, 1500)
+                    }
+                } else {
+                    toast.error('Lỗi server');
                 }
+            } catch (error) {
+                toast.error('Lỗi server');
             }
         }
     };
 
-    // const isTimeSlotTaken = (start, end) => {
-    //     return data.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === start && slot.endTime === end);
-    // };
-
     return (
-        <div>
-            <FormControl fullWidth>
-                <InputLabel>Chọn Ngày</InputLabel>
-                <Select
-                    value={dayOfWeek}
-                    label="Chọn Ngày"
-                    onChange={handleDayOfWeekChange}
-                >
-                    {daysOfWeek.map((day) => (
-                        <MenuItem key={day.value} value={day.value}>
-                            {day.label}
-                        </MenuItem>
+        <Box sx={{ width: '100%', height: '100%' }}>
+            <Box sx={{ backgroundColor: 'white', p: 2, borderRadius: 2 }}>
+                <Alert severity="warning" className='mb-4'>Lưu ý: Khi cập nhật xong bạn sẽ bị về trang
+                    kiểm tra và phải chờ admin kiểm duyệt và khi xong sẽ thông báo đến bạn
+                </Alert>
+                <Typography variant="h5" gutterBottom>Cập nhật lịch dạy gia sư</Typography>
+                <Divider sx={{ mb: 3 }} />
+                <Box>
+                    <FormControl fullWidth sx={{ mb: 2 }}>
+                        <InputLabel id="teaching-mode-label">Hình thức dạy</InputLabel>
+                        <Select
+                            labelId="teaching-mode-label"
+                            value={teachingMode ? 'both' : 'online'}
+                            onChange={handleTeachingModeChange}
+                            label="Hình thức dạy"
+                        >
+                            <MenuItem value="online">Online</MenuItem>
+                            <MenuItem value="both">Cả Online và Offline</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Typography sx={{ mb: 2 }} variant="h6">Thời gian dạy online</Typography>
+                <Box sx={{ mb: 2 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="day-of-week-online-label">Chọn ngày</InputLabel>
+                        <Select
+                            labelId="day-of-week-online-label"
+                            multiple
+                            value={selectedDayOfWeekOnline}
+                            onChange={(event) => handleDayChange(event, setSelectedDayOfWeekOnline)}
+                            input={<OutlinedInput id="select-multiple-chip" label="Chọn ngày" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected.map((value, index) => (
+                                        <Chip key={index} label={DayOfWeekOptions.find(day => JSON.stringify(day.value) === JSON.stringify(value)).label} />
+                                    ))}
+                                </Box>
+                            )}
+                            MenuProps={MenuProps}
+                        >
+                            {DayOfWeekOptions.map((day, index) => (
+                                <MenuItem key={index} value={day.value} style={getStyles(day.value, selectedDayOfWeekOnline, theme)}>
+                                    {day.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {formErrors.selectedDayOfWeekOnline && <div className='mt-2 text-red-500'>{formErrors.selectedDayOfWeekOnline}</div>}
+                </Box>
+
+                {teachingMode && (
+                    <Box sx={{ mb: 2 }}>
+                        <Typography sx={{ mb: 2 }} variant="h6">Thời gian dạy offline</Typography>
+                        <FormControl fullWidth>
+                            <InputLabel id="day-of-week-offline-label">Chọn ngày</InputLabel>
+                            <Select
+                                labelId="day-of-week-offline-label"
+                                multiple
+                                value={selectedDayOfWeekOffline}
+                                onChange={(event) => handleDayChange(event, setSelectedDayOfWeekOffline)}
+                                input={<OutlinedInput id="select-multiple-chip" label="Chọn ngày" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value, index) => (
+                                            <Chip key={index} label={DayOfWeekOptions.find(day => JSON.stringify(day.value) === JSON.stringify(value)).label} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}
+                            >
+                                {DayOfWeekOptions.map((day, index) => (
+                                    <MenuItem key={index} value={day.value} style={getStyles(day.value, selectedDayOfWeekOffline, theme)}>
+                                        {day.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        {formErrors.selectedDayOfWeekOffline && <div className='mt-2 text-red-500'>{formErrors.selectedDayOfWeekOffline}</div>}
+                    </Box>
+                )}
+
+                <Divider sx={{ mb: 2 }} />
+
+                <Box sx={{ mb: 2 }}>
+                    <Typography variant="h6">Chọn các môn dạy</Typography>
+                    {courses && courses.map((course) => (
+                        <FormControlLabel
+                            key={course.courseId}
+                            control={
+                                <Checkbox
+                                    value={course.courseId}
+                                    checked={selectedSubjects.includes(course.courseId)}
+                                    onChange={(event) => handleCheckboxChange(event, setSelectedSubjects, selectedSubjects)}
+                                />
+                            }
+                            label={course.courseName}
+                        />
                     ))}
-                </Select>
-            </FormControl>
-            <FormControl fullWidth style={{ marginTop: '16px' }}>
-                <InputLabel>Giờ bắt đầu</InputLabel>
-                <Select
-                    value={startTime}
-                    label="Giờ bắt đầu"
-                    onChange={handleStartTimeChange}
-                    disabled={!dayOfWeek}
-                >
-                    {getAvailableStartTimes().map((time) => (
-                        <MenuItem key={time} value={time}>
-                            {time}
-                        </MenuItem>
+                    {formErrors.selectedSubjects && <div className='mt-2 text-red-500'>{formErrors.selectedSubjects}</div>}
+                </Box>
+
+                <Divider sx={{ mb: 2 }} />
+
+                <Box sx={{ mb: 2 }}>
+                    <Typography variant="h6">Chọn các lớp dạy</Typography>
+                    {classes && classes.map((cls) => (
+                        <FormControlLabel
+                            key={cls.classId}
+                            control={
+                                <Checkbox
+                                    value={cls.classId}
+                                    checked={selectedClasses.includes(cls.classId)}
+                                    onChange={(event) => handleCheckboxChange(event, setSelectedClasses, selectedClasses)}
+                                />
+                            }
+                            label={cls.className}
+                        />
                     ))}
-                </Select>
-            </FormControl>
-            <FormControl fullWidth style={{ marginTop: '16px' }}>
-                <InputLabel>Giờ kết thúc</InputLabel>
-                <Select
-                    value={endTime}
-                    label="Giờ kết thúc"
-                    onChange={handleEndTimeChange}
-                    disabled={!startTime}
-                >
-                    {getAvailableEndTimes().map((time) => (
-                        <MenuItem key={time} value={time}>
-                            {time}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <FormControl fullWidth style={{ marginTop: '16px' }}>
-                <InputLabel>Buổi</InputLabel>
-                <Select
-                    value={period}
-                    label="Buổi"
-                    onChange={(event) => setPeriod(event.target.value)}
-                >
-                    <MenuItem key={1} value="Sáng">
-                        Sáng
-                    </MenuItem>
-                    <MenuItem key={2} value="Trưa">
-                        Trưa
-                    </MenuItem>
-                    <MenuItem key={3} value="Chiều">
-                        Chiều
-                    </MenuItem>
-                    <MenuItem key={4} value="Tối">
-                        Tối
-                    </MenuItem>
-                </Select>
-            </FormControl>
-            <div className='flex justify-end'>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
-                    disabled={!startTime || !endTime}
-                    style={{ marginTop: '16px' }}
-                >
-                    Thay đổi
-                </Button>
-            </div>
-        </div>
+                    {formErrors.selectedClasses && <div className='mt-2 text-red-500'>{formErrors.selectedClasses}</div>}
+                </Box>
+                <div className='flex justify-end'>
+                    <Button className='mt-2' variant="contained" color="primary" onClick={handleSubmit}>Cập nhật</Button>
+                </div>
+            </Box>
+        </Box>
     );
 };
 

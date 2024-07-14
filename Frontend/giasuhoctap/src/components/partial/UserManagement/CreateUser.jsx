@@ -13,78 +13,129 @@ import {
     MDBCardText,
     MDBTextArea,
 } from 'mdb-react-ui-kit';
-import styles from "../../partial/Profile/UserProfile.module.css"
-import { Autocomplete, Button, TextField } from '@mui/material';
+import styles from "../../partial/Profile/UserProfile.module.css";
+import { Autocomplete, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 import { GetAllUser } from '../../../api/TutorManagementApi';
 import SearchIcon from "@mui/icons-material/Search";
 import { CreateNotification } from '../../../api/NotificationApi';
 import useAuth from '../../../hooks/useAuth';
+import { CreateModerator } from '../../../api/UserApi';
 
 export default function CreateUser(pros) {
-    const { centredModal, setCentredModal, isCreated, setIsCreated } = pros
-    const [listUser, setListUser] = useState([])
+    const { centredModal, setCentredModal, isCreated, setIsCreated } = pros;
     const [userId, setUserId] = useState();
-    const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
-    const { user } = useAuth()
+    const { user } = useAuth();
     const [inputData, setInputData] = useState({
-        name: '',
+        email: '',
+        fullname: '',
+        phonenumber: '',
+        dateofbirth: '',
+        gender: '',
+        address: '',
+        city: '',
+        district: ''
     });
-    useEffect(() => {
-        const getAllUser = async () => {
-            const response = await GetAllUser();
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setListUser(data);
-            } else {
-                toast.error("Error getting user")
-            }
-        }
-        getAllUser();
-    }, [])
+
     const handleSave = async () => {
         let flag = true;
-        console.log(userId);
-        if (description == "") {
-            setErrors((prevState) => {
-                return {
-                    ...prevState,
-                    descriptione: "Vui lòng nhập mô tả",
-                };
-            });
+        const newErrors = {};
+
+        if (!inputData.fullname) {
+            newErrors.fullname = "Vui lòng nhập tên";
             flag = false;
         }
+
+        if (!inputData.email) {
+            newErrors.email = "Vui lòng nhập email";
+            flag = false;
+        } else if (!/\S+@\S+\.\S+/.test(inputData.email)) {
+            newErrors.email = "Email không hợp lệ.";
+            flag = false;
+        }
+
+        if (!inputData.phonenumber) {
+            newErrors.phonenumber = "Vui lòng nhập số điện thoại";
+            flag = false;
+        } else if (!/^\d{10}$/.test(inputData.phonenumber)) {
+            newErrors.phonenumber = "Số điện thoại không hợp lệ.";
+            flag = false;
+        }
+
+        if (!inputData.dateofbirth) {
+            newErrors.dateofbirth = "Vui lòng nhập ngày sinh";
+            flag = false;
+        } else {
+            const today = new Date();
+            const dob = new Date(inputData.dateofbirth);
+            if (dob >= today) {
+                newErrors.dateofbirth = "Ngày sinh không hợp lệ.";
+                flag = false;
+            }
+        }
+
+        if (!inputData.gender) {
+            newErrors.gender = "Vui lòng chọn giới tính.";
+            flag = false;
+        }
+
+        if (!inputData.address) {
+            newErrors.address = "Vui lòng nhập địa chỉ của bạn.";
+            flag = false;
+        }
+
+        if (!inputData.city) {
+            newErrors.city = "Vui lòng nhập thành phố của bạn.";
+            flag = false;
+        }
+
+        if (!inputData.district) {
+            newErrors.district = "Vui lòng nhập quận của bạn.";
+            flag = false;
+        }
+
+        setErrors(newErrors);
+
         if (flag) {
             if (user) {
-                const notification = {
-                    userId: user?.userId,
-                    description: description
-                }
-                const response = await CreateNotification(notification)
+                const dataAdd = {
+                    email: inputData.email,
+                    fullname: inputData.fullname,
+                    phonenumber: inputData.phonenumber,
+                    dateofbirth: inputData.dateofbirth,
+                    gender: inputData.gender,
+                    address: inputData.address,
+                    city: inputData.city,
+                    district: inputData.district
+                };
+                const response = await CreateModerator(dataAdd);
+                console.log(response);
                 if (response.ok) {
                     const responseJson = await response.json();
-                    if (responseJson.statusCode == 200) {
-                        toast.success("Created notification successfully")
-                        setIsCreated(!isCreated)
-                        setCentredModal(false)
+                    if (responseJson.statusCode == 201) {
+                        toast.success("Tạo tài khoản kiểm duyệt thành công");
+                        setIsCreated(!isCreated);
+                        setCentredModal(false);
                     } else {
-                        toast.error(responseJson.message)
+                        toast.error("Coi lại số điện thoại và gmail");
                     }
                 } else {
-                    toast.success("Fail to create notification")
+                    toast.error("Coi lại số điện thoại và gmail");
                 }
             }
         }
-    }
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInputData({
             ...inputData,
             [name]: value
         });
+        setErrors((prevState) => ({ ...prevState, [name]: '' })); // Clear error on change
     };
+
     return (
         <>
             <MDBModal tabIndex='-1' open={centredModal} onClose={() => setCentredModal(false)}>
@@ -95,40 +146,156 @@ export default function CreateUser(pros) {
                             <MDBBtn className='btn-close' color='none' onClick={() => setCentredModal(false)}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>
-                            <MDBRow key={1} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "20px" }}>
+                            <MDBRow key={1} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
                                 <MDBCol sm="3" className={`${styles.profile} font-bold`}>
                                     <MDBCardText style={{ marginTop: "15px" }}>Tên: </MDBCardText>
                                 </MDBCol>
                                 <MDBCol sm="7" className={styles.profile}>
-                                    <TextField value={inputData.name} onChange={handleChange} name='name' id="standard-basic" label="Tên" variant="standard" />
+                                    <TextField
+                                        value={inputData.fullname}
+                                        onChange={handleChange}
+                                        name='fullname'
+                                        id="standard-basic"
+                                        label="Tên"
+                                        variant="standard"
+                                        error={!!errors.fullname}
+                                        helperText={errors.fullname}
+                                    />
                                 </MDBCol>
                             </MDBRow>
-                            {errors.user && (<div className='mt-2 text-red-500'>{errors.user}</div>)}
-                            <MDBRow key={2} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "20px" }}>
+                            <MDBRow key={2} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
                                 <MDBCol sm="3" className={`${styles.profile} font-bold`}>
                                     <MDBCardText style={{ marginTop: "15px" }}>Email: </MDBCardText>
                                 </MDBCol>
                                 <MDBCol sm="7" className={styles.profile}>
-                                    <TextField onChange={handleChange} id="standard-basic" label="Email" variant="standard" />
+                                    <TextField
+                                        value={inputData.email}
+                                        name='email'
+                                        onChange={handleChange}
+                                        id="standard-basic"
+                                        label="Email"
+                                        variant="standard"
+                                        error={!!errors.email}
+                                        helperText={errors.email}
+                                    />
                                 </MDBCol>
                             </MDBRow>
-                            <MDBRow key={3} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "20px" }}>
-                                <MDBCol sm="3" className={`${styles.profile} font-bold`}>
-                                    <MDBCardText style={{ marginTop: "15px" }}>Mật khẩu: </MDBCardText>
-                                </MDBCol>
-                                <MDBCol sm="7" className={styles.profile}>
-                                    <TextField onChange={handleChange} id="standard-basic" label="Mật khẩu" variant="standard" />
-                                </MDBCol>
-                            </MDBRow>
-                            <MDBRow key={4} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "20px" }}>
+                            <MDBRow key={3} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
                                 <MDBCol sm="4" className={`${styles.profile} font-bold`}>
                                     <MDBCardText style={{ marginTop: "15px" }}>Số điện thoại: </MDBCardText>
                                 </MDBCol>
                                 <MDBCol sm="7" className={styles.profile}>
-                                    <TextField onChange={handleChange} id="standard-basic" label="Số điện thoại" variant="standard" />
+                                    <TextField
+                                        value={inputData.phonenumber}
+                                        name='phonenumber'
+                                        onChange={handleChange}
+                                        id="standard-basic"
+                                        label="Số điện thoại"
+                                        variant="standard"
+                                        error={!!errors.phonenumber}
+                                        helperText={errors.phonenumber}
+                                    />
                                 </MDBCol>
                             </MDBRow>
-                            {errors.descriptione && (<div className='mt-2 text-red-500'>{errors.descriptione}</div>)}
+                            <MDBRow key={4} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
+                                <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                                    <MDBCardText style={{ marginTop: "15px" }}>Ngày sinh: </MDBCardText>
+                                </MDBCol>
+                                <MDBCol sm="7" className={styles.profile}>
+                                    <TextField
+                                        id="dob"
+                                        style={{ width: "70%" }}
+                                        name='dateofbirth'
+                                        label="Ngày tháng năm sinh"
+                                        variant="standard"
+                                        margin="normal"
+                                        type="date"
+                                        value={inputData.dateofbirth}
+                                        onChange={handleChange}
+                                        error={!!errors.dateofbirth}
+                                        helperText={errors.dateofbirth}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </MDBCol>
+                            </MDBRow>
+                            <MDBRow key={5} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
+                                <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                                    <MDBCardText style={{ marginTop: "15px" }}>Giới tính: </MDBCardText>
+                                </MDBCol>
+                                <MDBCol sm="7" className={styles.profile}>
+                                    <FormControl style={{ width: "70%", marginTop: "7px" }} error={!!errors.gender}>
+                                        <InputLabel variant='standard' id="demo-simple-select-helper-label">
+                                            Giới tính
+                                        </InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-helper-label"
+                                            id="gender"
+                                            value={inputData.gender}
+                                            name="gender"
+                                            label="Giới tính"
+                                            variant='standard'
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value="male">Nam</MenuItem>
+                                            <MenuItem value="female">Nữ</MenuItem>
+                                        </Select>
+                                        {errors.gender && (<div className='mt-2 text-red-500' style={{fontSize: "12px"}}>{errors.gender}</div>)}
+                                    </FormControl>
+                                </MDBCol>
+                            </MDBRow>
+                            <MDBRow key={6} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
+                                <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                                    <MDBCardText style={{ marginTop: "15px" }}>Địa chỉ: </MDBCardText>
+                                </MDBCol>
+                                <MDBCol sm="7" className={styles.profile}>
+                                    <TextField
+                                        value={inputData.address}
+                                        name='address'
+                                        onChange={handleChange}
+                                        id="standard-basic"
+                                        label="Địa chỉ"
+                                        variant="standard"
+                                        error={!!errors.address}
+                                        helperText={errors.address}
+                                    />
+                                </MDBCol>
+                            </MDBRow>
+                            <MDBRow key={7} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
+                                <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                                    <MDBCardText style={{ marginTop: "15px" }}>Thành phố: </MDBCardText>
+                                </MDBCol>
+                                <MDBCol sm="7" className={styles.profile}>
+                                    <TextField
+                                        value={inputData.city}
+                                        name='city'
+                                        onChange={handleChange}
+                                        id="standard-basic"
+                                        label="Thành phố"
+                                        variant="standard"
+                                        error={!!errors.city}
+                                        helperText={errors.city}
+                                    />
+                                </MDBCol>
+                            </MDBRow>
+                            <MDBRow key={8} className={styles.profile_container} style={{ justifyContent: "space-between", marginBottom: "40px" }}>
+                                <MDBCol sm="4" className={`${styles.profile} font-bold`}>
+                                    <MDBCardText style={{ marginTop: "15px" }}>Quận: </MDBCardText>
+                                </MDBCol>
+                                <MDBCol sm="7" className={styles.profile}>
+                                    <TextField
+                                        value={inputData.district}
+                                        name='district'
+                                        onChange={handleChange}
+                                        id="standard-basic"
+                                        label="Quận"
+                                        variant="standard"
+                                        error={!!errors.district}
+                                        helperText={errors.district}
+                                    />
+                                </MDBCol>
+                            </MDBRow>
                         </MDBModalBody>
                         <MDBModalFooter style={{ gap: "15px" }}>
                             <Button variant='contained' color='error' onClick={() => setCentredModal(false)}>

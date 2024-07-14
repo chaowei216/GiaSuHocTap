@@ -23,7 +23,7 @@ namespace SWD392_GiaSuHocTap.Controllers
         }
 
         [HttpGet("get-news-paging")]
-        public async Task<IActionResult> GetNewsPaging([FromQuery] NewsParameters parameters)
+        public IActionResult GetNewsPaging([FromQuery] NewsParameters parameters)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             {
                 return Ok(new ResponseDTO()
                 {
-                    StatusCode = (int)StatusCodeEnum.OK,
+                    StatusCode = (int)StatusCodeEnum.Created,
                     Message = GeneralMessage.Success,
                     Data = feedback
                 });
