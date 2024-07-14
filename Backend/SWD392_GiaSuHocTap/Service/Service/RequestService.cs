@@ -353,6 +353,13 @@ namespace Service.Service
             return mappedResponse;
         }
 
+        public IEnumerable<Request> GetRequestsOfUser(int userId)
+        {
+            var allRequests = _requestRepository.GetAllRequestOfUser(userId);
+
+            return allRequests.Where(p => p.Status == RequestConst.CompletedStatus).ToList();
+        }
+
         public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetUserRequest(userId, parameters);

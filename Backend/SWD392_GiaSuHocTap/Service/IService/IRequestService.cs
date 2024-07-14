@@ -101,5 +101,12 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo);
+
+        /// <summary>
+        /// Get user requests
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<Request> GetRequestsOfUser(int userId);
     }
 }
