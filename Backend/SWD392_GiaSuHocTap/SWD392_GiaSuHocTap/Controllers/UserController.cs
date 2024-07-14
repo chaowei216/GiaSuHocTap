@@ -16,10 +16,12 @@ namespace SWD392_GiaSuHocTap.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IStatisticService _statisticService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IStatisticService statisticService)
         {
             _userService = userService;
+            _statisticService = statisticService;
         }
 
         [HttpGet()]
@@ -404,6 +406,44 @@ namespace SWD392_GiaSuHocTap.Controllers
                 StatusCode = (int)StatusCodeEnum.InternalServerError,
                 Message = GeneralMessage.Fail,
                 Data = null
+            });
+        }
+
+        [HttpGet("rent-info-parents/{id}")]
+        public async Task<IActionResult> GetRentingInfoOfParents(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(id);
+
+            if (user == null) 
+            { 
+                return NotFound(); 
+            } else if (user.RoleId != (int)RoleEnum.Parents)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = GeneralMessage.Fail,
+                    Data = null
+                });
+            }
+
+            var response = _statisticService.GetUserRentingInfo(user);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
             });
         }
     }

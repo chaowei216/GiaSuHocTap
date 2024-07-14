@@ -148,7 +148,7 @@ namespace Service.IService
         /// Get top tutor
         /// </summary>
         /// <returns></returns>
-        IEnumerable<TutorInforDTO> GetTopTutor();
+        IEnumerable<TopTutorInfoDTO> GetTopTutor();
 
         /// <summary>
         /// Update user info
