@@ -12,11 +12,7 @@ function TutorDetailRight({ data }) {
   }
   const calculateStarRating = (numberRent, rentHour) => {
     // Tính toán số sao dựa vào điều kiện của numberRent hoặc rentHour
-    if (numberRent <= 10 || rentHour <= 10) {
-      return Array.from({ length: 2 }, (_, index) => (
-        <StarRateIcon key={index} sx={{ color: "#ff9948" }} />
-      ));
-    } else if (numberRent < 20 || rentHour < 20) {
+    if (numberRent < 20 || rentHour < 20) {
       return Array.from({ length: 3 }, (_, index) => (
         <StarRateIcon key={index} sx={{ color: "#ff9948" }} />
       ));

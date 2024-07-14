@@ -40,10 +40,6 @@ export default function PersonalProfile() {
                                         fluid />
                                     <p className="text-muted mb-1">{user?.roleName}</p>
                                     <p className="text-muted mb-4">{user?.fullname}</p>
-                                    <div className="d-flex justify-content-center mb-2 gap-3">
-                                        <Button variant="contained">Follow</Button>
-                                        <Button color='success' variant="contained">Rating</Button>
-                                    </div>
                                 </MDBCardBody>
                             </MDBCard>
 

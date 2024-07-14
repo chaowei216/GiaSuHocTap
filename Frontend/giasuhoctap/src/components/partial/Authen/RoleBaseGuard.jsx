@@ -57,6 +57,14 @@ export default function RoleBasedGuard({ accessibleRoles, children, status = "Ac
     navigate("/home-tutor");
   };
 
+  const handleClick5 = () => {
+    navigate("/login");
+  };
+
+  const handleClick6 = () => {
+    navigate("/checking-page");
+  };
+
   const currentRole = useCurrentRole();
   const currentStatus = useCurrentStatus();
 
@@ -87,11 +95,20 @@ export default function RoleBasedGuard({ accessibleRoles, children, status = "Ac
             {currentRole == "Moderator" && (
               <Button onClick={handleClick3}>Trở về trang Moderator</Button>
             )}
-            {currentRole == "Tutor" && (
+            {currentRole == "Tutor" && currentStatus == "Active" && (
               <Button onClick={handleClick4}>Trở về trang gia sư</Button>
+            )}
+            {currentRole == "Tutor" && currentStatus == "Pending" && (
+              <Button onClick={handleClick5}>Trở về trang đăng nhập</Button>
+            )}
+            {currentRole == "Tutor" && currentStatus == "Checking" && (
+              <Button onClick={handleClick6}>Trở về trang kiểm tra</Button>
             )}
             {currentRole == "Parents" && (
               <Button onClick={handleClick}>Trở về trang chủ</Button>
+            )}
+            {currentStatus == "InActive" && (
+              <Button onClick={handleClick5}>Trở về đăng nhập</Button>
             )}
           </AlertTitle>
         </Alert>

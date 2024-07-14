@@ -28,7 +28,7 @@ const Profile = () => {
                 const data = await GetAllClass();
                 console.log('Classes fetched:', data);
                 if (data.error) {
-                    console.log('Error fetching classes:', data.error);
+                    console.log('Lỗi server:', data.error);
                 } else {
                     setClasses(data.data);
                 }

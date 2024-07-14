@@ -47,6 +47,7 @@ import NewDetailPage from "../pages/NewsPage/NewDetailPage";
 import TimetablePage from "../pages/TimeTable/TimetablePage";
 import CheckingPageTutor from "../pages/Public/CheckingPageTutor";
 import ErrorException from "../pages/Public/ErrorException";
+import PageNewByModerator from "../pages/NewsPage/PageNewByModerator";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -64,12 +65,12 @@ export const router = createBrowserRouter([
   { path: "BookTutorOffline", element: <RequireAuth><BookTutorOfflinePage /></RequireAuth> },
   { path: "Profile", element: <RequireAuth><Profile /></RequireAuth> },
   { path: "send-otp/:email", element: <GuestAuth><SendOtpPage /></GuestAuth> },
-  { path: "ParentPage", element: <RequireAuth><ParentPage /></RequireAuth> },
+  { path: "ParentPage", element: <RoleBasedGuard accessibleRoles={['Parents']} status="Active"><ParentPage /></RoleBasedGuard> },
   { path: "tutor-detail/:email", element: <TutorDetailPage />, errorElement: <ErrorException /> },
   { path: "request-tutor", element: <RequestTutorPage /> },
   { path: "personal-profile", element: <RoleBasedGuard accessibleRoles={['Tutor', 'Admin', 'Moderator']} status="Active"><UserProfilePage /></RoleBasedGuard> },
   { path: "buycoin", element: <RequireAuth><BuyCoinPage /></RequireAuth> },
-  { path: "ParentHistory", element: <RequireAuth><ParentHistory /></RequireAuth> },
+  { path: "ParentHistory", element: <RoleBasedGuard accessibleRoles={['Parents']} status="Active"><ParentHistory /></RoleBasedGuard> },
   { path: "user-management", element: <RoleBasedGuard accessibleRoles={['Admin']} status="Active"><UserPage /></RoleBasedGuard> },
   { path: "home-tutor", element: <RoleBasedGuard accessibleRoles={['Tutor']} status="Active"><HomeTutorPage /></RoleBasedGuard> },
   { path: "tutor-profile", element: <TutorProfilePage /> },
@@ -94,5 +95,6 @@ export const router = createBrowserRouter([
   { path: "/news/:newsId", element: <NewDetailPage /> },
   { path: "/time-table/:email", element: <TimetablePage /> },
   { path: "checking-page", element: <CheckingPageTutor /> },
+  { path: "view-new-moderator", element: <PageNewByModerator /> },
 ]);
 

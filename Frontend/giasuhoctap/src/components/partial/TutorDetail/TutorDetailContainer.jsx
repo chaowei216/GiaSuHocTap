@@ -55,22 +55,24 @@ function TutorDetailContainer() {
           <TutorDetailRight data={data} />
         </TutorDetailMain>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignContent: "space-betwwen",
-          justifyContent: "center",
-          margin: "20px"
-        }}
-      >
-        <div style={{ marginTop: "20px" }}>
-          <PageNavigation
-            page={page}
-            setPage={setPage}
-            totalPages={totalPage}
-          />
+      {dataFeedback && dataFeedback.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignContent: "space-betwwen",
+            justifyContent: "center",
+            margin: "20px"
+          }}
+        >
+          <div style={{ marginTop: "20px" }}>
+            <PageNavigation
+              page={page}
+              setPage={setPage}
+              totalPages={totalPage}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

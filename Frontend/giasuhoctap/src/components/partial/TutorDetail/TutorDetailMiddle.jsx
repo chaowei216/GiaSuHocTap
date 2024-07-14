@@ -1,6 +1,7 @@
 import style from "./TutorDetailMiddle.module.css"
 import ImageWithPreview from "../../global/ImageWithPreview";
 import FeedbackTutor from "./FeedbackTutor";
+import InventoryIcon from "@mui/icons-material/Inventory";
 function TutorDetailMiddle({ data, dataFeedback }) {
   console.log(data);
   // const imageList = [
@@ -71,11 +72,11 @@ function TutorDetailMiddle({ data, dataFeedback }) {
       <div className="mt-4 flex">
         <div className="w-1/4">
           <div className={style.nav_item_name}>Số lượt thuê</div>
-          <div className={style.nav_item_value}>120 lượt</div>
+          <div className={style.nav_item_value}>{data?.tutorDetail?.numberOfRent} lượt</div>
         </div>
         <div className="w-1/4">
           <div className={style.nav_item_name}>Đã được thuê</div>
-          <div className={style.nav_item_value}>1721 giờ</div>
+          <div className={style.nav_item_value}>{data?.tutorDetail?.rentHour} giờ</div>
         </div>
         <div className="w-1/4">
           <div className={style.nav_item_name}>Tỷ lệ hoàn thành</div>
@@ -106,6 +107,7 @@ function TutorDetailMiddle({ data, dataFeedback }) {
           </p>
           <p><b>Ngày dạy:</b>{getUniqueDays(data?.timeTables)}</p>
           <p><b>Thời gian:</b> {getTimeFormat(data?.timeTables)}</p>
+          <p><b>Bằng cấp:</b></p>
           <div className={style.album_of_player}>
             <ImageWithPreview imageList={imageList} />
           </div>
@@ -129,6 +131,12 @@ function TutorDetailMiddle({ data, dataFeedback }) {
       <hr style={{ margin: "20px 0px 10px 0px" }} />
       <div>
         <div className={style.title_user_profile}>Đánh giá</div>
+        {dataFeedback && dataFeedback.length == 0 && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
+            <InventoryIcon />
+            Không có dữ liệu
+          </div>
+        )}
         <FeedbackTutor dataFeedback={dataFeedback} />
       </div>
     </div>

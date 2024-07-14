@@ -9,10 +9,10 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import logoEdu from "/img/logoGiasu.png";
 import useAuth from "../../../hooks/useAuth";
 import GroupIcon from '@mui/icons-material/Group';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import ReportIcon from '@mui/icons-material/Report';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
@@ -59,19 +59,26 @@ export default function Sidebar() {
         icon: <ReportIcon />,
         id: 52,
         src: "/view-report",
+      },
+      {
+        title: "Tin tức",
+        path: "/view-new-moderator",
+        icon: <NewspaperIcon />,
+        id: 52,
+        src: "/view-new-moderator",
       });
   }
   if (user?.roleName === 'Admin') {
     Menus.push(
       {
-        title: "Quản lý người dùng",
+        title: "Quản lý tài khoản",
         path: "/user-management",
         icon: <GroupIcon />,
         id: 13,
         src: "/user-management",
       },
       {
-        title: "Duyệt gia sư mới",
+        title: "Duyệt gia sư",
         path: "/tutor",
         icon: <WorkHistoryIcon />,
         id: 2,

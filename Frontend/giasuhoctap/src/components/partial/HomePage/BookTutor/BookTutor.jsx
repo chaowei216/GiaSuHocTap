@@ -58,6 +58,7 @@ const BookTutor = () => {
                     const user = responseJson.data.data
                     setTutorList(user);
                     setTotalPages(responseJson.data.totalPages)
+                    console.log(responseJson);
                 } else {
                     toast.error("Lỗi sever")
                 }
@@ -183,7 +184,7 @@ const BookTutor = () => {
                             <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
                         </div>
                     </div>
-                    <div className={`slide-container ${styles.slideContainer}`}>
+                    <div className={`slide-container ${styles.slideContainer} mt-16`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
                                 {tutorList && tutorList.length <= 0 && (
@@ -238,8 +239,8 @@ const BookTutor = () => {
                                                 </p>
                                             </div>
                                             <div className={styles.cardSubject}>
-                                                <p className={styles.cardTitle}>Tiền lương: </p>
-                                                <p className={`wage ${styles.wage}`}>100 Coin</p>
+                                                <p className={styles.cardTitle}>Giá thuê: </p>
+                                                <p className={`wage ${styles.wage}`}>50 Xu/h</p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Hình thức dạy: </p>
