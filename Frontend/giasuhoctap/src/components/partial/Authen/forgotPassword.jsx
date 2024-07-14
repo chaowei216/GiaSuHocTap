@@ -18,8 +18,10 @@ import { ForgotPasswordApi, ResetPassword, SignIn } from "../../../api/AuthenApi
 import useAuth from "../../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import WaitingModal from "../../global/WaitingModal";
 const defaultTheme = createTheme();
 export default function ForgotPassword() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("")
@@ -30,145 +32,157 @@ export default function ForgotPassword() {
     if (isSuccess == false) {
       if (email == null || email.trim().length == 0) {
         toast.error("Vui lòng nhập email");
+        setIsModalOpen(false)
         return;
       }
+      setIsModalOpen(true)
       const response = await ForgotPasswordApi(email)
       if (!response.ok) {
+        setIsModalOpen(false)
         toast.error("Lỗi")
         return;
       }
       const responseJson = await response.json();
       if (responseJson.statusCode === 200) {
-        toast.success(responseJson.message)
+        setIsModalOpen(false)
+        toast.success("Mã otp đã được gửi đến mail của bạn")
         setIsSuccess(true);
       } else {
+        setIsModalOpen(false)
         toast.error(responseJson.message)
       }
-    } else {
+    } else if (isSuccess == true) {
       console.log(email, otp, password, confirmPassword);
+      setIsModalOpen(true)
       const response = await ResetPassword(otp, password, confirmPassword, email)
       const responseJson = await response.json();
       if (responseJson.statusCode === 204) {
         toast.success("Đổi mật khẩu thành công")
-        window.location.href = "/login"
+        window.setTimeout(() => {
+          window.location.href = "/login"
+        }, 3000)
       } else {
+        setIsModalOpen(false)
         toast.error("Đổi mật khẩu không thành công")
       }
     }
   };
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="sm" className={styles.layout_container}>
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 6,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div className={styles.logoTutor} >
-            <img src={logoTutor} />
-          </div>
-          <Typography component="h1" variant="h4">
-            Quên mật khẩu
-          </Typography>
-          <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
-            Điền email của bạn và chúng tôi sẽ gửi mã otp đến mail bạn
-          </Typography>
+    <>
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="sm" className={styles.layout_container}>
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            sx={{
+              marginTop: 6,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            {isSuccess == false && (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Địa chỉ email"
-                name="email"
-                autoComplete="email"
-                onChange={(e) => setEmail(e.target.value)}
-                autoFocus
-                InputProps={{
-                  startAdornment: (
-                    <MailOutlineIcon />
-                  ),
-                }}
-              />
-            )}
-            {isSuccess == true && (
-              <>
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="otp"
-                  label="Mã OTP"
-                  name="otp"
-                  autoComplete="otp"
-                  onChange={(e) => setOtp(e.target.value)}
-                  autoFocus
-                  InputProps={{
-                    startAdornment: (
-                      <MailOutlineIcon />
-                    ),
-                  }}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="password"
-                  label="Mật khẩu"
-                  name="password"
-                  autoComplete="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoFocus
-                  InputProps={{
-                    startAdornment: (
-                      <MailOutlineIcon />
-                    ),
-                  }}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="confirmPassword"
-                  label="Xác nhận mật khẩu"
-                  name="confirmPassword"
-                  autoComplete="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  autoFocus
-                  InputProps={{
-                    startAdornment: (
-                      <MailOutlineIcon />
-                    ),
-                  }}
-                />
-              </>
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Đồng ý
-            </Button>
-            <div style={{ display: 'flex', justifyContent: "center" }}>
-              <Link href="/login" variant="body2">
-                Trở về trang đăng nhập
-              </Link>
+            <div className={styles.logoTutor} >
+              <img src={logoTutor} />
             </div>
+            <Typography component="h1" variant="h4">
+              Quên mật khẩu
+            </Typography>
+            <Typography component="h1" variant="h6" sx={{ mt: 3 }}>
+              Điền email của bạn và chúng tôi sẽ gửi mã otp đến mail bạn
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              {isSuccess == false && (
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Địa chỉ email"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <MailOutlineIcon />
+                    ),
+                  }}
+                />
+              )}
+              {isSuccess == true && (
+                <>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="otp"
+                    label="Mã OTP"
+                    name="otp"
+                    autoComplete="otp"
+                    onChange={(e) => setOtp(e.target.value)}
+                    autoFocus
+                    InputProps={{
+                      startAdornment: (
+                        <MailOutlineIcon />
+                      ),
+                    }}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="password"
+                    label="Mật khẩu"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoFocus
+                    InputProps={{
+                      startAdornment: (
+                        <MailOutlineIcon />
+                      ),
+                    }}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="confirmPassword"
+                    label="Xác nhận mật khẩu"
+                    name="confirmPassword"
+                    autoComplete="confirmPassword"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    autoFocus
+                    InputProps={{
+                      startAdornment: (
+                        <MailOutlineIcon />
+                      ),
+                    }}
+                  />
+                </>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Đồng ý
+              </Button>
+              <div style={{ display: 'flex', justifyContent: "center" }}>
+                <Link href="/login" variant="body2">
+                  Trở về trang đăng nhập
+                </Link>
+              </div>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+      <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
+    </>
   );
 }

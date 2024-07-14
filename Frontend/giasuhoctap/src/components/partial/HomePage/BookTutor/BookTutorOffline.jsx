@@ -124,24 +124,30 @@ const BookTutorOffline = () => {
     }
     const translateDayOfWeek = (dayOfWeek) => {
         const daysInVietnamese = {
-            Monday: 'Thứ 2, ',
-            Tuesday: 'Thứ 3, ',
-            Wednesday: 'Thứ 4, ',
-            Thursday: 'Thứ 5, ',
-            Friday: 'Thứ 6',
-            Saturday: 'Thứ 7, ',
+            Monday: '2',
+            Tuesday: '3',
+            Wednesday: '4',
+            Thursday: '5',
+            Friday: '6',
+            Saturday: '7',
+            Sunday: 'CN',
         };
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
     const getUniqueDays = (timeTables) => {
+        if (!timeTables || !timeTables.length) {
+            return '';
+        }
         const uniqueDays = new Set();
-        return timeTables.reduce((acc, timeTable) => {
+        const result = timeTables.reduce((acc, timeTable) => {
             if (!uniqueDays.has(timeTable.dayOfWeek)) {
                 uniqueDays.add(timeTable.dayOfWeek);
-                acc.push(`${translateDayOfWeek(timeTable.dayOfWeek)}`);
+                acc.push(`Thứ ${translateDayOfWeek(timeTable.dayOfWeek)}`);
             }
             return acc;
         }, []);
+
+        return result.join(', ');
     };
     return (
         <>
@@ -185,7 +191,7 @@ const BookTutorOffline = () => {
                                 </Select>
                             </FormControl>
                             <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
-                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
+                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Làm mới</Button>
                         </div>
                     </div>
                     <div className={`slide-container ${styles.slideContainer} mt-16`}>
@@ -228,7 +234,7 @@ const BookTutorOffline = () => {
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Tiền lương: </p>
-                                                <p className={`wage ${styles.wage}`}>100 Coin</p>
+                                                <p className={`wage ${styles.wage}`}>Đề nghị</p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Hình thức dạy: </p>
@@ -240,6 +246,12 @@ const BookTutorOffline = () => {
                                                 <p className={styles.cardTitle}>Ngày trong tuần: </p>
                                                 <p className={`dayOfWeek ${styles.dayOfWeek}`}>
                                                     {getUniqueDays(tutor.timeTables)}
+                                                </p>
+                                            </div>
+                                            <div className={styles.cardSubject}>
+                                                <p className={styles.cardTitle}>Phí đăng kí: </p>
+                                                <p className={`dayOfWeek ${styles.dayOfWeek}`}>
+                                                    10 xu
                                                 </p>
                                             </div>
                                         </div>

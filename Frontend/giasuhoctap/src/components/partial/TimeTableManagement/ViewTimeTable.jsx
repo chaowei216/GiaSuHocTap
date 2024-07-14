@@ -7,16 +7,39 @@ import { toast } from 'react-toastify';
 import TimeTable from './TimeTable';
 import UpdateTimeTable from './UpdateTimeTable';
 import { ActiveTimeTable, DeActiveTimeTable, GetTimeTableByEmail } from '../../../api/TimetableApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import { Logout } from '../../../api/AuthenApi';
 export default function ViewTimeTable() {
+    const { user, f5User, logout } = useAuth()
     let { email } = useParams();
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(20);
     const [data, setData] = useState([]);
     const [isCreated, setIsCreated] = useState(false);
-    const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
+    const navigate = useNavigate()
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+        const interval = setInterval(checkUser, 10000);
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
     useEffect(() => {
         const getAllTimetable = async () => {
             const response = await GetTimeTableByEmail(email, page, pageSize);

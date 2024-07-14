@@ -1,8 +1,7 @@
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import Sidebar from '../../components/layouts/Sidebar/Sidebar'
-import AppView from '../../components/partial/overview/view/app-view'
-
-export default function DashboardPage() {
+import ViewNews from '../../components/partial/NewsManagement/ViewNews'
+export default function PageNewByModerator() {
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
@@ -19,10 +18,8 @@ export default function DashboardPage() {
                 position: "relative", width: "calc(100% - 260px)", height: "100%", maxHeight: "100%", marginTop: "96px"
             }}
                 className="p-4 overflow-y-auto">
-                <AppView />
+                <ViewNews />
             </div>
         </div>
-
-
     )
 }

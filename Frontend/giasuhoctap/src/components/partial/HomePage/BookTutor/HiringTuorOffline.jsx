@@ -58,10 +58,10 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
           setBasicModal(false);
           window.location.reload();
         } else {
-          toast.error(responseJson.message)
+          toast.error("Đăng ký học gia sư thất bại. Vui lòng kiểm tra lại !")
         }
       } else {
-        toast.error("Error when create data")
+        toast.error("Đăng ký học gia sư thất bại. Vui lòng kiểm tra lại !")
       }
     }
   }

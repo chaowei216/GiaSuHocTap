@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import NotificationTable from './ReportTable';
 import { GetAllReport, GetAllReportByCondition } from '../../../api/ReportApi';
 import { Button, TextField } from '@mui/material';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewReport() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -15,7 +16,7 @@ export default function ViewReport() {
     const [isSearch, setIsSearch] = useState(false);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
-
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     const handleFilter = async () => {
         setPage(1)
         if ((from || to) != "") {
@@ -105,8 +106,8 @@ export default function ViewReport() {
             <div style={{ marginBottom: "20px" }}>
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email từ" variant="standard" value={from} onChange={(event) => setFrom(event.target.value)} />
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email đến" variant="standard" value={to} onChange={(event) => setTo(event.target.value)} />
-                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Filter</Button>
-                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Reset</Button>
+                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Lọc</Button>
+                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Làm mới</Button>
             </div>
             <NotificationTable data={data} setIsUpdate={setIsUpdate} isUpdate={isUpdate} />
             {data && data.length > 0 && (
@@ -134,6 +135,7 @@ export default function ViewReport() {
                     </div>
                 </>
             )}
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
         </div>
     )
 }

@@ -978,7 +978,6 @@ namespace Service.Service
             user.City = userInfo.City;
             user.District = userInfo.District;
             user.Gender = userInfo.Gender;
-            user.UserImage = userInfo.Image;
 
             var updatedUser = await _userRepository.UpdateUser(user);
 

@@ -53,25 +53,29 @@ export default function ReportTable(pros) {
         toast.success("Chấp nhận thành công")
       }
     } else {
-      toast.error("Error accepting")
+      toast.error("Lỗi server")
     }
   };
   const handleDeny = async (requestId) => {
-    const dataUpdate = {
-      reportId: requestId,
-      isAccepted: false
-    }
-    const response = await AcceptOrDenyReport(dataUpdate)
-    if (response.ok) {
-      const responseJson = await response.json();
-      if (responseJson.statusCode == 204) {
-        setIsUpdate(!isUpdate)
-        toast.success("Từ chối thành công")
+    console.log(requestId);
+    if (requestId) {
+      const dataUpdate = {
+        reportId: requestId,
+        isAccepted: false
       }
-    } else {
-      toast.error("Error deny")
+      const response = await AcceptOrDenyReport(requestId, dataUpdate)
+      if (response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.statusCode == 204) {
+          setIsUpdate(!isUpdate)
+          toast.success("Từ chối thành công")
+        }
+      } else {
+        toast.error("Lỗi sever")
+      }
     }
   }
+  console.log(data);
   return (
     <div>
       <TableContainer component={Paper}>

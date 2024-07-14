@@ -32,6 +32,7 @@ export default function ProfileMenu() {
             navigate('/home-tutor')
         } else {
             setAnchorEl(null);
+            navigate('/ParentHistory')
         }
     };
 

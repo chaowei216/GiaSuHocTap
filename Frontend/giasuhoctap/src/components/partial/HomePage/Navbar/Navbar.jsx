@@ -62,7 +62,6 @@ const Navbar = () => {
                 PHỤ HUYNH
               </a>
               <div className={styles.dropdownMenu}>
-                <Link to="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</Link>
                 <Link to="/ParentPage" className={styles.dropdownItem}>Cập nhật hồ sơ</Link>
                 <Link to="/" className={styles.dropdownItem}>Gia sư tiêu biểu</Link>
               </div>
@@ -72,15 +71,11 @@ const Navbar = () => {
                 GIA SƯ
               </a>
               <div className={styles.dropdownMenu}>
-                <Link to="/RegisterTutor" className={styles.dropdownItem}>Cập nhật hồ sơ khi đã đăng ký</Link>
                 <Link to="/registerTutors" className={styles.dropdownItem}>Đăng ký làm gia sư</Link>
                 <Link to="/BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</Link>
                 <Link to="/BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</Link>
               </div>
             </div>
-            {/* <a href="/" className={`${styles.nav} ${styles.center}`}>
-              LỚP MỚI
-            </a> */}
             <Link to="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
             </Link>

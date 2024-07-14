@@ -31,18 +31,18 @@ function TutorDetailContainer() {
   }, [email])
   useEffect(() => {
     const fetchFeedback = async () => {
-      const response = await GetFeedbackTutor(email)
+      const response = await GetFeedbackTutor(email, page)
       if (response.ok) {
         const responseJson = await response.json();
         const feedback = responseJson.data.data
         setDataFeedback(feedback);
-        setTotalPage(feedback.totalPages)
+        setTotalPage(responseJson.data.totalPages)
       } else {
         toast.error("Error to fetch data feedback")
       }
     }
     fetchFeedback()
-  }, [email])
+  }, [email, page])
   return (
     <>
       <div
@@ -55,22 +55,24 @@ function TutorDetailContainer() {
           <TutorDetailRight data={data} />
         </TutorDetailMain>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignContent: "space-betwwen",
-          justifyContent: "center",
-          margin: "20px"
-        }}
-      >
-        <div style={{ marginTop: "20px" }}>
-          <PageNavigation
-            page={page}
-            setPage={setPage}
-            totalPages={totalPage}
-          />
+      {dataFeedback && dataFeedback.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignContent: "space-betwwen",
+            justifyContent: "center",
+            margin: "20px"
+          }}
+        >
+          <div style={{ marginTop: "20px" }}>
+            <PageNavigation
+              page={page}
+              setPage={setPage}
+              totalPages={totalPage}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
