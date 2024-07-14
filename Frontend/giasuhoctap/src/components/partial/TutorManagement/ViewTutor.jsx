@@ -84,9 +84,6 @@ export default function ViewTutor() {
     >
       <Container>
         <Title title="Danh sách gia sư yêu cầu được duyệt" />
-        <Header>
-          <Search_Input />
-        </Header>
         <Body>
           <ButtonType setType={setType} isUpdate={isUpdate} />
           <TableList data={data} handleAccept={handleAccept} handleClickOpen={handleClickOpen} type={type} />

@@ -1,9 +1,6 @@
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -14,9 +11,8 @@ import styles from "./login.module.css"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import logoTutor from "/img/logoTutor.png"
 import { useEffect, useRef } from "react";
-import { SignIn } from "../../../api/AuthenApi";
 import useAuth from "../../../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const defaultTheme = createTheme();
 export default function Login() {
   const userRef = useRef();
@@ -117,16 +113,16 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/forgot-password" variant="body2">
+                <Link style={{fontSize: "14px", textDecoration: "underline", color: "#1976d2"}} to="/forgot-password" variant="body2">
                   Quên mật khẩu
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/registerParents" variant="body2">
+                <Link style={{fontSize: "14px", textDecoration: "underline", color: "#1976d2"}}  to="/registerParents" variant="body2">
                   {"Không có tài khoản ? Đăng ký"}
                 </Link>
                 <br/>
-                <Link href="/registerTutors" variant="body2">
+                <Link style={{fontSize: "14px", textDecoration: "underline", color: "#1976d2"}}  to="/registerTutors" variant="body2">
                   {"Không có tài khoản ? Đăng ký làm gia sư"}
                 </Link>
               </Grid>

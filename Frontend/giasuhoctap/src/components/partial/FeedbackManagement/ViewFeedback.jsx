@@ -5,11 +5,13 @@ import PageSize from '../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
 import NotificationTable from './FeedbackTable';
 import { GetAllFeedback } from '../../../api/FeedbackApi';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewFeedback() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     useEffect(() => {
         const getAllNotification = async () => {
             const response = await GetAllFeedback(page, pageSize);
@@ -62,6 +64,7 @@ export default function ViewFeedback() {
                     </div>
                 </>
             )}
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
         </div>
     )
 }

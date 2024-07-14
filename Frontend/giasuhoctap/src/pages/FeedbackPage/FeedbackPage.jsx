@@ -1,7 +1,6 @@
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import Sidebar from '../../components/layouts/Sidebar/Sidebar'
 import ViewFeedback from '../../components/partial/FeedbackManagement/ViewFeedback'
-import ViewTransaction from '../../components/partial/TransactionManagement/ViewTransaction'
 export default function FeedbackPage() {
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>

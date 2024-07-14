@@ -188,7 +188,7 @@ export const GetUserByToken = (refreshToken) => {
 
 export const ResetPassword = async (otp, password, confirmPassword, email) => {
     try {
-        const url = `${baseUrl}/api/Auth/forgot-password`;
+        const url = `${baseUrl}/api/Auth/reset-password`;
         const request = {
             method: "POST",
             headers: {
@@ -212,7 +212,7 @@ export const Logout = async (refreshToken) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
-            body: JSON.stringify({refreshToken: refreshToken})
+            body: JSON.stringify({ refreshToken: refreshToken })
         };
         const response = await fetch(url, request);
         return response;

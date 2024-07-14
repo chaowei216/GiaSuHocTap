@@ -60,10 +60,10 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
           setBasicModal(false);
           window.location.reload();
         } else {
-          toast.error(responseJson.message)
+          toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")
         }
       } else {
-        toast.error("Error when create data")
+        toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")
       }
     }
   }

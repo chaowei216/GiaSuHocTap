@@ -82,12 +82,12 @@ const Complete = () => {
             if (response.ok) {
                 const reponseJson = await response.json();
                 if (reponseJson.statusCode == 201) {
-                    toast.success("Đánh giá thành công")
+                    toast.success("Báo cáo thành công")
                 } else {
                     toast.error(response.message)
                 }
             } else {
-                toast.error("Lỗi sever")
+                toast.error("Lỗi server")
             }
             setIsReportModalOpen(false);
             setSelectedCard(null);

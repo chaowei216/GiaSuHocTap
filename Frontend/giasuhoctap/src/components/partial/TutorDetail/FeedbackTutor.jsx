@@ -2,7 +2,6 @@ import { Avatar } from "@mui/material";
 import { Stack } from "react-bootstrap";
 import StarRateIcon from "@mui/icons-material/StarRate";
 export default function FeedbackTutor({ dataFeedback }) {
-  console.log(dataFeedback);
   return (
     <div>
       {dataFeedback &&
