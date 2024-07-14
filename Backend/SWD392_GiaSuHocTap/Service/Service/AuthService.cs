@@ -339,7 +339,7 @@ namespace Service.Service
                 _courseService.DeleteUserCourse(user.UserId);
                 _classService.DeleteUserClass(user.UserId);
                 _timeTableService.DeleteTimeTable(user.UserId);
-                user.Status = UserStatusEnum.Checking;
+                user.Status = UserStatusEnum.Pending;
                 _userService.UpdateUserOtp(user);
                 _emailService.SendRejectEmail(email, EmailSubject.RejectEmailSubject, reason);
                 return true;

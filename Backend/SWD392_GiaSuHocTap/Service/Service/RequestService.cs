@@ -221,8 +221,20 @@ namespace Service.Service
             if (request != null)
             {
                 var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
+                var inprocesstime = times.Where(t => t.Status == RequestConst.InProcessStatus).FirstOrDefault();
 
-                request.Coin = request.Coin * times.Count();
+                foreach (var time in times)
+                {
+                    var onlineTime = await _timeTableService.GetTimeTableById(inprocesstime.TimeTableId);
+                    onlineTime.Status = TimeTableConst.FreeStatus;
+                    await _timeTableService.UpdateTimeTable(onlineTime);
+
+                    inprocesstime.Status = RequestConst.CompletedStatus;
+                    await _requestRepository.UpdateRequestTime(time);
+                }
+
+                var compleTime = times.Where(t => t.Status == RequestConst.CompletedStatus).ToList();
+                request.Coin = request.Coin * compleTime.Count();
                 request.Status = RequestConst.CompletedStatus;
                 await _requestRepository.UpdateRequest(request);
 
@@ -232,16 +244,6 @@ namespace Service.Service
                     user.CoinBalance += (int)Math.Ceiling((decimal)request.Coin * 70 / 100);
                     await _userService.UpdateUser(user);
                 }    
-
-                foreach (var time in times)
-                {
-                    var onlineTime = await _timeTableService.GetTimeTableById(time.TimeTableId);
-                    onlineTime.Status = TimeTableConst.FreeStatus;
-                    await _timeTableService.UpdateTimeTable(onlineTime);
-
-                    time.Status = RequestConst.CompletedStatus;
-                    await _requestRepository.UpdateRequestTime(time);
-                }
 
                 var mappedCancelResponse = _mapper.Map<RequestDTO>(request);
 
@@ -255,27 +257,31 @@ namespace Service.Service
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
             var requestTime = _requestRepository.GetAllTimeOfRequest(requestInfo.RequestId);
             var lastTime = requestTime.Last();
+            var user = await _userService.GetUserById(request.FromId);
 
             var timetable = await _timeTableService.GetTimeTableById(lastTime.TimeTableId);
 
-            if(timetable != null)
+            if(timetable != null && user.CoinBalance >= request.Coin)
             {
                 var splitTime = timetable.StartTime.Split(':');
                 var thisTime = int.Parse(splitTime[0]);
                 var nextTime = thisTime + 1;
                 var timeInDB = nextTime.ToString() + ":00";
 
-                var nextTimetable = await _timeTableService.GetTimeTableByUserIdAndStartTime(requestInfo.TutorId, timeInDB);
+                var nextTimetable = await _timeTableService.GetTimeTableByUserIdAndStartTime(requestInfo.TutorId, timeInDB, timetable.DayOfWeek);
 
                 if(nextTimetable != null)
                 {
                     timetable.Status = TimeTableConst.FreeStatus;
                     await _timeTableService.UpdateTimeTable(timetable);
 
+                    
+                    user.CoinBalance -= (int) request.Coin;
+
                     nextTimetable.Status = TimeTableConst.BusyStatus;
                     await _timeTableService.UpdateTimeTable(nextTimetable);
 
-                    lastTime.Status = RequestConst.CompletedStatus;
+                    lastTime.Status = RequestConst.InProcessStatus;
                     await _requestRepository.UpdateRequestTime(lastTime);
 
                     await _requestRepository.AddNewRequestTime(new RequestTime
@@ -515,28 +521,67 @@ namespace Service.Service
             if (request != null && request.Status == RequestConst.PendingStatus)
             {
                 var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
+                var pendingTime = times.Where(t => t.Status == RequestConst.PendingStatus).FirstOrDefault();
+                var inprocessTime = times.Where(t => t.Status == RequestConst.InProcessStatus).FirstOrDefault();
 
                 if (!requestInfo.IsAccepted)
                 {
-                    var onlineTime = _timeTableService.GetOnlineTimeOfUser(requestInfo.TutorId);
-
+                    
                     var user = await _userService.GetUserById(request.FromId);
+
                     if (user != null)
                     {
-                        user.CoinBalance += 10;
+                        user.CoinBalance += (int) request.Coin;
                         await _userService.UpdateUser(user);
                     }
 
-                    request.Status = RequestConst.CancelledStatus;
-                    await _requestRepository.UpdateRequest(request);
-
-                    onlineTime.Status = TimeTableConst.FreeStatus;
-                    await _timeTableService.UpdateTimeTable(onlineTime);
-
-                    foreach (var time in times)
+                    if (inprocessTime == null)
                     {
-                        time.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
-                        await _requestRepository.UpdateRequestTime(time);
+                        request.Status = RequestConst.CancelledStatus;
+                        await _requestRepository.UpdateRequest(request);
+
+                        foreach (var time in times)
+                        {
+                            var thisTime = await _timeTableService.GetTimeTableById(time.TimeTableId);
+                            if (thisTime != null)
+                            {
+                                thisTime.Status = TimeTableConst.FreeStatus;
+                                await _timeTableService.UpdateTimeTable(thisTime);
+                            }
+
+                            if (time.Status != RequestConst.InProcessStatus)
+                            {
+                                time.Status = RequestConst.CancelledStatus;
+                                await _requestRepository.UpdateRequestTime(time);
+                            }
+                        }
+                    } else
+                    {
+                        pendingTime.Status = RequestConst.CancelledStatus;
+                        await _requestRepository.UpdateRequestTime(pendingTime);
+
+                        request.Status = RequestConst.InProcessStatus;
+                        await _requestRepository.UpdateRequest(request);
+
+                        foreach (var time in times)
+                        {
+                            var thisTime = await _timeTableService.GetTimeTableById(pendingTime.TimeTableId);
+                            var pretime = await _timeTableService.GetTimeTableById(inprocessTime.TimeTableId);
+                            if (thisTime != null)
+                            {
+                                thisTime.Status = TimeTableConst.FreeStatus;
+                                await _timeTableService.UpdateTimeTable(thisTime);
+
+                                pretime.Status = TimeTableConst.BusyStatus;
+                                await _timeTableService.UpdateTimeTable(pretime);
+                            }
+
+                            if (time.Status != RequestConst.InProcessStatus)
+                            {
+                                time.Status = RequestConst.CancelledStatus;
+                                await _requestRepository.UpdateRequestTime(time);
+                            }
+                        }
                     }
 
                     var mappedCancelResponse = _mapper.Map<RequestDTO>(request);
@@ -546,8 +591,16 @@ namespace Service.Service
 
                 foreach (var time in times)
                 {
-                    time.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
-                    await _requestRepository.UpdateRequestTime(time);
+                    if (inprocessTime != null)
+                    {
+                        inprocessTime.Status = RequestConst.CompletedStatus;
+                        pendingTime.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
+                        await _requestRepository.UpdateRequestTime(inprocessTime);
+                    } else
+                    {
+                        pendingTime.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
+                        await _requestRepository.UpdateRequestTime(pendingTime);
+                    }
                 }
 
                 request.LinkMeet = requestInfo.LinkMeet;

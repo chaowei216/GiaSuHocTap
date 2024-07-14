@@ -61,9 +61,9 @@ namespace Service.Service
             return await _timeTableRepository.GetTimeTableById(id);
         }
 
-        public async Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime)
+        public async Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime, string day)
         {
-            return await _timeTableRepository.GetTimeTableByStartTime(userId, startTime); 
+            return await _timeTableRepository.GetTimeTableByStartTime(userId, startTime, day); 
         }
 
         public async Task<TimeTable> UpdateTimeTable(TimeTable timeTable)
