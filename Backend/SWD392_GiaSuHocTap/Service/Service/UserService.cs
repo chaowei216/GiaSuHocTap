@@ -840,39 +840,22 @@ namespace Service.Service
 
         public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var userList = _userRepository.GetTutorTeachOnline(parameters).ToList();
+            DateTime today = DateTime.Now;
+            string dayOfWeek = GetDayOfWeek(today);
+            var userList = _userRepository.GetTutorTeachOnline(parameters);
             List<TutorInforDTO> tutorInfoDTOs = new List<TutorInforDTO>();
 
             foreach (var user in userList)
             {
-                var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
-                tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
-
-                if (tutorInfoDTO.TimeTables.All(t => t.Status != (TimeTableConst.BusyStatus)))
-                {
-                    foreach (var time in tutorInfoDTO.TimeTables)
-                    {
-                        if (time.LearningType == TimeTableConst.Online)
-                        {
-                            DateTime today = DateTime.Now;
-                            string dayOfWeek = GetDayOfWeek(today);
-                            // Filter the timetables where the StartTime is in the future
-                            tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                user.TimeTables = user.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
                                                                                     && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
                                                                                     DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
                                                                                     && t.Status == TimeTableConst.FreeStatus).ToList();
-                        }
+                tutorInfoDTOs.Add(_mapper.Map<TutorInforDTO>(user));
 
-                    }
-                    if (tutorInfoDTO.TimeTables.Count > 0)
-                    {
-                        tutorInfoDTOs.Add(tutorInfoDTO);
-                    }
-                }
-                
             }
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
             mappedResponse.Data = tutorInfoDTOs;
             return mappedResponse;
         }
