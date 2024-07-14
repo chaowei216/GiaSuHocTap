@@ -1,5 +1,7 @@
 ﻿using Common.Constant.Request;
+using Common.DTO.Statistic;
 using Common.DTO.User;
+using Common.Enum;
 using DAO.Model;
 using Service.IService;
 
@@ -10,14 +12,34 @@ namespace Service.Service
         private readonly ITransactionService _transactionService;
         private readonly IUserService _userService;
         private readonly IRequestService _requestService;
+        private readonly IFeedbackService _feedbackService;
 
         public StatisticService(ITransactionService transactionService,
                                  IUserService userService,
-                                 IRequestService requestService)
+                                 IRequestService requestService,
+                                 IFeedbackService feedbackService)
         {
             _userService = userService;
             _transactionService = transactionService;
             _requestService = requestService;
+            _feedbackService = feedbackService;
+        }
+
+        public StatisticSystemDTO GetStatisticOfSystem()
+        {
+            var systemInfo = new StatisticSystemDTO();
+
+            var users = _userService.GetAllUsers();
+            systemInfo.Tutor = users.Where(p => p.RoleId == (int)RoleEnum.Tutor && p.Status == UserStatusEnum.Active).Count();
+            systemInfo.Student = users.Where(p => p.RoleId == (int)RoleEnum.Parents && p.Status == UserStatusEnum.Active).Count();
+            
+            var transactions = _transactionService.GetAllPaidTransactions();
+            systemInfo.Transaction = transactions.Count();
+
+            var feedBacks = _feedbackService.GetAllFeedbacks();
+            systemInfo.Feedback = feedBacks.Count();
+
+            return systemInfo;
         }
 
         public UserRentingInfoDTO GetUserRentingInfo(User user)

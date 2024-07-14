@@ -1,4 +1,5 @@
-﻿using Common.DTO.User;
+﻿using Common.DTO.Statistic;
+using Common.DTO.User;
 using DAO.Model;
 
 namespace Service.IService
@@ -12,5 +13,11 @@ namespace Service.IService
         /// <param name="user"></param>
         /// <returns></returns>
         UserRentingInfoDTO GetUserRentingInfo(User user);
+
+        /// <summary>
+        /// Get statistic of system
+        /// </summary>
+        /// <returns></returns>
+        StatisticSystemDTO GetStatisticOfSystem();
     }
 }
