@@ -80,6 +80,7 @@ namespace SWD392_GiaSuHocTap.Profiles
             CreateMap<UserUpdateDTO, User>().ReverseMap();
             CreateMap<ModeratorCreateRequestDTO, User>().ReverseMap();
             CreateMap<User, ModeratorDTO>().ReverseMap();
+            CreateMap<User, TopTutorInfoDTO>().ReverseMap();
             #endregion
         }
     }
