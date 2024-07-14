@@ -159,7 +159,7 @@ export default function ForgotPassword() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Submit
+              Đồng ý
             </Button>
             <div style={{ display: 'flex', justifyContent: "center" }}>
               <Link href="/login" variant="body2">

@@ -52,5 +52,13 @@ namespace Service.IService
         /// <param name="userCourse"></param>
         /// <returns></returns>
         Task<UserCourse> AddNewUserCourse(UserCourse userCourse);
+
+        /// <summary>
+        /// Get user courses by user Id and course Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        Task<UserCourse?> GetUserClassByUserIdAndCourseId(int userId, int courseId);
     }
 }

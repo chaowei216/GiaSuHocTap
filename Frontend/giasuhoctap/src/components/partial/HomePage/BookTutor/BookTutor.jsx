@@ -1,14 +1,16 @@
-import { Button } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import styles from './BookTutor.module.css';
 import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from 'react';
 import HiringTuor from '../../TutorDetail/HiringTuor';
-import { GetTutorTeachOnline } from '../../../../api/TutorManagementApi';
+import { GetTutorTeachOnline, GetTutorTeachOnlineByCondition } from '../../../../api/TutorManagementApi';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
 import emptyPicture from "/img/empty.png"
 import { useNavigate } from 'react-router-dom';
+import { GetAllClass, GetAllCourse } from '../../../../api/ResigerTutorApi';
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutor = () => {
@@ -18,22 +20,73 @@ const BookTutor = () => {
     const [pageSize, setPageSize] = useState(6);
     const [tutorHire, setTutorHire] = useState()
     const [tutorList, setTutorList] = useState()
+    const [classId, setClassId] = useState("");
+    const [courseId, setCourseId] = useState("");
+    const [classList, setClassList] = useState([]);
+    const [courseList, setCourseList] = useState([]);
+    const [isSearch, setIsSearch] = useState(false)
     useEffect(() => {
         const fetchAllTutor = async () => {
-            const response = await GetTutorTeachOnline(page, pageSize);
-            console.log(response);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const user = responseJson.data.data
-                setTutorList(user);
-                setTotalPages(responseJson.data.totalPages)
-                console.log(tutorList);
+            if (isSearch) {
+                if ((classId || courseId) != "") {
+                    const response = await GetTutorTeachOnlineByCondition(classId, courseId, page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setTutorList(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(true)
+                    } else {
+                        toast.error("Lỗi sever")
+                    }
+                } else {
+                    const response = await GetTutorTeachOnline(page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setTutorList(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(false)
+                    } else {
+                        toast.error("Lỗi sever")
+                    }
+                }
+            } else {
+                const response = await GetTutorTeachOnline(page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const user = responseJson.data.data
+                    setTutorList(user);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi sever")
+                }
+            }
+        };
+        fetchAllTutor();
+    }, [page, pageSize, isSearch]);
+    useEffect(() => {
+        const fetchClass = async () => {
+            const response = await GetAllClass();
+            if (response.statusCode == 200) {
+                const list = response.data
+                setClassList(list);
             } else {
                 toast.error("Error fetching data")
             }
         };
-        fetchAllTutor();
-    }, [page, pageSize]);
+        const fetchCourse = async () => {
+            const response = await GetAllCourse();
+            if (response.statusCode == 200) {
+                const list = response.data
+                setCourseList(list);
+            } else {
+                toast.error("Error fetching data")
+            }
+        };
+        fetchClass();
+        fetchCourse();
+    }, [])
     const handleClick = (item) => {
         naviage(`/tutor-detail/${item}`)
     }
@@ -51,9 +104,40 @@ const BookTutor = () => {
             Friday: '6',
             Saturday: '7',
         };
-        console.log([dayOfWeek]);
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
+    const handleFilter = async () => {
+        setPage(1)
+        if ((classId || courseId) != "") {
+            const response = await GetTutorTeachOnlineByCondition(classId, courseId, page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const user = responseJson.data.data
+                setTutorList(user);
+                setTotalPages(responseJson.data.totalPages)
+                setIsSearch(true)
+            } else {
+                toast.error("Lỗi sever")
+            }
+        } else {
+            setIsSearch(false)
+        }
+    }
+    const handleReset = async () => {
+        setPage(1)
+        setClassId("")
+        setCourseId("")
+        const response = await GetTutorTeachOnline(page, pageSize);
+        if (response.ok) {
+            const responseJson = await response.json();
+            const user = responseJson.data.data
+            setTutorList(user);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(false)
+        } else {
+            toast.error("Lỗi sever")
+        }
+    }
     return (
         <>
             <div className={styles.slideBox} style={{ width: '100%', height: '100%' }}>
@@ -61,9 +145,57 @@ const BookTutor = () => {
                     <div className={styles.slideBgTu}>
                         <h1>DANH SÁCH GIA SƯ ONLINE</h1>
                     </div>
+                    <div style={{ position: "absolute", left: "37%" }}>
+                        <div style={{ marginBottom: "20px" }}>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Lớp học</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={classId}
+                                    onChange={(event) => setClassId(event.target.value)}
+                                    label="Lớp học"
+                                >
+                                    {classList && classList.map((item, index) => (
+                                        <MenuItem key={index} value={item.classId}>
+                                            {item.className}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Môn học</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={courseId}
+                                    onChange={(event) => setCourseId(event.target.value)}
+                                    label="Môn học"
+                                >
+                                    {courseList && courseList.map((item, index) => (
+                                        <MenuItem key={index} value={item.courseId}>
+                                            {item.courseName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
+                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
+                        </div>
+                    </div>
                     <div className={`slide-container ${styles.slideContainer}`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutorList && tutorList.length <= 0 && (
+                                    <div style={{ widows: "100%", marginTop: "70px", position: "relative", left: "130%" }}>
+                                        <div
+                                            style={{ fontWeight: "600" }}
+                                        >
+                                            <InventoryIcon />
+                                            Không có dữ liệu
+                                        </div>
+                                    </div>
+                                )}
                                 {tutorList && tutorList.map((tutor, index) => (
                                     <div key={index} className={`card ${styles.card}`}>
                                         <div className={`image-content ${styles.imageContent}`}>

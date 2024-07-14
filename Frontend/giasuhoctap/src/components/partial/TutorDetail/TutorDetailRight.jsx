@@ -33,7 +33,7 @@ function TutorDetailRight({ data }) {
           width: "100%", color: "#354052", border: "1px solid #e2e6ea",
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "0px 0px 10px 0px"
-        }}>Đánh giá</Button>
+        }}>Báo cáo</Button>
         <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} data={data} />
       </div>
     </div>

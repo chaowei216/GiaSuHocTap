@@ -131,6 +131,20 @@ namespace Repository.IRepository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TutorDetail?> GetTutorDetailByTutorId(int id); 
+        Task<TutorDetail?> GetTutorDetailByTutorId(int id);
+
+        /// <summary>
+        /// Get user list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PagedList<User> GetPagedTutorList(UserParameters parameters);
+
+        /// <summary>
+        /// Add new moderator
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> AddNewModerator(User user);
     }
 }

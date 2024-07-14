@@ -19,11 +19,10 @@ export default function DeleteUser(pros) {
   const [newsTitle, setNewsTitle] = useState("");
   useEffect(() => {
     if (show) {
-    //   setNewsId(dataDelete.newsId);
+      //   setNewsId(dataDelete.newsId);
       setNewsTitle(dataDelete.fullname);
     }
   }, [dataDelete]);
-  console.log(dataDelete);
   const handleSave = () => {
     console.log("haha");
   };
@@ -53,7 +52,7 @@ export default function DeleteUser(pros) {
               className="modal-header text-white d-flex justify-content-center"
               style={{ background: "#DC4C64" }}
             >
-              <MDBModalTitle className="text-xl" style={{ textAlign: "center"}}>
+              <MDBModalTitle className="text-xl" style={{ textAlign: "center" }}>
                 Do you want to delete this user
               </MDBModalTitle>
             </MDBModalHeader>
@@ -65,36 +64,36 @@ export default function DeleteUser(pros) {
               </div>
             </MDBModalBody>
             <MDBModalFooter tag="section">
-                <div>
-                  <Button
-                    variant="primary"
-                    class="btn btn-outline-danger"
-                    type="submit"
-                    onClick={handleDeleteNews}
-                    data-mdb-dismiss="modal"
-                    style={{
-                      marginRight: "20px",
-                    }}
-                    active
-                  >
-                    Delete
-                  </Button>
-                </div>
-                <div
+              <div>
+                <Button
+                  variant="primary"
+                  class="btn btn-outline-danger"
+                  type="submit"
+                  onClick={handleDeleteNews}
+                  data-mdb-dismiss="modal"
                   style={{
-                    background: "gainsboro",
+                    marginRight: "20px",
                   }}
+                  active
                 >
-                  <Button
-                    variant="secondary"
-                    onClick={handleClose}
-                    active
-                    class="btn btn-danger"
-                    style={{ width: "80px" }}
-                  >
-                    Close
-                  </Button>
-                </div>
+                  Xóa
+                </Button>
+              </div>
+              <div
+                style={{
+                  background: "gainsboro",
+                }}
+              >
+                <Button
+                  variant="secondary"
+                  onClick={handleClose}
+                  active
+                  class="btn btn-danger"
+                  style={{ width: "80px" }}
+                >
+                  Đóng
+                </Button>
+              </div>
             </MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>

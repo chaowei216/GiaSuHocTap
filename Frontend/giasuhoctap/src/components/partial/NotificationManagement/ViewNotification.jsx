@@ -57,7 +57,7 @@ export default function ViewNotification() {
                 </div>
             </Header>
             <div style={{ marginBottom: "20px" }}>
-                <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo tin tức</Button>
+                <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo thông báo mới</Button>
             </div>
             <NotificationTable data={data} handleClickUpdate={handleClickUpdate} handleClickDelete={handleClickDelete} />
             {data && data.length > 0 && (

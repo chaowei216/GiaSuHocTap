@@ -3,7 +3,7 @@ const baseUrl = import.meta.env.VITE_API_HOST;
 
 export const GetAllTutor = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/User?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/User/get-all-tutors?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -37,7 +37,7 @@ export const GetPendingTutor = async (page, pageSize) => {
 
 export const GetActiveTutor = async (page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/User/get-active-users?PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/User?PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -121,9 +121,41 @@ export const GetTutorTeachOnline = async (page, pageSize) => {
     }
 }
 
+export const GetTutorTeachOnlineByCondition = async (classId, courseId, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User/get-tutor-teach-online?ClassId=${classId}&CourseId=${courseId}&PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export const GetTutorTeachOffline = async (page, pageSize) => {
     try {
         const url = `${baseUrl}/api/User/get-tutor-teach-offline?PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetTutorTeachOfflineByCondition = async (classId, courseId, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User/get-tutor-teach-offline?ClassId=${classId}&CourseId=${courseId}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -198,6 +230,41 @@ export const GetAllUser = async () => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetFeedbackTutor = async (email) => {
+    try {
+        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const UpdateNewTimeTable = async (value) => {
+    try {
+        const url = `${baseUrl}/api/TimeTable/add-new-timetable`;
+        const request = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify(value)
         };
         const response = await fetch(url, request);
         return response;

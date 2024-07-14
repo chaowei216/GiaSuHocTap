@@ -14,9 +14,9 @@ const HomePage = () => {
     <div className="App">
       <Navbar  />
       <Hero />
+      <Features />
       <Growth />
       <Programs/>
-      <Features />
       <Questions />
       <Footer />
     </div>

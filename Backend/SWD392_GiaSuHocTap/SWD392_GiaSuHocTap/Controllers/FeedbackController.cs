@@ -24,8 +24,8 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
-        [HttpGet("get-feedbacks-of-tutors/{tutorId}")]
-        public async Task<IActionResult> GetOfflineFeedbacksOfTutor(int tutorId, [FromQuery] FeedbackParameters parameters)
+        [HttpGet("get-all-feedbacks")]
+        public IActionResult GetAllFeedbacks([FromQuery] FeedbackParameters parameters)
         {
             if (!ModelState.IsValid)
             {
@@ -34,14 +34,45 @@ namespace SWD392_GiaSuHocTap.Controllers
                     StatusCode = (int)StatusCodeEnum.BadRequest,
                     Message = ModelState.ToString()!,
                     Data = null
-                }); 
+                });
             }
 
-            var tutor = await _userService.GetUserById(tutorId);
+            var response = _feedbackService.GetPagedFeedbacksList(parameters);
+
+            return Ok(new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+
+
+            return StatusCode(404, new ResponseDTO()
+            {
+                StatusCode = (int)StatusCodeEnum.NotFound,
+                Message = GeneralMessage.NotFound,
+                Data = null
+            });
+        }
+
+        [HttpGet("get-feedbacks-of-tutors")]
+        public IActionResult GetFeedbacksOfTutor(string tutorEmail, [FromQuery] FeedbackParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var tutor = _userService.GetUserByEmail(tutorEmail);
 
             if (tutor != null)
             {
-                var response = _feedbackService.GetFeedbacksOfTutor(tutorId, parameters);
+                var response = _feedbackService.GetFeedbacksOfTutor(tutor.UserId, parameters);
 
                 return Ok(new ResponseDTO()
                 {

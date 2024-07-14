@@ -53,5 +53,13 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<UserCourse> GetUserCourseByUserId(int userId);
+
+        /// <summary>
+        /// Get user courses by user Id and course Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        Task<UserCourse?> GetUserClassByUserIdAndCourseId(int userId, int courseId);
     }
 }

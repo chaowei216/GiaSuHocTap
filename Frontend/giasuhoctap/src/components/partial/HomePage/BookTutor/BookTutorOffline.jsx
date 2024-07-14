@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import HiringTuor from '../../TutorDetail/HiringTuor';
 import styles from './BookTutor.module.css';
 import { toast } from 'react-toastify';
-import { GetTutorTeachOffline } from '../../../../api/TutorManagementApi';
+import { GetTutorTeachOffline, GetTutorTeachOfflineByCondition } from '../../../../api/TutorManagementApi';
 import emptyPicture from "/img/empty.png"
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import HiringTuorOffline from './HiringTuorOffline';
+import { GetAllClass, GetAllCourse } from '../../../../api/ResigerTutorApi';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 const BookTutorOffline = () => {
@@ -15,22 +18,105 @@ const BookTutorOffline = () => {
     const [pageSize, setPageSize] = useState(6);
     const [tutorHire, setTutorHire] = useState()
     const [tutorList, setTutorList] = useState()
+    const [classId, setClassId] = useState("");
+    const [courseId, setCourseId] = useState("");
+    const [classList, setClassList] = useState([]);
+    const [courseList, setCourseList] = useState([]);
+    const [isSearch, setIsSearch] = useState(false)
     useEffect(() => {
         const fetchAllTutor = async () => {
-            const response = await GetTutorTeachOffline(page, pageSize);
-            console.log(response);
-            if (response.ok) {
-                const responseJson = await response.json();
-                console.log(responseJson);
-                const user = responseJson.data.data
-                setTutorList(user);
-                setTotalPages(responseJson.data.totalPages)
+            if (isSearch) {
+                if ((classId || courseId) != "") {
+                    const response = await GetTutorTeachOfflineByCondition(classId, courseId, page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setTutorList(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(true)
+                    } else {
+                        toast.error("Lỗi sever")
+                    }
+                } else {
+                    const response = await GetTutorTeachOffline(page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setTutorList(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(false)
+                    } else {
+                        toast.error("Lỗi sever")
+                    }
+                }
+            } else {
+                const response = await GetTutorTeachOffline(page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const user = responseJson.data.data
+                    setTutorList(user);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi sever")
+                }
+            }
+        };
+        fetchAllTutor();
+    }, [page, pageSize, isSearch]);
+    useEffect(() => {
+        const fetchClass = async () => {
+            const response = await GetAllClass();
+            if (response.statusCode == 200) {
+                const list = response.data
+                setClassList(list);
             } else {
                 toast.error("Error fetching data")
             }
         };
-        fetchAllTutor();
-    }, [page, pageSize]);
+        const fetchCourse = async () => {
+            const response = await GetAllCourse();
+            if (response.statusCode == 200) {
+                const list = response.data
+                setCourseList(list);
+            } else {
+                toast.error("Error fetching data")
+            }
+        };
+        fetchClass();
+        fetchCourse();
+    }, [])
+    const handleFilter = async () => {
+        setPage(1)
+        if ((classId || courseId) != "") {
+            const response = await GetTutorTeachOfflineByCondition(classId, courseId, page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const user = responseJson.data.data
+                setTutorList(user);
+                setTotalPages(responseJson.data.totalPages)
+                setIsSearch(true)
+            } else {
+                toast.error("Lỗi sever")
+            }
+        } else {
+            setIsSearch(false)
+        }
+    }
+    const handleReset = async () => {
+        setPage(1)
+        setClassId("")
+        setCourseId("")
+        const response = await GetTutorTeachOffline(page, pageSize);
+        if (response.ok) {
+            const responseJson = await response.json();
+            const user = responseJson.data.data
+            setTutorList(user);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(false)
+        } else {
+            toast.error("Lỗi sever")
+        }
+    }
     const [basicModal, setBasicModal] = useState(false);
     const handleHire = (item) => {
         setTutorHire(item);
@@ -45,7 +131,6 @@ const BookTutorOffline = () => {
             Friday: 'Thứ 6',
             Saturday: 'Thứ 7, ',
         };
-        console.log([dayOfWeek]);
         return daysInVietnamese[dayOfWeek] || dayOfWeek;
     };
     const getUniqueDays = (timeTables) => {
@@ -65,9 +150,57 @@ const BookTutorOffline = () => {
                     <div className={styles.slideBgTu}>
                         <h1>DANH SÁCH GIA SƯ OFFLINE</h1>
                     </div>
-                    <div className={`slide-container ${styles.slideContainer}`}>
+                    <div style={{ position: "absolute", left: "37%" }}>
+                        <div style={{ marginBottom: "20px" }}>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Lớp học</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={classId}
+                                    onChange={(event) => setClassId(event.target.value)}
+                                    label="Lớp học"
+                                >
+                                    {classList && classList.map((item, index) => (
+                                        <MenuItem key={index} value={item.classId}>
+                                            {item.className}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Môn học</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={courseId}
+                                    onChange={(event) => setCourseId(event.target.value)}
+                                    label="Môn học"
+                                >
+                                    {courseList && courseList.map((item, index) => (
+                                        <MenuItem key={index} value={item.courseId}>
+                                            {item.courseName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
+                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
+                        </div>
+                    </div>
+                    <div className={`slide-container ${styles.slideContainer} mt-16`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
+                                {tutorList && tutorList.length <= 0 && (
+                                    <div style={{ widows: "100%", marginTop: "70px", position: "relative", left: "130%" }}>
+                                        <div
+                                            style={{ fontWeight: "600" }}
+                                        >
+                                            <InventoryIcon />
+                                            Không có dữ liệu
+                                        </div>
+                                    </div>
+                                )}
                                 {tutorList && tutorList.map((tutor, index) => (
                                     <div key={index} className={`card ${styles.card}`}>
                                         <div className={`image-content ${styles.imageContent}`}>

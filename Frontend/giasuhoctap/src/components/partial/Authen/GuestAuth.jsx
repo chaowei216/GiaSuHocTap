@@ -7,7 +7,11 @@ export default function GuestAuth({ children }) {
     if (isAuthenticated) {
         if (user && (user?.roleName == "Moderator" || user?.roleName == "Admin")) {
             return <Navigate to="/dashboard" />;
-        } else if (user && user?.roleName == "Tutor") {
+        } else if (user && user?.roleName == "Tutor" && (user?.status == "Pending")) {
+            return <Navigate to="/RegisterTutor" />;
+        } else if (user && user?.roleName == "Tutor" && (user?.status == "Checking")) {
+            return <Navigate to="/checking-page" />;
+        } else if (user && user?.roleName == "Tutor" && user?.status == "Active") {
             return <Navigate to="/home-tutor" />;
         }
         return <Navigate to="/" />;

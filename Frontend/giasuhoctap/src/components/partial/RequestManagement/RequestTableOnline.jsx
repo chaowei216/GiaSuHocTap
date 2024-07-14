@@ -10,7 +10,6 @@ import {
 import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import { Navigate } from "react-router-dom";
-import FormatDate from "../../../utils/format-date";
 import { useEffect, useState } from "react";
 import fakeDate from "../../../data/fakeData.json";
 import styles from "../../partial/TutorManagement/status.module.css";
@@ -18,10 +17,13 @@ import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
+import { CompleteTeaching } from "../../../api/RequestApi";
+import { toast } from "react-toastify";
 export default function RequestTableOnline({
     data,
     handleHire,
-    handleOpenDeny
+    handleOpenDeny,
+    type
 }) {
     const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
@@ -44,13 +46,6 @@ export default function RequestTableOnline({
             border: 0,
         },
     }));
-    const styleHeader = {
-        gap: "6px",
-        display: "flex",
-        marginTop: "4px",
-        witdh: "150px",
-        justifyContent: "center",
-    };
     const TableHeader = [
         "Người yêu cầu",
         "Xu",
@@ -62,10 +57,24 @@ export default function RequestTableOnline({
     ];
     const StatusType = ["Chờ xác nhận", "Đang tiến hành", "Hoàn thành", "Từ chối", "Đã chấp nhận"];
 
-    const handleClickOpenDetail = (data) => {
-        setDataDetail(data)
-        setOpenDetail(true);
-    };
+    const handleComplete = async (row) => {
+        if (row) {
+            const dataUpdate = {
+                tutorId: row.requestTimes[0]?.timeTable?.tutorId,
+                requestId: row.requestId
+            }
+            const response = await CompleteTeaching(dataUpdate)
+            if (response.ok) {
+                const responseJson = await response.json();
+                if (responseJson.statusCode == 200) {
+                    toast.success("Cập nhật thành công")
+
+                }
+            } else {
+                toast.error("Lỗi sever")
+            }
+        }
+    }
     return (
         <div>
             <TableContainer component={Paper}>
@@ -163,7 +172,7 @@ export default function RequestTableOnline({
                                                                 styleName = styles.rejected;
                                                                 break;
                                                             case "Đã chấp nhận":
-                                                                styleName = styles.accepted;
+                                                                styleName = styles.inProgress;
                                                                 break;
                                                             default:
                                                                 styleName = "";
@@ -176,38 +185,72 @@ export default function RequestTableOnline({
                                                     }
                                                 })}
                                         </StyledTableCell>
-                                        <StyledTableCell
-                                            style={{
-                                                fontWeight: "600",
-                                                padding: "0px",
-                                            }}
-                                            align="left"
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                color="success"
-                                                onClick={() => handleHire(row)}
-                                                sx={{
-                                                    background: "#0b7234",
-                                                    color: "white",
-                                                    borderRadius: "18px",
-                                                    marginRight: "15px",
-                                                    fontSize: "12px"
+                                        {(type == "All" || type == "Done" || type == "Deny") && (
+                                            <StyledTableCell
+                                                style={{ fontWeight: "600" }}
+                                                align="left"
+                                            >
+                                                Không có gì
+                                            </StyledTableCell>
+                                        )}
+                                        {type == "Pending" && (
+                                            <StyledTableCell
+                                                style={{
+                                                    fontWeight: "600",
+                                                    padding: "0px",
                                                 }}
+                                                align="left"
                                             >
-                                                <DoneOutlineIcon /> Accept
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                onClick={() => handleOpenDeny(row.requestId)}
-                                                color="error"
-                                                sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
+                                                <Button
+                                                    variant="contained"
+                                                    color="success"
+                                                    onClick={() => handleHire(row)}
+                                                    sx={{
+                                                        background: "#0b7234",
+                                                        color: "white",
+                                                        borderRadius: "18px",
+                                                        marginRight: "15px",
+                                                        fontSize: "12px"
+                                                    }}
+                                                >
+                                                    <DoneOutlineIcon /> Đồng ý
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={() => handleOpenDeny(row.requestId)}
+                                                    color="error"
+                                                    sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
+                                                >
+                                                    <div>
+                                                        <ClearIcon /> Từ chối
+                                                    </div>
+                                                </Button>
+                                            </StyledTableCell>
+                                        )}
+                                        {type == "Teaching" && (
+                                            <StyledTableCell
+                                                style={{
+                                                    fontWeight: "600",
+                                                    padding: "0px",
+                                                }}
+                                                align="left"
                                             >
-                                                <div>
-                                                    <ClearIcon /> Deny
-                                                </div>
-                                            </Button>
-                                        </StyledTableCell>
+                                                <Button
+                                                    variant="contained"
+                                                    color="success"
+                                                    onClick={() => handleComplete(row)}
+                                                    sx={{
+                                                        background: "#0b7234",
+                                                        color: "white",
+                                                        borderRadius: "18px",
+                                                        marginRight: "15px",
+                                                        fontSize: "12px"
+                                                    }}
+                                                >
+                                                    <DoneOutlineIcon /> Đã dạy xong
+                                                </Button>
+                                            </StyledTableCell>
+                                        )}
                                     </StyledTableRow>
                                 );
                             })}

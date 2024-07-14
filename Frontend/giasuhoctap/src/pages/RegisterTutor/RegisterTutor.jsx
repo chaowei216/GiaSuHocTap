@@ -7,8 +7,7 @@ import Hero from "../../components/partial/HomePage/Hero/Hero";
 
 const RegisterTutor = () => {
   return (
-    <div style={{background: '#F0F9FC'}}>
-      <Navbar  />
+    <div style={{ background: '#F0F9FC' }}>
       <Hero />
       <Profile />
       <Footer />

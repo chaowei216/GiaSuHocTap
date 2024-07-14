@@ -2,6 +2,7 @@
 using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.Report;
+using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,11 @@ namespace Repository.Repository
         public async Task<RequestTime> AddNewRequestTime(RequestTime requestTime)
         {
             return await _requestTimeDAO.AddAsync(requestTime);
+        }
+
+        public IEnumerable<Request> GetAllRequestOfUser(int userId)
+        {
+            return _requestDAO.GetByCondition(p => p.FromId == userId).Include(p => p.From).Include(p => p.RequestTimes).ToList();
         }
 
         public IEnumerable<Request> GetAllRequests()
@@ -108,7 +114,7 @@ namespace Repository.Repository
                 request = request.Where(p => p.Status.ToLower() == parameters.Status.ToLower());
             }
 
-            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable), parameters.PageNumber, parameters.PageSize);
+            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable).ThenInclude(p => p.User), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Request> UpdateRequest(Request request)

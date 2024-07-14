@@ -7,8 +7,8 @@ import Hero from "../../components/partial/HomePage/Hero/Hero";
 
 const BookTutorPage = () => {
   return (
-    <div style={{background: '#F0F9FC'}}>
-      <Navbar  />
+    <div style={{ background: '#F0F9FC' }}>
+      <Navbar />
       <Hero />
       <BookTutor />
       <Footer />

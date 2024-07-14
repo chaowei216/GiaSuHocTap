@@ -10,12 +10,12 @@ export const validationRegisterTutor = yup.object().shape({
     .string()
     .required("Vui lòng nhập tên")
     .max(20, "Không được quá 20 ký tự")
-    .matches(/^[a-zA-Z\s-.']+(\d*)$/, "Vui lòng nhập chữ"),
+    .matches(/^[\p{L}\s.'-]+$/u, "Vui lòng nhập chữ"),
   lastName: yup
     .string()
     .required("Vui lòng nhập họ")
     .max(20, "Không được quá 20 ký tự")
-    .matches(/^[a-zA-Z\s-.']+(\d*)$/, "Vui lòng nhập chữ"),
+    .matches(/^[\p{L}\s.'-]+$/u, "Vui lòng nhập chữ"),
   email: yup
     .string()
     .email("Vui lòng nhập email theo dạng @gmail.com")
@@ -58,5 +58,11 @@ export const validationRegisterTutor = yup.object().shape({
     .matches(
       /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.0-9]*$/,
       "Vui lòng nhập số không nhập ký tự"
-    )
+    ),
+  major: yup
+    .string()
+    .required("Vui lòng nhập chuyên ngành"),
+  job: yup
+    .string()
+    .required("Vui lòng chọn nghề nghiệp")
 });

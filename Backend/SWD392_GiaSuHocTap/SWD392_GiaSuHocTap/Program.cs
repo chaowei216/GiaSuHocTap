@@ -128,6 +128,7 @@ builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 builder.Services.AddTransient<DataSeed>();
 // Db context

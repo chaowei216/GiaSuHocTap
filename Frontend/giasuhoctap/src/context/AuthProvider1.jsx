@@ -91,13 +91,25 @@ function AuthProvider1({ children }) {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
-        if (accessToken && isValidToken(accessToken)) {
+        const { email } = jwtDecode(accessToken);
+        const response = await GetUserByEmail(email)
+        const responseJson = await response.json();
+        const user = responseJson.data
+        if (user.roleName == "Admin" && accessToken && isValidToken(accessToken)) {
+          dispatch({
+            type: "INITIALIZE",
+            payload: {
+              isAuthenticated: true,
+              user: user,
+            },
+          });
+        } else if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken, refreshToken);
           const { email } = jwtDecode(accessToken);
           const response = await GetUserByEmail(email)
           const responseJson = await response.json();
           const user = responseJson.data
-          if (user.isVerified == false) {
+          if (user.isVerified == false && user.roleName != "Admin") {
             console.log(user.isVerified);
             dispatch({
               type: "SEND_OTP",
@@ -150,7 +162,7 @@ function AuthProvider1({ children }) {
     }
     const response = await SignIn(userInput)
     if (!response.ok) {
-      toast.error("Error signing")
+      toast.error("Đăng nhập không thành công")
       return;
     }
     const responseJson = await response.json();
@@ -159,9 +171,23 @@ function AuthProvider1({ children }) {
       toast.error(responseJson.message)
       return;
     }
+    if (responseJson.statusCode == 500 && responseJson.message == "Your account is banned") {
+      toast.error("Tài khoản của bạn đã bị cấm, xin vui lòng thử lại sau")
+      return;
+    }
     const { token, user } = responseJson.data;
     //localStorage.setItem("accessToken", accessToken);     
     console.log(token.accessToken);
+    if (user.roleName == "Admin") {
+      window.localStorage.setItem("accessToken", token.accessToken);
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user,
+        },
+      });
+      return
+    }
     if (user.isVerified == false) {
       dispatch({
         type: "SEND_OTP",

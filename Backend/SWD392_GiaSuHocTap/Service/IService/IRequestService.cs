@@ -80,7 +80,7 @@ namespace Service.IService
         /// Accept/deny request
         /// </summary>
         /// <returns></returns>
-        Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfo);
+        Task<RequestDTO?> UpdateOnlineRequest(RequestOnlineUpdateDTO requestInfo);
 
         /// <summary>
         /// Get all requests of user
@@ -101,5 +101,18 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo);
+
+        /// <summary>
+        /// Get user requests
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<Request> GetRequestsOfUser(int userId);
+
+        /// <summary>
+        /// Get all requests
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Request> GetAllRequests();
     }
 }

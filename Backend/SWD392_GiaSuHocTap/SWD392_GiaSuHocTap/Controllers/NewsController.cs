@@ -39,7 +39,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             return Ok(new ResponseDTO()
             {
-                StatusCode = (int)StatusCodeEnum.OK,
+                StatusCode = (int)StatusCodeEnum.Created,
                 Message = GeneralMessage.Success,
                 Data = response
             });

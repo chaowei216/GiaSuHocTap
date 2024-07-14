@@ -10,6 +10,7 @@ namespace DAO.Model
         public string ReportTitle { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
+        public bool Status { get; set; }
         public int FromId { get; set; }
         public int ToId { get; set; }
         [ForeignKey("FromId")]

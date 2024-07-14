@@ -23,10 +23,10 @@ const SideBar = () => {
             {showAccount && (
               <div className={styles.dropdown_menu}>
                 <a className={styles.dropdown_item} href="/ParentPage">Thông tin cá nhân</a>
-                <a className={styles.dropdown_item} href="#/action-2">Theo dõi Parent</a>
-                <a className={styles.dropdown_item} href="/ParentHistory">Lịch sử giao dịch</a>
-                <a className={styles.dropdown_item} href="#/action-3">Thanh toán</a>
-                <a className={styles.dropdown_item} href="#/action-3">Ví</a>
+                <a className={styles.dropdown_item} href="/ParentHistory">Đơn đăng ký gia sư Online</a>
+                <a className={styles.dropdown_item} href="/ParentHistoryOffline">Đơn đăng ký gia sư Offline</a>
+                {/* <a className={styles.dropdown_item} href="/NotificationPage">Thông báo</a> */}
+                <a className={styles.dropdown_item} href="/ParentHistoryTransaction">Lịch sử giao dịch</a>
               </div>
             )}
           </div>

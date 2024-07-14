@@ -220,17 +220,18 @@ namespace Service.Service
 
             if (request != null)
             {
-                var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);        
+                var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
+
+                request.Coin = request.Coin * times.Count();
+                request.Status = RequestConst.CompletedStatus;
+                await _requestRepository.UpdateRequest(request);
 
                 var user = await _userService.GetUserById(requestInfo.TutorId);
                 if (user != null)
                 {
                     user.CoinBalance += (int)Math.Ceiling((decimal)request.Coin * 70 / 100);
                     await _userService.UpdateUser(user);
-                }
-
-                request.Status = RequestConst.CompletedStatus;
-                await _requestRepository.UpdateRequest(request);
+                }    
 
                 foreach (var time in times)
                 {
@@ -249,10 +250,52 @@ namespace Service.Service
             return null;
         }
 
-        public Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo)
+        public async Task<RequestDTO?> ExtendOnlineRequest(DoneRequestDTO requestInfo)
         {
+            var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
+            var requestTime = _requestRepository.GetAllTimeOfRequest(requestInfo.RequestId);
+            var lastTime = requestTime.Last();
 
-            throw new NotImplementedException();
+            var timetable = await _timeTableService.GetTimeTableById(lastTime.TimeTableId);
+
+            if(timetable != null)
+            {
+                var splitTime = timetable.StartTime.Split(':');
+                var thisTime = int.Parse(splitTime[0]);
+                var nextTime = thisTime + 1;
+                var timeInDB = nextTime.ToString() + ":00";
+
+                var nextTimetable = await _timeTableService.GetTimeTableByUserIdAndStartTime(requestInfo.TutorId, timeInDB);
+
+                if(nextTimetable != null)
+                {
+                    timetable.Status = TimeTableConst.FreeStatus;
+                    await _timeTableService.UpdateTimeTable(timetable);
+
+                    nextTimetable.Status = TimeTableConst.BusyStatus;
+                    await _timeTableService.UpdateTimeTable(nextTimetable);
+
+                    lastTime.Status = RequestConst.CompletedStatus;
+                    await _requestRepository.UpdateRequestTime(lastTime);
+
+                    await _requestRepository.AddNewRequestTime(new RequestTime
+                    {
+                        RequestId = requestInfo.RequestId,
+                        TimeTableId = nextTimetable.TimeTableId,
+                        Status = RequestConst.PendingStatus,
+                    });
+
+                    request.Status = RequestConst.PendingStatus;
+                    await _requestRepository.UpdateRequest(request);
+                    return _mapper.Map<RequestDTO>(request);
+                }
+            }
+            return null;
+        }
+
+        public IEnumerable<Request> GetAllRequests()
+        {
+            return _requestRepository.GetAllRequests();
         }
 
         public PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters)
@@ -313,6 +356,13 @@ namespace Service.Service
             mappedResponse.Data = _mapper.Map<List<RequestDTO>>(requests);
 
             return mappedResponse;
+        }
+
+        public IEnumerable<Request> GetRequestsOfUser(int userId)
+        {
+            var allRequests = _requestRepository.GetAllRequestOfUser(userId);
+
+            return allRequests.Where(p => p.Status == RequestConst.CompletedStatus).ToList();
         }
 
         public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)
@@ -458,7 +508,7 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<RequestDTO?> UpdateOnlineRequest(RequestUpdateDTO requestInfo)
+        public async Task<RequestDTO?> UpdateOnlineRequest(RequestOnlineUpdateDTO requestInfo)
         {
             var request = await _requestRepository.GetRequestById(requestInfo.RequestId);
 

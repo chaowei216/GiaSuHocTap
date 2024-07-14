@@ -1,8 +1,6 @@
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -86,7 +84,7 @@ export default function RegisterTutor() {
           }}
         >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
-            Gia sư đăng ký
+            Đăng ký làm gia sư
           </Typography>
           <Box
             component="form"
@@ -98,13 +96,13 @@ export default function RegisterTutor() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
+                  sx={{ width: "85%" }}
                   name="firstName"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
                     formik.handleBlur(e);
                   }}
                   required
-                  fullWidth
                   id="firstName"
                   label="Tên"
                   onblur={formik.handleBlur}
@@ -112,10 +110,10 @@ export default function RegisterTutor() {
                   helperText={formik.touched.firstName && formik.errors.firstName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "85%" }}
                   id="lastName"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
@@ -128,7 +126,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.lastName && formik.errors.lastName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -144,7 +142,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -161,7 +159,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.password && formik.errors.password}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   required
                   fullWidth
@@ -177,39 +175,26 @@ export default function RegisterTutor() {
                   helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%" }}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Hiện là
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="job"
-                    name="job"
-                    value={formik.values.job}
-                    onBlur={(e) => {
-                      formik.handleBlur(e);
-                    }}
-                    label="Hiện là"
-                    // error={(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender}
-                    onChange={formik.handleChange}
-                  >
-                    <MenuItem value="Giáo viên">Giáo viên</MenuItem>
-                    <MenuItem value="Sinh viên">Sinh viên</MenuItem>
-                    <MenuItem value="Sinh viên sư phạm">Sinh viên sư phạm</MenuItem>
-                    <MenuItem value="Cử nhân">Cử nhân</MenuItem>
-                    <MenuItem value="Kỹ sư">Kỹ sư</MenuItem>
-                    <MenuItem value="Thạc sỹ">Thạc sỹ</MenuItem>
-                    <MenuItem value="Tiến sỹ">Tiến sỹ</MenuItem>
-                    <MenuItem value="Giảng viên">Giảng viên</MenuItem>
-                    <MenuItem value="Bằng cấp khác">Bằng cấp khác</MenuItem>
-                  </Select>
-                </FormControl>
+              <Grid item xs={12} sm={4} mt={1}>
+                <TextField
+                  required
+                  fullWidth
+                  id="idCart"
+                  onChange={formik.handleChange}
+                  onBlur={(e) => {
+                    formik.handleBlur(e);
+                  }}
+                  label="Chứng minh nhân dân"
+                  name="idCart"
+                  autoComplete="idCart"
+                  error={formik.touched.idCart && !!formik.errors.idCart}
+                  helperText={formik.touched.idCart && formik.errors.idCart}
+                />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <DatePickerValue setFieldValue={formik.setFieldValue} formik={formik} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <FormControl style={{ width: "100%", marginTop: "7px" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Giới tính
@@ -232,8 +217,8 @@ export default function RegisterTutor() {
                   {(formik.touched.gender !== undefined && formik.touched.gender == true) && !!formik.errors.gender && <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.gender}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl style={{ width: "100%", marginTop: "8px" }}>
+              <Grid item xs={12} sm={4}>
+                <FormControl style={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-helper-label">
                     Thành phố
                   </InputLabel>
@@ -262,7 +247,7 @@ export default function RegisterTutor() {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} mt={1}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   requiredc
                   fullWidth
@@ -278,7 +263,7 @@ export default function RegisterTutor() {
                   helperText={formik.touched.district && formik.errors.district}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={4}>
                 <TextField
                   required
                   fullWidth
@@ -295,25 +280,39 @@ export default function RegisterTutor() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="idCart"
-                  onChange={formik.handleChange}
-                  onBlur={(e) => {
-                    formik.handleBlur(e);
-                  }}
-                  label="Chứng minh nhân dân"
-                  name="idCart"
-                  autoComplete="idCart"
-                  error={formik.touched.idCart && !!formik.errors.idCart}
-                  helperText={formik.touched.idCart && formik.errors.idCart}
-                />
+                <FormControl style={{ width: "85%" }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Hiện là
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="job"
+                    name="job"
+                    value={formik.values.job}
+                    onBlur={(e) => {
+                      formik.handleBlur(e);
+                    }}
+                    label="Hiện là"
+                    error={(formik.touched.job !== undefined && formik.touched.job == true) && !!formik.errors.job}
+                    onChange={formik.handleChange}
+                  >
+                    <MenuItem value="Giáo viên">Giáo viên</MenuItem>
+                    <MenuItem value="Sinh viên">Sinh viên</MenuItem>
+                    <MenuItem value="Sinh viên sư phạm">Sinh viên sư phạm</MenuItem>
+                    <MenuItem value="Cử nhân">Cử nhân</MenuItem>
+                    <MenuItem value="Kỹ sư">Kỹ sư</MenuItem>
+                    <MenuItem value="Thạc sỹ">Thạc sỹ</MenuItem>
+                    <MenuItem value="Tiến sỹ">Tiến sỹ</MenuItem>
+                    <MenuItem value="Giảng viên">Giảng viên</MenuItem>
+                    <MenuItem value="Bằng cấp khác">Bằng cấp khác</MenuItem>
+                  </Select>
+                </FormControl>
+                {(formik.touched.job !== undefined && formik.touched.job == true) && !!formik.errors.job && <FormHelperText style={{ marginLeft: "13px", color: "#d32f2f" }}>{formik.errors.job}</FormHelperText>}
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                 <TextField
                   required
-                  fullWidth
+                  sx={{ width: "85%" }}
                   id="major"
                   onChange={formik.handleChange}
                   onBlur={(e) => {
@@ -322,8 +321,8 @@ export default function RegisterTutor() {
                   label="Ngành học"
                   name="major"
                   autoComplete="major"
-                // error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
-                // helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                  error={formik.touched.major && !!formik.errors.major}
+                  helperText={formik.touched.major && formik.errors.major}
                 />
               </Grid>
               <Grid item xs={12} className="flex">
@@ -380,9 +379,9 @@ export default function RegisterTutor() {
             </Grid>
             <Button
               type="submit"
-              fullWidth
+              style={{ width: "30rem", position: "relative", left: "30%", backgroundColor: "#a83a3b", height: "40px" }}
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 2 }}
             >
               Đăng ký
             </Button>

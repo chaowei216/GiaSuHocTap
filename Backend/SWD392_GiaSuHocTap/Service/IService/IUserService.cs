@@ -4,6 +4,7 @@ using Common.DTO;
 using Common.DTO.Query;
 using DAO.Model;
 using Microsoft.AspNetCore.Http;
+using Common.DTO.TimeTable;
 
 namespace Service.IService
 {
@@ -88,6 +89,13 @@ namespace Service.IService
         PaginationResponseDTO<TutorDTO> GetPagedUserList(UserParameters parameters);
 
         /// <summary>
+        /// Get tutor list with pagination
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TutorDTO> GetPagedTutorList(UserParameters parameters);
+
+        /// <summary>
         /// Get all pending users
         /// </summary>
         /// <param name="parameters"></param>
@@ -140,7 +148,7 @@ namespace Service.IService
         /// Get top tutor
         /// </summary>
         /// <returns></returns>
-        IEnumerable<TutorInforDTO> GetTopTutor();
+        IEnumerable<TopTutorInfoDTO> GetTopTutor();
 
         /// <summary>
         /// Update user info
@@ -163,5 +171,34 @@ namespace Service.IService
         /// <param name="userInfo"></param>
         /// <returns></returns>
         Task<TutorDTO?> UpdateUser(User user, UserUpdateDTO userInfo);
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters);
+
+        /// <summary>
+        /// Add new moderator
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request);
+
+        /// <summary>
+        /// UnBlock account of tutor
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> UnBlockAccount(User user);
+
+        /// <summary>
+        /// Update timetable
+        /// </summary>
+        /// <param name="tutorInfo"></param>
+        /// <returns></returns>
+        Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo);
     }
 }

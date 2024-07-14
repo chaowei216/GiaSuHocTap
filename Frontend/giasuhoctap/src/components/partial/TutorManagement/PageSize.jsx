@@ -19,7 +19,7 @@ function PageSize({ pageSize, setPageSize }) {
                     width: "250px",
                 }}
             >
-                <div>Rows per page</div>
+                <div>Số lượng</div>
                 <div className={style.show}>
                     <FormControl sx={{ minWidth: 120, border: "none" }}>
                         <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={pageSize} onChange={handleChange} label="perPage" style={{ border: "none", width: "55%" }}>

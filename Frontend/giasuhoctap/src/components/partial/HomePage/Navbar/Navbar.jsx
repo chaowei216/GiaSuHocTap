@@ -8,7 +8,10 @@ import { Badge, Button, Stack } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ProfileMenu from './ProfileMenu';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { useNavigate } from 'react-router-dom';
+import NotifyBell from '../Notification/Notification';
+
+
+import { Link, useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate()
   const handleClickLogin = () => {
@@ -51,39 +54,39 @@ const Navbar = () => {
       <div className={styles.navRight}>
         <div className={styles.navLinksWrapper}>
           <div className={styles.teal}>
-            <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+            <Link to="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
               TRANG CHỦ
-            </a>
+            </Link>
             <div className={`${styles.dropdown} ${styles.dropdownWrapper}`} style={{ width: "175px" }}>
-              <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+              <a className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
                 PHỤ HUYNH
               </a>
               <div className={styles.dropdownMenu}>
-                <a href="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</a>
-                <a href="/" className={styles.dropdownItem}>Dịch vụ gia sư</a>
-                <a href="/" className={styles.dropdownItem}>Gia sư tiêu biểu</a>
+                <Link to="/" className={styles.dropdownItem}>Đăng ký tìm gia sư</Link>
+                <Link to="/ParentPage" className={styles.dropdownItem}>Cập nhật hồ sơ</Link>
+                <Link to="/" className={styles.dropdownItem}>Gia sư tiêu biểu</Link>
               </div>
             </div>
             <div className={`${styles.dropdown} ${styles.dropdownMenuWrapper}`} style={{ width: "130px" }}>
-              <a href="/" className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
+              <a className={`${styles.nav} ${styles.center} ${styles.dropdownToggle}`}>
                 GIA SƯ
               </a>
               <div className={styles.dropdownMenu}>
-                <a href="RegisterTutor" className={styles.dropdownItem}>Đăng ký làm gia sư</a>
-                <a href="/" className={styles.dropdownItem}>Hướng dẫn nhận lớp</a>
-                <a href="BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</a>
-                <a href="BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</a>
+                <Link to="/RegisterTutor" className={styles.dropdownItem}>Cập nhật hồ sơ khi đã đăng ký</Link>
+                <Link to="/registerTutors" className={styles.dropdownItem}>Đăng ký làm gia sư</Link>
+                <Link to="/BookTutorOnline" className={styles.dropdownItem}>Danh sách gia sư online</Link>
+                <Link to="/BookTutorOffline" className={styles.dropdownItem}>Danh sách gia sư offline</Link>
               </div>
             </div>
-            <a href="/" className={`${styles.nav} ${styles.center}`}>
+            {/* <a href="/" className={`${styles.nav} ${styles.center}`}>
               LỚP MỚI
-            </a>
-            <a href="/" className={`${styles.nav} ${styles.center}`}>
-              TUYỂN DỤNG
-            </a>
-            <a href="/buycoin" className={`${styles.nav} ${styles.center}`}>
+            </a> */}
+            <Link to="/buycoin" className={`${styles.nav} ${styles.center}`}>
               MUA COIN
-            </a>
+            </Link>
+            <Link to="/NewsPage" className={`${styles.nav} ${styles.center}`}>
+              TIN TỨC
+            </Link>
           </div>
         </div>
         {(!isAuthenticated) && (
@@ -95,9 +98,7 @@ const Navbar = () => {
         {(user && isAuthenticated) && (
           <div className={styles.nav_info}>
             <Stack sx={{ marginRight: "20px" }} spacing={2} direction="row">
-              <Badge badgeContent={10} color="default" showZero>
-                <NotificationsNoneOutlinedIcon color="white" />
-              </Badge>
+              <NotifyBell />
             </Stack>
             <Button onClick={handleClickCoin} variant='text' sx={buttonStyles} style={{ textTransform: "none" }}>
               {user?.coinBalance || "0"} Coin

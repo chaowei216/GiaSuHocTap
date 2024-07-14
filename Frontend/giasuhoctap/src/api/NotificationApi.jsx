@@ -24,6 +24,7 @@ export const CreateNotification = async (value) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -41,6 +42,7 @@ export const UpdateNotification = async (nontificationId, value) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -58,6 +60,7 @@ export const DeleteNotification = async (nontificationId) => {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);

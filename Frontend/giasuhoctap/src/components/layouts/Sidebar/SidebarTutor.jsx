@@ -11,35 +11,45 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import logoEdu from "/img/logoGiasu.png";
 import WorkOffIcon from '@mui/icons-material/WorkOff';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import useAuth from "../../../hooks/useAuth";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function SidebarTutor() {
+  const { user } = useAuth()
   const Menus = [
     {
-      title: "Home",
+      title: "Trang gia sư",
       path: "/home-tutor",
       icon: <HomeIcon />,
       id: 0,
       src: "/home-tutor",
     },
     {
-      title: "User Profile",
+      title: "Hồ sơ cá nhân",
       path: "/tutor-profile",
       icon: <PersonIcon />,
       id: 1,
       src: "/tutor-profile",
     },
     {
-      title: "Online Request",
+      title: "Yêu cầu trực tuyến",
       path: "/request-tutor",
       icon: <WorkHistoryIcon />,
       id: 2,
       src: "/request-tutor",
     },
     {
-      title: "Offline Request",
+      title: "Yêu cầu ngoại tuyến",
       path: "/request-tutor-offline",
       icon: <WorkOffIcon />,
       id: 3,
       src: "/request-tutor-offline",
+    },
+    {
+      title: "Thời gian biểu",
+      path: `/time-table/${user?.email}`,
+      icon: <CalendarMonthIcon />,
+      id: 4,
+      src: "/time-table/${user?.email}",
     },
   ];
   const location = useLocation();
@@ -70,17 +80,6 @@ export default function SidebarTutor() {
           ))}
         </ul>
 
-      </div>
-      <div style={{ position: "fixed", bottom: "0%", padding: "18px 18px 0px 18px" }}>
-        <li className={styles['sidebar-nav-item']}>
-          <NavLink
-            exact
-            to="/"
-            className={`${styles['sidebar-nav-link']}`}
-          >
-            <p><ExitToAppIcon /> Back to homepage</p>
-          </NavLink>
-        </li>
       </div>
     </>
   );

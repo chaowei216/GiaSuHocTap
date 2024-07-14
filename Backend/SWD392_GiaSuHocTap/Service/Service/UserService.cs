@@ -2,8 +2,10 @@
 using Common.Constant.Firebase;
 using Common.Constant.Message;
 using Common.Constant.Notification;
+using Common.Constant.Request;
 using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
+using Common.Constant.User;
 using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
@@ -13,6 +15,7 @@ using DAO.Model;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Repository.IRepository;
 using Service.IService;
 using System.Security.Cryptography;
@@ -30,6 +33,7 @@ namespace Service.Service
         private readonly IFeedbackService _feedbackService;
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
@@ -38,7 +42,8 @@ namespace Service.Service
                             ICourseService courseService,
                             ITimeTableService timeTableService,
                             INotificationService notificationService,
-                            IFeedbackService feedbackService)
+                            IFeedbackService feedbackService,
+                            IConfiguration configuration)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -48,6 +53,7 @@ namespace Service.Service
             _timeTableService = timeTableService;
             _notificationService = notificationService;
             _feedbackService = feedbackService;
+            _configuration = configuration;
 
             string pathToJsonFile = "firebase.json";
 
@@ -914,17 +920,61 @@ namespace Service.Service
         {
             var user = _userRepository.GetUserByEmailInclude(email);
 
+            var adminPassword = _configuration["AdminAccount:Password"];
+
+            var admin = CheckAdminAccount(email, adminPassword);
+
+            if (admin != null)
+            {
+                var response = _mapper.Map<TutorDTO>(admin);
+                return response;
+            }
+
             var userMap = _mapper.Map<TutorDTO>(user);
             return userMap;
         }
 
-        public IEnumerable<TutorInforDTO> GetTopTutor()
+        private User? CheckAdminAccount(string username, string password)
+        {
+            var adminEmail = _configuration["AdminAccount:Email"];
+            var adminPassword = _configuration["AdminAccount:Password"];
+
+            if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword))
+            {
+                if (adminEmail == username && adminPassword == password)
+                {
+                    return new User
+                    {
+                        Email = adminEmail,
+                        RoleId = (int)RoleEnum.Admin
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        public IEnumerable<TopTutorInfoDTO> GetTopTutor()
         {
             var allFeedback = _feedbackService.GetAllFeedbacks();
 
             var topTutors = _userRepository.GetTopTutorByFeedBack(allFeedback);
 
-            var mappedResponse = _mapper.Map<List<TutorInforDTO>>(topTutors);
+            var mappedResponse = _mapper.Map<List<TopTutorInfoDTO>>(topTutors);
+
+            foreach(var tutor  in mappedResponse)
+            {
+                var tutorInfo = topTutors.Where(p => p.UserId == tutor.UserId);
+                var fbOfUser = allFeedback.Where(p => p.ToId == tutor.UserId);
+                if (fbOfUser.Any())
+                {
+                    tutor.AverageRating = fbOfUser.Average(p => p.Rating);
+                } else
+                {
+                    tutor.AverageRating = 0;
+                }
+
+            }
 
             return mappedResponse;
         }
@@ -956,6 +1006,237 @@ namespace Service.Service
             }
 
             return null;
+        }
+
+        public PaginationResponseDTO<TutorDTO> GetPagedTutorList(UserParameters parameters)
+        {
+            var userList = _userRepository.GetPagedTutorList(parameters);
+
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorDTO>>(userList);
+            mappedResponse.Data = _mapper.Map<List<TutorDTO>>(userList);
+
+            return mappedResponse;
+        }
+
+        public PaginationResponseDTO<TimetableDTO> GetTimeTableByEmail(string email, TimeTableParameters parameters)
+        {
+            var user = GetUserByEmail(email);
+
+            if (user != null)
+            {
+                var timetable = _timeTableService.GetTimeTableByUserId(user.UserId, parameters);
+
+                return timetable;
+            }
+            return null;
+        }
+
+        public async Task<ModeratorDTO?> AddNewModerator(ModeratorCreateRequestDTO request)
+        {
+            var userList = _userRepository.GetAllUsers().ToList();
+
+            if (!_validateHandleService.CheckFormatPhoneNumber(request.Phonenumber) ||
+                !_validateHandleService.CheckPhoneNumberAlreadyExists(request.Phonenumber, userList) ||
+                !_validateHandleService.CheckFormatEmail(request.Email) ||
+                !_validateHandleService.CheckEmailAlreadyExists(request.Email, userList)
+                )
+            {
+                return null;
+            }
+            else
+            {
+                var userMap = _mapper.Map<User>(request);
+
+                CreatePasswordHash(UserConst.ModeratorPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                userMap.PasswordHash = passwordHash;
+                userMap.PasswordSalt = passwordSalt;
+                userMap.CoinBalance = 0;
+                userMap.RoleId = (int)RoleEnum.Moderator;
+                userMap.Status = UserStatusEnum.Active;
+                userMap.IsVerified = true;
+
+                userMap = await _userRepository.AddNewModerator(userMap);
+
+                if (userMap != null)
+                {
+                    // add notification
+                    var userNotification = await _notificationService.AddNewNotification(new Notification()
+                    {
+                        NotificationType = NotificationType.Infomation,
+                        Description = Description.CreateModeratorSuccess,
+                        CreatedTime = DateTime.Now,
+                        Status = false,
+                    });
+
+                    // add user notification
+                    await _notificationService.AddNewUserNotification(new UserNotification
+                    {
+                        UserId = userMap.UserId,
+                        NotificationId = userNotification.NotificationId
+                    });
+                    return _mapper.Map<ModeratorDTO>(userMap);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<bool> UnBlockAccount(User user)
+        {
+            user.Status = UserStatusEnum.Active;
+            var updatedUser = await _userRepository.UpdateUser(user);
+
+            if (updatedUser != null)
+            {
+                // add notification
+                var tutorNotification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UnBlockAccount,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = user.UserId,
+                    NotificationId = tutorNotification.NotificationId
+                });
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateTimetable(UpdateTimeTableDTO tutorInfo)
+        {
+            var user = await _userRepository.GetUserById(tutorInfo.TutorId);
+            var tutorDetail = await _userRepository.GetTutorDetailByTutorId(tutorInfo.TutorId);
+
+            if (user != null && tutorDetail != null &&
+                tutorInfo.Subjects.Any() &&
+                tutorInfo.Classes.Any() &&
+                tutorInfo.DayOfWeekOnline.Any())
+            {
+
+                // add user class
+                foreach (var c in tutorInfo.Classes)
+                {
+                    var userclass = await _classService.GetUserClassByUserIdAndClassId(user.UserId, c);
+                    if (userclass == null)
+                    {
+                        await _classService.AddNewUserClass(new UserClass()
+                        {
+                            ClassId = c,
+                            UserId = user.UserId
+                        });
+                    }
+                }
+
+                // add user course
+                foreach (var c in tutorInfo.Subjects)
+                {
+                    var usercourse = await _courseService.GetUserClassByUserIdAndCourseId(user.UserId, c);
+                    if (usercourse == null)
+                    {
+                        await _courseService.AddNewUserCourse(new UserCourse()
+                        {
+                            CourseId = c,
+                            UserId = user.UserId
+                        });
+                    }
+                }
+
+                // add time table
+                // online
+                foreach (var time in tutorInfo.DayOfWeekOnline)
+                {
+                    var splitTime = time.Last().Split('-');
+                    int startTime = int.Parse(splitTime[0].ToString());
+                    int endTime = int.Parse(splitTime[1].ToString());
+
+                    if (startTime > endTime)
+                    {
+                        int temp = startTime;
+                        startTime = endTime;
+                        endTime = temp;
+                    }
+
+                    for (int i = startTime; i < endTime; i++)
+                    {
+                        var timetable = _timeTableService.GetTimetableByDayAndPeriodAndUserIdOnline(user.UserId, time.First(), i.ToString() + ":00", (i + 1).ToString() + ":00").FirstOrDefault();
+                        if (timetable == null)
+                        {
+                            await _timeTableService.AddTimeTable(new TimeTable()
+                            {
+                                UserId = user.UserId,
+                                DayOfWeek = time.First(),
+                                StartTime = i.ToString() + ":00",
+                                EndTime = (i + 1).ToString() + ":00",
+                                LearningType = LearningType.Online,
+                                Period = time[1],
+                                Status = TimeTableConst.FreeStatus
+                            });
+                        }
+                    }
+                }
+
+                // check if tutor choose offline teaching 
+                if (tutorInfo.IsOfflineTeaching)
+                {
+                    foreach (var time in tutorInfo.DayOfWeekOffline!)
+                    {
+                        var splitTime = time.Last().Split('-');
+                        string startTime = splitTime[0] + ":00";
+                        string endTime = splitTime[1] + ":00";
+
+                        var timetableOff = _timeTableService.GetTimetableByDayAndPeriodAndUserIdOffline(user.UserId, time.First(), time[1]).FirstOrDefault();
+                        if (timetableOff == null)
+                        {
+                            await _timeTableService.AddTimeTable(new TimeTable()
+                            {
+                                UserId = user.UserId,
+                                DayOfWeek = time.First(),
+                                StartTime = startTime,
+                                EndTime = endTime,
+                                LearningType = LearningType.Offline,
+                                Period = time[1],
+                                Status = TimeTableConst.FreeStatus,
+                            });
+                        }
+                    }
+
+                    tutorDetail.TeachingOffline = true;
+                }
+
+                user.Status = UserStatusEnum.Checking;
+                await _userRepository.UpdateUser(user);
+                await _userRepository.UpdateTutorDetail(tutorDetail);
+
+                // add notification
+                var notification = await _notificationService.AddNewNotification(new Notification()
+                {
+                    NotificationType = NotificationType.Infomation,
+                    Description = Description.UpdateTutorDetailSuccess,
+                    CreatedTime = DateTime.Now,
+                    Status = false,
+                });
+
+                // add user notification
+                await _notificationService.AddNewUserNotification(new UserNotification
+                {
+                    UserId = user.UserId,
+                    NotificationId = notification.NotificationId
+                });
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -6,6 +6,7 @@ using Common.DTO.User;
 using Common.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
+using static Google.Apis.Requests.BatchRequest;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -15,10 +16,12 @@ namespace SWD392_GiaSuHocTap.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IStatisticService _statisticService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IStatisticService statisticService)
         {
             _userService = userService;
+            _statisticService = statisticService;
         }
 
         [HttpGet()]
@@ -35,6 +38,29 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
 
             var response = _userService.GetPagedUserList(queries);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
+
+        [HttpGet("get-all-tutors")]
+        public IActionResult GetAllTutors([FromQuery] UserParameters queries)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = _userService.GetPagedTutorList(queries);
 
             return Ok(new ResponseDTO
             {
@@ -303,6 +329,121 @@ namespace SWD392_GiaSuHocTap.Controllers
                 StatusCode = (int)StatusCodeEnum.InternalServerError,
                 Message = GeneralMessage.Fail,
                 Data = null
+            });
+        }
+
+        [HttpPost("add-new-moderator")]
+        public async Task<IActionResult> AddNewModerator([FromBody] ModeratorCreateRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var response = await _userService.AddNewModerator(request);
+
+            if (response != null)
+            {
+                return Ok(new ResponseDTO
+                {
+                    StatusCode = (int)StatusCodeEnum.Created,
+                    Message = GeneralMessage.Success,
+                    Data = response
+                });
+            } else
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+        }
+
+        [HttpPut("unblock-account/{id}")]
+        public async Task<IActionResult> UnBlockAccount(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            } else if (user.RoleId != (int)RoleEnum.Tutor && user.Status != UserStatusEnum.InActive)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = GeneralMessage.Fail,
+                    Data = null
+                });
+            }
+
+            var resposne = await _userService.UnBlockAccount(user);
+
+            if (resposne)
+            {
+                return NoContent();
+            }
+
+            return StatusCode(500, new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.InternalServerError,
+                Message = GeneralMessage.Fail,
+                Data = null
+            });
+        }
+
+        [HttpGet("rent-info-parents/{id}")]
+        public async Task<IActionResult> GetRentingInfoOfParents(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(id);
+
+            if (user == null) 
+            { 
+                return NotFound(); 
+            } else if (user.RoleId != (int)RoleEnum.Parents)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = GeneralMessage.Fail,
+                    Data = null
+                });
+            }
+
+            var response = _statisticService.GetUserRentingInfo(user);
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
             });
         }
     }

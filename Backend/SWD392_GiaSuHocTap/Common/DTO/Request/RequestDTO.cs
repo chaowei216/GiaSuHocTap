@@ -16,7 +16,7 @@ namespace Common.DTO.Request
         public string RequestUserName { get; set; } = null!;
         public string ClassName { get; set; } = null!;
         public string CourseName { get; set; } = null!;
-        public List<RequestTimeDTO>? Time {  get; set; } = new List<RequestTimeDTO>();
+        public ICollection<RequestTimeDTO> RequestTimes { get; set; } = null!;
         public string RequestStatus { get; set; } = null!;
     }
 }
