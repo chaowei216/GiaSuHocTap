@@ -42,5 +42,12 @@ namespace Service.IService
         /// <param name="parameters"></param>
         /// <returns></returns>
         PaginationResponseDTO<TransactionDTO> GetTransOfUser(int userId, TransactionParameters parameters);
+
+        /// <summary>
+        /// Get all paid transaction of user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        IEnumerable<Transaction> GetPaidTransOfUser(int userId); 
     }
 }
