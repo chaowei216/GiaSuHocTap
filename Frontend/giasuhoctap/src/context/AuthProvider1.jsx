@@ -65,7 +65,14 @@ const handlers = {
       user,
       isVerify: true
     };
-  }
+  },
+  UPDATE_USER: (state, action) => {
+    const { user } = action.payload;
+    return {
+      ...state,
+      user,
+    };
+  },
 };
 
 
@@ -80,6 +87,7 @@ const AuthContext1 = createContext({
   register: () => Promise.resolve(),
   register_tutor: () => Promise.resolve(),
   sendOtp: () => Promise.resolve,
+  f5User: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -154,6 +162,23 @@ function AuthProvider1({ children }) {
 
     initialize();
   }, []);
+
+  const f5User = async (email) => {
+    try {
+      const response = await GetUserByEmail(email);
+      const responseJson = await response.json();
+      const user = responseJson.data;
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          user,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Lỗi server");
+    }
+  };
 
   const login = async (email, password) => {
     const userInput = {
@@ -362,7 +387,8 @@ function AuthProvider1({ children }) {
           logout,
           register,
           register_tutor,
-          sendOtp
+          sendOtp,
+          f5User,
         }}
       >
         {children}

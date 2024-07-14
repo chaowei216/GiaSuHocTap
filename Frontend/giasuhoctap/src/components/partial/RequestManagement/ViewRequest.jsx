@@ -10,8 +10,10 @@ import useAuth from '../../../hooks/useAuth';
 import { GetPendingOnlineApi, GetRequestById, GetRequestOnlineApi } from '../../../api/RequestApi';
 import { toast } from 'react-toastify';
 import WaitingModal from '../../global/WaitingModal';
+import { Logout } from '../../../api/AuthenApi';
+import { useNavigate } from 'react-router-dom';
 export default function ViewRequest() {
-    const { user } = useAuth()
+    const { user, f5User, logout } = useAuth()
     const [type, setType] = useState("All");
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -20,6 +22,28 @@ export default function ViewRequest() {
     const [parent, setParent] = useState({});
     const [showModalDelete, setShowmodalDelete] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
+    const navigate = useNavigate()
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+        const interval = setInterval(checkUser, 10000);
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
+
     const handleClose = () => {
         setShowmodalDelete(false);
     };

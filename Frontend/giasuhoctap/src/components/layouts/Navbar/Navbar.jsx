@@ -6,6 +6,8 @@ import { Badge, Stack } from "@mui/material";
 import { useState } from "react";
 import BasicMenu from "./DropdownAva";
 import useAuth from "../../../hooks/useAuth"
+import NotifyBell from '../../partial/HomePage/Notification/Notification';
+
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -22,11 +24,8 @@ export default function Navbar() {
     <div className={style.main}>
       <div>
         <Stack spacing={2} direction="row">
-          <Badge badgeContent={10} color="default" showZero>
-            <NotificationsNoneOutlinedIcon color="white" />
-          </Badge>
+          <NotifyBell />
         </Stack>
-        {/* {token && ( */}
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <BasicMenu anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
             <img
@@ -44,7 +43,6 @@ export default function Navbar() {
           </BasicMenu>
           <span>{user?.fullname}</span>
         </div>
-        {/* )} */}
       </div>
     </div>
   );

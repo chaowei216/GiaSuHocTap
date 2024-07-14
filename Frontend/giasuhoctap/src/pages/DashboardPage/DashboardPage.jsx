@@ -1,4 +1,3 @@
-import React from 'react'
 import Navbar from '../../components/layouts/Navbar/Navbar'
 import Sidebar from '../../components/layouts/Sidebar/Sidebar'
 import AppView from '../../components/partial/overview/view/app-view'

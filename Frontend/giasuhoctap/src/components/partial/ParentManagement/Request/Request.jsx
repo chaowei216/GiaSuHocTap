@@ -72,7 +72,7 @@ const Request = () => {
             if (response.ok) {
                 const reponseJson = await response.json();
                 if (reponseJson.statusCode == 201) {
-                    toast.success("Thuê gia sư thêm 1 tiếng thành công")
+                    toast.success("Gửi yêu cầu thuê thêm gia sư thành công")
                     setTimeout(() => {
                         window.location.reload();
                     }, 2500);
@@ -190,7 +190,7 @@ const Request = () => {
                                     </div>
                                     <div className={styles.detailItem}>
                                         <p style={{ fontSize: "large", color: "green", fontWeight: "bold" }}>Google Meet:</p>
-                                        <Link sx={{fontSize: "large"}} href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
+                                        <Link sx={{ fontSize: "large" }} href="#" onClick={(event) => handleLinkClick(event, card.linkMeet)}
                                             underline="always">
                                             {card.linkMeet || "Chưa có link meet"}
                                         </Link>

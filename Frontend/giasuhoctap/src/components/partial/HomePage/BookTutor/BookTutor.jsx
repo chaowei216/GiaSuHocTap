@@ -181,7 +181,7 @@ const BookTutor = () => {
                                 </Select>
                             </FormControl>
                             <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
-                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
+                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Làm mới</Button>
                         </div>
                     </div>
                     <div className={`slide-container ${styles.slideContainer} mt-16`}>

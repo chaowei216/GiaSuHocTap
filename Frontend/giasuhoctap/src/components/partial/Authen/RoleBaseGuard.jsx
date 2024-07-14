@@ -5,6 +5,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import HomePage from '../../../pages/HomePage/HomePage';
 import WaitingModal from '../../global/WaitingModal';
+import { Logout } from '../../../api/AuthenApi';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ const useCurrentStatus = () => {
 export default function RoleBasedGuard({ accessibleRoles, children, status = "Active" }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -57,9 +59,28 @@ export default function RoleBasedGuard({ accessibleRoles, children, status = "Ac
     navigate("/home-tutor");
   };
 
-  const handleClick5 = () => {
+  const handleClick5 = async () => {
     navigate("/login");
   };
+
+  useEffect(() => {
+    const checking = async () => {
+      if (user?.status === "InActive") {
+        if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+          const refreshToken = localStorage.getItem("refreshToken");
+          const response = await Logout(refreshToken);
+          if (response.ok) {
+            await logout();
+            navigate('/login');
+          } else {
+            await logout();
+            navigate('/login');
+          }
+        }
+      }
+    }
+    checking()
+  }, [logout, navigate, user?.status])
 
   const handleClick6 = () => {
     navigate("/checking-page");

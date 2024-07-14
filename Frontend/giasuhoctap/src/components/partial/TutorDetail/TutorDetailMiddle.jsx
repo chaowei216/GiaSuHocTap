@@ -3,7 +3,6 @@ import ImageWithPreview from "../../global/ImageWithPreview";
 import FeedbackTutor from "./FeedbackTutor";
 import InventoryIcon from "@mui/icons-material/Inventory";
 function TutorDetailMiddle({ data, dataFeedback }) {
-  console.log(data);
   // const imageList = [
   //   'https://picsum.photos/200',
   //   'https://picsum.photos/200/300',

@@ -32,17 +32,6 @@ const SideBar = () => {
             )}
           </div>
           <hr style={{ width: '95%', color: '#000000b5' }} />
-          <div className={styles.nav_item}>
-            <div className={styles.nav_link} onClick={toggleWalletDropdown}>
-              <FontAwesomeIcon icon={faMoneyBillWave} className={styles.icon} />
-              <span className={styles.nav_name}>VÍ ĐIỆN TỬ</span>
-            </div>
-            {showWallet && (
-              <div className={styles.dropdown_menu}>
-                <a className={styles.dropdown_item} href="#/action-1">Option 1</a>
-              </div>
-            )}
-          </div>
           <hr style={{ width: '90%', color: '#000000b5' }} />
         </div>
       </nav>

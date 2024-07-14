@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import NewsTable from './NewsTable';
 import { GetNewsPaging } from '../../../api/NewsApi';
 import CreateNew from './CreateNew';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewNews() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -17,6 +18,7 @@ export default function ViewNews() {
     const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         const getAllNews = async () => {
             const response = await GetNewsPaging(page, pageSize);
@@ -83,6 +85,7 @@ export default function ViewNews() {
                     </div>
                 </>
             )}
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
             <CreateNew centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isCreated} setIsCreated={setIsCreated} />
         </div>
     )

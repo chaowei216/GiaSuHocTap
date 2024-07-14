@@ -14,16 +14,41 @@ import {
 } from 'mdb-react-ui-kit';
 import styles from "./UserProfile.module.css"
 import useAuth from "../../../hooks/useAuth"
-import { Button } from '@mui/material';
 import PaidIcon from '@mui/icons-material/Paid';
 import CheckIcon from '@mui/icons-material/Check';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import ReportIcon from '@mui/icons-material/Report';
 import WaitingModal from '../../global/WaitingModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Logout } from '../../../api/AuthenApi';
+const baseUrl = import.meta.env.VITE_API_HOST;
 export default function PersonalProfile() {
-    const { user } = useAuth();
+    const { user, f5User, logout } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate()
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+
+        const interval = setInterval(checkUser, 5000);
+
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
     return (
         <>
             <section style={{ backgroundColor: '#eee' }}>
@@ -33,11 +58,14 @@ export default function PersonalProfile() {
                             <MDBCard className="mb-4">
                                 <MDBCardBody className="text-center" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                     <MDBCardImage
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                        src={`${baseUrl}/api/Auth/user-image?fileName=${user?.userImage}`}
                                         alt="avatar"
+                                        onError={(e) => {
+                                            e.currentTarget.src = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp";
+                                        }}
                                         className="rounded-circle"
                                         style={{ width: '150px', marginBottom: "20px" }}
-                                        fluid />
+                                    />
                                     <p className="text-muted mb-1">{user?.roleName}</p>
                                     <p className="text-muted mb-4">{user?.fullname}</p>
                                 </MDBCardBody>

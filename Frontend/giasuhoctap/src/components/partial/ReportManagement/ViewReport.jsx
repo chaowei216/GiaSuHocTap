@@ -106,8 +106,8 @@ export default function ViewReport() {
             <div style={{ marginBottom: "20px" }}>
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email từ" variant="standard" value={from} onChange={(event) => setFrom(event.target.value)} />
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email đến" variant="standard" value={to} onChange={(event) => setTo(event.target.value)} />
-                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Filter</Button>
-                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Reset</Button>
+                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Lọc</Button>
+                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Làm mới</Button>
             </div>
             <NotificationTable data={data} setIsUpdate={setIsUpdate} isUpdate={isUpdate} />
             {data && data.length > 0 && (

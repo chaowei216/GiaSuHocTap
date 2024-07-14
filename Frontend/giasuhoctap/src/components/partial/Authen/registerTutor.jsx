@@ -106,8 +106,8 @@ export default function RegisterTutor() {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="given-name"
-                    sx={{ width: "85%" }}
                     name="firstName"
+                    fullWidth
                     onChange={formik.handleChange}
                     onBlur={(e) => {
                       formik.handleBlur(e);
@@ -123,7 +123,7 @@ export default function RegisterTutor() {
                 <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                   <TextField
                     required
-                    sx={{ width: "85%" }}
+                    fullWidth
                     id="lastName"
                     onChange={formik.handleChange}
                     onBlur={(e) => {
@@ -290,7 +290,7 @@ export default function RegisterTutor() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl style={{ width: "85%" }}>
+                  <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-helper-label">
                       Hiện là
                     </InputLabel>
@@ -322,7 +322,7 @@ export default function RegisterTutor() {
                 <Grid item xs={12} sm={6} style={{ display: "flex", justifyContent: "end" }}>
                   <TextField
                     required
-                    sx={{ width: "85%" }}
+                    fullWidth
                     id="major"
                     onChange={formik.handleChange}
                     onBlur={(e) => {
