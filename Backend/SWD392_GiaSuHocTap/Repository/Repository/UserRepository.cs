@@ -91,7 +91,13 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true && u.Status == UserStatusEnum.Active);
+            DateTime today = DateTime.Now;
+            string dayOfWeek = GetDayOfWeek(today);
+            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true && u.Status == UserStatusEnum.Active).AsEnumerable();
+            var get = onlineTutors.Where(t => t.TimeTables.Any() && t.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                                                                                    && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                    DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                    && t.Status == TimeTableConst.FreeStatus).Any());
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
@@ -108,7 +114,30 @@ namespace Repository.Repository
                 onlineTutors = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
             }
 
-            return PagedList<User>.ToPagedList(onlineTutors, parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(get.AsQueryable(), parameters.PageNumber, parameters.PageSize);
+        }
+
+        private string GetDayOfWeek(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return "Monday";
+                case DayOfWeek.Tuesday:
+                    return "Tuesday";
+                case DayOfWeek.Wednesday:
+                    return "Wednesday";
+                case DayOfWeek.Thursday:
+                    return "Thursday";
+                case DayOfWeek.Friday:
+                    return "Friday";
+                case DayOfWeek.Saturday:
+                    return "Saturday";
+                case DayOfWeek.Sunday:
+                    return "Sunday";
+                default:
+                    return "Unknown";
+            }
         }
 
         public IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters)
