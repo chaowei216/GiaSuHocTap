@@ -25,6 +25,22 @@ namespace Service.Service
             _feedbackService = feedbackService;
         }
 
+        public GeneralDataDTO GetGeneralData()
+        {
+            var generalData = new GeneralDataDTO();
+            var users = _userService.GetAllUsers();
+            generalData.TotalTutor = users.Where(p => p.RoleId == (int)RoleEnum.Tutor && p.Status == UserStatusEnum.Active).Count();
+            generalData.TotalStudent = users.Where(p => p.RoleId == (int)RoleEnum.Parents && p.Status == UserStatusEnum.Active).Count();
+
+            var feedBacks = _feedbackService.GetAllFeedbacks().Where(p => p.Rating >= 3);
+            generalData.FeedbackSatisfied = feedBacks.Count();
+
+            var requests = _requestService.GetAllRequests().Where(p => p.Status == RequestConst.CompletedStatus);
+            generalData.SuccessfulLesson = requests.Count();
+
+            return generalData;
+        }
+
         public StatisticSystemDTO GetStatisticOfSystem()
         {
             var systemInfo = new StatisticSystemDTO();

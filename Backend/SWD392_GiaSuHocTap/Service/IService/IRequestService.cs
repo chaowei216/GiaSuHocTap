@@ -108,5 +108,11 @@ namespace Service.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<Request> GetRequestsOfUser(int userId);
+
+        /// <summary>
+        /// Get all requests
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Request> GetAllRequests();
     }
 }
