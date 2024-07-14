@@ -954,13 +954,27 @@ namespace Service.Service
             return null;
         }
 
-        public IEnumerable<TutorInforDTO> GetTopTutor()
+        public IEnumerable<TopTutorInfoDTO> GetTopTutor()
         {
             var allFeedback = _feedbackService.GetAllFeedbacks();
 
             var topTutors = _userRepository.GetTopTutorByFeedBack(allFeedback);
 
-            var mappedResponse = _mapper.Map<List<TutorInforDTO>>(topTutors);
+            var mappedResponse = _mapper.Map<List<TopTutorInfoDTO>>(topTutors);
+
+            foreach(var tutor  in mappedResponse)
+            {
+                var tutorInfo = topTutors.Where(p => p.UserId == tutor.UserId);
+                var fbOfUser = allFeedback.Where(p => p.ToId == tutor.UserId);
+                if (fbOfUser.Any())
+                {
+                    tutor.AverageRating = fbOfUser.Average(p => p.Rating);
+                } else
+                {
+                    tutor.AverageRating = 0;
+                }
+
+            }
 
             return mappedResponse;
         }
