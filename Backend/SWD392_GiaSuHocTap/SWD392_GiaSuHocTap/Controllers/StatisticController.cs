@@ -32,5 +32,18 @@ namespace SWD392_GiaSuHocTap.Controllers
                 Data = response
             });
         }
+
+        [HttpGet("general-data")]
+        public IActionResult GetGeneralData()
+        {
+            var response = _statisticService.GetGeneralData();
+
+            return Ok(new ResponseDTO
+            {
+                StatusCode = (int)StatusCodeEnum.OK,
+                Message = GeneralMessage.Success,
+                Data = response
+            });
+        }
     }
 }

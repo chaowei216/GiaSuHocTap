@@ -293,6 +293,11 @@ namespace Service.Service
             return null;
         }
 
+        public IEnumerable<Request> GetAllRequests()
+        {
+            return _requestRepository.GetAllRequests();
+        }
+
         public PaginationResponseDTO<RequestDTO> GetInProcessRequestsOfParents(int parentsId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetPagedInProcessOnlineRequestsOfParents(parentsId, parameters);

@@ -19,5 +19,11 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         StatisticSystemDTO GetStatisticOfSystem();
+
+        /// <summary>
+        /// Get general data of system
+        /// </summary>
+        /// <returns></returns>
+        GeneralDataDTO GetGeneralData();
     }
 }
