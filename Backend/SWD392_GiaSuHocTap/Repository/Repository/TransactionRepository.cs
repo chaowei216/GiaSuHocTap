@@ -35,12 +35,12 @@ namespace Repository.Repository
 
         public PagedList<Transaction> GetPagedTransactionList(TransactionParameters parameters)
         {
-            return PagedList<Transaction>.ToPagedList(_transactionDAO.GetAll().Include(p => p.User), parameters.PageNumber, parameters.PageSize);
+            return PagedList<Transaction>.ToPagedList(_transactionDAO.GetAll().Include(p => p.User).Where(p => p.Status != PaymentConstant.CancelStatus), parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<Transaction> GetPagedTransOfUser(int userId, TransactionParameters parameters)
         {
-            var transOfUser = _transactionDAO.GetByCondition(p => p.UserId == userId).Include(p => p.User);
+            var transOfUser = _transactionDAO.GetByCondition(p => p.UserId == userId && p.Status != PaymentConstant.CancelStatus).Include(p => p.User);
 
             return PagedList<Transaction>.ToPagedList(transOfUser, parameters.PageNumber, parameters.PageSize);
         }

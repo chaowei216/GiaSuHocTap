@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Common.DTO.News
 {
@@ -17,7 +12,7 @@ namespace Common.DTO.News
         public string Image { get; set; } = null!;
         [Required]
         public DateTime CreateDate { get; set; }
-        public int UserId { get; set; }
+        public string AuthorName { get; set; } = null!;
         public bool Status { get; set; }
     }
 }
