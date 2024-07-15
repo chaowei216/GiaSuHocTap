@@ -185,9 +185,9 @@ const AppView = () => {
                 </div>
               </div>
             ))}
-            <div className={styles.paginationWrapper} style={{ display: 'flex', alignItems: 'center', marginLeft: '400px' }}>
+            {/* <div className={styles.paginationWrapper} style={{ display: 'flex', alignItems: 'center', marginLeft: '400px' }}>
               <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
-            </div>
+            </div> */}
           </div>
         </Grid>
 
@@ -209,7 +209,7 @@ const AppView = () => {
                     <h2>{tutor.fullName}</h2>
                     <div className={styles.boxRating}>
                       {renderStars(tutor.averageRating)}
-                     
+
                     </div>
                   </div>
                 </div>

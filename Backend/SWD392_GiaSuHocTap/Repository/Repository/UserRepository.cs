@@ -182,7 +182,7 @@ namespace Repository.Repository
                                    TutorId = t.UserId,
                                    RatingCount = ratingCount,
                                    AverageRating = averageRating
-                               });
+                               }).ToList();
 
             foreach (var t in tutorScores)
             {
@@ -191,7 +191,7 @@ namespace Repository.Repository
 
             var topScores = tutorScores.OrderByDescending(p => p.Score).Select(p => p.TutorId).Take(6);
 
-            return tutors.Where(p => topScores.Contains(p.UserId)).ToList();
+            return tutors.Where(p => topScores.Contains(p.UserId)).OrderByDescending(p => p.UserId).ToList();
         }
 
         public async Task<TutorDetail?> GetTutorDetailByTutorId(int id)

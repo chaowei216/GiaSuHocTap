@@ -281,7 +281,7 @@ namespace Service.Service
                     nextTimetable.Status = TimeTableConst.BusyStatus;
                     await _timeTableService.UpdateTimeTable(nextTimetable);
 
-                    lastTime.Status = RequestConst.InProcessStatus;
+                    lastTime.Status = RequestConst.AcceptedStatus;
                     await _requestRepository.UpdateRequestTime(lastTime);
 
                     await _requestRepository.AddNewRequestTime(new RequestTime
