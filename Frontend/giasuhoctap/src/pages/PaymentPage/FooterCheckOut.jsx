@@ -12,7 +12,7 @@ const FooterCheckOut = () => {
         >
             <Container>
                 <Typography variant="h6" align="center" gutterBottom>
-                    Footer Content
+                    Gia sư học tập
                 </Typography>
                 <Box
                     sx={{
@@ -22,21 +22,12 @@ const FooterCheckOut = () => {
                         flexWrap: 'wrap'
                     }}
                 >
-                    <Link href="#" color="inherit" underline="none">
-                        Home
-                    </Link>
-                    <Link href="#" color="inherit" underline="none">
-                        About Us
-                    </Link>
-                    <Link href="#" color="inherit" underline="none">
-                        Services
-                    </Link>
-                    <Link href="#" color="inherit" underline="none">
-                        Contact
+                    <Link href="/" color="inherit" underline="none">
+                        Trang chủ
                     </Link>
                 </Box>
                 <Typography variant="body2" color="inherit" align="center" sx={{ marginTop: '10px' }}>
-                    © 2024 Your Company. All rights reserved.
+                    © 2024 Gia sư học tập.
                 </Typography>
             </Container>
         </Box>
