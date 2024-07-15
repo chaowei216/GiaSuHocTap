@@ -1,4 +1,5 @@
-﻿using Common.DTO;
+﻿using Common.Constant.Request;
+using Common.DTO;
 using Common.DTO.Query;
 using DAO.Model;
 
@@ -53,7 +54,7 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime);
+        Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime, string day);
 
         /// <summary>
         /// Get all offline time of user
@@ -100,5 +101,6 @@ namespace Repository.IRepository
         /// <param name="period"></param>
         /// <returns></returns>
         IEnumerable<TimeTable> GetTimetableByDayAndPeriodAndUserIdOffline(int userId, string day, string period);
+
     }
 }

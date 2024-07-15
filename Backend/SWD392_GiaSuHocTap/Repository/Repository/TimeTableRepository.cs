@@ -1,4 +1,5 @@
-﻿using Common.Constant.Teaching;
+﻿using Common.Constant.Request;
+using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.DTO;
 using Common.DTO.Auth;
@@ -69,9 +70,9 @@ namespace Repository.Repository
             return _timeTableDAO.UpdateAsync(timeTable);
         }
 
-        public async Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime)
+        public async Task<TimeTable?> GetTimeTableByStartTime(int userId, string startTime, string day)
         {
-            return await _timeTableDAO.GetAll().Where(t => t.StartTime == startTime && t.UserId == userId).FirstOrDefaultAsync();
+            return await _timeTableDAO.GetAll().Where(t => t.StartTime == startTime && t.UserId == userId && t.DayOfWeek == day).FirstOrDefaultAsync();
         }
 
         public PagedList<TimeTable> GetTimeTableByUserIdPaging(int userId, TimeTableParameters parameters)
