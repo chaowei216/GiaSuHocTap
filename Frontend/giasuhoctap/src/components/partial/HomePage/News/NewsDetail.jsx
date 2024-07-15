@@ -31,6 +31,7 @@ const NewsDetail = () => {
   return (
     <div className={styles.container}>
       <h2>{news.title}</h2>
+      <small>Nguời đăng: {news.authorName}</small>
       <small>Ngày đăng: {new Date(news.createDate).toLocaleString()}</small>
       <img src={`${baseUrl}/api/Auth/user-image?fileName=${news.image}`} className={styles.imgFluid} alt={news.title} />
       <p>{news.description}</p>
