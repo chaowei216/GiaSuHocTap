@@ -9,6 +9,7 @@ export const SignIn = async (value) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -23,9 +24,9 @@ export const RegisterParent = async (formData) => {
     try {
         const response = await fetch(`${baseUrl}/api/Auth/register-parents`, {
             method: "POST",
-            //   headers: {
-            //     "Content-Type": "multipart/form-data",
-            //   },
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
             body: formData,
         });
         if (!response.ok) {
@@ -42,9 +43,9 @@ export const RegisterTutor = async (formData) => {
     try {
         const response = await fetch(`${baseUrl}/api/Auth/register-tutor`, {
             method: "POST",
-            //   headers: {
-            //     "Content-Type": "multipart/form-data",
-            //   },
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
             body: formData,
         });
         if (!response.ok) {
@@ -107,6 +108,7 @@ export const SendVerifyEmail = (email) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
         },
         body: JSON.stringify({ email })
     };
@@ -130,6 +132,7 @@ export const VerifyUser = (otp, email) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
         },
         body: JSON.stringify({ otpCode: otp, email: email })
     };
@@ -154,6 +157,7 @@ export const ForgotPasswordApi = async (email) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify({ email })
         };
@@ -170,6 +174,7 @@ export const GetUserByToken = (refreshToken) => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
         },
     };
 
@@ -193,6 +198,7 @@ export const ResetPassword = async (otp, password, confirmPassword, email) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify({ otp, password, confirmPassword, email })
         };

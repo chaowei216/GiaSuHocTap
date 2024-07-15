@@ -1,7 +1,4 @@
-import { useContext, useEffect } from "react";
-import { createContext } from "react";
-// import { useLocation, useNavigate } from 'react-router-dom';
-import logoControl from "/img/control.png";
+import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css"
@@ -10,7 +7,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import logoEdu from "/img/logoGiasu.png";
 import WorkOffIcon from '@mui/icons-material/WorkOff';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import useAuth from "../../../hooks/useAuth";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function SidebarTutor() {

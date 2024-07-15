@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css"
@@ -64,7 +63,7 @@ export default function Sidebar() {
         title: "Tin tức",
         path: "/view-new-moderator",
         icon: <NewspaperIcon />,
-        id: 52,
+        id: 53,
         src: "/view-new-moderator",
       });
   }

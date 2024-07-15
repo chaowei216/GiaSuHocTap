@@ -7,6 +7,7 @@ export const GetRequestOfflineApi = async (tutorId, page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -23,6 +24,7 @@ export const AcceptOrDenyRequestOFfline = async (value) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -40,6 +42,7 @@ export const GetRequestOnlineApi = async (tutorId, page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -56,6 +59,7 @@ export const AcceptOrDenyRequestOnline = async (value) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -73,6 +77,7 @@ export const GetPendingOnlineApi = async (tutorId, page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -89,6 +94,7 @@ export const GetRequestById = async (tutorId, type, status, page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -105,6 +111,7 @@ export const CompleteTeaching = async (value) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
