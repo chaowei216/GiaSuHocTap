@@ -50,7 +50,7 @@ export default function DenyTeach(pros) {
                             style={{ background: "white" }}
                         >
                             <MDBModalTitle className="text-xl" style={{ textAlign: "left", color: "#3295cf" }}>
-                                <WarningIcon color="primary" fontSize="large" sx={{ marginRight: "10px" }} /> Deny Request ?
+                                <WarningIcon color="primary" fontSize="large" sx={{ marginRight: "10px" }} /> Từ chối ?
                             </MDBModalTitle>
                         </MDBModalHeader>
                         <MDBModalBody style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
@@ -68,7 +68,7 @@ export default function DenyTeach(pros) {
                                         class="btn btn-danger"
                                         style={{ width: "100px", marginRight: "20px", background: "#ffffff", color: "#a3a3a3", border: "1px solid #dfdfdf" }}
                                     >
-                                        Close
+                                        Đóng
                                     </Button>
                                 </div>
                                 <div>
@@ -82,7 +82,7 @@ export default function DenyTeach(pros) {
                                         data-mdb-dismiss="modal"
                                         active
                                     >
-                                        Deny
+                                        Từ chối
                                     </Button>
                                 </div>
                             </div>

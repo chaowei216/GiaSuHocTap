@@ -55,10 +55,12 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
       const response = await CreateOnlineRequest(updatedFormData)
       if (response.ok) {
         const responseJson = await response.json();
-        if (responseJson.statusCode) {
+        if (responseJson.statusCode != 400) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
-          window.location.reload();
+          window.setTimeout(() => {
+            window.location.href = "/BookTutorOnline";
+          }, 2000);
         } else {
           toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")
         }

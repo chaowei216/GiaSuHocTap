@@ -56,7 +56,9 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
         if (responseJson.statusCode) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
-          window.location.reload();
+          window.setTimeout(() => {
+            window.location.reload();
+          }, 1500)
         } else {
           toast.error("Đăng ký học gia sư thất bại. Vui lòng kiểm tra lại !")
         }

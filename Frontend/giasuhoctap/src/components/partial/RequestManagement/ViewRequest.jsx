@@ -81,6 +81,8 @@ export default function ViewRequest() {
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages);
+                console.log(data);
+
             } else {
                 toast.warning("Lỗi sever");
                 setData(null);
@@ -116,7 +118,7 @@ export default function ViewRequest() {
                 </div>
             </Header>
             <MiddleContent type={type} setType={setType} online={true} isUpdated={isUpdated} />
-            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} />
+            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
             {data && data.length > 0 && (
                 <>
                     <div

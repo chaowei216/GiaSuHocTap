@@ -62,7 +62,7 @@ export default function RequestTable({
         tutorId: user?.userId,
         requestId: requestId,
         isAccepted: true,
-        linkMeet: "",
+        // linkMeet: "",
       }
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
@@ -82,7 +82,7 @@ export default function RequestTable({
         tutorId: user?.userId,
         requestId: requestId,
         isAccepted: false,
-        linkMeet: "",
+        // linkMeet: "",
       }
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
