@@ -60,10 +60,10 @@ const News = () => {
             </div>
           ))}
         </div>
-        <div className={styles.paginationWrapper} style={{ marginTop: '20px', display: 'flex', alignItems: 'center', marginLeft: '500px' }}>
+        <div className={styles.paginationWrapper} style={{ marginTop: '20px', display: 'flex', alignItems: 'center', marginLeft: '200px' }}>
           <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
           <div style={{ marginLeft: '200px' }}>
-            <PageSize pageSize={pageSize} setPageSize={setPageSize} />
+            {/* <PageSize pageSize={pageSize} setPageSize={setPageSize} /> */}
           </div>
         </div>
       </div>
