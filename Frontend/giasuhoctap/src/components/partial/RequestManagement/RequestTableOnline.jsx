@@ -23,7 +23,9 @@ export default function RequestTableOnline({
     data,
     handleHire,
     handleOpenDeny,
-    type
+    type,
+    setIsUpdated,
+    isUpdated
 }) {
     const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
@@ -68,10 +70,10 @@ export default function RequestTableOnline({
                 const responseJson = await response.json();
                 if (responseJson.statusCode == 200) {
                     toast.success("Cập nhật thành công")
-
+                    setIsUpdated(!isUpdated)
                 }
             } else {
-                toast.error("Lỗi sever")
+                toast.error("Lỗi server")
             }
         }
     }
