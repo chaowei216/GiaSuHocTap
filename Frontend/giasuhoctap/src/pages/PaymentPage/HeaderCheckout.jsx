@@ -20,7 +20,7 @@ const HeaderCheckout = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', gap: '15px' }}>
                     <Link href="/" color="inherit" underline="none" sx={{ display: 'flex', alignItems: 'center' }}>
-                        <HomeIcon sx={{ mr: 0.5 }} /> Home
+                        <HomeIcon sx={{ mr: 0.5 }} /> Trang chủ
                     </Link>
                 </Box>
             </Toolbar>

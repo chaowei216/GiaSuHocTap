@@ -48,7 +48,7 @@ const Features = () => {
     return (
       <div className={styles.ratingStars}>
         {stars.map((star, index) => (
-          <span style={{color: '#ddd'}} key={index}>{star}</span>
+          <span style={{ color: '#ddd' }} key={index}>{star}</span>
         ))}
         <span className={styles.ratingValue}>{rating}</span>
       </div>
@@ -60,7 +60,7 @@ const Features = () => {
     speed: 1500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 2000,
     responsive: [
       {
