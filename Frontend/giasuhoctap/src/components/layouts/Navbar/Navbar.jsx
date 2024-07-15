@@ -16,9 +16,6 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
-    console.log("log out");
-  };
   const { user } = useAuth();
   return (
     <div className={style.main}>
@@ -31,7 +28,6 @@ export default function Navbar() {
             <img
               src={avatar}
               alt="User avatar"
-              className={`${style.logo} ${style.avatar}`}
               style={{
                 borderRadius: "50%",
                 border: "1px solid white",
