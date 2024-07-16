@@ -2,5 +2,6 @@
 {
     public class TransactionParameters : QueryStringParameters
     {
+        public string? Status { get; set; }
     }
 }
