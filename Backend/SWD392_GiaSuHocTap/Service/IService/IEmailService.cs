@@ -36,5 +36,13 @@ namespace Service.IService
         /// <param name="subject"></param>
         /// <param name="info"></param>
         void SendInfomationParentsEmail(string userEmail, string subject, User info);
+
+        /// <summary>
+        /// Send moderator's infomation
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="subject"></param>
+        /// <param name="info"></param>
+        void SendInfomationModeratorEmail(string userEmail, string subject, User info);
     }
 }
