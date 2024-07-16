@@ -256,6 +256,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("get-user-by-email")]
         public IActionResult GetUserByEmail([FromQuery] string email)
         {
