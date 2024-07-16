@@ -7,11 +7,13 @@ using Service.IService;
 using Service.Service;
 using Common.DTO.TimeTable;
 using Common.DTO.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TimeTableController : ControllerBase
     {
         private readonly ITimeTableService _timetableService;
@@ -23,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Tutor")]
         [HttpPost("add-new-timetable")]
         public async Task<IActionResult> AddTimeTable([FromBody] UpdateTimeTableDTO timetableInfo)
         {
@@ -56,6 +59,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Tutor")]
         [HttpDelete("delete-timetable/{timetableId}")]
         public async Task<IActionResult> DeleteTimetable(int timetableId)
         {
@@ -88,6 +92,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Tutor")]
         [HttpPut("enable-timetable/{timetableId}")]
         public async Task<IActionResult> EnableTimetable(int timetableId)
         {
