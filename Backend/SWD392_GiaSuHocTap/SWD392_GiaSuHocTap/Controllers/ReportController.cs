@@ -12,7 +12,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;
@@ -25,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpGet("get-all-reports")]
         public IActionResult GetAllReport([FromQuery] ReportParameters parameters)
         {
@@ -48,6 +49,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpPost("create-new-report")]
         public async Task<IActionResult> CreateNewReport([FromBody] ReportCreateDTO reportInfo)
         {
@@ -131,6 +133,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpPut("handle-report/{reportId}")]
         public async Task<IActionResult> HandleReport(int reportId, [FromBody] ReportUpdateDTO reportInfo)
         {

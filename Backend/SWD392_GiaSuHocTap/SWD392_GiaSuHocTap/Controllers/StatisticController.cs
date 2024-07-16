@@ -10,7 +10,6 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
     public class StatisticController : ControllerBase
     {
         private readonly IStatisticService _statisticService;
@@ -20,6 +19,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _statisticService = statisticService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("statistic-system")]
         public IActionResult GetStatistic()
         {
