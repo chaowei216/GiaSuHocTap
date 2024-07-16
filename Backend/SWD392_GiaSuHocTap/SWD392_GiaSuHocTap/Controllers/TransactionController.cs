@@ -12,7 +12,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
@@ -25,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("get-all-transactions")]
         public IActionResult GetAllTransactions([FromQuery] TransactionParameters parameters)
         {
@@ -38,6 +39,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpGet("get-trans-user/{userId}")]
         public async Task<IActionResult> GetTransOfUser([Required] int userId, [FromQuery] TransactionParameters parameters)
         {

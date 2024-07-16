@@ -2,6 +2,7 @@
 using Common.DTO;
 using Common.DTO.Payment;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;

@@ -4,6 +4,7 @@ using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.User;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 using static Google.Apis.Requests.BatchRequest;
@@ -12,7 +13,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin,Moderator")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -24,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _statisticService = statisticService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet()]
         public IActionResult GetAllUsers([FromQuery] UserParameters queries)
         {
@@ -70,6 +72,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("get-pending-tutor")]
         public IActionResult GetPendingTutor([FromQuery] UserParameters queries)
         {
@@ -107,6 +110,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("get-active-users")]
         public IActionResult GetActiveUsers([FromQuery] UserParameters queries)
         {
@@ -143,6 +147,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize(Roles = "Tutor")]
         [HttpPut("update-tutor-detail")]
         public async Task<IActionResult> UpdateTutorDetail([FromBody] UpdateTutorDTO updatedInfo)
         {
@@ -274,6 +279,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpGet("get-top-tutor")]
         public IActionResult GetTopTutor()
         {
@@ -287,6 +293,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpPut("update-user/{userId}")]
         public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserUpdateDTO userInfo)
         {
@@ -332,6 +339,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-new-moderator")]
         public async Task<IActionResult> AddNewModerator([FromBody] ModeratorCreateRequestDTO request)
         {
@@ -367,6 +375,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("unblock-account/{id}")]
         public async Task<IActionResult> UnBlockAccount(int id)
         {
@@ -411,6 +420,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpGet("rent-info-parents/{id}")]
         public async Task<IActionResult> GetRentingInfoOfParents(int id)
         {
