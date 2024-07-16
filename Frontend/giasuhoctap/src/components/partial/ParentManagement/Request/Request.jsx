@@ -18,19 +18,21 @@ const Request = () => {
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetParentRequest("Online", "Đã chấp nhận", page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
-            } else {
-                toast.error("Lỗi sever")
+        if (user?.userId) {
+            const getAllNotification = async () => {
+                const response = await GetParentRequest(user?.userId, "Online", "Đã chấp nhận", page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
+            getAllNotification();
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, user?.userId])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);

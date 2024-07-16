@@ -7,28 +7,41 @@ import PageSize from '../../TutorManagement/PageSize';
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { GetParentRequest } from '../../../../api/ParentHistory';
 import { toast } from 'react-toastify';
+import useAuth from '../../../../hooks/useAuth';
 
 const HistoryPOffline = () => {
+    const { user } = useAuth()
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetParentRequest("Offline", "Chờ xác nhận", page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
-            } else {
-                toast.error("Lỗi sever")
+        if (user?.userId) {
+            const getAllNotification = async () => {
+                const response = await GetParentRequest(user?.userId, "Offline", "Chờ xác nhận", page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
+            getAllNotification();
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, user?.userId])
     console.log(data);
-
+    const getUniqueName = (requestTimes) => {
+        const uniqueDays = new Set();
+        return requestTimes.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.timeTable.fullname)) {
+                uniqueDays.add(timeTable.timeTable.fullname);
+                acc.push(`${timeTable.timeTable.fullname}`);
+            }
+            return acc;
+        }, []);
+    };
     return (
         <>
             <div>
@@ -58,11 +71,7 @@ const HistoryPOffline = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            {card.requestTimes?.map((item, index) => (
-                                                (item.status == "Chờ xác nhận" && (
-                                                    <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
-                                                ))
-                                            ))}
+                                            <h1 key={index}>Gia sư: {getUniqueName(card.requestTimes)}</h1>
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>

@@ -16,13 +16,6 @@ export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
     {
-      title: "Thống kê",
-      path: "/dashboard",
-      icon: <HomeIcon />,
-      id: 12,
-      src: "/dashboard",
-    },
-    {
       title: "Trang cá nhân",
       path: "/personal-profile",
       icon: <PersonIcon />,
@@ -69,6 +62,13 @@ export default function Sidebar() {
   }
   if (user?.roleName === 'Admin') {
     Menus.push(
+      {
+        title: "Thống kê",
+        path: "/dashboard",
+        icon: <HomeIcon />,
+        id: 12,
+        src: "/dashboard",
+      },
       {
         title: "Quản lý tài khoản",
         path: "/user-management",

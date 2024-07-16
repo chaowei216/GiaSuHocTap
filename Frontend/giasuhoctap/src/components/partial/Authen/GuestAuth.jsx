@@ -5,7 +5,9 @@ export default function GuestAuth({ children }) {
     const { isAuthenticated, user } = useAuth();
 
     if (isAuthenticated) {
-        if (user && (user?.roleName == "Moderator" || user?.roleName == "Admin")) {
+        if (user && user?.roleName == "Moderator") {
+            return <Navigate to="/personal-profile" />;
+        } else if (user && (user?.roleName == "Admin")) {
             return <Navigate to="/dashboard" />;
         } else if (user && user?.roleName == "Tutor" && (user?.status == "Pending")) {
             return <Navigate to="/RegisterTutor" />;

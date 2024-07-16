@@ -17,8 +17,8 @@ const Complete = () => {
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     const [formData, setFormData] = useState({
-        reportTitle: '', // Lý do báo cáo
-        description: '', // Chi tiết về báo cáo
+        reportTitle: '',
+        description: '',
     });
     const [rating, setRating] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,22 +26,22 @@ const Complete = () => {
     const [message, setMessage] = useState('');
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [feedbackMsg, setFeedbackMsg] = useState('');
-    const [isReported, setIsReported] = useState(false);
-    const [isFeedback, setIsFeedback] = useState(false);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetParentRequest("Online", "Hoàn thành", page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
-            } else {
-                toast.error("Lỗi sever")
+        if (user?.userId) {
+            const getAllNotification = async () => {
+                const response = await GetParentRequest(user?.userId, "Online", "Hoàn thành", page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
+            getAllNotification();
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, user?.userId])
 
     const messages = ['Tệ', 'Không hài lòng', 'Bình thường', 'Hài lòng', 'Tuyệt vời'];
 
@@ -123,9 +123,6 @@ const Complete = () => {
         }
     };
     const getUniqueName = (requestTimes) => {
-        // const test = []
-        // test.push(requestTimes)
-        // console.log(test);
         const uniqueDays = new Set();
         return requestTimes.reduce((acc, timeTable) => {
             if (!uniqueDays.has(timeTable.timeTable.fullname)) {
@@ -139,14 +136,12 @@ const Complete = () => {
     const getTimeFormat = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
-        // Sort the time ranges by startTime
         const sortedTimes = requestTimes.sort((a, b) => {
             const aStartTime = new Date(`1970-01-01T${a.timeTable.startTime}:00Z`);
             const bStartTime = new Date(`1970-01-01T${b.timeTable.startTime}:00Z`);
             return aStartTime - bStartTime;
         });
 
-        // Get the startTime of the first range and endTime of the last range
         const startTime = sortedTimes[0].timeTable.startTime;
         const endTime = sortedTimes[sortedTimes.length - 1].timeTable.endTime;
 
@@ -156,13 +151,10 @@ const Complete = () => {
     const getPeriod = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
-        // Lấy danh sách các khoảng thời gian (period) từ requestTimes
         const periods = requestTimes.map(item => item.timeTable.period);
 
-        // Loại bỏ các giá trị trùng lặp
         const uniquePeriods = [...new Set(periods)];
 
-        // Ghép các khoảng thời gian lại thành một chuỗi với dấu phẩy và dấu cách
         return uniquePeriods.join(', ');
     };
     return (
