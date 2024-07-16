@@ -107,17 +107,17 @@ namespace Repository.Repository
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
-                get = onlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
+                get = get.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
             }
 
             if (parameters.ClassId != null)
             {
-                get = onlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
+                get = get.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
             }
 
             if (parameters.CourseId != null)
             {
-                get = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
+                get = get.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
             }
 
             return PagedList<User>.ToPagedList(get.AsQueryable(), parameters.PageNumber, parameters.PageSize);
