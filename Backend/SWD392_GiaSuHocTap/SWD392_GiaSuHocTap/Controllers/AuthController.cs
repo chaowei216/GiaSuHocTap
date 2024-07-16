@@ -79,7 +79,6 @@ namespace SWD392_GiaSuHocTap.Controllers
             }); ;
         }
 
-        [Authorize]
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO request)
         {
@@ -451,7 +450,6 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
-        [Authorize]
         [HttpGet("user-image")]
         public async Task<IActionResult> GetUserImage(string fileName)
         {

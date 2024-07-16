@@ -25,7 +25,6 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet("get-user-notification/{userId}")]
         public async Task<IActionResult> GetNotificationOfUser([Required] int userId)
         {
