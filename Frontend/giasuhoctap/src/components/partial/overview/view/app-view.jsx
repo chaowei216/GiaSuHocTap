@@ -164,7 +164,7 @@ const AppView = () => {
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>
-          <div className='container' style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2)', height: '680px' }}>
+          <div className='container' style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2)', height: '680px', position: 'relative' }}>
             <div className={styles.lastNews}>
               <h1>Tin tức mới</h1>
             </div>
@@ -185,9 +185,9 @@ const AppView = () => {
                 </div>
               </div>
             ))}
-            {/* <div className={styles.paginationWrapper} style={{ display: 'flex', alignItems: 'center', marginLeft: '400px' }}>
+            <div className={styles.paginationWrapper} style={{ display: 'flex', alignItems: 'center' }}>
               <PageNavigation page={page} setPage={setPage} totalPages={totalPages} />
-            </div> */}
+            </div>
           </div>
         </Grid>
 

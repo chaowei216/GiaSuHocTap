@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Align center horizontally */
+    position: relative;
+    height: 780px;
   }
   
   .blogList {
@@ -166,3 +168,8 @@
     margin-top: 20px;
 }
 
+.paginationWrapper{
+   position: absolute;
+   top: 670px;
+   left: 680px;
+}

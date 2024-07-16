@@ -27,7 +27,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
 
       <Stack spacing={0.5}>
         <Typography variant="h4" sx={{ color: '#4DA8DA', paddingLeft: '25px', fontSize: '25px' }}>
-          {fShortenNumber(total)}
+          {total}
         </Typography>
         <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: '20px', paddingLeft: '5px' }}>
           {title}
@@ -42,5 +42,5 @@ AppWidgetSummary.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   sx: PropTypes.object,
   title: PropTypes.string,
-  total: PropTypes.number.isRequired, // Ensure total is required and should be a number
+  total: PropTypes.number,
 };

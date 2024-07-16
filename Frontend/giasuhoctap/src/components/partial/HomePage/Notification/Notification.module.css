@@ -1,11 +1,102 @@
-.dot-container {
-    display: flex;
-    align-items: center;
+.check {
+  color: #008000;
+}
+
+
+.info {
+  color: rgb(82, 125, 243);
+  animation: spin 2s linear infinite;
+}
+
+
+.warning {
+  color: rgb(247, 149, 72);
+  animation: rotate 2s linear infinite;
+}
+
+
+.danger {
+  cursor: pointer;
+  color: #FF0000;
+}
+
+
+.shine {
+  animation: shine 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 10px;
+  100% {
+    transform: rotate(360deg);
   }
+}
+
+/* @keyframes color {
+  50% {
+   color: #2B3246;
+  }
+  100% {
+    color: #0ad406;
+  }
+} */
+
+@keyframes rotate {
+ 0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(90deg);
+  }
+  40% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes shine {
+  0% {
+   color: #fff;
+  }
+  50% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px red,
+      0 0 40px red,
+      0 0 60px red,
+      0 0 80px red,
+      0 0 100px red,
+      0 0 120px red,
+  }
+}
+
+.shine2 {
+  animation: shine 2s linear infinite;
+}
+/* @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+@keyframes shine2 {
+  0% {
+   color: #fff;
+  }
+  50% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 40px #008000,
+      0 0 60px #008000,
+      0 0 80px #008000,
+      0 0 100px #008000,
+  }
+}
