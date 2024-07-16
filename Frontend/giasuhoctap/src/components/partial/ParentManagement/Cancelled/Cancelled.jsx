@@ -31,24 +31,24 @@ const Cancelled = () => {
             getAllNotification();
         }
     }, [page, totalPages, pageSize, user?.userId])
-
     const getUniqueName = (requestTimes) => {
-        console.log(requestTimes);
         const uniqueDays = new Set();
         return requestTimes.reduce((acc, timeTable) => {
             if (!uniqueDays.has(timeTable.timeTable.fullname)) {
                 uniqueDays.add(timeTable.timeTable.fullname);
                 acc.push(`${timeTable.timeTable.fullname}`);
             }
-            console.log(acc);
             return acc;
         }, []);
     };
-
     const getTimeFormat = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
-        const sortedTimes = requestTimes.sort((a, b) => {
+        const filteredTimes = requestTimes.filter(time => time.status === "Từ chối");
+
+        if (filteredTimes.length === 0) return "Không có thời gian";
+
+        const sortedTimes = filteredTimes.sort((a, b) => {
             const aStartTime = new Date(`1970-01-01T${a.timeTable.startTime}:00Z`);
             const bStartTime = new Date(`1970-01-01T${b.timeTable.startTime}:00Z`);
             return aStartTime - bStartTime;

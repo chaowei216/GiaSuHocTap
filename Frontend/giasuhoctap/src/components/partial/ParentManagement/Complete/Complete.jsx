@@ -99,8 +99,6 @@ const Complete = () => {
     };
     const handleSubmitFeedback = async (value) => {
         if (user) {
-            console.log(feedbackMsg);
-            console.log(rating);
             const dataFeedback = {
                 description: feedbackMsg,
                 rating: Number(rating),
@@ -136,7 +134,11 @@ const Complete = () => {
     const getTimeFormat = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
-        const sortedTimes = requestTimes.sort((a, b) => {
+        const filteredTimes = requestTimes.filter(time => time.status === "Hoàn thành");
+
+        if (filteredTimes.length === 0) return "Không có thời gian";
+
+        const sortedTimes = filteredTimes.sort((a, b) => {
             const aStartTime = new Date(`1970-01-01T${a.timeTable.startTime}:00Z`);
             const bStartTime = new Date(`1970-01-01T${b.timeTable.startTime}:00Z`);
             return aStartTime - bStartTime;

@@ -31,7 +31,6 @@ const HistoryPOffline = () => {
             getAllNotification();
         }
     }, [page, totalPages, pageSize, user?.userId])
-    console.log(data);
     const getUniqueName = (requestTimes) => {
         const uniqueDays = new Set();
         return requestTimes.reduce((acc, timeTable) => {

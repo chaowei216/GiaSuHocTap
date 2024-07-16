@@ -31,17 +31,14 @@ const CancelledOffline = () => {
             getAllNotification();
         }
     }, [page, totalPages, pageSize, user?.userId])
-    console.log(data);
 
     const getUniqueName = (requestTimes) => {
-        console.log(requestTimes);
         const uniqueDays = new Set();
         return requestTimes.reduce((acc, timeTable) => {
             if (!uniqueDays.has(timeTable.timeTable.fullname)) {
                 uniqueDays.add(timeTable.timeTable.fullname);
                 acc.push(`${timeTable.timeTable.fullname}`);
             }
-            console.log(acc);
             return acc;
         }, []);
     };
