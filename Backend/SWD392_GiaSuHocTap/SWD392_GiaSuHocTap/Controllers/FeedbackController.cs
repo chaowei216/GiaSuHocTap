@@ -8,6 +8,7 @@ using Service.IService;
 using Service.Service;
 using Common.DTO.Feedback;
 using Common.DTO.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -24,6 +25,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("get-all-feedbacks")]
         public IActionResult GetAllFeedbacks([FromQuery] FeedbackParameters parameters)
         {
@@ -55,6 +57,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("get-feedbacks-of-tutors")]
         public IActionResult GetFeedbacksOfTutor(string tutorEmail, [FromQuery] FeedbackParameters parameters)
         {
@@ -90,7 +93,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
-
+        [Authorize(Roles = "Parents")]
         [HttpPost("create-feedback")]
         public async Task<IActionResult> CreateNewFeedback([FromBody] FeedbackCreateDTO feedbackInfo)
         {

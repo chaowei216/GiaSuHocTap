@@ -8,6 +8,7 @@ using Service.IService;
 using Service.Services;
 using Common.DTO.News;
 using Common.DTO.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD392_GiaSuHocTap.Controllers
 {
@@ -22,6 +23,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             _newsService = newsService;
         }
 
+        [Authorize]
         [HttpGet("get-news-paging")]
         public IActionResult GetNewsPaging([FromQuery] NewsParameters parameters)
         {
@@ -45,6 +47,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpPost("create-news")]
         public async Task<IActionResult> CreateNews([FromForm] NewsCreateDTO newsInfo, IFormFile imageFile)
         {

@@ -79,7 +79,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }); ;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO request)
         {
@@ -171,6 +171,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("user-by-token")]
         public async Task<IActionResult> GetUserByToken([Required] string refreshToken)
         {
@@ -295,6 +296,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("send-verify-email")]
         public IActionResult SendEmail([FromBody] EmailDTO email)
         {
@@ -318,6 +320,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("verify-email")]
         public IActionResult VerifyEmail([FromBody] VerifyEmailDTO dto)
         {
@@ -389,7 +392,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             
         }
 
-        //[Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("reject-tutor")]
         public IActionResult RejectTutor([FromBody] RejectTutorDTO dto)
         {
@@ -448,6 +451,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("user-image")]
         public async Task<IActionResult> GetUserImage(string fileName)
         {
@@ -496,6 +500,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Moderator, Tutor")]
         [HttpPut("change-password/{id}")]
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDTO request)
         {
