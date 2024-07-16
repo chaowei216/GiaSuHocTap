@@ -11,6 +11,7 @@ import {
     MDBRow,
     MDBCol,
     MDBCardText,
+    MDBTextArea,
 } from 'mdb-react-ui-kit';
 import { TextField, Button, Box } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -112,7 +113,7 @@ export default function CreateNew(props) {
             <MDBModalDialog centered>
                 <MDBModalContent>
                     <MDBModalHeader>
-                        <MDBModalTitle style={{fontSize: "20px"}}>Tạo tin tức mới</MDBModalTitle>
+                        <MDBModalTitle style={{ fontSize: "20px" }}>Tạo tin tức mới</MDBModalTitle>
                         <MDBBtn
                             className='btn-close'
                             color='none'
@@ -150,10 +151,12 @@ export default function CreateNew(props) {
                             helperText={errors.title}
                             style={{ marginBottom: '16px', marginTop: "20px" }}
                         />
-                        <TextField
+                        <MDBTextArea
                             fullWidth
-                            label='Mô tả'
-                            variant='outlined'
+                            placeholder="Mô tả"
+                            rows={3}
+                            id="textAreaExample"
+                            contrast
                             value={description}
                             onChange={(event) => {
                                 setDescription(event.target.value);

@@ -20,6 +20,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import emptyPicture from "/img/empty.png";
+import ExpandContent from "../../global/ExpandContent";
 const baseUrl = import.meta.env.VITE_API_HOST;
 
 export default function NewsTable({
@@ -116,13 +117,13 @@ export default function NewsTable({
                       style={{ fontWeight: "600" }}
                       align="left"
                     >
-                      {row.title}
+                      <ExpandContent description={row.title} numberLength={6} />
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600" }}
+                      style={{ fontWeight: "600", width: "130px"  }}
                       align="middle"
                     >
-                      {row.description}
+                      <ExpandContent description={row.description} numberLength={20} />
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}

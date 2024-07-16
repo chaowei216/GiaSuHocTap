@@ -23,6 +23,7 @@ export default function ViewRequest() {
     const [showModalDelete, setShowmodalDelete] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
     const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         const checkUser = async () => {
             const email = user?.email;
@@ -118,7 +119,7 @@ export default function ViewRequest() {
                 </div>
             </Header>
             <MiddleContent type={type} setType={setType} online={true} isUpdated={isUpdated} />
-            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
             {data && data.length > 0 && (
                 <>
                     <div
@@ -144,8 +145,9 @@ export default function ViewRequest() {
                     </div>
                 </>
             )}
-            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
-            <DenyTeach show={showModalDelete} handleClose={handleClose} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
+            <DenyTeach show={showModalDelete} handleClose={handleClose} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
         </div>
     )
 }

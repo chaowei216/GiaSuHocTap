@@ -10,6 +10,7 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
+import ExpandContent from "../../global/ExpandContent";
 
 export default function FeedbackTable({ data }) {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -77,8 +78,8 @@ export default function FeedbackTable({ data }) {
                     >
                       {row.feedbackId}
                     </StyledTableCell>
-                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
-                      {row.description}
+                    <StyledTableCell style={{ fontWeight: "600", width: "130px"  }} align="left">
+                      <ExpandContent description={row.description} numberLength={20} />
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}
