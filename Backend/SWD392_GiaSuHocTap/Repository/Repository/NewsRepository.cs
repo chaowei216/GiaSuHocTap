@@ -33,7 +33,7 @@ namespace Repository.Repository
 
         public PagedList<News> GetPagedNewsList(NewsParameters parameters)
         {
-            return PagedList<News>.ToPagedList(_newsDAO.GetAll().Include(p => p.User), parameters.PageNumber, parameters.PageSize);
+            return PagedList<News>.ToPagedList(_newsDAO.GetAll().Include(p => p.User).OrderByDescending(p => p.CreateDate), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<News> UpdateNews(News news)
