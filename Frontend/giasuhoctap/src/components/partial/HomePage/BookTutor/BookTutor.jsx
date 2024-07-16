@@ -37,7 +37,7 @@ const BookTutor = () => {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(true)
                     } else {
-                        toast.error("Lỗi sever")
+                        toast.error("Lỗi server")
                     }
                 } else {
                     const response = await GetTutorTeachOnline(page, pageSize);
@@ -48,7 +48,7 @@ const BookTutor = () => {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(false)
                     } else {
-                        toast.error("Lỗi sever")
+                        toast.error("Lỗi server")
                     }
                 }
             } else {
@@ -60,7 +60,7 @@ const BookTutor = () => {
                     setTotalPages(responseJson.data.totalPages)
                     console.log(responseJson);
                 } else {
-                    toast.error("Lỗi sever")
+                    toast.error("Lỗi server")
                 }
             }
         };

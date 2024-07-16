@@ -19,13 +19,15 @@ import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CompleteTeaching } from "../../../api/RequestApi";
 import { toast } from "react-toastify";
+import ExpandContent from "../../global/ExpandContent";
 export default function RequestTableOnline({
     data,
     handleHire,
     handleOpenDeny,
     type,
     setIsUpdated,
-    isUpdated
+    isUpdated,
+    setIsModalOpen
 }) {
     const [dataDetail, setDataDetail] = useState();
     const [openDetail, setOpenDetail] = useState(false);
@@ -65,14 +67,17 @@ export default function RequestTableOnline({
                 tutorId: row.requestTimes[0]?.timeTable?.tutorId,
                 requestId: row.requestId
             }
+            setIsModalOpen(true);
             const response = await CompleteTeaching(dataUpdate)
             if (response.ok) {
                 const responseJson = await response.json();
                 if (responseJson.statusCode == 200) {
+                    setIsModalOpen(false);
                     toast.success("Cập nhật thành công")
                     setIsUpdated(!isUpdated)
                 }
             } else {
+                setIsModalOpen(false);
                 toast.error("Lỗi server")
             }
         }
@@ -130,10 +135,10 @@ export default function RequestTableOnline({
                                             <span>{row.coin}</span>
                                         </StyledTableCell>
                                         <StyledTableCell
-                                            style={{ fontWeight: "600" }}
+                                            style={{ fontWeight: "600", width: "150px" }}
                                             align="middle"
                                         >
-                                            {row.description}
+                                            <ExpandContent description={row.description} numberLength={20} />
                                         </StyledTableCell>
                                         <StyledTableCell
                                             style={{ fontWeight: "600" }}

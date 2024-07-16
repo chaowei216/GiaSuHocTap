@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Badge, Stack, Popover, Typography, Box } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { GetUserNotification } from '../../../../api/UserNotificationApi'; // Import hàm API từ file của bạn
 import useAuth from '../../../../hooks/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark, faTriangleExclamation, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import styles from './Notification.module.css';
 
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -56,12 +58,42 @@ const Notification = () => {
 
   const open = Boolean(anchorEl);
 
-  const getIconColor = (type) => {
+  const getIcon = (type) => {
+    switch (type) {
+      case 'System':
+        return faCircleInfo; // Icon cho System
+      case 'Info':
+        return faCircleCheck; // Icon cho Info
+      case 'Warning':
+        return faTriangleExclamation; // Icon cho Warning
+      case 'Error':
+        return faCircleXmark; // Icon cho Error
+      default:
+        return null;
+    }
+  };
+
+  const getClassName = (type) => {
+    switch (type) {
+      case 'System':
+        return `${styles.info} `; // Class cho System
+      case 'Info':
+        return `${styles.check} ${styles.shine2}`; // Class cho Info
+      case 'Warning':
+        return `${styles.warning}`; // Class cho Warning
+      case 'Error':
+        return `${styles.danger} ${styles.shine}`; // Class cho Error
+      default:
+        return '';
+    }
+  };
+
+  const getNofitycationContent = (type) => {
     switch (type) {
       case 'System':
         return '#4DA8DA'; // Màu xanh cho System
       case 'Info':
-        return '#4caf50'; // Màu xanh lá cho Info
+        return '#008000'; // Màu xanh lá cho Info
       case 'Warning':
         return '#ffc107'; // Màu vàng cho Warning
       case 'Error':
@@ -97,19 +129,24 @@ const Notification = () => {
           {notifications.map((notification, index) => (
             <Typography
               key={notification.notificationId}
+              
               sx={{
                 width: '350px',
                 borderBottom: '1px solid #4dccda',
                 marginBottom: '8px',
                 display: 'flex',
                 alignItems: 'flex-start',
-                ...(index >= 10 && { display: 'none' }), // Ẩn các thông báo vượt quá 10
+                ...(index >= 100 && { display: 'none' }), // Ẩn các thông báo vượt quá 10
               }}
             >
               <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-                <FiberManualRecordIcon sx={{ marginRight: '10px', fontSize: '18px', color: getIconColor(notification.notificationType) }} />
+                <FontAwesomeIcon
+                  icon={getIcon(notification.notificationType)}
+                  style={{ marginRight: '20px', fontSize: '18px' }}
+                  className={getClassName(notification.notificationType)}
+                />
                 <div>
-                  <Typography variant="body1" sx={{ marginBottom: '4px' }}>
+                  <Typography variant="body1" sx={{ marginBottom: '4px', color: getNofitycationContent(notification.notificationType) }}>
                     {notification.description}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">

@@ -10,6 +10,7 @@ import { ActiveTimeTable, DeActiveTimeTable, GetTimeTableByEmail } from '../../.
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import { Logout } from '../../../api/AuthenApi';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewTimeTable() {
     const { user, f5User, logout } = useAuth()
     let { email } = useParams();
@@ -20,6 +21,7 @@ export default function ViewTimeTable() {
     const [isCreated, setIsCreated] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         const checkUser = async () => {
             const email = user?.email;
@@ -128,6 +130,7 @@ export default function ViewTimeTable() {
                 </>
             )}
             <UpdateTimeTable openDetail={openDetail} setOpenDetail={setOpenDetail} isCreated={isCreated} setIsCreated={setIsCreated} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
         </div>
     )
 }

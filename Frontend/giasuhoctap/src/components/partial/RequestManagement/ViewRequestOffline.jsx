@@ -9,6 +9,7 @@ import { GetRequestById, GetRequestOfflineApi } from '../../../api/RequestApi';
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Logout } from '../../../api/AuthenApi';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewRequestOffline() {
     const { user, f5User, logout } = useAuth()
     const [totalPages, setTotalPages] = useState();
@@ -19,6 +20,7 @@ export default function ViewRequestOffline() {
     const [type, setType] = useState("All");
     const [totalCount, setTotalCount] = useState("")
     const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
         const checkUser = async () => {
             const email = user?.email;
@@ -100,8 +102,9 @@ export default function ViewRequestOffline() {
                     Danh sách học sinh yêu cầu offline
                 </div>
             </Header>
-            <MiddleContent type={type} setType={setType} totalCount={totalCount} />
-            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} type={type} />
+            <MiddleContent type={type} setType={setType} totalCount={totalCount} isUpdated={isUpdated} />
+            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} type={type} setIsModalOpen={setIsModalOpen} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
             {data && data.length > 0 && (
                 <>
                     <div
