@@ -123,5 +123,11 @@ namespace Repository.IRepository
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<Request> GetAllRequestOfUser(int userId);
+
+        /// <summary>
+        /// Get revenue getting from request
+        /// </summary>
+        /// <returns></returns>
+        double GetRevenueOfRequest();
     }
 }
