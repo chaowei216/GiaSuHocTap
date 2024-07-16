@@ -982,6 +982,10 @@ namespace Service.Service
             user.City = userInfo.City;
             user.District = userInfo.District;
             user.Gender = userInfo.Gender;
+            CreatePasswordHash(userInfo.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             var updatedUser = await _userRepository.UpdateUser(user);
 

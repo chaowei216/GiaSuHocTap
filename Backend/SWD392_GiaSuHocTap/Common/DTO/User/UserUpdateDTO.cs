@@ -6,5 +6,6 @@
         public string City { get; set; } = null!;
         public string District { get; set; } = null!;
         public string Gender { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 }
