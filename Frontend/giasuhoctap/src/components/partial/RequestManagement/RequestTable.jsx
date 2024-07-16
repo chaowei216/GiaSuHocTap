@@ -17,11 +17,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { AcceptOrDenyRequestOFfline } from "../../../api/RequestApi";
+import ExpandContent from "../../global/ExpandContent";
 export default function RequestTable({
   data,
   setIsUpdated,
   isUpdated,
-  type
+  type,
+  setIsModalOpen
 }) {
   const { user } = useAuth()
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -64,15 +66,18 @@ export default function RequestTable({
         isAccepted: true,
         // linkMeet: "",
       }
+      setIsModalOpen(true);
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
         const responseJson = await response.json();
         if (responseJson.statusCode == 200) {
           setIsUpdated(!isUpdated)
+          setIsModalOpen(false)
           toast.success("Chấp nhận thành công")
         }
       } else {
-        toast.error("Lỗi sever")
+        setIsModalOpen(false)
+        toast.error("Lỗi server")
       }
     }
   };
@@ -84,15 +89,18 @@ export default function RequestTable({
         isAccepted: false,
         // linkMeet: "",
       }
+      setIsModalOpen(true);
       const response = await AcceptOrDenyRequestOFfline(dataUpdate)
       if (response.ok) {
         const responseJson = await response.json();
         if (responseJson.statusCode == 200) {
           setIsUpdated(!isUpdated)
+          setIsModalOpen(false);
           toast.success("Chấp nhận thành công")
         }
       } else {
-        toast.error("Error accepting")
+        setIsModalOpen(false);
+        toast.error("Lỗi server")
       }
     }
   }
@@ -155,10 +163,10 @@ export default function RequestTable({
                       {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.price)}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600" }}
+                      style={{ fontWeight: "600", width: "150px" }}
                       align="middle"
                     >
-                      {row.description}
+                      <ExpandContent description={row.description} numberLength={20} />
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}

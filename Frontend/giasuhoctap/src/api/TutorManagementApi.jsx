@@ -277,3 +277,20 @@ export const UpdateNewTimeTable = async (value) => {
         console.log(err);
     }
 }
+
+export const GetUserByCondition = async (status, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User?Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

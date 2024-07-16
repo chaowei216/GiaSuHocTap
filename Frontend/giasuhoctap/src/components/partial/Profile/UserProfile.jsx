@@ -30,7 +30,7 @@ export default function PersonalProfile() {
     const { user, f5User, logout } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [value, setValue] = useState("");
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(true);
     const handleActive = () => {
         setActive(!active);
     }
@@ -118,7 +118,7 @@ export default function PersonalProfile() {
                                 <MDBCardBody className="p-0">
                                     <MDBListGroup flush className="rounded-3">
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBCardText>Số coin hiện có: {user?.coinBalance}</MDBCardText>
+                                            <MDBCardText>Số xu hiện có: {user?.coinBalance}</MDBCardText>
                                             <PaidIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
@@ -134,7 +134,7 @@ export default function PersonalProfile() {
                                             <FingerprintIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBCardText>Số của report: {user?.numberOfReport}</MDBCardText>
+                                            <MDBCardText>Đã bị tố cáo: {user?.numberOfReport} lần</MDBCardText>
                                             <ReportIcon />
                                         </MDBListGroupItem>
                                     </MDBListGroup>
@@ -188,7 +188,7 @@ export default function PersonalProfile() {
                                             <MDBCardText className="text-muted">{user?.address}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
-                                    {user?.roleName == 'Moderator' && (
+                                    {(user?.roleName == 'Moderator' || user?.roleName == 'Tutor') && (
                                         <MDBRow className={styles.profile_container}>
                                             <MDBCol sm="3" className={styles.profile}>
                                                 <MDBCardText>Mật khẩu</MDBCardText>
@@ -231,7 +231,7 @@ export default function PersonalProfile() {
                                                     className="text-muted small">Email: contact@giasuhoctap.com
                                                 </span>
                                                     <span className="ms-3 me-4">|</span></p>
-                                                <span className="text-muted small">{user?.fullname}</span>
+                                                <span className="text-muted small">{user?.fullname || "Admin"}</span>
                                             </div>
                                         </MDBCardBody>
                                     </MDBCard>

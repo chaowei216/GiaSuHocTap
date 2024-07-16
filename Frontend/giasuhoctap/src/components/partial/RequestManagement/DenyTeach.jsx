@@ -16,7 +16,7 @@ import useAuth from "../../../hooks/useAuth";
 import { AcceptOrDenyRequestOnline } from "../../../api/RequestApi";
 export default function DenyTeach(pros) {
     const { user } = useAuth()
-    const { show, handleClose, data, setIsUpdated, isUpdated } = pros;
+    const { show, handleClose, data, setIsUpdated, isUpdated, setIsModalOpen } = pros;
     const handleDeny = async () => {
         console.log(data);
         if (user && data) {
@@ -26,16 +26,19 @@ export default function DenyTeach(pros) {
                 isAccepted: false,
                 linkMeet: ""
             }
+            setIsModalOpen(true)
             const response = await AcceptOrDenyRequestOnline(dataUpdate)
             if (response.ok) {
                 const responseJson = await response.json();
                 if (responseJson.statusCode == 200) {
                     setIsUpdated(!isUpdated)
+                    setIsModalOpen(false)
                     toast.success("Từ chối thành công")
                     handleClose()
                 }
             } else {
-                toast.error("Lỗi sever")
+                setIsModalOpen(false)
+                toast.error("Lỗi server")
             }
         }
     }
