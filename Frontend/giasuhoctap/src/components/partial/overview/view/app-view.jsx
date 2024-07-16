@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faUserGraduate, faMoneyBillTransfer, faCommentMedical, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faUserGraduate, faMoneyBillTransfer, faCommentMedical, faStar, faStarHalfAlt, faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
 import styles from './appView.module.css';
 import AppWidgetSummary from '../app-widget-summary';
@@ -13,6 +13,7 @@ import { GetNewsPaging } from '../../../../api/NewsApi';
 import { toast } from 'react-toastify';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
+<i class="fa-solid "></i>
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 
@@ -21,7 +22,7 @@ const AppView = () => {
     tutor: 0,
     student: 0,
     transaction: 0,
-    feedback: 0
+    revenue: 1
   });
 
   const [topTutors, setTopTutors] = useState([]);
@@ -39,8 +40,9 @@ const AppView = () => {
             tutor: response.data.tutor || 0,
             student: response.data.student || 0,
             transaction: response.data.transaction || 0,
-            feedback: response.data.feedback || 0
+            revenue: response.data.revenue || 0
           });
+          console.log('Statistics:', response.data);
         } else {
           console.error(response.error);
         }
@@ -156,11 +158,12 @@ const AppView = () => {
 
         <Grid item xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Đánh Giá"
-            total={statistics.feedback}
+            title="Thu Nhập"
+            total={statistics.revenue}
             color="error"
-            icon={<FontAwesomeIcon icon={faCommentMedical} />}
+            icon={<FontAwesomeIcon icon={faMoneyBillTrendUp} />}
           />
+          <h1 style={{position: 'absolute', top: '160px', left: '1380px', fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', fontWeight: '400', color: '#4DA8DA', letterSpacing: '0.00735em', lineHeight: '1.235', fontSize: '25px'}}>VND</h1>
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>

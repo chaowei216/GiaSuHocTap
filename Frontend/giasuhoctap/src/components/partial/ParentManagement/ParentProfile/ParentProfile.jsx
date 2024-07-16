@@ -69,7 +69,7 @@ const ParentProfile = () => {
                 district: '',
                 address: '',
                 gender: '',
-                // image: null,
+                password: '',
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -81,7 +81,7 @@ const ParentProfile = () => {
                             <div className={styles.profile}>
                                 <h1>Thông tin cá nhân</h1>
                             </div>
-                            {/* <div className={styles.cropimgAvatar}>
+                            <div className={styles.cropimgAvatar}>
                                 <img src={selectedImage || logo} alt="avatar" className={styles.brand} />
                                 <button type="button" onClick={handleButtonClick} style={{ marginLeft: '20px' }}>
                                     <span style={{ color: '#4dccda', fontWeight: 'bold' }}>
@@ -97,7 +97,7 @@ const ParentProfile = () => {
                                     accept="image/png, image/jpeg, image/gif"
                                     onChange={(event) => handleFileChange(event, setFieldValue)}
                                 />
-                            </div> */}
+                            </div>
                             <div className={styles.profileBoxNIput}>
                                 <div className={styles.notify}>
                                     <label>THÀNH PHỐ</label>
@@ -146,6 +146,14 @@ const ParentProfile = () => {
                             </div>
                             <hr style={{ width: '40%', margin: '20px 0 20px 0' }} />
                         </div>
+                        <div className={styles.profileBoxNIput}>
+                                <div className={styles.notify}>
+                                    <label htmlFor="password">MẬT KHẨU</label>
+                                    <ErrorMessage name="password" component="div" className={styles.error} />
+                                </div>
+                                <Field type="password" name="password" placeholder="Nhập mật khẩu" className={styles.input} />
+                            </div>
+                            <hr style={{ width: '40%', margin: '20px 0 20px 0' }} />
                         <button type="submit" className={styles.profileButton} disabled={isSubmitting}>
                             Cập nhật
                         </button>
