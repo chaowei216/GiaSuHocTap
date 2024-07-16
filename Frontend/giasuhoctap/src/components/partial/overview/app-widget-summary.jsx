@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { fShortenNumber } from '../../../utils/format-number';
 
-export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummary({ title, total, icon, content = 'primary', sx, ...other }) {
   return (
     <Card
       component={Stack}
@@ -33,6 +33,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
           {title}
         </Typography>
       </Stack>
+      
     </Card>
   );
 }
@@ -43,4 +44,5 @@ AppWidgetSummary.propTypes = {
   sx: PropTypes.object,
   title: PropTypes.string,
   total: PropTypes.number,
+  content: PropTypes.string,
 };

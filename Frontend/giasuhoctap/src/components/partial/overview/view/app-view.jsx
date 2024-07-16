@@ -159,11 +159,12 @@ const AppView = () => {
         <Grid item xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Thu Nhập"
-            total={statistics.revenue}
+            content="VND"
+            total={statistics.revenue} VND
             color="error"
             icon={<FontAwesomeIcon icon={faMoneyBillTrendUp} />}
+            
           />
-          <h1 style={{position: 'absolute', top: '160px', left: '1380px', fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', fontWeight: '400', color: '#4DA8DA', letterSpacing: '0.00735em', lineHeight: '1.235', fontSize: '25px'}}>VND</h1>
         </Grid>
 
         <Grid item xs={12} md={6} lg={8}>
