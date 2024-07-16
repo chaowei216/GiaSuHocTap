@@ -100,6 +100,18 @@ namespace Repository.Repository
             return await _requestDAO.GetByIdAsync(id);
         }
 
+        public double GetRevenueOfRequest()
+        {
+            int? onlineReqCoin = _requestDAO.GetAll().Where(p => p.RequestType == RequestConst.Online && p.Status == RequestConst.CompletedStatus).Sum(p => p.Coin);
+            double onlRevenue = onlineReqCoin == null | onlineReqCoin == 0 ? 0 : (double)onlineReqCoin! * 0.3 * 1000;
+
+            double offReqRevenue =  _requestDAO.GetAll().Where(p => p.RequestType == RequestConst.Offline && p.Status == RequestConst.CompletedStatus).Count() * 10000;
+
+            var total = onlRevenue + offReqRevenue;
+
+            return total;
+        }
+
         public PagedList<Request> GetUserRequest(int userId, RequestParameters parameters)
         {
             var request = _requestDAO.GetAll();

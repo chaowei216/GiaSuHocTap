@@ -114,5 +114,11 @@ namespace Service.IService
         /// </summary>
         /// <returns></returns>
         IEnumerable<Request> GetAllRequests();
+
+        /// <summary>
+        /// Get revenue of onl/off requests
+        /// </summary>
+        /// <returns></returns>
+        double GetRevenueOfRequest();
     }
 }

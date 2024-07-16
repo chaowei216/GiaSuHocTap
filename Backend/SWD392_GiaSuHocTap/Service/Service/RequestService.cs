@@ -371,6 +371,11 @@ namespace Service.Service
             return allRequests.Where(p => p.Status == RequestConst.CompletedStatus).ToList();
         }
 
+        public double GetRevenueOfRequest()
+        {
+            return _requestRepository.GetRevenueOfRequest();
+        }
+
         public PaginationResponseDTO<RequestDTO> GetUserRequests(int userId, RequestParameters parameters)
         {
             var requests = _requestRepository.GetUserRequest(userId, parameters);
