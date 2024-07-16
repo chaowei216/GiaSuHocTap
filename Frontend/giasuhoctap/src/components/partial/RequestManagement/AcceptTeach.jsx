@@ -20,7 +20,7 @@ import useAuth from '../../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import { AcceptOrDenyRequestOnline } from '../../../api/RequestApi';
 
-export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpdated, isUpdated }) {
+export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpdated, isUpdated, setIsModalOpen }) {
   const { user } = useAuth()
   const [meetUrl, setMeetUrl] = useState("");
   const handleAccept = async () => {
@@ -31,17 +31,21 @@ export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpda
         isAccepted: true,
         linkMeet: meetUrl
       }
+      setIsModalOpen(true)
       const response = await AcceptOrDenyRequestOnline(dataUpdate)
       if (response.ok) {
         const responseJson = await response.json();
         if (responseJson.statusCode == 200) {
           setIsUpdated(!isUpdated)
+          setIsModalOpen(false)
           toast.success("Chấp nhận thành công")
+          setBasicModal(false);
         }
       } else {
-        toast.error("Lỗi sever")
+        setIsModalOpen(false)
+        toast.error("Lỗi server")
+        setBasicModal(false);
       }
-      console.log(dataUpdate)
     }
   }
   return (
@@ -101,7 +105,7 @@ export default function AcceptTeach({ basicModal, setBasicModal, data, setIsUpda
                   </MDBRow>
                   <MDBRow className={styles.profile_container} style={{ justifyContent: "space-between" }}>
                     <MDBCol sm="4" className={`${styles.profile} font-bold`}>
-                      <MDBCardText>Điền link meet</MDBCardText>
+                      <MDBCardText>Điền link Meet</MDBCardText>
                     </MDBCol>
                     <MDBCol sm="5" className={styles.profile}>
                       <TextField

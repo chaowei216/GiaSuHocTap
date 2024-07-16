@@ -17,5 +17,7 @@ namespace Common.DTO.Email
         public const string RejectEmailSubject = "GiaSuHocTap: Tutor request rejected";
 
         public const string ParentsInfoSubject = "GiaSuHocTap: Parents Information";
+
+        public const string ModeratorInfoSubject = "GiaSuHocTap: Moderator Information";
     }
 }
