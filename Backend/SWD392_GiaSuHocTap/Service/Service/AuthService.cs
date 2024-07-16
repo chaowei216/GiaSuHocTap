@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper;
 using Common.Constant.Message;
 using Common.DTO;
 using Common.DTO.Auth;
@@ -7,10 +6,8 @@ using Common.DTO.Email;
 using Common.Enum;
 using DAO.Model;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 using System.Security.Cryptography;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace Service.Service
 {
@@ -346,6 +343,18 @@ namespace Service.Service
 
             }
             return false;
+        }
+
+        public async Task<bool> ChangePassword(User user, string password)
+        {
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            var updateUser = await _userService.UpdateUser(user);
+
+            return updateUser != null;
         }
     }
 }

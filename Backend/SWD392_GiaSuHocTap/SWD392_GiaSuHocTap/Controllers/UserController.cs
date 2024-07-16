@@ -84,7 +84,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             }
 
             try
-            
+
             {
                 var user = _userService.GetAllPendingUser(queries);
                 var response = new ResponseDTO()
@@ -304,13 +304,13 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             if (user == null)
             {
-                return StatusCode(404, new ResponseDTO ()
+                return StatusCode(404, new ResponseDTO()
                 {
                     StatusCode = (int)StatusCodeEnum.NotFound,
                     Message = GeneralMessage.NotFound,
                     Data = null
                 });
-            } 
+            }
 
             var response = await _userService.UpdateUser(user, userInfo);
 
@@ -355,7 +355,8 @@ namespace SWD392_GiaSuHocTap.Controllers
                     Message = GeneralMessage.Success,
                     Data = response
                 });
-            } else
+            }
+            else
             {
                 return BadRequest(new ResponseDTO()
                 {
@@ -384,7 +385,8 @@ namespace SWD392_GiaSuHocTap.Controllers
             if (user == null)
             {
                 return NotFound();
-            } else if (user.RoleId != (int)RoleEnum.Tutor && user.Status != UserStatusEnum.InActive)
+            }
+            else if (user.RoleId != (int)RoleEnum.Tutor && user.Status != UserStatusEnum.InActive)
             {
                 return BadRequest(new ResponseDTO()
                 {
@@ -424,10 +426,11 @@ namespace SWD392_GiaSuHocTap.Controllers
 
             var user = await _userService.GetUserById(id);
 
-            if (user == null) 
-            { 
-                return NotFound(); 
-            } else if (user.RoleId != (int)RoleEnum.Parents)
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else if (user.RoleId != (int)RoleEnum.Parents)
             {
                 return BadRequest(new ResponseDTO()
                 {

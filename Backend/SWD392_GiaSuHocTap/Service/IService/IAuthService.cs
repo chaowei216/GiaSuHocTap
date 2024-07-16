@@ -1,6 +1,7 @@
 ﻿using Common.DTO;
 using Common.DTO.Auth;
 using Common.DTO.Email;
+using DAO.Model;
 
 namespace Service.IService
 {
@@ -99,5 +100,13 @@ namespace Service.IService
         /// <param name="email"></param>
         /// <returns></returns>
         bool RejectTutor(string email, string reason);
+
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<bool> ChangePassword(User user, string password);
     }
 }

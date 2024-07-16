@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
 import { GetAllTopTutor } from "../../../../api/TopTutorApi";
-import styles from "./Features.module.css"; // Đảm bảo import CSS module của bạn
+import styles from "./Features.module.css";
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 
@@ -94,7 +94,7 @@ const Features = () => {
       </div>
       <div className={styles.featuresListWrapper}>
         <Slider {...settings} className={styles.featuresList}>
-          {features.map((feature) => (
+          {features && features.map((feature) => (
             <div key={feature.userId} className={`container ${styles.swiper}`}>
               <div className={`swiper-wrapper ${styles.content}`}>
                 <div className={`swiper-slide ${styles.card}`}>

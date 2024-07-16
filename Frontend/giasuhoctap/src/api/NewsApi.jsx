@@ -51,9 +51,9 @@ export const CreateNewByModerator = async (formData) => {
   try {
     const response = await fetch(`${baseUrl}/api/News/create-news`, {
       method: "POST",
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+      },
       body: formData,
     });
     if (!response.ok) {

@@ -495,5 +495,43 @@ namespace SWD392_GiaSuHocTap.Controllers
                 });
             }
         }
+
+        [HttpPut("change-password/{id}")]
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseDTO()
+                {
+                    StatusCode = (int)StatusCodeEnum.BadRequest,
+                    Message = ModelState.ToString()!,
+                    Data = null
+                });
+            }
+
+            var user = await _userService.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var response = await _authService.ChangePassword(user, request.Password);
+
+                if (response)
+                {
+                    return NoContent();
+                } else
+                {
+                    return StatusCode(500, new ResponseDTO
+                    {
+                        StatusCode = (int)StatusCodeEnum.InternalServerError,
+                        Message = GeneralMessage.Fail,
+                        Data = null
+                    });
+                }
+            }
+        }
     }
 }

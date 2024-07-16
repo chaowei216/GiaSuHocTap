@@ -112,6 +112,7 @@ export const GetTutorTeachOnline = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -128,6 +129,7 @@ export const GetTutorTeachOnlineByCondition = async (classId, courseId, page, pa
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -144,6 +146,7 @@ export const GetTutorTeachOffline = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -160,6 +163,7 @@ export const GetTutorTeachOfflineByCondition = async (classId, courseId, page, p
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -176,6 +180,7 @@ export const GetTutorByEmail = async (email) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
