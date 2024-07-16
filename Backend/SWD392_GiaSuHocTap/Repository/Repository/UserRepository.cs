@@ -8,6 +8,7 @@ using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -71,7 +72,12 @@ namespace Repository.Repository
 
         public PagedList<User> GetPagedUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
+            var get = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables);
+            if (parameters.Status != null)
+            {
+                get = _userDAO.GetAll().Where(t => t.Status == parameters.Status).Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables);
+            }
+            return PagedList<User>.ToPagedList(get, parameters.PageNumber, parameters.PageSize);
         }
 
         public IEnumerable<User>? GetUserByStatus(UserStatusEnum status)
@@ -101,17 +107,17 @@ namespace Repository.Repository
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
-                onlineTutors = onlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
+                get = onlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
             }
 
             if (parameters.ClassId != null)
             {
-                onlineTutors = onlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
+                get = onlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
             }
 
             if (parameters.CourseId != null)
             {
-                onlineTutors = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
+                get = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
             }
 
             return PagedList<User>.ToPagedList(get.AsQueryable(), parameters.PageNumber, parameters.PageSize);

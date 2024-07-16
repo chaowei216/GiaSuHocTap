@@ -7,6 +7,7 @@ using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.Constant.User;
 using Common.DTO;
+using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
@@ -34,6 +35,7 @@ namespace Service.Service
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
@@ -43,7 +45,8 @@ namespace Service.Service
                             ITimeTableService timeTableService,
                             INotificationService notificationService,
                             IFeedbackService feedbackService,
-                            IConfiguration configuration)
+                            IConfiguration configuration,
+                            IEmailService emailService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -53,6 +56,7 @@ namespace Service.Service
             _timeTableService = timeTableService;
             _notificationService = notificationService;
             _feedbackService = feedbackService;
+            _emailService = emailService;
             _configuration = configuration;
 
             string pathToJsonFile = "firebase.json";
@@ -1056,6 +1060,8 @@ namespace Service.Service
                         UserId = userMap.UserId,
                         NotificationId = userNotification.NotificationId
                     });
+
+                    _emailService.SendInfomationModeratorEmail(request.Email, EmailSubject.ModeratorInfoSubject, userMap);
                     return _mapper.Map<ModeratorDTO>(userMap);
                 }
                 else
