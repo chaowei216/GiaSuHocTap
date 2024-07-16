@@ -114,7 +114,7 @@ namespace Repository.Repository
                 request = request.Where(p => p.Status.ToLower() == parameters.Status.ToLower());
             }
 
-            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable).ThenInclude(p => p.User), parameters.PageNumber, parameters.PageSize);
+            return PagedList<Request>.ToPagedList(request.Include(p => p.Class).Include(p => p.Course).Include(p => p.From).Include(p => p.RequestTimes).ThenInclude(p => p.TimeTable).ThenInclude(p => p.User).Where(t => t.FromId == userId || t.RequestTimes.Where(t => t.TimeTable.UserId == userId).Any()), parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Request> UpdateRequest(Request request)
