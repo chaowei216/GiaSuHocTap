@@ -1,11 +1,11 @@
-.slideBody{
-    max-width: 50%;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.7);
-    margin-left: 515px;
-    border: 1px solid #81a73b;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    background-color: white;
+.slideBody {
+  max-width: 50%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.7);
+  margin-left: 515px;
+  border: 1px solid #81a73b;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: white;
 }
 
 .slideContainer {
@@ -23,18 +23,20 @@
 
 .cardWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Ensures 2 cards per row */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(30%, 1fr)
+  ); /* Ensures 2 cards per row */
   gap: 1rem; /* Adjust the gap between cards as needed */
   padding: 1rem;
 }
 
 .card {
   border-radius: 25px;
-  background-color: #FFF;
+  background-color: #fff;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
   margin-left: 20px;
   margin-bottom: 20px;
-
 }
 
 .imageContent,
@@ -44,7 +46,7 @@
   padding: 10px 14px;
 }
 
-.imageContent{
+.imageContent {
   display: flex;
   flex-direction: column;
   padding: 10px 14px;
@@ -62,7 +64,7 @@
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: #4DA8DA;
+  background-color: #4da8da;
   border-radius: 25px 25px 0 25px;
 }
 .overlay::before,
@@ -73,18 +75,18 @@
   bottom: -40px;
   height: 40px;
   width: 40px;
-  background-color: #4DA8DA;
+  background-color: #4da8da;
 }
 .overlay::after {
   border-radius: 0 25px 0 0;
-  background-color: #FFF;
+  background-color: #fff;
 }
 .cardImage {
   position: relative;
   height: 150px;
   width: 150px;
   border-radius: 50%;
-  background: #FFF;
+  background: #fff;
   padding: 3px;
 }
 .cardImage .cardImg {
@@ -92,7 +94,7 @@
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 4px solid #4DA8DA;
+  border: 4px solid #4da8da;
 }
 .name {
   font-size: 18px;
@@ -112,7 +114,7 @@
 .button {
   border: none;
   font-size: 16px;
-  color: #FFF;
+  color: #fff;
   padding: 8px 16px 8px 12px;
   background-color: #f0564a;
   border-radius: 6px;
@@ -126,7 +128,6 @@
   background: red;
 }
 
-
 @media screen and (max-width: 768px) {
   .slideContent {
     margin: 0 10px;
@@ -136,59 +137,58 @@
   }
 }
 
-.cardSubject{
+.cardSubject {
   display: flex;
   margin-top: 10px;
-  
 }
-.cardSubject p{
+.cardSubject p {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
 }
 
-
-.cardTitle{
+.cardTitle {
   color: #4d4d4d;
   margin-left: 5px;
   margin-right: 10px;
 }
 
-.subject, .class{
-  color: #0000FF;
+.subject,
+.class {
+  color: #0000ff;
   margin-left: 5px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.wage{
+.wage {
   color: red;
   margin-left: 5px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.teachingForm, .dayOfWeek, .time{
+.teachingForm,
+.dayOfWeek,
+.time {
   font-weight: bold;
   margin-left: 5px;
   margin-bottom: 5px;
 }
 
-.slideBgTu{
+.slideBgTu {
   background: url(../../../../../public/img/ReTutor.png) no-repeat 0 0;
   margin-top: 40px;
   background-size: 1020px;
   margin-bottom: 18px;
   height: 70px;
   margin-left: 405px;
- 
 }
 
-.slideBgTu h1{
+.slideBgTu h1 {
   margin-left: 350px;
   margin-top: 38px;
   font-size: 23px;
   font-weight: bold;
   padding-top: 17px;
- color: #043882;
+  color: #043882;
 }
-

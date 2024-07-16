@@ -70,7 +70,7 @@ const HistoryP = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            {getUniqueName(card.requestTimes)}
+                                            <h1 key={index}>Gia sư: {getUniqueName(card.requestTimes)}</h1>
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>

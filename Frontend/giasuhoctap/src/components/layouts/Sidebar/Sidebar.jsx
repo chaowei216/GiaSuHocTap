@@ -22,13 +22,6 @@ export default function Sidebar() {
       id: 1,
       src: "/personal-profile",
     },
-    {
-      title: "Giao dịch",
-      path: "/transaction",
-      icon: <AccountBalanceIcon />,
-      id: 4,
-      src: "/transaction",
-    },
   ];
   if (user?.roleName === 'Moderator') {
     Menus.push({
@@ -82,7 +75,14 @@ export default function Sidebar() {
         icon: <WorkHistoryIcon />,
         id: 2,
         src: "/tutor",
-      });
+      },
+      {
+        title: "Giao dịch",
+        path: "/transaction",
+        icon: <AccountBalanceIcon />,
+        id: 4,
+        src: "/transaction",
+      },);
   }
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState('/dashboard');

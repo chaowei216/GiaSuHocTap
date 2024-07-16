@@ -226,11 +226,27 @@ const BookTutorOffline = () => {
                                             <h2 className={`name ${styles.name}`}>{tutor.fullname}</h2>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Môn dạy: </p>
-                                                <p className={`class ${styles.subject}`}>{tutor.tutorDetail.major}</p>
+                                                <p className={`class ${styles.class}`}>
+                                                    {tutor?.userCourses?.map((item, index) => (
+                                                        <>
+                                                            {item.course.courseName}
+                                                            {index !== tutor.userCourses.length - 1 && <span>, </span>}
+                                                        </>
+                                                    ))}
+                                                    {tutor?.userCourses?.length == 0 ? <>Chưa đăng kí môn</> : null}
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Lớp dạy: </p>
-                                                <p className={`class ${styles.class}`}>12</p>
+                                                <p className={`class ${styles.subject}`}>
+                                                    {tutor?.userClasses?.map((item, index) => (
+                                                        <>
+                                                            {item.class.className}
+                                                            {index !== tutor.userClasses.length - 1 && <span>, </span>}
+                                                        </>
+                                                    ))}
+                                                    {tutor?.userClasses?.length == 0 ? <>Chưa đăng kí lớp</> : null}
+                                                </p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Tiền lương: </p>

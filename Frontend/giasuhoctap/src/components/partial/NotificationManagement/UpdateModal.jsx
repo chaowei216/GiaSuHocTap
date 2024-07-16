@@ -45,14 +45,14 @@ export default function UpdateModal(pros) {
                 if (response.ok) {
                     const responseJson = await response.json();
                     if (responseJson.statusCode == 204) {
-                        toast.success("Created notification successfully")
+                        toast.success("Cập nhật thành công")
                         setIsCreated(!isCreated)
                         setOpenDetail(false)
                     } else {
                         toast.error(responseJson.message)
                     }
                 } else {
-                    toast.success("Fail to create notification")
+                    toast.success("Lỗi server")
                 }
             }
         }

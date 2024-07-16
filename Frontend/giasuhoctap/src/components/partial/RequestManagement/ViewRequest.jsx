@@ -82,7 +82,6 @@ export default function ViewRequest() {
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages);
-                console.log(data);
 
             } else {
                 toast.warning("Lỗi sever");

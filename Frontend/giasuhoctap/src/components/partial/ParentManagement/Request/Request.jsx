@@ -79,7 +79,7 @@ const Request = () => {
                         window.location.reload();
                     }, 2500);
                 } else {
-                    toast.error(response.message)
+                    toast.error("Thuê không thành công vì gia sư không dạy giờ sau")
                 }
             } else {
                 toast.error("Lỗi sever")

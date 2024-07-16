@@ -23,24 +23,10 @@ import useAuth from '../../../hooks/useAuth';
 
 export default function CreateModal(pros) {
     const { centredModal, setCentredModal, isCreated, setIsCreated } = pros
-    const [listUser, setListUser] = useState([])
     const [userId, setUserId] = useState();
     const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
     const { user } = useAuth()
-    useEffect(() => {
-        const getAllUser = async () => {
-            const response = await GetAllUser();
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setListUser(data);
-            } else {
-                toast.error("Lỗi sever")
-            }
-        }
-        getAllUser();
-    }, [])
     const handleSave = async () => {
         let flag = true;
         console.log(userId);
