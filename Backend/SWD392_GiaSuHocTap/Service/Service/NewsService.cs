@@ -87,7 +87,7 @@ namespace Service.Service
             var requests = _newsRepository.GetPagedNewsList(parameters);
 
             var mappedResponse = _mapper.Map<PaginationResponseDTO<NewsDTO>>(requests);
-            mappedResponse.Data = _mapper.Map<List<NewsDTO>>(requests);
+            mappedResponse.Data = _mapper.Map<List<NewsDTO>>(requests.OrderByDescending(p => p.CreateDate));
 
             return mappedResponse;
         }
