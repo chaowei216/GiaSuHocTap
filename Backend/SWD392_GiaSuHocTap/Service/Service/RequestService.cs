@@ -281,7 +281,7 @@ namespace Service.Service
                     nextTimetable.Status = TimeTableConst.BusyStatus;
                     await _timeTableService.UpdateTimeTable(nextTimetable);
 
-                    lastTime.Status = RequestConst.AcceptedStatus;
+                    lastTime.Status = RequestConst.InProcessStatus;
                     await _requestRepository.UpdateRequestTime(lastTime);
 
                     await _requestRepository.AddNewRequestTime(new RequestTime
@@ -598,7 +598,7 @@ namespace Service.Service
                 {
                     if (inprocessTime != null)
                     {
-                        inprocessTime.Status = RequestConst.CompletedStatus;
+                        inprocessTime.Status = RequestConst.InProcessStatus;
                         pendingTime.Status = requestInfo.IsAccepted ? RequestConst.InProcessStatus : RequestConst.CancelledStatus;
                         await _requestRepository.UpdateRequestTime(inprocessTime);
                     } else
