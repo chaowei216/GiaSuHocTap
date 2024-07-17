@@ -191,7 +191,6 @@ function AuthProvider1({ children }) {
       return;
     }
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson.statusCode == 400) {
       toast.error(responseJson.message)
       return;
@@ -255,7 +254,6 @@ function AuthProvider1({ children }) {
     const responseJson = await response.json();
     console.log(responseJson.statusCode);
     if (responseJson.statusCode == 400) {
-      console.log(responseJson.message);
       toast.error(responseJson.message);
       return;
     }
@@ -319,9 +317,7 @@ function AuthProvider1({ children }) {
     console.log(formData)
     const response = await RegisterTutor(formData)
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson.statusCode == 400) {
-      console.log(responseJson.message);
       toast.error(responseJson.message);
       return;
     }
@@ -343,7 +339,7 @@ function AuthProvider1({ children }) {
   const sendOtp = (otp, email) => {
     VerifyUser(otp, email).then(response => {
       if (response.statusCode === 200) {
-        toast.success("Mã OTP đã được gửi đến mail của bạn");
+        toast.success("Xác thực thành công");
       } else {
         toast.error("Xác thực không thành công vui lòng thử lại")
         return;
@@ -362,7 +358,6 @@ function AuthProvider1({ children }) {
         console.error("Error:", error.message);
         toast.error("Xác thực không thành công vui lòng thử lại")
       }).finally(() => {
-        console.log(user);
         if (user == null) {
           return;
         }
