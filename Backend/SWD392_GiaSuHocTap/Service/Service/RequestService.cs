@@ -565,7 +565,7 @@ namespace Service.Service
                         pendingTime.Status = RequestConst.CancelledStatus;
                         await _requestRepository.UpdateRequestTime(pendingTime);
 
-                        request.Status = RequestConst.InProcessStatus;
+                        request.Status = RequestConst.AcceptedStatus;
                         await _requestRepository.UpdateRequest(request);
 
                         foreach (var time in times)
