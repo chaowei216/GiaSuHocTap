@@ -85,3 +85,15 @@
     font-size: 13px;
     color: red;
 }
+
+.passwordInputContainer {
+    position: relative;
+  }
+  
+  .passwordIcon {
+    position: absolute;
+    top: 50%;
+    left: 550px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }

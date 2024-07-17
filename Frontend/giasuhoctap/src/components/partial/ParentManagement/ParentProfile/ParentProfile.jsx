@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form as FormikForm, Field, ErrorMessage } from 'formik';
 import styles from './ParentProfile.module.css';
 import logo from '../../../../../public/img/logoGiasu2.png';
@@ -6,6 +6,8 @@ import { validationSchema } from './ValidationParentProfile';
 import useAuth from '../../../../hooks/useAuth';
 import { UpdateUser } from '../../../../api/ParentManagement';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const cities = [
     "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước",
@@ -19,6 +21,7 @@ const cities = [
 
 const ParentProfile = () => {
     const { user } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (values) => {
         try {
@@ -37,10 +40,10 @@ const ParentProfile = () => {
     return (
         <Formik
             initialValues={{
-                city: '',
-                district: '',
-                address: '',
-                gender: '',
+                city: user?.city || '',
+                district: user?.district || '',
+                address: user?.address || '',
+                gender: user?.gender || '',
                 password: '',
             }}
             validationSchema={validationSchema}
@@ -103,7 +106,14 @@ const ParentProfile = () => {
                                 <label htmlFor="password">MẬT KHẨU</label>
                                 <ErrorMessage name="password" component="div" className={styles.error} />
                             </div>
-                            <Field type="password" name="password" placeholder="Nhập mật khẩu" className={styles.input} />
+                            <div className={styles.passwordInputContainer}>
+                                <Field type={showPassword ? "text" : "password"} name="password" placeholder="Nhập mật khẩu" className={styles.input} />
+                                <FontAwesomeIcon
+                                    icon={showPassword ? faEyeSlash : faEye}
+                                    className={styles.passwordIcon}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                />
+                            </div>
                         </div>
                     </div>
 
