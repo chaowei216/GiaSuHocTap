@@ -26,7 +26,7 @@ export default function AppWidgetSummary({ title, total, icon, content = 'primar
       )}
 
       <Stack spacing={0.5}>
-        <Typography variant="h4" sx={{ color: '#4DA8DA', paddingLeft: '25px', fontSize: '25px' }}>
+        <Typography variant="h4" sx={{ color: '#4DA8DA', paddingLeft: '20px', fontSize: '25px' }}>
           {total}
         </Typography>
         <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: '20px', paddingLeft: '5px' }}>

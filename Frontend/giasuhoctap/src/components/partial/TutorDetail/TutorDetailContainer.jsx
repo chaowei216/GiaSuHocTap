@@ -24,7 +24,7 @@ function TutorDetailContainer() {
         setData(user);
         setUserImage(user.userImage)
       } else {
-        toast.error("Error to fetch data")
+        toast.error("Lỗi server")
       }
     }
     fetchData()

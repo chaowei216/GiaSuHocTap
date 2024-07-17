@@ -7,7 +7,6 @@ import { GetParentRequest } from '../../../../api/ParentHistory';
 import { toast } from 'react-toastify';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
-import NoDataPage from '../../../global/NoDataPage';
 import InventoryIcon from "@mui/icons-material/Inventory";
 
 const HistoryP = () => {
@@ -17,39 +16,35 @@ const HistoryP = () => {
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetParentRequest("Online", "Chờ xác nhận", page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
-            } else {
-                toast.error("Lỗi sever")
+        if (user?.userId) {
+            const getAllNotification = async () => {
+                const response = await GetParentRequest(user?.userId, "Online", "Chờ xác nhận", page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
+            getAllNotification();
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize])
-
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State cho modal báo cáo
-
-
-    const handleReportClick = (card) => {
-        setSelectedCard(card);
-        setIsReportModalOpen(true);
+    }, [page, totalPages, pageSize, user?.userId])
+    const getUniqueName = (requestTimes) => {
+        const uniqueDays = new Set();
+        return requestTimes.reduce((acc, timeTable) => {
+            if (!uniqueDays.has(timeTable.timeTable.fullname)) {
+                uniqueDays.add(timeTable.timeTable.fullname);
+                acc.push(`${timeTable.timeTable.fullname}`);
+            }
+            return acc;
+        }, []);
     };
-
-    const handleCloseReportModal = () => {
-        setIsReportModalOpen(false);
-        setSelectedCard(null);
-    };
-
-
     return (
         <>
             <div>
-                {data.map((card, index) => (
+                {data && data.map((card, index) => (
                     <div style={{ width: "100%" }} key={index}>
                         <div className={styles.Body}>
                             <div className='container'>
@@ -75,11 +70,7 @@ const HistoryP = () => {
                                     </div>
                                     <div className={styles.historyDetail}>
                                         <div className={styles.detailItem}>
-                                            {card.requestTimes?.map((item, index) => (
-                                                (item.status == "Chờ xác nhận" && (
-                                                    <h1 key={index}>Gia sư: {item.timeTable.fullname}</h1>
-                                                ))
-                                            ))}
+                                            <h1 key={index}>Gia sư: {getUniqueName(card.requestTimes)}</h1>
                                         </div>
                                         <div className={styles.detailItem}>
                                             <p>Môn học:</p>

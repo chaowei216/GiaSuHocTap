@@ -34,7 +34,7 @@ const FlowAccount = () => {
             fetchRentInfo();
         }
     }, [user]);
-
+console.log(rentInfo);
     return (
         <div className='container row'>
             <div className="col-sm-4">
@@ -49,15 +49,15 @@ const FlowAccount = () => {
                 <div className={styles.flowItem}>
                     <div className={styles.flowBoder}>
                         <h3>TỔNG SỐ LẦN ĐÃ THUÊ GIA SƯ</h3>
-                        <h1>{rentInfo.totalNumberOfTutorHiring}</h1>
+                        <h1>{rentInfo.totalNumberOfTutorHiring} lần</h1>
                     </div>
                 </div>
             </div>
             <div className="col-sm-4">
                 <div className={styles.flowItem}>
                     <div className={styles.flowBoder}>
-                        <h3>TỔNG SỐ TIỀN ĐÃ NẠP</h3>
-                        <h1>{rentInfo.totalAmountDeposited}đ</h1>
+                        <h3>TỔNG SỐ XU ĐÃ NẠP</h3>
+                        <h1>{rentInfo.totalAmountDeposited} Xu</h1>
                     </div>
                 </div>
             </div>

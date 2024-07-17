@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Request.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faCircleQuestion, faCoins } from '@fortawesome/free-solid-svg-icons';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import { GetParentRequest, HireTutorMore } from '../../../../api/ParentHistory';
 import { toast } from 'react-toastify';
 import useAuth from '../../../../hooks/useAuth';
-import NoDataPage from '../../../global/NoDataPage';
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Link } from '@mui/material';
 
@@ -18,25 +17,26 @@ const Request = () => {
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     useEffect(() => {
-        const getAllNotification = async () => {
-            const response = await GetParentRequest("Online", "Đã chấp nhận", page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
-            } else {
-                toast.error("Lỗi sever")
+        if (user?.userId) {
+            const getAllNotification = async () => {
+                const response = await GetParentRequest(user?.userId, "Online", "Đã chấp nhận", page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
+            getAllNotification();
         }
-        getAllNotification();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, user?.userId])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
     const [additionalHours, setAdditionalHours] = useState(0); // State để lưu số giờ thêm vào
     const [selectedCoins, setSelectedCoins] = useState(0); // State để lưu số coin hiện tại của selectedCard
-
 
 
     const handleEvaluateClick = (card) => {
@@ -74,10 +74,10 @@ const Request = () => {
                 if (reponseJson.statusCode == 201) {
                     toast.success("Gửi yêu cầu thuê thêm gia sư thành công")
                     setTimeout(() => {
-                        window.location.reload();
-                    }, 2500);
+                        window.location.href = "/ParentHistory"
+                    }, 2000);
                 } else {
-                    toast.error(response.message)
+                    toast.error("Thuê không thành công vì gia sư không dạy giờ sau")
                 }
             } else {
                 toast.error("Lỗi sever")
@@ -92,17 +92,12 @@ const Request = () => {
     };
 
     const getUniqueName = (requestTimes) => {
-        console.log(requestTimes);
-        // const test = []
-        // test.push(requestTimes)
-        // console.log(test);
         const uniqueDays = new Set();
         return requestTimes.reduce((acc, timeTable) => {
             if (!uniqueDays.has(timeTable.timeTable.fullname)) {
                 uniqueDays.add(timeTable.timeTable.fullname);
                 acc.push(`${timeTable.timeTable.fullname}`);
             }
-            console.log(acc);
             return acc;
         }, []);
     };
@@ -110,8 +105,13 @@ const Request = () => {
     const getTimeFormat = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
-        // Sort the time ranges by startTime
-        const sortedTimes = requestTimes.sort((a, b) => {
+        // Filter the requestTimes to include only those with status "Từ chối"
+        const filteredTimes = requestTimes.filter(time => time.status === "Đang tiến hành");
+
+        if (filteredTimes.length === 0) return "Không có thời gian";
+
+        // Sort the filtered time ranges by startTime
+        const sortedTimes = filteredTimes.sort((a, b) => {
             const aStartTime = new Date(`1970-01-01T${a.timeTable.startTime}:00Z`);
             const bStartTime = new Date(`1970-01-01T${b.timeTable.startTime}:00Z`);
             return aStartTime - bStartTime;
@@ -123,6 +123,7 @@ const Request = () => {
 
         return `${startTime} - ${endTime}`;
     };
+
 
     const getPeriod = (requestTimes) => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
