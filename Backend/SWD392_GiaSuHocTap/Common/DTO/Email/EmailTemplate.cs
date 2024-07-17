@@ -459,14 +459,14 @@
     </div>
     <div class=""content"">
         <div class=""welcome-text"">
-            <p>Xin chào {USER_NAME}</p>
-            <p>Chúc mừng bạn đã được thêm tài khoản trên trang Giasuhoctap của chúng tôi</p>
+            <p>Welcome {USER_NAME}</p>
+            <p>We are pleased to inform you that your account has been added to our GiaSuHocTap website.</p>
             
         </div>
         <div class=""features"">
-            <p>Dưới đây là thông tin tài khoản của bạn để đăng nhập:</p>
-            <p><span class=""feature-header"">Email:</span> {PARENTS_EMAIL}.</p>
-            <p><span class=""feature-header"">Name:</span> {PARENTS_NAME}.</p>
+            <p>This is your account information:</p>
+            <p><span class=""feature-header"">Email: {PARENTS_EMAIL}.</span> </p>
+            <p><span class=""feature-header"">Name: {PARENTS_NAME}.</span> </p>
             <p><span class=""feature-header"">Password: 12345Aa@</span></p>
         </div>
 
