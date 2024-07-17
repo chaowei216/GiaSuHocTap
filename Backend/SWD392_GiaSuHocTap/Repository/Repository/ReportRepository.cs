@@ -40,6 +40,11 @@ namespace Repository.Repository
                 reports = reports.Where(p => p.To.Email.Contains(parameters.ToEmail));
             }
 
+            if (parameters.Status != null)
+            {
+                reports = reports.Where(p => p.Status == parameters.Status);
+            }
+
             return PagedList<Report>.ToPagedList(reports, parameters.PageNumber, parameters.PageSize);
         }
 
