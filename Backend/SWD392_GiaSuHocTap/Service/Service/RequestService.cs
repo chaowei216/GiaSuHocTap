@@ -221,16 +221,19 @@ namespace Service.Service
             if (request != null)
             {
                 var times = _requestRepository.GetAllTimeOfRequest(request.RequestId);
-                var inprocesstime = times.Where(t => t.Status == RequestConst.InProcessStatus).FirstOrDefault();
+                var inprocesstime = times.Where(t => t.Status == RequestConst.InProcessStatus);
 
                 foreach (var time in times)
                 {
-                    var onlineTime = await _timeTableService.GetTimeTableById(inprocesstime.TimeTableId);
-                    onlineTime.Status = TimeTableConst.FreeStatus;
-                    await _timeTableService.UpdateTimeTable(onlineTime);
+                    foreach (var inTime in inprocesstime)
+                    {
+                        var onlineTime = await _timeTableService.GetTimeTableById(inTime.TimeTableId);
+                        onlineTime.Status = TimeTableConst.FreeStatus;
+                        await _timeTableService.UpdateTimeTable(onlineTime);
 
-                    inprocesstime.Status = RequestConst.CompletedStatus;
-                    await _requestRepository.UpdateRequestTime(time);
+                        inTime.Status = RequestConst.CompletedStatus;
+                        await _requestRepository.UpdateRequestTime(time);
+                    }
                 }
 
                 var compleTime = times.Where(t => t.Status == RequestConst.CompletedStatus).ToList();
