@@ -8,6 +8,7 @@ import NewsTable from './NewsTable';
 import { GetNewsPaging } from '../../../api/NewsApi';
 import CreateNew from './CreateNew';
 import WaitingModal from '../../global/WaitingModal';
+import DeleteNews from './DeleteNews';
 export default function ViewNews() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -87,6 +88,7 @@ export default function ViewNews() {
             )}
             <WaitingModal open={false} setOpen={setIsModalOpen} />
             <CreateNew centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isCreated} setIsCreated={setIsCreated} />
+            <DeleteNews show={openDelete} handleClose={handleClose} data={dataDetail} isCreated={isCreated} setIsCreated={setIsCreated} />
         </div>
     )
 }

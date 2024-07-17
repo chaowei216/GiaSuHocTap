@@ -8,7 +8,7 @@ import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import HiringTuorOffline from './HiringTuorOffline';
 import { GetAllClass, GetAllCourse } from '../../../../api/ResigerTutorApi';
-import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
 import InventoryIcon from "@mui/icons-material/Inventory";
 
 const baseUrl = import.meta.env.VITE_API_HOST;
@@ -236,7 +236,7 @@ const BookTutorOffline = () => {
                                                     {tutor?.userCourses?.length == 0 ? <>Chưa đăng kí môn</> : null}
                                                 </p>
                                             </div>
-                                            <div className={styles.cardSubject}>
+                                            <div className={styles.cardSubject} style={{ height: "50px" }}>
                                                 <p className={styles.cardTitle}>Lớp dạy: </p>
                                                 <p className={`class ${styles.subject}`}>
                                                     {tutor?.userClasses?.map((item, index) => (

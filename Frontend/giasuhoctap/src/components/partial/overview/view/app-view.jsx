@@ -124,7 +124,7 @@ const AppView = () => {
   return (
     <Container maxWidth="xl" className='mt-2'>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Chào mừng bạn đã quay lại 👋
+        Quản lí gia sư học tập 👋
       </Typography>
 
       <Grid container spacing={3}>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Request.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faCircleQuestion, faCoins, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faCircleQuestion, faCoins } from '@fortawesome/free-solid-svg-icons';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
 import { GetParentRequest, HireTutorMore } from '../../../../api/ParentHistory';
 import { toast } from 'react-toastify';
 import useAuth from '../../../../hooks/useAuth';
-import NoDataPage from '../../../global/NoDataPage';
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Link } from '@mui/material';
 
@@ -38,7 +37,6 @@ const Request = () => {
     const [selectedCard, setSelectedCard] = useState(null);
     const [additionalHours, setAdditionalHours] = useState(0); // State để lưu số giờ thêm vào
     const [selectedCoins, setSelectedCoins] = useState(0); // State để lưu số coin hiện tại của selectedCard
-
 
 
     const handleEvaluateClick = (card) => {
@@ -76,8 +74,8 @@ const Request = () => {
                 if (reponseJson.statusCode == 201) {
                     toast.success("Gửi yêu cầu thuê thêm gia sư thành công")
                     setTimeout(() => {
-                        window.location.reload();
-                    }, 2500);
+                        window.location.href = "/ParentHistory"
+                    }, 2000);
                 } else {
                     toast.error("Thuê không thành công vì gia sư không dạy giờ sau")
                 }
@@ -108,7 +106,7 @@ const Request = () => {
         if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
         // Filter the requestTimes to include only those with status "Từ chối"
-        const filteredTimes = requestTimes.filter(time => time.status === "Đã chấp nhận");
+        const filteredTimes = requestTimes.filter(time => time.status === "Đang tiến hành");
 
         if (filteredTimes.length === 0) return "Không có thời gian";
 

@@ -67,7 +67,7 @@ export default function ReportTable(pros) {
       border: 0,
     },
   }));
-  const TableHeader = ["Tiêu đề", "Mô tả", "Ngày tạo", "Phụ huynh", "Gia sư", "Trạng thái", "Hành động"];
+  const TableHeader = ["Tiêu đề", "Mô tả", "Ngày", "Phụ huynh", "Gia sư", "Trạng thái", "Hành động"];
   const StatusType = ["Đang chờ xử lý", "Đã xử lý"]
   const handleAccept = async (requestId) => {
     const dataUpdate = {
@@ -86,7 +86,6 @@ export default function ReportTable(pros) {
     }
   };
   const handleDeny = async (requestId) => {
-    console.log(requestId);
     if (requestId) {
       const dataUpdate = {
         reportId: requestId,
@@ -100,11 +99,10 @@ export default function ReportTable(pros) {
           toast.success("Từ chối thành công")
         }
       } else {
-        toast.error("Lỗi sever")
+        toast.error("Lỗi server")
       }
     }
   }
-  console.log(data);
   return (
     <div>
       <TableContainer component={Paper}>
@@ -150,17 +148,16 @@ export default function ReportTable(pros) {
                       align="middle"
                       style={{ fontWeight: "600", width: "170px" }}
                     >
-                      {/* {row.description} */}
                       <DescriptionCell description={row.description} numberLength={20} />
                     </StyledTableCell>
                     <StyledTableCell style={{ fontWeight: "600" }} align="left">
                       {row.createdDate.split("T")[0]}
                     </StyledTableCell>
-                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
-                      {row.parentsEmail}
+                    <StyledTableCell style={{ fontWeight: "600", width: "170px" }} align="left">
+                      <DescriptionCell description={row.parentsEmail} numberLength={8} />
                     </StyledTableCell>
-                    <StyledTableCell style={{ fontWeight: "600" }} align="left">
-                      {row.tutorEmail}
+                    <StyledTableCell style={{ fontWeight: "600", width: "175px" }} align="left">
+                      <DescriptionCell description={row.tutorEmail} numberLength={9} />
                     </StyledTableCell>
                     <StyledTableCell style={{ fontWeight: "600" }} align="left">
                       {StatusType &&
@@ -200,8 +197,8 @@ export default function ReportTable(pros) {
                           sx={{
                             background: "#0b7234",
                             color: "white",
-                            borderRadius: "18px",
-                            marginRight: "5px",
+                            borderRadius: "20px",
+                            marginRight: "4px",
                             fontSize: "12px"
                           }}
                         >
@@ -211,7 +208,7 @@ export default function ReportTable(pros) {
                           variant="contained"
                           onClick={() => handleDeny(row.reportId)}
                           color="error"
-                          sx={{ background: "#de473a", color: "white", borderRadius: "18px", fontSize: "12px" }}
+                          sx={{ background: "#de473a", color: "white", borderRadius: "20px", fontSize: "12px" }}
                         >
                           <div>
                             <ClearIcon /> Deny

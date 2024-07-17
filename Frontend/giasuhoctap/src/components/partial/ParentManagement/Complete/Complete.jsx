@@ -61,6 +61,7 @@ const Complete = () => {
         setSelectedCard(null);
         setMessage('');
     };
+    console.log(data);
 
     const handleReportClick = (card) => {
         setSelectedCard(card);

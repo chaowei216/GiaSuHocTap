@@ -12,6 +12,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import ReportIcon from '@mui/icons-material/Report';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
@@ -27,7 +28,7 @@ export default function Sidebar() {
     Menus.push({
       title: "Thông báo",
       path: "/view-notification",
-      icon: <GroupIcon />,
+      icon: <CircleNotificationsIcon />,
       id: 32,
       src: "/view-notification",
     },

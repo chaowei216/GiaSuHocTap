@@ -58,7 +58,6 @@ const BookTutor = () => {
                     const user = responseJson.data.data
                     setTutorList(user);
                     setTotalPages(responseJson.data.totalPages)
-                    console.log(responseJson);
                 } else {
                     toast.error("Lỗi server")
                 }
