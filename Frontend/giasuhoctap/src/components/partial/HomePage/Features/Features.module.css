@@ -23,12 +23,13 @@
 }
 
 .cardBody{
-  height: 230px;
-  max-height: 230px;
+  height: 150px;
+  max-height: 150px;
+
 }
 
 .cardBody h5{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .cardBody p{
@@ -76,3 +77,57 @@
   border-radius: 50%;
   border: 3px solid #fff;
 }
+
+
+.courseList, .classList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.class, .course {
+  color: blue;
+  font-weight: 600;
+  padding-top: 12px;
+}
+
+.boxItem p {
+  padding: 5px;
+  font-weight: 600;
+  white-space: nowrap; /* Đảm bảo không bị ngắt dòng */
+}
+
+.course::after, .class::after {
+  content: ",";
+}
+
+.course:last-child::after, .class:last-child::after {
+  content: none;
+}
+
+.boxItem{
+  margin-left: -5px;
+}
+
+.boxItem2{
+  margin-left: -5px;
+  
+}
+
+.boxItem2 p {
+  padding-top: 10px;
+}
+
+.ratingStars{
+  font-size: 23px;
+  margin-top: 25px;
+  
+}
+
+.ratingValue{
+  margin-left: 10px;
+}
+
+
+

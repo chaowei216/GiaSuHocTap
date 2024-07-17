@@ -38,7 +38,7 @@ export default function DeleteModal(pros) {
                             style={{ background: "white" }}
                         >
                             <MDBModalTitle className="text-xl" style={{ textAlign: "left", color: "#3295cf" }}>
-                                <WarningIcon color="primary" fontSize="large" sx={{ marginRight: "10px" }} /> Deny Request ?
+                                <WarningIcon color="primary" fontSize="large" sx={{ marginRight: "10px" }} /> Xóa tin này ?
                             </MDBModalTitle>
                         </MDBModalHeader>
                         <MDBModalBody style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
@@ -56,7 +56,7 @@ export default function DeleteModal(pros) {
                                         class="btn btn-danger"
                                         style={{ width: "100px", marginRight: "20px", background: "#ffffff", color: "#a3a3a3", border: "1px solid #dfdfdf" }}
                                     >
-                                        Close
+                                        Đóng
                                     </Button>
                                 </div>
                                 <div>

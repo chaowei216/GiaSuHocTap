@@ -1,8 +1,8 @@
 const baseUrl = import.meta.env.VITE_API_HOST;
 
-export const GetParentRequest = async (requestType, status, page, pageSize) => {
+export const GetParentRequest = async (userId, requestType, status, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Request/get-user-request/6?RequestType=${requestType}&Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Request/get-user-request/${userId}?RequestType=${requestType}&Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {
@@ -24,6 +24,7 @@ export const HireTutorMore = async (value) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -41,6 +42,7 @@ export const FeedbackTutor = async (value) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };
@@ -58,6 +60,7 @@ export const ReportTutor = async (value) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
         };

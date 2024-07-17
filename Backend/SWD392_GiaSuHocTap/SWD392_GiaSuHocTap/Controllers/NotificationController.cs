@@ -3,6 +3,7 @@ using Common.DTO;
 using Common.DTO.Notification;
 using Common.DTO.Query;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -59,6 +60,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("get-system-notifications")]
         public IActionResult GetSystemNotification([FromQuery] NotificationParameters parameters)
         {
@@ -82,6 +84,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpPost("create-system-notification")]
         public async Task<IActionResult> CreateSystemNotification([FromBody] NotificationCreateDTO notifyInfo)
         {
@@ -127,6 +130,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpPut("update-notification/{notificationId}")]
         public async Task<IActionResult> UpdateNotification(int notificationId, [FromBody] NotificationUpdateDTO notification)
         {
@@ -172,6 +176,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(int id)
         {

@@ -7,6 +7,7 @@ using Common.Constant.Teaching;
 using Common.Constant.TimeTable;
 using Common.Constant.User;
 using Common.DTO;
+using Common.DTO.Email;
 using Common.DTO.Query;
 using Common.DTO.TimeTable;
 using Common.DTO.User;
@@ -34,6 +35,7 @@ namespace Service.Service
         private readonly StorageClient _storageClient;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
         public UserService(IUserRepository userRepository, 
                             IMapper mapper, 
@@ -43,7 +45,8 @@ namespace Service.Service
                             ITimeTableService timeTableService,
                             INotificationService notificationService,
                             IFeedbackService feedbackService,
-                            IConfiguration configuration)
+                            IConfiguration configuration,
+                            IEmailService emailService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -53,6 +56,7 @@ namespace Service.Service
             _timeTableService = timeTableService;
             _notificationService = notificationService;
             _feedbackService = feedbackService;
+            _emailService = emailService;
             _configuration = configuration;
 
             string pathToJsonFile = "firebase.json";
@@ -840,39 +844,22 @@ namespace Service.Service
 
         public PaginationResponseDTO<TutorInforDTO> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var userList = _userRepository.GetTutorTeachOnline(parameters).ToList();
+            DateTime today = DateTime.Now;
+            string dayOfWeek = GetDayOfWeek(today);
+            var userList = _userRepository.GetTutorTeachOnline(parameters);
             List<TutorInforDTO> tutorInfoDTOs = new List<TutorInforDTO>();
 
             foreach (var user in userList)
             {
-                var tutorInfoDTO = _mapper.Map<TutorInforDTO>(user);
-                tutorInfoDTO.TimeTables = _mapper.Map<List<TimetableDTO>>(user.TimeTables);
-
-                if (tutorInfoDTO.TimeTables.All(t => t.Status != (TimeTableConst.BusyStatus)))
-                {
-                    foreach (var time in tutorInfoDTO.TimeTables)
-                    {
-                        if (time.LearningType == TimeTableConst.Online)
-                        {
-                            DateTime today = DateTime.Now;
-                            string dayOfWeek = GetDayOfWeek(today);
-                            // Filter the timetables where the StartTime is in the future
-                            tutorInfoDTO.TimeTables = tutorInfoDTO.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                user.TimeTables = user.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
                                                                                     && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
                                                                                     DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
                                                                                     && t.Status == TimeTableConst.FreeStatus).ToList();
-                        }
+                tutorInfoDTOs.Add(_mapper.Map<TutorInforDTO>(user));
 
-                    }
-                    if (tutorInfoDTO.TimeTables.Count > 0)
-                    {
-                        tutorInfoDTOs.Add(tutorInfoDTO);
-                    }
-                }
-                
             }
 
-            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(tutorInfoDTOs);
+            var mappedResponse = _mapper.Map<PaginationResponseDTO<TutorInforDTO>>(userList);
             mappedResponse.Data = tutorInfoDTOs;
             return mappedResponse;
         }
@@ -906,7 +893,7 @@ namespace Service.Service
 
             foreach (var user in userList)
             {
-                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline).ToList();
+                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline && p.Status == TimeTableConst.FreeStatus).ToList();
                 mappedData.Add(_mapper.Map<TutorInforDTO>(user));
             }
 
@@ -995,7 +982,10 @@ namespace Service.Service
             user.City = userInfo.City;
             user.District = userInfo.District;
             user.Gender = userInfo.Gender;
-            user.UserImage = userInfo.Image;
+            CreatePasswordHash(userInfo.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             var updatedUser = await _userRepository.UpdateUser(user);
 
@@ -1074,6 +1064,8 @@ namespace Service.Service
                         UserId = userMap.UserId,
                         NotificationId = userNotification.NotificationId
                     });
+
+                    _emailService.SendInfomationModeratorEmail(request.Email, EmailSubject.ModeratorInfoSubject, userMap);
                     return _mapper.Map<ModeratorDTO>(userMap);
                 }
                 else

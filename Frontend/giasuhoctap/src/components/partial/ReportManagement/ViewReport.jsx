@@ -5,7 +5,8 @@ import PageSize from '../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
 import NotificationTable from './ReportTable';
 import { GetAllReport, GetAllReportByCondition } from '../../../api/ReportApi';
-import { Button, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewReport() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -15,11 +16,13 @@ export default function ViewReport() {
     const [isSearch, setIsSearch] = useState(false);
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [statusReport, setStatusReport] = useState("");
 
     const handleFilter = async () => {
         setPage(1)
-        if ((from || to) != "") {
-            const response = await GetAllReportByCondition(from.trim(), to.trim(), page, pageSize);
+        if ((from || to || statusReport) != "") {
+            const response = await GetAllReportByCondition(from.trim(), to.trim(), statusReport, page, pageSize);
             if (response.ok) {
                 const responseJson = await response.json();
                 const data = responseJson.data.data;
@@ -28,7 +31,7 @@ export default function ViewReport() {
                 setTotalPages(responseJson.data.totalPages)
                 setIsSearch(true)
             } else {
-                toast.error("Error getting report")
+                toast.error("Lỗi server")
             }
         } else {
             setIsSearch(false)
@@ -46,15 +49,15 @@ export default function ViewReport() {
             setTotalPages(responseJson.data.totalPages)
             setIsSearch(false)
         } else {
-            toast.error("Error getting report")
+            toast.error("Lỗi server")
         }
     }
 
     useEffect(() => {
         const getAllNotification = async () => {
             if (isSearch) {
-                if ((from || to) != "") {
-                    const response = await GetAllReportByCondition(from.trim(), to.trim(), page, pageSize);
+                if ((from || to || statusReport) != "") {
+                    const response = await GetAllReportByCondition(from.trim(), to.trim(), statusReport, page, pageSize);
                     if (response.ok) {
                         const responseJson = await response.json();
                         const data = responseJson.data.data;
@@ -62,7 +65,7 @@ export default function ViewReport() {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(true)
                     } else {
-                        toast.error("Error getting report")
+                        toast.error("Lỗi server")
                     }
                 } else {
                     const response = await GetAllReport(page, pageSize);
@@ -73,7 +76,7 @@ export default function ViewReport() {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(false)
                     } else {
-                        toast.error("Error getting report")
+                        toast.error("Lỗi server")
                     }
                 }
             } else {
@@ -84,7 +87,7 @@ export default function ViewReport() {
                     setData(data);
                     setTotalPages(responseJson.data.totalPages)
                 } else {
-                    toast.error("Error getting report")
+                    toast.error("Lỗi server")
                 }
             }
         }
@@ -105,8 +108,25 @@ export default function ViewReport() {
             <div style={{ marginBottom: "20px" }}>
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email từ" variant="standard" value={from} onChange={(event) => setFrom(event.target.value)} />
                 <TextField sx={{ marginRight: "20px" }} id="standard-basic" label="Email đến" variant="standard" value={to} onChange={(event) => setTo(event.target.value)} />
-                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Filter</Button>
-                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Reset</Button>
+                <FormControl variant="standard" sx={{ minWidth: 120, marginRight: "20px" }} >
+                    <InputLabel id="demo-simple-select-standard-label">Trạng thái</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={statusReport}
+                        onChange={(event) => setStatusReport(event.target.value)}
+                        label="Trạng thái"
+                    >
+                        <MenuItem value="true">
+                            <p>True</p>
+                        </MenuItem>
+                        <MenuItem value="false">
+                            <p>False</p>
+                        </MenuItem>
+                    </Select>
+                </FormControl>
+                <Button sx={{ marginTop: "15px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Lọc</Button>
+                <Button sx={{ marginTop: "15px" }} onClick={handleReset} variant="contained">Làm mới</Button>
             </div>
             <NotificationTable data={data} setIsUpdate={setIsUpdate} isUpdate={isUpdate} />
             {data && data.length > 0 && (
@@ -134,6 +154,7 @@ export default function ViewReport() {
                     </div>
                 </>
             )}
+            <WaitingModal open={false} setOpen={setIsModalOpen} />
         </div>
     )
 }

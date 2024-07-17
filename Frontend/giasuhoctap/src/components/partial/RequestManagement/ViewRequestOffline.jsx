@@ -7,8 +7,11 @@ import PageSize from '../TutorManagement/PageSize';
 import { toast } from 'react-toastify';
 import { GetRequestById, GetRequestOfflineApi } from '../../../api/RequestApi';
 import useAuth from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { Logout } from '../../../api/AuthenApi';
+import WaitingModal from '../../global/WaitingModal';
 export default function ViewRequestOffline() {
-    const { user } = useAuth()
+    const { user, f5User, logout } = useAuth()
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
@@ -16,6 +19,28 @@ export default function ViewRequestOffline() {
     const [isUpdated, setIsUpdated] = useState(false);
     const [type, setType] = useState("All");
     const [totalCount, setTotalCount] = useState("")
+    const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+        const interval = setInterval(checkUser, 10000);
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
     const fetchDataByType = async (type) => {
         try {
             let response;
@@ -77,8 +102,9 @@ export default function ViewRequestOffline() {
                     Danh sách học sinh yêu cầu offline
                 </div>
             </Header>
-            <MiddleContent type={type} setType={setType} totalCount={totalCount} />
-            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} type={type} />
+            <MiddleContent type={type} setType={setType} totalCount={totalCount} isUpdated={isUpdated} />
+            <RequestTable data={data} setIsUpdated={setIsUpdated} isUpdated={isUpdated} type={type} setIsModalOpen={setIsModalOpen} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
             {data && data.length > 0 && (
                 <>
                     <div

@@ -11,5 +11,9 @@ namespace Common.DTO.User
         public string Job { get; set; } = null!;
         public string Major { get; set; } = null!;
         public List<string> CertificateImage { get; set; } = null!;
+        public bool TeachingOnline { get; set; }
+        public bool TeachingOffline { get; set; }
+        public int RentHour { get; set; }
+        public int NumberOfRent { get; set; }
     }
 }

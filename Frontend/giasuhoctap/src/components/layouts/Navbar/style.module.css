@@ -18,7 +18,7 @@
     justify-content: space-around;
     align-items: center;
 
-    div:nth-child(2) {
+    /* div:nth-child(2) {
       > img {
         border-radius: 50%;
         border: 1px white solid;
@@ -36,32 +36,6 @@
           font-size: 16px;
         }
       }
-    }
+    } */
   }
-}
-
-.userContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.userInfo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.fullName {
-  cursor: pointer;
-  font-weight: bold;
-  white-space: nowrap;
-  width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.logoutButton {
-  font-size: 1rem;
 }

@@ -14,12 +14,12 @@ export default function ParentHistory() {
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
                 position: "fixed", top: "0", height: "100%", bottom: "0", width: "255px", left: "0",
-                zIndex: "1030", borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
+                borderRight: "1px solid #ddd", background: 'rgba(202, 234, 243, 0.28)'
             }}>
                 <SideBar />
             </div>
             <div className="fixed top-0 left-64 z-10" style={{ width: "calc(100% - 255px)", float: "right" }}>
-                <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
+                <AppBar position="static" sx={{ backgroundColor: '#4dccda' }}>
                     <Toolbar>
                         <Link style={{ color: "white" }}>
                             <IconButton onClick={handleClick} edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>

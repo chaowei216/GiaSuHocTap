@@ -35,7 +35,12 @@ namespace Repository.Repository
 
         public PagedList<Transaction> GetPagedTransactionList(TransactionParameters parameters)
         {
-            return PagedList<Transaction>.ToPagedList(_transactionDAO.GetAll().Include(p => p.User).Where(p => p.Status != PaymentConstant.CancelStatus), parameters.PageNumber, parameters.PageSize);
+            var trans = _transactionDAO.GetAll().Include(p => p.User).Where(p => p.Status != PaymentConstant.CancelStatus);
+            if (parameters.Status != null)
+            {
+                trans = trans.Where(u => u.Status.ToLower() == parameters.Status.ToLower()); 
+            }
+            return PagedList<Transaction>.ToPagedList(trans, parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<Transaction> GetPagedTransOfUser(int userId, TransactionParameters parameters)

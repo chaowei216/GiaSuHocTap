@@ -1,0 +1,143 @@
+.topTutor h1 {
+  padding: 10px 0 0 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+  display: block;
+}
+
+.boxInfo {
+  display: flex;
+}
+
+.carouselImage {
+  object-fit: cover;
+  /* Hiển thị hình ảnh mà không bị bóp méo */
+  max-width: 100%;
+  /* Giới hạn chiều rộng tối đa */
+  max-height: 100%;
+  /* Giới hạn chiều cao tối đa */
+}
+
+.boxImg {
+  width: 100%;
+  max-width: 35%;
+  /* Giới hạn chiều rộng tối đa */
+  height: auto;
+  /* Chiều cao tự động tính toán để ảnh không bị méo */
+  overflow: hidden;
+  /* Ẩn bất kỳ nội dung tràn ra ngoài */
+  max-height: 80px;
+}
+
+.boxImg img {
+  display: block;
+  width: 70%;
+  height: 100%;
+  object-fit: cover;
+  /* Hiển thị hình ảnh mà không bị bóp méo */
+}
+
+.boxName h2 {
+  font-size: 22px;
+  margin: 5px 0 0 10px;
+}
+
+.boxTopTutor {
+  margin: 12px 0 0 20px;
+  padding-bottom: 10px;
+  width: 100%;
+  height: 95px;
+}
+
+.boxIcon {
+  margin: 5px 0;
+}
+
+.emptyStar {
+  color: #ddd;
+}
+
+.boxRating {
+  margin: 5px 0 0 10px;
+}
+
+.boxRating span {
+  margin-left: 7px;
+}
+
+
+.lastNews h1 {
+  padding: 10px 0 0 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+  display: block;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  /* Các phần tử con sẽ căng đều ra hai bên */
+  margin-bottom: 20px;
+  /* Khoảng cách dưới cùng */
+}
+
+.newsBox {
+  display: flex;
+  align-items: center;
+  /* Căn giữa các phần tử theo chiều dọc */
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.newsImage {
+  width: 100px;
+  /* Độ rộng hình ảnh */
+  height: 100px;
+  /* Chiều cao hình ảnh */
+  object-fit: cover;
+  /* Đảm bảo hình ảnh không bị méo */
+  border-radius: 4px;
+  margin-right: 10px;
+  /* Khoảng cách bên phải của hình ảnh */
+}
+
+.newsInfo {
+  flex: 1;
+  /* Phần thông tin tin tức mở rộng hết phần còn lại */
+}
+
+.newsContent {
+  margin: 0 0 10px 40px;
+}
+
+.newsContent p {
+  color: #888;
+  margin-left: 2px;
+}
+
+.newsContent {
+  flex-direction: column
+}
+
+.newsContent h3 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.newsContent p:first-of-type {
+  margin: 10px 0 10px 2px;
+  color: #353839;
+}
+
+.paginationWrapper {
+  position: absolute;
+  top: 625px;
+  left: 385px;
+}

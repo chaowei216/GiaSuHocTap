@@ -112,6 +112,7 @@ export const GetTutorTeachOnline = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -128,6 +129,7 @@ export const GetTutorTeachOnlineByCondition = async (classId, courseId, page, pa
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -144,6 +146,7 @@ export const GetTutorTeachOffline = async (page, pageSize) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -160,6 +163,7 @@ export const GetTutorTeachOfflineByCondition = async (classId, courseId, page, p
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -176,6 +180,7 @@ export const GetTutorByEmail = async (email) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
         };
         const response = await fetch(url, request);
@@ -238,9 +243,9 @@ export const GetAllUser = async () => {
     }
 }
 
-export const GetFeedbackTutor = async (email) => {
+export const GetFeedbackTutor = async (email, page) => {
     try {
-        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}`;
+        const url = `${baseUrl}/api/Feedback/get-feedbacks-of-tutors?tutorEmail=${email}&PageNumber=${page}&PageSize=4`;
         const request = {
             method: "GET",
             headers: {
@@ -265,6 +270,23 @@ export const UpdateNewTimeTable = async (value) => {
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             },
             body: JSON.stringify(value)
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const GetUserByCondition = async (status, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/User?Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
         };
         const response = await fetch(url, request);
         return response;

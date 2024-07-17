@@ -1,12 +1,14 @@
 import style from "./TutorDetailMiddle.module.css"
 import ImageWithPreview from "../../global/ImageWithPreview";
 import FeedbackTutor from "./FeedbackTutor";
+import InventoryIcon from "@mui/icons-material/Inventory";
 function TutorDetailMiddle({ data, dataFeedback }) {
-  const imageList = [
-    'https://picsum.photos/200',
-    'https://picsum.photos/200/300',
-    'https://picsum.photos/seed/picsum/200/300',
-  ];
+  // const imageList = [
+  //   'https://picsum.photos/200',
+  //   'https://picsum.photos/200/300',
+  //   'https://picsum.photos/seed/picsum/200/300',
+  // ];
+  const imageList = data?.tutorDetail?.certificateImage;
   const getTimeFormat = (requestTimes) => {
     if (!requestTimes || requestTimes.length === 0) return "Không có thời gian";
 
@@ -30,19 +32,36 @@ function TutorDetailMiddle({ data, dataFeedback }) {
       Thursday: '5',
       Friday: '6',
       Saturday: '7',
+      Sunday: 'CN',
     };
     return daysInVietnamese[dayOfWeek] || dayOfWeek;
   };
   const getUniqueDays = (timeTables) => {
+    if (!timeTables || !timeTables.length) {
+      return '';
+    }
     const uniqueDays = new Set();
-    return timeTables.reduce((acc, timeTable) => {
+    const result = timeTables.reduce((acc, timeTable) => {
       if (!uniqueDays.has(timeTable.dayOfWeek)) {
         uniqueDays.add(timeTable.dayOfWeek);
-        acc.push(` Thứ ${translateDayOfWeek(timeTable.dayOfWeek)}`);
+        acc.push(`Thứ ${translateDayOfWeek(timeTable.dayOfWeek)}`);
       }
       return acc;
     }, []);
+
+    return result.join(', ');
   };
+  const getYoutubeVideoId = (url) => {
+    if (!url) return null; // Kiểm tra nếu url là null hoặc undefined, trả về null ngay lập tức
+
+    // Regular expression pattern để tìm mã video từ URL YouTube
+    const pattern = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
+
+    // Sử dụng pattern để match và trả về mã video
+    const match = url.match(pattern);
+    return match && match[1];
+  };
+
   return (
     <div style={{ width: "70%" }}>
       <div className="flex gap-3 align-middle">
@@ -52,11 +71,11 @@ function TutorDetailMiddle({ data, dataFeedback }) {
       <div className="mt-4 flex">
         <div className="w-1/4">
           <div className={style.nav_item_name}>Số lượt thuê</div>
-          <div className={style.nav_item_value}>120 lượt</div>
+          <div className={style.nav_item_value}>{data?.tutorDetail?.numberOfRent} lượt</div>
         </div>
         <div className="w-1/4">
           <div className={style.nav_item_name}>Đã được thuê</div>
-          <div className={style.nav_item_value}>1721 giờ</div>
+          <div className={style.nav_item_value}>{data?.tutorDetail?.rentHour} giờ</div>
         </div>
         <div className="w-1/4">
           <div className={style.nav_item_name}>Tỷ lệ hoàn thành</div>
@@ -87,6 +106,7 @@ function TutorDetailMiddle({ data, dataFeedback }) {
           </p>
           <p><b>Ngày dạy:</b>{getUniqueDays(data?.timeTables)}</p>
           <p><b>Thời gian:</b> {getTimeFormat(data?.timeTables)}</p>
+          <p><b>Bằng cấp:</b></p>
           <div className={style.album_of_player}>
             <ImageWithPreview imageList={imageList} />
           </div>
@@ -95,14 +115,27 @@ function TutorDetailMiddle({ data, dataFeedback }) {
           <p><b>Chuyên ngành:</b> {data?.tutorDetail?.major}</p>
         </div>
         <div style={{ marginTop: "25px" }}>
-          <div>
-            <iframe className="w-full aspect-video" src="https://www.youtube.com/embed/yDQ22O7iz6w"></iframe>
-          </div>
+          {(data?.youtubeLink == null || data?.youtubeLink == undefined) && (
+            <div>
+              <iframe className="w-full aspect-video" src="https://www.youtube.com/embed/yDQ22O7iz6w" ></iframe>
+            </div>
+          )}
+          {data?.youtubeLink && (
+            <div>
+              <iframe className="w-full aspect-video" src={`https://www.youtube.com/embed/${getYoutubeVideoId(data?.youtubeLink)}`}></iframe>
+            </div>
+          )}
         </div>
       </div>
       <hr style={{ margin: "20px 0px 10px 0px" }} />
       <div>
         <div className={style.title_user_profile}>Đánh giá</div>
+        {dataFeedback && dataFeedback.length == 0 && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
+            <InventoryIcon />
+            Không có dữ liệu
+          </div>
+        )}
         <FeedbackTutor dataFeedback={dataFeedback} />
       </div>
     </div>

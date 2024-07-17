@@ -7,11 +7,11 @@ import UserTable from "./UserTable";
 import Title from "./Title";
 import PageNavigation from "../TutorManagement/PageNavigation";
 import PageSize from "../TutorManagement/PageSize";
-import { GetActiveTutor } from "../../../api/TutorManagementApi";
+import { GetActiveTutor, GetUserByCondition } from "../../../api/TutorManagementApi";
 import { toast } from "react-toastify";
 import WaitingModal from "../../global/WaitingModal";
 import CreateUser from "./CreateUser";
-import { Button } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function ViewUser() {
   const [data, setData] = useState([]);
@@ -23,24 +23,83 @@ export default function ViewUser() {
   const [email, setEmail] = React.useState("");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [centredModal, setCentredModal] = useState(false);
+  const [statusUser, setStatusUser] = useState("");
+  const [isSearch, setIsSearch] = useState(false)
   const handleClickOpen = (email) => {
     setOpen(true);
     setEmail(email);
   };
   useEffect(() => {
     const fetchAllTutor = async () => {
-      const response = await GetActiveTutor(page, pageSize);
+      if (isSearch) {
+        if ((statusUser) != "") {
+          const response = await GetUserByCondition(statusUser, page, pageSize);
+          if (response.ok) {
+            const responseJson = await response.json();
+            const user = responseJson.data.data
+            setData(user);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(true)
+          } else {
+            toast.error("Lỗi server")
+          }
+        } else {
+          const response = await GetActiveTutor(page, pageSize);
+          if (response.ok) {
+            const responseJson = await response.json();
+            const user = responseJson.data.data
+            setData(user);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(false)
+          } else {
+            toast.error("Lỗi server")
+          }
+        }
+      } else {
+        const response = await GetActiveTutor(page, pageSize);
+        if (response.ok) {
+          const responseJson = await response.json();
+          const user = responseJson.data.data
+          setData(user);
+          setTotalPages(responseJson.data.totalPages)
+        } else {
+          toast.error("Error fetching data")
+        }
+      }
+    };
+    fetchAllTutor();
+  }, [page, pageSize, isUpdate, isSearch]);
+  const handleFilter = async () => {
+    setPage(1)
+    if ((statusUser) != "") {
+      const response = await GetUserByCondition(statusUser, page, pageSize);
       if (response.ok) {
         const responseJson = await response.json();
         const user = responseJson.data.data
         setData(user);
         setTotalPages(responseJson.data.totalPages)
+        setIsSearch(true)
       } else {
-        toast.error("Error fetching data")
+        toast.error("Lỗi server")
       }
-    };
-    fetchAllTutor();
-  }, [page, pageSize, isUpdate]);
+    } else {
+      setIsSearch(false)
+    }
+  }
+  const handleReset = async () => {
+    setPage(1)
+    setStatusUser("")
+    const response = await GetActiveTutor(page, pageSize);
+    if (response.ok) {
+      const responseJson = await response.json();
+      const user = responseJson.data.data
+      setData(user);
+      setTotalPages(responseJson.data.totalPages)
+      setIsSearch(false)
+    } else {
+      toast.error("Lỗi sever")
+    }
+  }
   return (
     <div
       style={{
@@ -54,6 +113,33 @@ export default function ViewUser() {
 
         <div style={{ marginTop: "20px" }}>
           <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo tài khoản</Button>
+        </div>
+        <div style={{ marginTop: "10px" }}>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Trạng thái</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={statusUser}
+              onChange={(event) => setStatusUser(event.target.value)}
+              label="Trạng thái"
+            >
+              <MenuItem value="0">
+                <p>Active</p>
+              </MenuItem>
+              <MenuItem value="1">
+                <p>InActive</p>
+              </MenuItem>
+              <MenuItem value="2">
+                <p>Pending</p>
+              </MenuItem>
+              <MenuItem value="3">
+                <p>Checking</p>
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
+          <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Làm mới</Button>
         </div>
         <Body>
           <UserTable data={data} handleClickOpen={handleClickOpen} isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
@@ -84,8 +170,8 @@ export default function ViewUser() {
           </>
         )}
       </Container>
-      <WaitingModal open={false} setOpen={setIsModalOpen} />
-      <CreateUser centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isUpdate} setIsCreated={setIsUpdate} />
+      <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
+      <CreateUser centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isUpdate} setIsCreated={setIsUpdate} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 }

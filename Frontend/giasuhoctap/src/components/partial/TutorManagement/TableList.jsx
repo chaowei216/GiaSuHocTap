@@ -71,7 +71,7 @@ export default function TableList({
     setOpenDetail(true);
   };
   return (
-    <div>
+    <div className="mt-4">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="simple table" size="small">
           <TableHead style={{ backgroundColor: "#000000" }}>

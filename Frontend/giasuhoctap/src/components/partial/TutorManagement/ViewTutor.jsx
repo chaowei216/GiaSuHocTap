@@ -60,10 +60,10 @@ export default function ViewTutor() {
     console.log(email);
     const response = await AcceptTutor(email);
     if (response.status == 403) {
-      toast.error("You do not have permission to do this action")
+      toast.error("Bạn không có quyền")
       return;
     } else if (!response.ok) {
-      toast.error("Something error")
+      toast.error("Lỗi server")
       return;
     }
     const responseJson = await response.json();
@@ -71,7 +71,7 @@ export default function ViewTutor() {
       toast.success("Accepted");
       setIsUpdate(!isUpdate)
     } else {
-      toast.error("Something error")
+      toast.error("Lỗi server")
     }
   }
   return (
@@ -84,9 +84,6 @@ export default function ViewTutor() {
     >
       <Container>
         <Title title="Danh sách gia sư yêu cầu được duyệt" />
-        <Header>
-          <Search_Input />
-        </Header>
         <Body>
           <ButtonType setType={setType} isUpdate={isUpdate} />
           <TableList data={data} handleAccept={handleAccept} handleClickOpen={handleClickOpen} type={type} />
@@ -117,8 +114,8 @@ export default function ViewTutor() {
           </>
         )}
       </Container>
-      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} />
-      <WaitingModal open={false} setOpen={setIsModalOpen} />
+      <Diablog open={open} setOpen={setOpen} email={email} setIsUpdate={setIsUpdate} setIsModalOpen={setIsModalOpen} />
+      <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
     </div>
   );
 }

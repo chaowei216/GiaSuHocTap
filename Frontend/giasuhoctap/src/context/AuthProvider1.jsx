@@ -65,7 +65,14 @@ const handlers = {
       user,
       isVerify: true
     };
-  }
+  },
+  UPDATE_USER: (state, action) => {
+    const { user } = action.payload;
+    return {
+      ...state,
+      user,
+    };
+  },
 };
 
 
@@ -80,6 +87,7 @@ const AuthContext1 = createContext({
   register: () => Promise.resolve(),
   register_tutor: () => Promise.resolve(),
   sendOtp: () => Promise.resolve,
+  f5User: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -155,6 +163,23 @@ function AuthProvider1({ children }) {
     initialize();
   }, []);
 
+  const f5User = async (email) => {
+    try {
+      const response = await GetUserByEmail(email);
+      const responseJson = await response.json();
+      const user = responseJson.data;
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          user,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Lỗi server");
+    }
+  };
+
   const login = async (email, password) => {
     const userInput = {
       email: email,
@@ -166,7 +191,6 @@ function AuthProvider1({ children }) {
       return;
     }
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson.statusCode == 400) {
       toast.error(responseJson.message)
       return;
@@ -230,7 +254,6 @@ function AuthProvider1({ children }) {
     const responseJson = await response.json();
     console.log(responseJson.statusCode);
     if (responseJson.statusCode == 400) {
-      console.log(responseJson.message);
       toast.error(responseJson.message);
       return;
     }
@@ -245,7 +268,7 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm phụ huynh thành công")
       const timeout = setTimeout(() => {
         window.location.replace('/login');
-      }, 4000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
   };
@@ -294,9 +317,7 @@ function AuthProvider1({ children }) {
     console.log(formData)
     const response = await RegisterTutor(formData)
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson.statusCode == 400) {
-      console.log(responseJson.message);
       toast.error(responseJson.message);
       return;
     }
@@ -311,16 +332,16 @@ function AuthProvider1({ children }) {
       toast.success("Đăng ký làm gia sư thành công")
       const timeout = setTimeout(() => {
         window.location.replace('/login');
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
   }
   const sendOtp = (otp, email) => {
     VerifyUser(otp, email).then(response => {
       if (response.statusCode === 200) {
-        toast.success(response.message);
+        toast.success("Xác thực thành công");
       } else {
-        toast.error("Verify failed please try agian")
+        toast.error("Xác thực không thành công vui lòng thử lại")
         return;
       }
     }).catch(error => {
@@ -330,15 +351,13 @@ function AuthProvider1({ children }) {
       const refreshToken = localStorage.getItem("refreshToken");
       let user = null;
       GetUserByToken(refreshToken).then(response => {
-        console.log();
         if (response.statusCode === 200) {
           user = response.data
         }
       }).catch(error => {
         console.error("Error:", error.message);
-        toast.error("Verify failed please try agian")
+        toast.error("Xác thực không thành công vui lòng thử lại")
       }).finally(() => {
-        console.log(user);
         if (user == null) {
           return;
         }
@@ -354,19 +373,22 @@ function AuthProvider1({ children }) {
   };
 
   return (
-    <AuthContext1.Provider
-      value={{
-        ...state,
-        method: "jwt",
-        login,
-        logout,
-        register,
-        register_tutor,
-        sendOtp
-      }}
-    >
-      {children}
-    </AuthContext1.Provider>
+    <>
+      <AuthContext1.Provider
+        value={{
+          ...state,
+          method: "jwt",
+          login,
+          logout,
+          register,
+          register_tutor,
+          sendOtp,
+          f5User,
+        }}
+      >
+        {children}
+      </AuthContext1.Provider>
+    </>
   );
 }
 export { AuthContext1, AuthProvider1 };

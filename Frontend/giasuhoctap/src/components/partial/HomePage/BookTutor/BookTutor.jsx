@@ -37,7 +37,7 @@ const BookTutor = () => {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(true)
                     } else {
-                        toast.error("Lỗi sever")
+                        toast.error("Lỗi server")
                     }
                 } else {
                     const response = await GetTutorTeachOnline(page, pageSize);
@@ -48,7 +48,7 @@ const BookTutor = () => {
                         setTotalPages(responseJson.data.totalPages)
                         setIsSearch(false)
                     } else {
-                        toast.error("Lỗi sever")
+                        toast.error("Lỗi server")
                     }
                 }
             } else {
@@ -59,7 +59,7 @@ const BookTutor = () => {
                     setTutorList(user);
                     setTotalPages(responseJson.data.totalPages)
                 } else {
-                    toast.error("Lỗi sever")
+                    toast.error("Lỗi server")
                 }
             }
         };
@@ -180,10 +180,10 @@ const BookTutor = () => {
                                 </Select>
                             </FormControl>
                             <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
-                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Reset</Button>
+                            <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Làm mới</Button>
                         </div>
                     </div>
-                    <div className={`slide-container ${styles.slideContainer}`}>
+                    <div className={`slide-container ${styles.slideContainer} mt-16`}>
                         <div className={`slide-content ${styles.slideContent}`}>
                             <div className={`card-wrapper ${styles.cardWrapper}`}>
                                 {tutorList && tutorList.length <= 0 && (
@@ -238,8 +238,8 @@ const BookTutor = () => {
                                                 </p>
                                             </div>
                                             <div className={styles.cardSubject}>
-                                                <p className={styles.cardTitle}>Tiền lương: </p>
-                                                <p className={`wage ${styles.wage}`}>100 Coin</p>
+                                                <p className={styles.cardTitle}>Giá thuê: </p>
+                                                <p className={`wage ${styles.wage}`}>50 Xu/h</p>
                                             </div>
                                             <div className={styles.cardSubject}>
                                                 <p className={styles.cardTitle}>Hình thức dạy: </p>

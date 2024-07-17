@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css"
@@ -9,20 +8,14 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import logoEdu from "/img/logoGiasu.png";
 import useAuth from "../../../hooks/useAuth";
 import GroupIcon from '@mui/icons-material/Group';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import ReportIcon from '@mui/icons-material/Report';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 export default function Sidebar() {
   const { user } = useAuth();
   const Menus = [
-    {
-      title: "Thống kê",
-      path: "/dashboard",
-      icon: <HomeIcon />,
-      id: 12,
-      src: "/dashboard",
-    },
     {
       title: "Trang cá nhân",
       path: "/personal-profile",
@@ -30,19 +23,12 @@ export default function Sidebar() {
       id: 1,
       src: "/personal-profile",
     },
-    {
-      title: "Giao dịch",
-      path: "/transaction",
-      icon: <AccountBalanceIcon />,
-      id: 4,
-      src: "/transaction",
-    },
   ];
   if (user?.roleName === 'Moderator') {
     Menus.push({
       title: "Thông báo",
       path: "/view-notification",
-      icon: <GroupIcon />,
+      icon: <CircleNotificationsIcon />,
       id: 32,
       src: "/view-notification",
     },
@@ -59,24 +45,45 @@ export default function Sidebar() {
         icon: <ReportIcon />,
         id: 52,
         src: "/view-report",
+      },
+      {
+        title: "Tin tức",
+        path: "/view-new-moderator",
+        icon: <NewspaperIcon />,
+        id: 53,
+        src: "/view-new-moderator",
       });
   }
   if (user?.roleName === 'Admin') {
     Menus.push(
       {
-        title: "Quản lý người dùng",
+        title: "Thống kê",
+        path: "/dashboard",
+        icon: <HomeIcon />,
+        id: 12,
+        src: "/dashboard",
+      },
+      {
+        title: "Quản lý tài khoản",
         path: "/user-management",
         icon: <GroupIcon />,
         id: 13,
         src: "/user-management",
       },
       {
-        title: "Duyệt gia sư mới",
+        title: "Duyệt gia sư",
         path: "/tutor",
         icon: <WorkHistoryIcon />,
         id: 2,
         src: "/tutor",
-      });
+      },
+      {
+        title: "Giao dịch",
+        path: "/transaction",
+        icon: <AccountBalanceIcon />,
+        id: 4,
+        src: "/transaction",
+      },);
   }
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState('/dashboard');

@@ -32,6 +32,7 @@ export default function ProfileMenu() {
             navigate('/home-tutor')
         } else {
             setAnchorEl(null);
+            navigate('/ParentHistory')
         }
     };
 
@@ -49,7 +50,7 @@ export default function ProfileMenu() {
     }
     const handleMove = () => {
         if (user?.roleName == "Parents") {
-            navigate('/ParentHistory')
+            navigate('/ParentHistoryTransaction')
         } else {
             setAnchorEl(null);
         }

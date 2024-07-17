@@ -1,12 +1,36 @@
+import { useEffect } from 'react';
 import Navbar from '../../components/layouts/Navbar/Navbar';
 import SidebarTutor from '../../components/layouts/Sidebar/SidebarTutor';
 import useAuth from '../../hooks/useAuth';
-import DashboardTutor from './DashboardTutor';
 import style from './style.module.css';
+import { useNavigate } from 'react-router-dom';
+import { Logout } from '@mui/icons-material';
 
 export default function HomeTutorPage() {
-    const { user } = useAuth()
-    console.log(user?.status );
+    const { user, f5User, logout } = useAuth()
+    const navigate = useNavigate()
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+
+        const interval = setInterval(checkUser, 5000);
+
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
     return (
         <div style={{ height: "90vh", position: "relative", top: "0" }}>
             <div style={{
@@ -28,7 +52,9 @@ export default function HomeTutorPage() {
                         <h1>Xin Chào Giáo Viên {user?.fullname}</h1>
                     </header>
                 </div>
-                <DashboardTutor />
+                <div className={style.dashboard}>
+                    <img style={{ height: "200px" }} src='/img/hello.png'></img>
+                </div>
             </div>
         </div>
     );

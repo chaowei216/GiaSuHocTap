@@ -3,6 +3,7 @@ using Common.DTO;
 using Common.DTO.Query;
 using Common.DTO.Request;
 using Common.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -11,6 +12,7 @@ namespace SWD392_GiaSuHocTap.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RequestController : ControllerBase
     {
         private readonly IRequestService _requestService;
@@ -233,6 +235,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpPost("create-offline-request")]
         public async Task<IActionResult> CreateOfflineRequest([FromBody] RequestOfflineCreateDTO request)
         {
@@ -266,6 +269,7 @@ namespace SWD392_GiaSuHocTap.Controllers
             });
         }
 
+        [Authorize(Roles = "Parents")]
         [HttpPost("extend-more-request")]
         public async Task<IActionResult> ExtendxRequest([FromBody] DoneRequestDTO request)
         {

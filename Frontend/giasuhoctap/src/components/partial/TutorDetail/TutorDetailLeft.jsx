@@ -22,11 +22,10 @@ function TutorDetailLeft({ image }) {
           style={{ alignItems: "center", flexDirection: "column" }}
         >
           <div className="my-3" style={{ color: "#27ae60", fontSize: "21px", fontWeight: "700" }}>Đang sẵn sàng</div>
-          <div className="my-1 mb-3">Ngày tham gia : 22/07/2003</div>
         </div>
         <div><EmojiEventsIcon /> <span style={{ color: "#f0564a", fontWeight: "bold", fontSize: "20px" }}>Thành tích</span></div>
         <hr style={{ marginTop: "5px" }} />
-        <div className="mt-2">Ông xã em number one</div>
+        <div className="mt-2">Không có</div>
       </div>
     </div>
   );

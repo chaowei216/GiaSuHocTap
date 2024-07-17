@@ -61,8 +61,9 @@ namespace Service.IService
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="startTime"></param>
+        /// <param name="day"></param>
         /// <returns></returns>
-        Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime);
+        Task<TimeTable?> GetTimeTableByUserIdAndStartTime(int userId, string startTime, string day);
 
         /// <summary>
         /// delete timetable

@@ -13,12 +13,9 @@ import { useState } from "react";
 import styles from "../../partial/TutorManagement/status.module.css";
 import { styled } from "@mui/material/styles";
 import NoDataPage from "../../global/NoDataPage";
-import GlobalLoading from "../../global/GlobalLoading";
-import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
-import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandContent from "../../global/ExpandContent";
 
 export default function NotificationTable({
   data, handleClickUpdate, handleClickDelete
@@ -104,10 +101,10 @@ export default function NotificationTable({
                       {row.notificationId}
                     </StyledTableCell>
                     <StyledTableCell
-                      style={{ fontWeight: "600" }}
+                      style={{ fontWeight: "600", width: "130px"  }}
                       align="left"
                     >
-                      {row.description}
+                      <ExpandContent description={row.description} numberLength={20} />
                     </StyledTableCell>
                     <StyledTableCell
                       style={{ fontWeight: "600" }}

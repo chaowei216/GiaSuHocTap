@@ -8,6 +8,7 @@ using Common.Enum;
 using DAO.DAO;
 using DAO.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Repository.IRepository;
 
 namespace Repository.Repository
@@ -71,7 +72,12 @@ namespace Repository.Repository
 
         public PagedList<User> GetPagedUserList(UserParameters parameters)
         {
-            return PagedList<User>.ToPagedList(_userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables), parameters.PageNumber, parameters.PageSize);
+            var get = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables);
+            if (parameters.Status != null)
+            {
+                get = _userDAO.GetAll().Where(t => t.Status == parameters.Status).Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables);
+            }
+            return PagedList<User>.ToPagedList(get, parameters.PageNumber, parameters.PageSize);
         }
 
         public IEnumerable<User>? GetUserByStatus(UserStatusEnum status)
@@ -91,30 +97,59 @@ namespace Repository.Repository
 
         public IEnumerable<User> GetTutorTeachOnline(TutorParameters parameters)
         {
-            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true && u.Status == UserStatusEnum.Active);
+            DateTime today = DateTime.Now;
+            string dayOfWeek = GetDayOfWeek(today);
+            var onlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course).Include(d => d.TimeTables).Where(u => u.TutorDetail.TeachingOnline == true && u.Status == UserStatusEnum.Active).AsEnumerable();
+            var get = onlineTutors.Where(t => t.TimeTables.Any() && t.TimeTables.Where(t => t.LearningType == TimeTableConst.Online && t.DayOfWeek == dayOfWeek
+                                                                                    && DateTime.Parse(t.StartTime) <= DateTime.Now.AddMinutes(20) &&
+                                                                                    DateTime.Parse(t.EndTime) >= DateTime.Now.AddMinutes(20)
+                                                                                    && t.Status == TimeTableConst.FreeStatus).Any());
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
-                onlineTutors = onlineTutors.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
+                get = get.Where(p => p.Fullname.ToLower().Contains(parameters.Name.ToLower()));
             }
 
             if (parameters.ClassId != null)
             {
-                onlineTutors = onlineTutors.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
+                get = get.Where(p => p.UserClasses.Select(p => p.ClassId).Distinct().ToList().Contains((int)parameters.ClassId));
             }
 
             if (parameters.CourseId != null)
             {
-                onlineTutors = onlineTutors.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
+                get = get.Where(p => p.UserCourses.Select(p => p.CourseId).Distinct().ToList().Contains((int)parameters.CourseId));
             }
 
-            return PagedList<User>.ToPagedList(onlineTutors, parameters.PageNumber, parameters.PageSize);
+            return PagedList<User>.ToPagedList(get.AsQueryable(), parameters.PageNumber, parameters.PageSize);
+        }
+
+        private string GetDayOfWeek(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return "Monday";
+                case DayOfWeek.Tuesday:
+                    return "Tuesday";
+                case DayOfWeek.Wednesday:
+                    return "Wednesday";
+                case DayOfWeek.Thursday:
+                    return "Thursday";
+                case DayOfWeek.Friday:
+                    return "Friday";
+                case DayOfWeek.Saturday:
+                    return "Saturday";
+                case DayOfWeek.Sunday:
+                    return "Sunday";
+                default:
+                    return "Unknown";
+            }
         }
 
         public IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters)
         {
             var offlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true && u.Status == UserStatusEnum.Active).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
-                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus);
+                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).Where(p => p.Status == TimeTableConst.FreeStatus).Count() > 0);
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
@@ -153,7 +188,7 @@ namespace Repository.Repository
                                    TutorId = t.UserId,
                                    RatingCount = ratingCount,
                                    AverageRating = averageRating
-                               });
+                               }).ToList();
 
             foreach (var t in tutorScores)
             {
@@ -162,7 +197,7 @@ namespace Repository.Repository
 
             var topScores = tutorScores.OrderByDescending(p => p.Score).Select(p => p.TutorId).Take(6);
 
-            return tutors.Where(p => topScores.Contains(p.UserId)).ToList();
+            return tutors.Where(p => topScores.Contains(p.UserId)).OrderByDescending(p => p.UserId).ToList();
         }
 
         public async Task<TutorDetail?> GetTutorDetailByTutorId(int id)

@@ -17,3 +17,20 @@ export const GetAllTransaction = async (page, pageSize) => {
         console.log(err);
     }
 }
+
+export const GetTransactionByStatus = async (status, page, pageSize) => {
+    try {
+        const url = `${baseUrl}/api/Transaction/get-all-transactions?Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
+        const request = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+        };
+        const response = await fetch(url, request);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+}

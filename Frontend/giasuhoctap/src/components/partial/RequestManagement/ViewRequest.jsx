@@ -10,8 +10,10 @@ import useAuth from '../../../hooks/useAuth';
 import { GetPendingOnlineApi, GetRequestById, GetRequestOnlineApi } from '../../../api/RequestApi';
 import { toast } from 'react-toastify';
 import WaitingModal from '../../global/WaitingModal';
+import { Logout } from '../../../api/AuthenApi';
+import { useNavigate } from 'react-router-dom';
 export default function ViewRequest() {
-    const { user } = useAuth()
+    const { user, f5User, logout } = useAuth()
     const [type, setType] = useState("All");
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -20,6 +22,29 @@ export default function ViewRequest() {
     const [parent, setParent] = useState({});
     const [showModalDelete, setShowmodalDelete] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
+    const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    useEffect(() => {
+        const checkUser = async () => {
+            const email = user?.email;
+            if (email) {
+                await f5User(email); // Fetch and update user information
+                if (user?.status === "InActive") {
+                    if (await confirm("Bạn đã bị phụ huynh tố cáo quá nhiều nên chúng tôi quyết định cấm tài khoản bạn")) {
+                        const refreshToken = localStorage.getItem("refreshToken");
+                        const response = await Logout(refreshToken);
+                        if (response.ok) {
+                            await logout();
+                            navigate('/login');
+                        }
+                    }
+                }
+            }
+        };
+        const interval = setInterval(checkUser, 10000);
+        return () => clearInterval(interval);
+    }, [user?.email, f5User, logout, navigate, user?.status]);
+
     const handleClose = () => {
         setShowmodalDelete(false);
     };
@@ -57,6 +82,7 @@ export default function ViewRequest() {
                 const data = responseJson.data.data;
                 setData(data);
                 setTotalPages(responseJson.data.totalPages);
+
             } else {
                 toast.warning("Lỗi sever");
                 setData(null);
@@ -92,7 +118,7 @@ export default function ViewRequest() {
                 </div>
             </Header>
             <MiddleContent type={type} setType={setType} online={true} isUpdated={isUpdated} />
-            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} />
+            <RequestTableOnline data={data} handleHire={handleHire} handleOpenDeny={handleOpenDeny} type={type} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
             {data && data.length > 0 && (
                 <>
                     <div
@@ -118,8 +144,9 @@ export default function ViewRequest() {
                     </div>
                 </>
             )}
-            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
-            <DenyTeach show={showModalDelete} handleClose={handleClose} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} />
+            <AcceptTeach basicModal={basicModal} setBasicModal={setBasicModal} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
+            <DenyTeach show={showModalDelete} handleClose={handleClose} data={parent} setIsUpdated={setIsUpdated} isUpdated={isUpdated} setIsModalOpen={setIsModalOpen} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
         </div>
     )
 }

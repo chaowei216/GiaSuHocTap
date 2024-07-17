@@ -20,8 +20,10 @@ import styles from "../../partial/Profile/UserProfile.module.css"
 import useAuth from '../../../hooks/useAuth';
 import { CreateOnlineRequest } from '../../../api/TutorManagementApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function HiringTuor({ basicModal, setBasicModal, data }) {
+  const navigate = useNavigate()
   const currentDate = new Date().toISOString();
   const { user } = useAuth();
   const [classPicked, setClassPicked] = useState("");
@@ -55,15 +57,17 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
       const response = await CreateOnlineRequest(updatedFormData)
       if (response.ok) {
         const responseJson = await response.json();
-        if (responseJson.statusCode) {
+        if (responseJson.statusCode != 400) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
-          window.location.reload();
+          window.setTimeout(() => {
+            window.location.href = '/ParentHistory'
+          }, 2000);
         } else {
-          toast.error(responseJson.message)
+          toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")
         }
       } else {
-        toast.error("Error when create data")
+        toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")
       }
     }
   }

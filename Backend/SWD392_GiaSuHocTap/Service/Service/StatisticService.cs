@@ -52,8 +52,7 @@ namespace Service.Service
             var transactions = _transactionService.GetAllPaidTransactions();
             systemInfo.Transaction = transactions.Count();
 
-            var feedBacks = _feedbackService.GetAllFeedbacks();
-            systemInfo.Feedback = feedBacks.Count();
+            systemInfo.Revenue = _requestService.GetRevenueOfRequest();
 
             return systemInfo;
         }
