@@ -14,12 +14,12 @@ export const validationRegisterParent = yup.object().shape({
     .string()
     .required("Vui lòng nhập tên")
     .max(20, "Không được quá 20 ký tự")
-    .matches(/^[a-zA-Z\s-.']+(\d*)$/, "Vui lòng nhập chữ"),
+    .matches(/^[\p{L}\s.'-]+$/u, "Vui lòng nhập chữ"),
   lastName: yup
     .string()
     .required("Vui lòng nhập họ")
     .max(20, "Không được quá 20 ký tự")
-    .matches(/^[a-zA-Z\s-.']+(\d*)$/, "Vui lòng nhập chữ"),
+    .matches(/^[\p{L}\s.'-]+$/u, "Vui lòng nhập chữ"),
   email: yup
     .string()
     .email("Vui lòng nhập email theo dạng @gmail.com")

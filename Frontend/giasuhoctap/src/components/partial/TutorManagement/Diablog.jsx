@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { RejectTutor } from '../../../api/TutorManagementApi';
 import { toast } from 'react-toastify';
 
-export default function Diablog({ open, setOpen, email, setIsUpdate }) {
+export default function Diablog({ open, setOpen, email, setIsUpdate, setIsModalOpen }) {
     const handleClose = () => {
         setOpen(false);
     };
@@ -20,13 +20,16 @@ export default function Diablog({ open, setOpen, email, setIsUpdate }) {
         const formJson = Object.fromEntries(formData.entries());
         const reason = formJson.reason;
         handleClose();
+        setIsModalOpen(true)
         const response = await RejectTutor(email, reason)
         const responseJson = await response.json();
         console.log(responseJson);
         if (responseJson.statusCode == 200) {
-            toast.success("Reject tutor successfully")
+            setIsModalOpen(false)
+            toast.success("Từ chối gia sư thành công")
         } else {
-            toast.error("Reject fail")
+            setIsModalOpen(false)
+            toast.error("Từ chối thất bại")
         }
         setIsUpdate(true);
     };
@@ -43,8 +46,8 @@ export default function Diablog({ open, setOpen, email, setIsUpdate }) {
                 <DialogTitle>Reason</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To deny member, please enter the reason here. The system
-                        will send it to user.
+                        Để từ chối thành viên, vui lòng nhập lý do tại đây. Hệ thống
+                        sẽ gửi lý do cho người dùng.
                     </DialogContentText>
                     <TextField
                         autoFocus
@@ -59,8 +62,8 @@ export default function Diablog({ open, setOpen, email, setIsUpdate }) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Subscribe</Button>
+                    <Button onClick={handleClose}>Đóng</Button>
+                    <Button type="submit">Từ chối</Button>
                 </DialogActions>
             </Dialog>
         </div>

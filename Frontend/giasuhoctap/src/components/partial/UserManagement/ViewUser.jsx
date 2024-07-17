@@ -170,8 +170,8 @@ export default function ViewUser() {
           </>
         )}
       </Container>
-      <WaitingModal open={false} setOpen={setIsModalOpen} />
-      <CreateUser centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isUpdate} setIsCreated={setIsUpdate} />
+      <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
+      <CreateUser centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isUpdate} setIsCreated={setIsUpdate} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 }
