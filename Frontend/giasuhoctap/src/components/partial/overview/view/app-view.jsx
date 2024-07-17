@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboardUser, faUserGraduate, faMoneyBillTransfer, faCommentMedical, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardUser, faUserGraduate, faMoneyBillTransfer, faCommentMedical, faStar, faStarHalfAlt, faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
 import styles from './appView.module.css';
 import AppWidgetSummary from '../app-widget-summary';
@@ -21,7 +21,7 @@ const AppView = () => {
     tutor: 0,
     student: 0,
     transaction: 0,
-    feedback: 0
+    revenue: 0,
   });
 
   const [topTutors, setTopTutors] = useState([]);
@@ -39,8 +39,9 @@ const AppView = () => {
             tutor: response.data.tutor || 0,
             student: response.data.student || 0,
             transaction: response.data.transaction || 0,
-            feedback: response.data.feedback || 0
+            revenue: response.data.revenue || 0
           });
+          console.log('Statistics:', response.data);
         } else {
           console.error(response.error);
         }
@@ -156,10 +157,12 @@ const AppView = () => {
 
         <Grid item xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Đánh Giá"
-            total={statistics.feedback}
+            title="Thu Nhập"
+            content="VND"
+            total={statistics.revenue}
             color="error"
-            icon={<FontAwesomeIcon icon={faCommentMedical} />}
+            icon={<FontAwesomeIcon icon={faMoneyBillTrendUp} />}
+            
           />
         </Grid>
 
