@@ -86,8 +86,8 @@ export default function ViewNews() {
                     </div>
                 </>
             )}
-            <WaitingModal open={false} setOpen={setIsModalOpen} />
-            <CreateNew centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isCreated} setIsCreated={setIsCreated} />
+            <WaitingModal open={isModalOpen} setOpen={setIsModalOpen} />
+            <CreateNew centredModal={centredModal} setCentredModal={setCentredModal} isCreated={isCreated} setIsCreated={setIsCreated} setIsModalOpen={setIsModalOpen} />
             <DeleteNews show={openDelete} handleClose={handleClose} data={dataDetail} isCreated={isCreated} setIsCreated={setIsCreated} />
         </div>
     )
