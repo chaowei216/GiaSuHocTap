@@ -13,7 +13,6 @@ import { GetNewsPaging } from '../../../../api/NewsApi';
 import { toast } from 'react-toastify';
 import PageNavigation from '../../TutorManagement/PageNavigation';
 import PageSize from '../../TutorManagement/PageSize';
-<i class="fa-solid "></i>
 
 const baseUrl = import.meta.env.VITE_API_HOST;
 
@@ -22,7 +21,7 @@ const AppView = () => {
     tutor: 0,
     student: 0,
     transaction: 0,
-    revenue: 1
+    revenue: 0,
   });
 
   const [topTutors, setTopTutors] = useState([]);
@@ -160,7 +159,7 @@ const AppView = () => {
           <AppWidgetSummary
             title="Thu Nhập"
             content="VND"
-            total={statistics.revenue} VND
+            total={statistics.revenue}
             color="error"
             icon={<FontAwesomeIcon icon={faMoneyBillTrendUp} />}
             
