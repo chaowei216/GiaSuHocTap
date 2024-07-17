@@ -126,11 +126,11 @@ export default function PersonalProfile() {
                                             <CheckIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBCardText>Đã được verify: {user?.isVerified == true ? "Yes" : "No"}</MDBCardText>
+                                            <MDBCardText>Đã được xác thực: {user?.isVerified == true ? "Đã xác thực" : user?.roleName == "Admin" ? "Đã xác thực" : "Chưa xác thực"}</MDBCardText>
                                             <CheckIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBCardText>CCCD: {user?.identityNumber}</MDBCardText>
+                                            <MDBCardText>CCCD: {user?.identityNumber || "Không có"}</MDBCardText>
                                             <FingerprintIcon />
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
@@ -149,7 +149,7 @@ export default function PersonalProfile() {
                                             <MDBCardText>Họ và tên</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
-                                            <MDBCardText className="text-muted">{user?.fullname}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.fullname || "Admin"}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
                                     <hr />
@@ -158,7 +158,7 @@ export default function PersonalProfile() {
                                             <MDBCardText>Email</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
-                                            <MDBCardText className="text-muted">{user?.email}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.email || "giasuhoctap@admin.com"}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
                                     <hr />
@@ -167,7 +167,7 @@ export default function PersonalProfile() {
                                             <MDBCardText>Số điện thoại</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
-                                            <MDBCardText className="text-muted">{user?.phonenumber}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.phonenumber || "Không có"}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
                                     <hr />
@@ -176,7 +176,7 @@ export default function PersonalProfile() {
                                             <MDBCardText>Giới tính</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
-                                            <MDBCardText className="text-muted">{user?.gender}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.gender || "Không có"}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
                                     <hr />
@@ -185,7 +185,7 @@ export default function PersonalProfile() {
                                             <MDBCardText>Địa chỉ</MDBCardText>
                                         </MDBCol>
                                         <MDBCol sm="9" className={styles.profile}>
-                                            <MDBCardText className="text-muted">{user?.address}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.address || "Không có"}</MDBCardText>
                                         </MDBCol>
                                     </MDBRow>
                                     {(user?.roleName == 'Moderator' || user?.roleName == 'Tutor') && (

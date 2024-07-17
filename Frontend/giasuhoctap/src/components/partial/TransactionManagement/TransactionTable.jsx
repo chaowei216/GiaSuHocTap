@@ -41,7 +41,7 @@ export default function TransactionTable({
     "Ngày",
     "Số lượng",
     "Trạng thái",
-    "Email User",
+    "Email",
   ];
   const StatusType = ["Paid", "Cancel", "Pending"];
   return (

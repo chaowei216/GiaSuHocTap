@@ -893,7 +893,7 @@ namespace Service.Service
 
             foreach (var user in userList)
             {
-                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline).ToList();
+                user.TimeTables = user.TimeTables.Where(p => p.LearningType == LearningType.Offline && p.Status == TimeTableConst.FreeStatus).ToList();
                 mappedData.Add(_mapper.Map<TutorInforDTO>(user));
             }
 

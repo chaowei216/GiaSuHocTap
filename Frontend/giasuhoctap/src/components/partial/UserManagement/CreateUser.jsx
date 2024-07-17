@@ -23,7 +23,7 @@ import useAuth from '../../../hooks/useAuth';
 import { CreateModerator } from '../../../api/UserApi';
 
 export default function CreateUser(pros) {
-    const { centredModal, setCentredModal, isCreated, setIsCreated } = pros;
+    const { centredModal, setCentredModal, isCreated, setIsCreated, setIsModalOpen } = pros;
     const [userId, setUserId] = useState();
     const [errors, setErrors] = useState({});
     const { user } = useAuth();
@@ -109,18 +109,22 @@ export default function CreateUser(pros) {
                     city: inputData.city,
                     district: inputData.district
                 };
+                setIsModalOpen(true);
                 const response = await CreateModerator(dataAdd);
                 console.log(response);
                 if (response.ok) {
                     const responseJson = await response.json();
                     if (responseJson.statusCode == 201) {
+                        setIsModalOpen(false)
                         toast.success("Tạo tài khoản kiểm duyệt thành công");
                         setIsCreated(!isCreated);
                         setCentredModal(false);
                     } else {
+                        setIsModalOpen(false)
                         toast.error("Coi lại số điện thoại và gmail");
                     }
                 } else {
+                    setIsModalOpen(false)
                     toast.error("Coi lại số điện thoại và gmail");
                 }
             }

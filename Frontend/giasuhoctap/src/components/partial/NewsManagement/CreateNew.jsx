@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -20,8 +20,7 @@ import useAuth from '../../../hooks/useAuth';
 import { CreateNewByModerator } from '../../../api/NewsApi';
 
 export default function CreateNew(props) {
-    const { centredModal, setCentredModal, isCreated, setIsCreated } = props;
-    const [listUser, setListUser] = useState([]);
+    const { centredModal, setCentredModal, isCreated, setIsCreated, setIsModalOpen } = props;
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
     const [image, setImage] = useState(null);
@@ -34,19 +33,6 @@ export default function CreateNew(props) {
     const seconds = currentTime.getSeconds();
 
     const formattedTime = `${hours}:${minutes}:${seconds}`;
-    useEffect(() => {
-        const getAllUser = async () => {
-            const response = await GetAllUser();
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setListUser(data);
-            } else {
-                toast.error('Lỗi server');
-            }
-        };
-        getAllUser();
-    }, []);
 
     const handleSave = async () => {
         let flag = true;
@@ -73,6 +59,7 @@ export default function CreateNew(props) {
         }
         if (flag) {
             if (user) {
+                setIsModalOpen(true)
                 const formData = new FormData();
                 formData.append('Description', description);
                 formData.append('Title', title);
@@ -85,13 +72,16 @@ export default function CreateNew(props) {
                 if (response.ok) {
                     const responseJson = await response.json();
                     if (responseJson.statusCode === 201) {
+                        setIsModalOpen(false)
                         toast.success('Tạo tin tức thành công');
                         setIsCreated(!isCreated);
                         setCentredModal(false);
                     } else {
+                        setIsModalOpen(false)
                         toast.error(responseJson.message);
                     }
                 } else {
+                    setIsModalOpen(false)
                     toast.error('Lỗi server');
                 }
             }

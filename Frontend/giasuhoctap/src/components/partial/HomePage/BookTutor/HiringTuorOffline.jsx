@@ -20,7 +20,9 @@ import useAuth from '../../../../hooks/useAuth';
 import SchoolIcon from '@mui/icons-material/School';
 import { CreateOfflineRequest } from '../../../../api/TutorManagementApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [classPicked, setClassPicked] = useState("");
   const handleChangeClass = (event) => {
@@ -57,8 +59,9 @@ export default function HiringTuorOffline({ basicModal, setBasicModal, data }) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
           window.setTimeout(() => {
-            window.location.reload();
-          }, 1500)
+            // navigate("/ParentHistoryOffline")
+            window.location.href = '/ParentHistoryOffline'
+          }, 2000)
         } else {
           toast.error("Đăng ký học gia sư thất bại. Vui lòng kiểm tra lại !")
         }

@@ -20,8 +20,10 @@ import styles from "../../partial/Profile/UserProfile.module.css"
 import useAuth from '../../../hooks/useAuth';
 import { CreateOnlineRequest } from '../../../api/TutorManagementApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function HiringTuor({ basicModal, setBasicModal, data }) {
+  const navigate = useNavigate()
   const currentDate = new Date().toISOString();
   const { user } = useAuth();
   const [classPicked, setClassPicked] = useState("");
@@ -59,7 +61,7 @@ export default function HiringTuor({ basicModal, setBasicModal, data }) {
           toast.success("Yêu cầu thành công")
           setBasicModal(false);
           window.setTimeout(() => {
-            window.location.href = "/BookTutorOnline";
+            window.location.href = '/ParentHistory'
           }, 2000);
         } else {
           toast.error("Thuê không thành công. Vui lòng kiểm tra lại !")

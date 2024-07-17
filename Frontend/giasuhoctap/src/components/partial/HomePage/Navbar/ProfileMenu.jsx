@@ -50,7 +50,7 @@ export default function ProfileMenu() {
     }
     const handleMove = () => {
         if (user?.roleName == "Parents") {
-            navigate('/ParentHistory')
+            navigate('/ParentHistoryTransaction')
         } else {
             setAnchorEl(null);
         }

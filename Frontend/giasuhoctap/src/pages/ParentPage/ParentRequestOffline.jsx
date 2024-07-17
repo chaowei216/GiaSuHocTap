@@ -19,7 +19,7 @@ export default function ParentRequestOffline() {
                 <SideBar />
             </div>
             <div className="fixed top-0 left-64 z-10" style={{ width: "calc(100% - 255px)", float: "right" }}>
-                <AppBar position="static" sx={{ backgroundColor: '#333333' }}>
+                <AppBar position="static" sx={{ backgroundColor: '#4dccda' }}>
                     <Toolbar>
                         <Link style={{ color: "white" }}>
                             <IconButton onClick={handleClick} edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>

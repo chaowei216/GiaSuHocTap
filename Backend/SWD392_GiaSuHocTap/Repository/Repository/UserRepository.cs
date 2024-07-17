@@ -149,7 +149,7 @@ namespace Repository.Repository
         public IEnumerable<User> GetTutorTeachOffline(TutorParameters parameters)
         {
             var offlineTutors = _userDAO.GetAll().Include(d => d.TutorDetail).Where(u => u.TutorDetail.TeachingOffline == true && u.Status == UserStatusEnum.Active).Include(d => d.UserClasses).ThenInclude(d => d.Class).Include(d => d.UserCourses).ThenInclude(d => d.Course)
-                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).First().Status == TimeTableConst.FreeStatus);
+                                            .Include(d => d.TimeTables).Where(p => p.TimeTables != null && p.TimeTables.Any() && p.TimeTables.Where(p => p.LearningType == LearningType.Offline).Where(p => p.Status == TimeTableConst.FreeStatus).Count() > 0);
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {

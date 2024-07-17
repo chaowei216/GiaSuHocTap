@@ -2,13 +2,12 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import { Button } from '@mui/material';
 import HiringTuor from './HiringTuor';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function TutorDetailRight({ data }) {
-  const [tutorHire, setTutorHire] = useState()
-  const [basicModal, setBasicModal] = useState(false);
-  const handleHire = (item) => {
-    setTutorHire(item);
-    setBasicModal(true);
+  const navigate = useNavigate();
+  const handleHire = () => {
+    navigate("/BookTutorOnline")
   }
   const calculateStarRating = (numberRent, rentHour) => {
     // Tính toán số sao dựa vào điều kiện của numberRent hoặc rentHour
@@ -33,7 +32,7 @@ function TutorDetailRight({ data }) {
   return (
     <div className="ml-5" style={{ width: "28%" }}>
       <div style={{ width: "100%", height: "auto", borderRadius: "15px", padding: "10px", border: "1px solid #e2e6ea" }}>
-        <div style={{marginBottom: "5px", fontSize: "25px", fontWeight: "bold"}}>
+        <div style={{ marginBottom: "5px", fontSize: "25px", fontWeight: "bold" }}>
           Giá thuê
         </div>
         <div style={{
@@ -43,12 +42,11 @@ function TutorDetailRight({ data }) {
         <div>
           {calculateStarRating(10, 10)}
         </div>
-        {/* <Button onClick={handleHire} variant="contained" color="error" sx={{
+        <Button onClick={handleHire} variant="contained" color="error" sx={{
           width: "100%", color: "white", border: "1px solid #e2e6ea",
           height: "54px", borderRadius: "10px", fontWeight: "700", fontSize: "16px",
           margin: "20px 0px 20px 0px", backgroundColor: "#f0564a"
-        }}>Thuê</Button> */}
-        <HiringTuor basicModal={basicModal} setBasicModal={setBasicModal} data={data} />
+        }}>Trở về để thuê</Button>
       </div>
     </div>
   );

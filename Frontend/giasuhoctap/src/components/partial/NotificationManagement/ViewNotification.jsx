@@ -9,6 +9,7 @@ import CreateModal from './CreateModal';
 import { Button } from '@mui/material';
 import UpdateModal from './UpdateModal';
 import DeleteModal from './DeleteModal';
+import AddAlertIcon from '@mui/icons-material/AddAlert';
 export default function ViewNotification() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
@@ -57,7 +58,7 @@ export default function ViewNotification() {
                 </div>
             </Header>
             <div style={{ marginBottom: "20px" }}>
-                <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}>Tạo thông báo mới</Button>
+                <Button variant="contained" style={{ fontWeight: "bold" }} onClick={() => setCentredModal(true)}><AddAlertIcon />Tạo thông báo hệ thống</Button>
             </div>
             <NotificationTable data={data} handleClickUpdate={handleClickUpdate} handleClickDelete={handleClickDelete} />
             {data && data.length > 0 && (
