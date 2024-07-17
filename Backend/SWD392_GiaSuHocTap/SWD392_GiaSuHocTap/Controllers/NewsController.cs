@@ -23,7 +23,6 @@ namespace SWD392_GiaSuHocTap.Controllers
             _newsService = newsService;
         }
 
-        [Authorize]
         [HttpGet("get-news-paging")]
         public IActionResult GetNewsPaging([FromQuery] NewsParameters parameters)
         {
