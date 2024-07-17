@@ -21,7 +21,6 @@ import { CreateNewByModerator } from '../../../api/NewsApi';
 
 export default function CreateNew(props) {
     const { centredModal, setCentredModal, isCreated, setIsCreated } = props;
-    const [listUser, setListUser] = useState([]);
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
     const [image, setImage] = useState(null);
@@ -34,19 +33,6 @@ export default function CreateNew(props) {
     const seconds = currentTime.getSeconds();
 
     const formattedTime = `${hours}:${minutes}:${seconds}`;
-    useEffect(() => {
-        const getAllUser = async () => {
-            const response = await GetAllUser();
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setListUser(data);
-            } else {
-                toast.error('Lỗi server');
-            }
-        };
-        getAllUser();
-    }, []);
 
     const handleSave = async () => {
         let flag = true;

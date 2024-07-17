@@ -3,30 +3,91 @@ import Header from '../TutorManagement/Header'
 import TransactionTable from './TransactionTable';
 import PageNavigation from '../TutorManagement/PageNavigation';
 import PageSize from '../TutorManagement/PageSize';
-import { GetAllTransaction } from '../../../api/TransactionApi';
+import { GetAllTransaction, GetTransactionByStatus } from '../../../api/TransactionApi';
 import { toast } from 'react-toastify';
 import WaitingModal from '../../global/WaitingModal';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 export default function ViewTransaction() {
     const [totalPages, setTotalPages] = useState();
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [statusTransaction, setStatusTransaction] = useState("");
+    const [isSearch, setIsSearch] = useState(false)
     useEffect(() => {
         const getAllTrans = async () => {
-            const response = await GetAllTransaction(page, pageSize);
-            if (response.ok) {
-                const responseJson = await response.json();
-                const data = responseJson.data.data;
-                setData(data);
-                setTotalPages(responseJson.data.totalPages)
+            if (isSearch) {
+                if ((statusTransaction) != "") {
+                    const response = await GetTransactionByStatus(statusTransaction, page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setData(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(true)
+                    } else {
+                        toast.error("Lỗi server")
+                    }
+                } else {
+                    const response = await GetAllTransaction(page, pageSize);
+                    if (response.ok) {
+                        const responseJson = await response.json();
+                        const user = responseJson.data.data
+                        setData(user);
+                        setTotalPages(responseJson.data.totalPages)
+                        setIsSearch(false)
+                    } else {
+                        toast.error("Lỗi server")
+                    }
+                }
             } else {
-                toast.error("Error getting transaction")
+                const response = await GetAllTransaction(page, pageSize);
+                if (response.ok) {
+                    const responseJson = await response.json();
+                    const data = responseJson.data.data;
+                    setData(data);
+                    setTotalPages(responseJson.data.totalPages)
+                } else {
+                    toast.error("Lỗi server")
+                }
             }
         }
         getAllTrans();
-    }, [page, totalPages, pageSize])
+    }, [page, totalPages, pageSize, isSearch])
 
+    const handleFilter = async () => {
+        setPage(1)
+        if ((statusTransaction) != "") {
+            const response = await GetTransactionByStatus(statusTransaction, page, pageSize);
+            if (response.ok) {
+                const responseJson = await response.json();
+                const user = responseJson.data.data
+                setData(user);
+                setTotalPages(responseJson.data.totalPages)
+                setIsSearch(true)
+            } else {
+                toast.error("Lỗi server")
+            }
+        } else {
+            setIsSearch(false)
+        }
+    }
+
+    const handleReset = async () => {
+        setPage(1)
+        setStatusTransaction("")
+        const response = await GetAllTransaction(page, pageSize);
+        if (response.ok) {
+            const responseJson = await response.json();
+            const user = responseJson.data.data
+            setData(user);
+            setTotalPages(responseJson.data.totalPages)
+            setIsSearch(false)
+        } else {
+            toast.error("Lỗi server")
+        }
+    }
     return (
         <div style={{
             padding: "25px 25px 5px 25px",
@@ -34,10 +95,31 @@ export default function ViewTransaction() {
             boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         }}>
             <Header>
-                <div style={{ fontSize: "30px", fontWeight: "bold", marginBottom: "30px" }}>
-                    Lịch sử giao dịch của all user
+                <div style={{ fontSize: "30px", fontWeight: "bold" }}>
+                    Lịch sử giao dịch của tất cả người dùng
                 </div>
             </Header>
+            <div style={{ marginTop: "5px", marginBottom: "25px" }}>
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-standard-label">Trạng thái</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={statusTransaction}
+                        onChange={(event) => setStatusTransaction(event.target.value)}
+                        label="Trạng thái"
+                    >
+                        <MenuItem value="Paid">
+                            <p>Paid</p>
+                        </MenuItem>
+                        <MenuItem value="Pending">
+                            <p>Pending</p>
+                        </MenuItem>
+                    </Select>
+                </FormControl>
+                <Button sx={{ marginTop: "20px", marginRight: "10px" }} onClick={handleFilter} variant="contained">Tìm</Button>
+                <Button sx={{ marginTop: "20px" }} onClick={handleReset} variant="contained">Làm mới</Button>
+            </div>
             <TransactionTable data={data} />
             <WaitingModal open={false} setOpen={setIsModalOpen} />
             {data && data.length > 0 && (

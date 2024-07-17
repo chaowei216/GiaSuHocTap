@@ -36,9 +36,9 @@ export const AcceptOrDenyReport = async (reportId, value) => {
     }
 }
 
-export const GetAllReportByCondition = async (from, to, page, pageSize) => {
+export const GetAllReportByCondition = async (from, to, status, page, pageSize) => {
     try {
-        const url = `${baseUrl}/api/Report/get-all-reports?FromEmail=${from}&ToEmail=${to}&PageNumber=${page}&PageSize=${pageSize}`;
+        const url = `${baseUrl}/api/Report/get-all-reports?FromEmail=${from}&ToEmail=${to}&Status=${status}&PageNumber=${page}&PageSize=${pageSize}`;
         const request = {
             method: "GET",
             headers: {

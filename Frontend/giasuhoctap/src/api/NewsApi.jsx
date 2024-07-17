@@ -65,3 +65,20 @@ export const CreateNewByModerator = async (formData) => {
     throw error;
   }
 };
+
+export const DeleteNewsByModerator = async (newsId) => {
+  try {
+    const url = `${baseUrl}/api/Notification/${newsId}`;
+    const request = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+      },
+    };
+    const response = await fetch(url, request);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
