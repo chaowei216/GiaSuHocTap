@@ -91,12 +91,13 @@ namespace Service.Service
                     // update trans description
                     notifyDes = Description.BuyCoinFail;
                 }
+
                 await _transactionService.UpdateTransaction(unpaidTrans);
 
                 // add notification
                 var notification = await _notificationService.AddNewNotification(new Notification()
                 {
-                    NotificationType = NotificationType.Infomation,
+                    NotificationType = response.IsSuccess ? NotificationType.Infomation : NotificationType.Error,
                     Description = notifyDes,
                     CreatedTime = DateTime.Now,
                     Status = false,
