@@ -81,6 +81,36 @@ function WaitingCheckout() {
             };
             postData();
         }
+    } else {
+        paymentStatus = "fail";
+        const data = {
+            userId: user?.userId,
+            transactionInfo: vnp_OrderInfo,
+            transactionNumber: vnp_TransactionNo,
+            isSuccess: false
+        };
+        if (user?.userId) {
+            const postData = async () => {
+                try {
+                    const postMethod = await ResponsePayment(data);
+                    if (postMethod.ok) {
+                        const responseData = await postMethod.json();
+                        if (responseData.statusCode == 201) {
+                            toast.error("Thanh toán thất bại")
+                        } else {
+                            toast.error(responseData.message);
+                            return;
+                        }
+                    } else {
+                        toast.error("There was an error processing");
+                        return;
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            postData();
+        }
     }
 
     return (
