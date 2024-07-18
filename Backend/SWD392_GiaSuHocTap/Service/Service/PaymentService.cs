@@ -59,7 +59,7 @@ namespace Service.Service
         {
             var unpaidTrans = _transactionService.GetLastTransOfUser(response.UserId);
 
-            if (unpaidTrans != null)
+            if (unpaidTrans != null && unpaidTrans.Status == PaymentConstant.PendingStatus)
             {
                 string notifyDes = Description.BuyCoinPending;
 
