@@ -90,7 +90,7 @@ export const router = createBrowserRouter([
   { path: "ParentHistoryOffline", element: <RoleBasedGuard accessibleRoles={['Parents']} status="Active"><ParentHistoryOffline /></RoleBasedGuard>, errorElement: <ErrorException /> },
   // { path: "NotificationPage", element: <NotificationPage /> },
   { path: "ParentHistoryTransaction", element: <RoleBasedGuard accessibleRoles={['Parents']} status="Active"><ParentHistoryTransaction /></RoleBasedGuard>, errorElement: <ErrorException /> },
-  { path: "NewsPage", element: <NewsPage /> },
+  { path: "NewsPage", element: <NewsPage />, errorElement: <ErrorException /> },
   { path: "/news/:newsId", element: <NewDetailPage />, errorElement: <ErrorException /> },
   { path: "/time-table/:email", element: <RoleBasedGuard accessibleRoles={['Tutor']} status="Active"><TimetablePage /></RoleBasedGuard>, errorElement: <ErrorException /> },
   { path: "checking-page", element: <CheckingPageTutor />, errorElement: <ErrorException /> },

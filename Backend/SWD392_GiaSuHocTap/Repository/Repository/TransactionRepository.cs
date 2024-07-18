@@ -40,7 +40,7 @@ namespace Repository.Repository
             {
                 trans = trans.Where(u => u.Status.ToLower() == parameters.Status.ToLower()); 
             }
-            return PagedList<Transaction>.ToPagedList(trans, parameters.PageNumber, parameters.PageSize);
+            return PagedList<Transaction>.ToPagedList(trans.OrderByDescending(p => p.TransactionDate), parameters.PageNumber, parameters.PageSize);
         }
 
         public PagedList<Transaction> GetPagedTransOfUser(int userId, TransactionParameters parameters)
